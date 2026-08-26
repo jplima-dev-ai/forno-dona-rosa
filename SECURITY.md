@@ -1,33 +1,25 @@
 # Security Policy
 
-## Versão suportada
+## Scope
 
-A linha atualmente mantida deste projeto de portfólio é a **v1.2.x**.
+Forno Dona Rosa is a static front-end portfolio project. It has no authentication layer, payment processor, private database, or server-side order storage. Orders are handed off to WhatsApp for final confirmation.
 
-## Modelo de segurança
+## Defensive controls
 
-Este é um front-end estático hospedável no GitHub Pages. Não existe autenticação, banco de dados, painel administrativo ou processamento de pagamento neste repositório. O pedido é montado localmente e enviado ao WhatsApp somente quando o visitante aciona o botão correspondente.
+- Content Security Policy in the document head.
+- User-controlled content is inserted with safe DOM/text APIs rather than unsafe HTML sinks.
+- Persistent Bag data is treated as untrusted and normalized against the canonical catalog.
+- Prices are recalculated from current catalog data rather than trusted from storage.
+- User input and session history are bounded.
+- Rosa runs locally in the browser and does not send chat text to an external AI API.
+- Service-worker caching is restricted to same-origin resources and bounded runtime cache behavior.
+- External `_blank` links include `noopener noreferrer`.
+- WhatsApp URLs use controlled destination numbers and encoded message text.
 
-### Controles aplicados na v1.2.9
+## Reporting
 
-- conteúdo digitado pelo usuário nunca é reinserido na interface por `innerHTML`;
-- estado recuperado de `localStorage` é tratado como entrada não confiável, validado e normalizado;
-- nomes, preços e totais do carrinho são reconstruídos a partir do catálogo canônico;
-- quantidade por item é limitada a 10 e o carrinho demonstrativo a 50 linhas;
-- parâmetros de deep link são aceitos apenas quando correspondem a IDs existentes no catálogo;
-- links externos que abrem nova aba usam `noopener noreferrer`;
-- Content Security Policy via `<meta http-equiv>` restringe scripts, objetos, frames, fontes e imagens;
-- o service worker ignora requisições cross-origin e não responde falhas de assets JavaScript/CSS com HTML;
-- somente respostas same-origin, `200 OK` e do tipo `basic` entram no cache dinâmico.
+If you find a security issue in this portfolio repository, open a GitHub issue without including sensitive exploit data. For a real production deployment, private disclosure would be preferable.
 
-## Limitação do GitHub Pages
+## Important limitation
 
-GitHub Pages não permite configurar livremente todos os cabeçalhos HTTP de segurança por repositório. A CSP desta versão usa meta tag, que oferece proteção útil, mas **não substitui** cabeçalhos HTTP como `Content-Security-Policy`, `Permissions-Policy` e `X-Content-Type-Options`. Em uma implantação comercial, prefira uma hospedagem/CDN que permita definir esses headers no servidor.
-
-## Dados pessoais
-
-O carrinho e favoritos ficam em `localStorage` do próprio navegador. Não coloque informações sensíveis nas observações do pedido. O site não envia esses dados a servidores próprios.
-
-## Relato de vulnerabilidade
-
-Como este é um projeto de portfólio, reporte problemas pelo repositório GitHub sem publicar credenciais, tokens ou dados pessoais de terceiros.
+Client-side controls cannot turn a static portfolio into a secure backend. Real payments, authentication, private customer data, order persistence, rate limiting, and administrative operations would require an appropriate server-side architecture.

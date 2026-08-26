@@ -1,42 +1,33 @@
-# QA — Forno Dona Rosa v1.2.9
+# Quality Assurance
 
-## Verificações automatizadas incluídas
+## Automated checks
 
-Execute:
+Run:
 
 ```bash
 python tools/audit.py
+python tools/health-check.py
 ```
 
-O auditor cobre:
+The checks validate local references, unique IDs, internal anchors, safe `_blank` links, prohibited DOM sinks, CSP presence, JavaScript syntax, service-worker boundaries, version synchronization, changelog completeness, catalog IDs, Bag schema migration, and Rosa session safeguards.
 
-- IDs duplicados;
-- um único `h1`;
-- `lang=pt-BR`;
-- viewport;
-- skip link;
-- âncoras internas;
-- arquivos locais referenciados;
-- segurança de `target=_blank`;
-- ausência de `innerHTML`, `outerHTML`, `insertAdjacentHTML`, `eval`, `new Function` e `document.write` no runtime principal;
-- CSP presente;
-- restrição same-origin do service worker;
-- sintaxe dos arquivos JavaScript;
-- presença de dados mínimos do manifest.
+## Manual release matrix
 
-## Matriz manual ainda necessária antes de declarar release plenamente validada
+Recommended viewport checks include 320×568, 390×844, 768×1024, 1366×768, and 1920×1080 plus portrait/landscape where relevant.
 
-- 320 × 568;
-- 390 × 844;
-- 768 × 1024;
-- 1366 × 768;
-- 1920 × 1080;
-- zoom 200%;
-- teclado completo;
-- NVDA;
-- Axe;
-- instalação PWA em navegador compatível;
-- offline após instalação;
-- Chromium, Firefox e Safari/WebKit quando disponíveis.
+Manual flows should cover:
 
-Não marque essas linhas como aprovadas sem execução real.
+- Keyboard-only navigation.
+- NVDA headings, landmarks, forms, Bag and Rosa.
+- 200% and 400% zoom/reflow.
+- Reduced motion and forced colors.
+- Menu search/filtering and empty results.
+- Bag migration, quantity changes, removal and WhatsApp output.
+- Rosa suggestions, ambiguous input, session reset and contextual actions.
+- PWA refresh/update behavior.
+
+Never mark a manual check as passed unless it was actually executed.
+
+
+## v1.8 regression gate
+Run `python tools/regression-check.py` after `audit.py`. It covers semantic regressions that syntax checks cannot detect, including persisted bag limits, half-and-half product typing, CSP hash integrity, PWA cache ordering, modern-image availability, business-hours configuration, and full v1.8.x changelog coverage.

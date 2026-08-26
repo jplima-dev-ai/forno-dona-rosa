@@ -6,7 +6,7 @@ requisição de rede, zero risco de link quebrado, consistência total de marca.
 import math
 import random
 
-# ---------- paleta de ilustração (derivada da paleta da marca, ajustada para comida) ----------
+# ---------- illustration palette (derived from the brand palette and tuned for food) ----------
 CRUST = "#d8a24a"
 CRUST_SHADOW = "#b9843a"
 CRUST_SPECK = "#8a5a26"
@@ -56,9 +56,9 @@ def base_pizza(cx=100, cy=100, r=92, cheese_gaps=True, seed=1, sauce_color=SAUCE
     """Base reutilizável: crosta + molho + camada de queijo derretido com 'buracos' mostrando molho."""
     rnd = random.Random(seed)
     svg = []
-    # crosta
+    # crust
     svg.append(f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="{CRUST}"/>')
-    # textura de fornada (pequenas manchas na borda)
+    # baked texture (small char marks along the crust)
     for i in range(18):
         angle = math.radians(i * 20 + rnd.uniform(-6, 6))
         rr = r - rnd.uniform(4, 11)
@@ -67,9 +67,9 @@ def base_pizza(cx=100, cy=100, r=92, cheese_gaps=True, seed=1, sauce_color=SAUCE
         rad = rnd.uniform(1.6, 3.2)
         opacity = rnd.uniform(0.25, 0.55)
         svg.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{rad:.1f}" fill="{CRUST_SPECK}" opacity="{opacity:.2f}"/>')
-    # molho (base visível sob o queijo)
+    # sauce (visible base beneath the cheese)
     svg.append(f'<circle cx="{cx}" cy="{cy}" r="{r-14}" fill="{sauce_color}"/>')
-    # camada de queijo derretido (manchas irregulares sobrepostas, deixando o molho espiar em alguns pontos)
+    # melted-cheese layer (overlapping organic patches with some sauce still visible)
     if cheese_gaps:
         blobs = scatter_points(11, 5, r - 22, seed=seed + 1, jitter=10)
         for i, (x, y) in enumerate(blobs):
@@ -96,15 +96,15 @@ def wrap(inner, viewbox="0 0 200 200", shadow=True, filter_id="ps"):
 # ---------- 1. MARGHERITA ----------
 def margherita():
     parts = [base_pizza(seed=11)]
-    # muçarela de búfala — blobs grandes e generosos, com raio variando
-    # organicamente (rnd criado UMA VEZ fora do loop — recriar random.Random(seed)
-    # a cada iteração faz .uniform() sempre devolver o mesmo primeiro valor,
-    # deixando todos os blobs com exatamente o mesmo tamanho)
+    # buffalo mozzarella — generous blobs with varied radius
+    # organically (rnd is created ONCE outside the loop — recreating random.Random(seed)
+    # on every iteration would make .uniform() return the same first value,
+    # leaving every blob at exactly the same size)
     rnd_mozz = random.Random(12)
     for x, y in scatter_points(6, 8, 62, seed=12, jitter=6):
         rr = rnd_mozz.uniform(13, 19)
         parts.append(f'<ellipse cx="{x:.1f}" cy="{y:.1f}" rx="{rr:.1f}" ry="{rr*0.82:.1f}" fill="{MOZZ}" opacity="0.95"/>')
-    # folhas de manjericão — bem maiores, para ler claramente em miniatura
+    # basil leaves — deliberately larger so they remain readable at thumbnail size
     rnd = random.Random(13)
     for x, y in scatter_points(6, 20, 74, seed=13, jitter=8):
         rot = rnd.uniform(0, 360)
@@ -117,7 +117,7 @@ def margherita():
     return wrap("".join(parts), filter_id="ps-margherita")
 
 
-# ---------- 2. CALABRESA ARTESANAL ----------
+# ---------- 2. ARTISAN CALABRESA ----------
 def calabresa():
     parts = [base_pizza(seed=21)]
     rnd_calabresa = random.Random(22)
@@ -125,7 +125,7 @@ def calabresa():
         rr = rnd_calabresa.uniform(12, 17)
         parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{rr:.1f}" fill="{PEPPERONI_DARK}"/>')
         parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{rr*0.72:.1f}" fill="{PEPPERONI}"/>')
-    # anéis de cebola roxa — só 4, grandes e nítidos
+    # red-onion rings — only 4, kept large and readable
     rnd = random.Random(23)
     for x, y in scatter_points(4, 20, 62, seed=23, jitter=8):
         rx, ry = rnd.uniform(11, 15), rnd.uniform(5, 6.5)
@@ -139,10 +139,10 @@ def calabresa():
     return wrap("".join(parts), filter_id="ps-calabresa")
 
 
-# ---------- 3. QUATRO QUEIJOS ----------
+# ---------- 3. FOUR CHEESES ----------
 def quatro_queijos():
     parts = [base_pizza(seed=31, cheese_gaps=False)]
-    # quatro zonas grandes e claramente diferenciadas (não confete)
+    # four large, clearly differentiated zones (not confetti-like)
     zones = [
         (CHEESE_A, 55, 40, 34),
         (MOZZ, 145, 55, 30),
@@ -151,7 +151,7 @@ def quatro_queijos():
     ]
     for fill, x, y, r in zones:
         parts.append(f'<circle cx="{x}" cy="{y}" r="{r}" fill="{fill}" opacity="0.95"/>')
-    # pontinhos de gorgonzola só na sua própria zona (legibilidade)
+    # gorgonzola details remain inside their own zone for readability
     rnd = random.Random(33)
     for _ in range(10):
         x = 145 + rnd.uniform(-24, 24)
@@ -160,7 +160,7 @@ def quatro_queijos():
     return wrap("".join(parts), filter_id="ps-quatro-queijos")
 
 
-# ---------- 4. PEPPERONI AMERICANA ----------
+# ---------- 4. AMERICAN PEPPERONI ----------
 def pepperoni():
     parts = [base_pizza(seed=41, cheese_gaps=False)]
     rnd = random.Random(42)
@@ -176,26 +176,26 @@ def pepperoni():
     return wrap("".join(parts), filter_id="ps-pepperoni")
 
 
-# ---------- 5. PORTUGUESA DA CASA ----------
+# ---------- 5. HOUSE PORTUGUESE ----------
 def portuguesa():
     parts = [base_pizza(seed=51)]
     rnd = random.Random(52)
     pts = scatter_points(11, 10, 72, seed=52, jitter=8)
     for i, (x, y) in enumerate(pts):
         kind = i % 5
-        if kind == 0:  # presunto — pedaço maior
+        if kind == 0:  # ham — larger piece
             rr = rnd.uniform(13, 17)
             parts.append(f'<path d="M{x-rr},{y} q{rr},{-rr*1.1} {rr*2},0 q{-rr},{rr*1.1} {-rr*2},0 Z" fill="{HAM}" stroke="{HAM_DARK}" stroke-width="0.8"/>')
-        elif kind == 1:  # ovo
+        elif kind == 1:  # egg
             parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="11" fill="{EGG_WHITE}"/>')
             parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4.6" fill="{EGG_YOLK}"/>')
-        elif kind == 2:  # cebola
+        elif kind == 2:  # onion
             rx, ry = rnd.uniform(10, 13), rnd.uniform(4.5, 6)
             parts.append(f'<ellipse cx="{x:.1f}" cy="{y:.1f}" rx="{rx:.1f}" ry="{ry:.1f}" fill="none" stroke="{ONION}" stroke-width="2.6"/>')
-        elif kind == 3:  # azeitona
+        elif kind == 3:  # olive
             parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="6.2" fill="{OLIVE}"/>')
             parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="2.2" fill="{SAUCE}"/>')
-        else:  # ervilhas em grupo
+        else:  # peas grouped together
             for j in range(3):
                 ang = math.radians(j * 120)
                 px = x + 4.5 * math.cos(ang)
@@ -204,16 +204,16 @@ def portuguesa():
     return wrap("".join(parts), filter_id="ps-portuguesa")
 
 
-# ---------- 6. NUTELLA COM MORANGO (pizza doce) ----------
+# ---------- 6. NUTELLA & STRAWBERRY (dessert pizza) ----------
 def nutella_morango():
     parts = [base_pizza(seed=61, cheese_gaps=False, sauce_color="#5a3822")]
-    # camada de nutella — tom marrom quente (não preto), com redemoinho sutil
+    # Nutella layer — warm brown tone (not black) with a subtle swirl
     parts.append(f'<circle cx="100" cy="100" r="76" fill="{NUTELLA}"/>')
     rnd = random.Random(62)
     for i in range(5):
         rr = 65 - i * 11
         parts.append(f'<circle cx="100" cy="100" r="{rr}" fill="none" stroke="{NUTELLA_SHINE}" stroke-width="2.2" opacity="0.35"/>')
-    # morangos fatiados — bem maiores, claramente reconhecíveis
+    # sliced strawberries — intentionally larger and clearly recognizable
     for x, y in scatter_points(6, 18, 66, seed=63, jitter=8):
         rot = rnd.uniform(0, 360)
         parts.append(
@@ -226,13 +226,13 @@ def nutella_morango():
             sy = rnd.uniform(-11, 11)
             parts.append(f'<circle cx="{sx:.1f}" cy="{sy:.1f}" r="0.9" fill="{STRAWBERRY_SEED}"/>')
         parts.append("</g>")
-    # açúcar de confeiteiro
+    # powdered sugar
     for x, y in scatter_points(22, 4, 78, seed=64, jitter=12):
         parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="1.1" fill="{SUGAR}" opacity="0.9"/>')
     return wrap("".join(parts), filter_id="ps-nutella")
 
 
-# ---------- HERO: pizza inteira, "tiro de revista", com fatia levemente puxada ----------
+# ---------- HERO: full pizza, editorial composition, with one slice slightly pulled ----------
 def hero_pizza():
     cx, cy, r = 105, 105, 92
     parts = []
@@ -249,14 +249,14 @@ def hero_pizza():
             f'<path d="M0,-13 C9,-9 9,9 0,13 C-9,9 -9,-9 0,-13 Z" fill="{BASIL}"/>'
             f'<path d="M0,-11 L0,11" stroke="{BASIL_DARK}" stroke-width="1" opacity="0.65"/></g>'
         )
-    # uma fatia "cortada" sutil: só a linha do corte + leve realce, sem tentar
-    # separar a fatia (o efeito anterior ficou confuso demais para o tamanho final)
+    # subtle sliced effect: just the cut line plus a slight highlight, without trying to
+    # fully separate the slice (the previous effect became too noisy at final size)
     for ang_deg in (-8, 82):
         ang = math.radians(ang_deg)
         x1, y1 = cx + 14 * math.cos(ang), cy + 14 * math.sin(ang)
         x2, y2 = cx + (r - 6) * math.cos(ang), cy + (r - 6) * math.sin(ang)
         parts.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="{SAUCE_DEEP}" stroke-width="1.6" opacity="0.55" stroke-dasharray="1 3.5" stroke-linecap="round"/>')
-    # brilho de azeite (arcos finos dourados) — dá o toque "editorial"
+    # olive-oil sheen (thin golden arcs) — adds an editorial finish
     parts.append(f'<path d="M {cx-40},{cy-50} Q {cx-10},{cy-62} {cx+30},{cy-46}" stroke="#ffe3a3" stroke-width="1.4" fill="none" opacity="0.45" stroke-linecap="round"/>')
     parts.append(f'<path d="M {cx-20},{cy+52} Q {cx+15},{cy+62} {cx+46},{cy+44}" stroke="#ffe3a3" stroke-width="1.2" fill="none" opacity="0.35" stroke-linecap="round"/>')
     return wrap("".join(parts), viewbox="0 0 210 210", filter_id="ps-hero")

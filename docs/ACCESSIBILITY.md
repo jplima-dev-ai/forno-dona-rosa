@@ -1,31 +1,23 @@
-# Acessibilidade
+# Accessibility
 
-Baseline: WCAG 2.2 AA.
+## Baseline
 
-## Implementado
-- HTML semântico e um único `h1`.
-- Skip link.
-- Navegação por teclado e foco visível.
-- Menu mobile com `aria-expanded` e Escape.
-- Carrinho em `<dialog>` nativo.
-- Favoritos com `aria-pressed`.
-- Status do carrinho, filtro e conectividade com live regions.
-- Labels nativos nos formulários.
-- `prefers-reduced-motion`.
-- Sem dependência de hover para funções críticas.
+The project targets WCAG 2.2 AA principles and prioritizes practical keyboard and screen-reader usability, especially NVDA on Windows.
 
-## QA manual pendente
-- NVDA + Chrome/Firefox em Windows.
-- Axe/Lighthouse no ambiente de publicação.
-- Zoom 200% e reflow em navegador real.
+## Implemented patterns
 
-Nunca declare esses testes como aprovados sem executá-los.
+- Semantic landmarks and one coherent `h1`.
+- Skip link to the main content.
+- Native buttons, links, form controls, fieldsets, and labels.
+- Visible focus and keyboard-operable navigation.
+- Accessible `dialog` components for the Bag and Rosa.
+- Focus return after dialogs close.
+- Bounded `aria-live`/status announcements for dynamic changes.
+- `prefers-reduced-motion` support.
+- `forced-colors` support for Windows High Contrast.
+- Reflow-aware layouts and scrollable dialogs at high zoom.
+- Informative image alternative text where imagery conveys content; decorative imagery uses empty alt text.
 
+## Manual validation still required
 
-## Hardening v1.2.9
-
-- Menu mobile controla foco e isola `main`, `footer` e carrinho com `inert` quando suportado.
-- O `dialog` do carrinho devolve foco ao acionador após fechamento.
-- Conteúdo digitado pelo visitante é inserido com `textContent`, preservando segurança e leitura por tecnologia assistiva.
-- O cardápio não usa mais `aria-live` na grade inteira; alterações são anunciadas pelo status específico.
-- Estados de alto contraste e forced-colors possuem ajustes adicionais.
+Static audits cannot prove full accessibility. Important release checks include NVDA reading order, keyboard flows, focus restoration, zoom/reflow, reduced motion, contrast, and real browser behavior.

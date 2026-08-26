@@ -1,67 +1,60 @@
-# Pizzaria Forno Dona Rosa
+# Forno Dona Rosa — Accessible Premium Pizzeria Experience
 
-**Versão 1.2.9 — Stability & Security Edition**
+[Versão em português](README-PT.md)
 
-Landing page/PWA de portfólio construída em HTML, CSS e JavaScript puro, com cardápio explorável, favoritos, recomendador determinístico, carrinho persistente e envio estruturado do pedido pelo WhatsApp.
+Forno Dona Rosa is a portfolio-grade front-end project for a Brazilian artisan pizzeria. It combines **premium art direction, accessibility-first engineering, responsive architecture, a local conversational assistant, PWA capabilities, defensive client-side state management, and WhatsApp ordering** without a front-end framework.
 
-## O que a linha 1.2.x representa
+> The customer-facing website intentionally remains in Brazilian Portuguese because the fictional business operates in Brazil. The repository engineering, technical naming, and primary documentation are written in English for international reviewers.
 
-A série **1.2.0 → 1.2.9** é um ciclo de hardening. Nenhuma grande feature foi adicionada; o foco foi revisar, corrigir e amadurecer os recursos existentes.
+## Why this project exists
 
-Principais resultados:
+The goal is not to showcase a generic restaurant landing page. The repository demonstrates how a marketing experience can evolve into a maintainable web product while preserving accessibility, performance, security, and brand identity across many releases.
 
-- remoção de DOM XSS persistente associado a conteúdo do carrinho;
-- validação e normalização de todo estado vindo de `localStorage`;
-- preços recalculados sempre a partir do catálogo canônico;
-- limites defensivos de quantidade e tamanho do carrinho;
-- fluxo meio a meio validando segundo sabor diferente;
-- foco e fechamento do menu mobile refinados;
-- restauração explícita do foco ao fechar o carrinho;
-- deep links aceitos somente para pizzas existentes;
-- fallback de compartilhamento mais resiliente;
-- CSP restritiva compatível com a hospedagem estática atual;
-- links externos endurecidos com `noopener noreferrer`;
-- service worker restrito a same-origin, com estratégias distintas para navegação e assets;
-- suporte reforçado a contraste aumentado e forced-colors;
-- auditoria estática reproduzível em `tools/audit.py`.
+## Highlights
 
-## Rodar localmente
+- Semantic HTML and keyboard-first interaction.
+- WCAG 2.2 AA baseline with explicit NVDA considerations.
+- Adaptive mobile-first layout with zoom/reflow support.
+- Progressive Web App with controlled service-worker caching.
+- Versioned persistent Bag state with migration and defensive normalization.
+- **Rosa**, a local browser-based pizzeria host using intent classification, contextual responses, short session memory, and a curated knowledge base — no external AI API required.
+- 30+ menu items across pizzas, desserts, and drinks.
+- Search, filtering, favorites, recommendations, half-and-half pizzas, drink pairing, and structured WhatsApp checkout.
+- Content Security Policy, same-origin service-worker restrictions, safe DOM construction, and bounded user input.
+- Automated repository audit and health checks.
 
-No terminal do VS Code:
-
-```bash
-python -m http.server 8000
-```
-
-Acesse `http://localhost:8000`.
-
-## Auditoria local
-
-Com Node e Python instalados:
-
-```bash
-python tools/audit.py
-```
-
-O script verifica integridade estrutural, âncoras, referências locais, links `_blank`, sinks DOM proibidos, CSP, service worker same-origin e sintaxe JavaScript.
-
-## Estrutura
+## Repository structure
 
 ```text
-forno-dona-rosa-v1.3.9/
+forno-dona-rosa-v1.8.9/
 ├── assets/
-├── css/styles.css
-├── data/menu.js
+│   ├── icons/
+│   └── images/
+├── css/
+│   └── styles.css
+├── data/
+│   ├── menu.js
+│   └── rosa-knowledge-base.js
 ├── docs/
+│   ├── ACCESSIBILITY.md
+│   ├── ARCHITECTURE.md
+│   ├── CASE-STUDY.md
+│   ├── DESIGN-SYSTEM.md
+│   ├── PERFORMANCE.md
+│   └── QA.md
 ├── js/
-│   ├── config.js
-│   └── main.js
+│   ├── app-config.js
+│   ├── app-meta.js
+│   ├── main.js
+│   └── rosa.js
 ├── tools/
 │   ├── audit.py
-│   └── generate.py
+│   ├── generate.py
+│   └── health-check.py
 ├── CHANGELOG.md
 ├── LICENSE
 ├── README.md
+├── README-PT.md
 ├── SECURITY.md
 ├── index.html
 ├── manifest.webmanifest
@@ -70,37 +63,64 @@ forno-dona-rosa-v1.3.9/
 └── sitemap.xml
 ```
 
-## Segurança
+## Run locally
 
-Leia [SECURITY.md](SECURITY.md). Este projeto é estático e não contém autenticação, banco de dados ou pagamentos. O GitHub Pages limita a configuração de headers HTTP; a CSP desta versão é aplicada via meta tag.
-
-## Acessibilidade
-
-O código preserva HTML semântico, skip link, foco visível, navegação por teclado, `dialog` nativo, regiões de status, `prefers-reduced-motion`, contraste aumentado e estados acessíveis. Veja `docs/ACCESSIBILITY.md`.
-
-**Importante:** auditoria estática não equivale a teste manual com NVDA, Axe, zoom, touch ou navegadores reais. Esses testes só devem ser declarados aprovados quando forem executados.
-
-## Publicação
-
-URL configurada para:
-
-`https://jplima-dev-ai.github.io/forno-dona-rosa/`
-
-Após substituir os arquivos no repositório:
+From the repository root:
 
 ```bash
-git add .
-git commit -m "release: v1.3.9 stability and security hardening"
-git push
-git tag -a v1.3.9 -m "Forno Dona Rosa v1.3.9"
-git push origin v1.3.9
+python -m http.server 8000
 ```
 
-## Licença
+Open `http://localhost:8000`.
 
-MIT.
+## Quality gates
+
+Run the static audit:
+
+```bash
+python tools/audit.py
+```
+
+Run the broader repository health check:
+
+```bash
+python tools/health-check.py
+```
+
+These checks cover version synchronization, local asset references, JavaScript syntax, changelog completeness, Bag schema migration, Rosa session safeguards, catalog IDs, CSP presence, and service-worker boundaries. They do **not** replace manual NVDA, browser, visual, or real-device testing.
+
+## Architecture at a glance
+
+```text
+app-meta.js       → release metadata
+app-config.js     → business configuration
+menu.js           → product catalog and pricing rules
+rosa-knowledge-base.js → local conversational knowledge
+main.js           → navigation, menu, Bag, PWA and ordering
+rosa.js           → conversational UI and local intent engine
+service-worker.js → offline/runtime cache strategy
+```
+
+## Accessibility
+
+Accessibility is treated as a product requirement rather than a post-processing step. The project uses semantic landmarks, visible focus, native controls, accessible dialogs, bounded live regions, reduced-motion support, forced-colors support, responsive reflow, and keyboard-operable flows. See [docs/ACCESSIBILITY.md](docs/ACCESSIBILITY.md).
+
+## Security model
+
+This is a static client-side project, but it still applies defensive engineering: no unsafe HTML rendering for user-controlled text, normalized persisted state, bounded inputs, same-origin service-worker caching, CSP, safe external links, and canonical price recalculation from the catalog. See [SECURITY.md](SECURITY.md).
+
+## Rosa: local conversational host
+
+Rosa is intentionally **not presented as a cloud LLM**. On GitHub Pages she runs entirely in the browser using deterministic intents, confidence handling, contextual actions, a local menu knowledge base, and short-lived session memory. This keeps the public demo functional without exposing API keys or sending chat text to an AI service.
+
+## Portfolio notes
+
+For a concise engineering narrative, see [docs/CASE-STUDY.md](docs/CASE-STUDY.md). Release history is available in [CHANGELOG.md](CHANGELOG.md).
+
+## License
+
+MIT. See [LICENSE](LICENSE).
 
 
-## Linha 1.3.x
-
-A série 1.3.x foi dedicada a melhorar direção de arte, copies e imagens gastronômicas. A home agora usa fotografia editorial de pizzas, o cardápio ganhou imagens reais por item e a interface recebeu um passe visual mais sofisticado e apetitoso.
+## v1.8.9 quality refinement
+The 1.8.x cycle focused on bug fixing and quality rather than feature expansion: persisted bag data is sanitized cumulatively, half-and-half data cannot reference drinks, Rosa verifies mutations before confirming them, keyboard focus survives bag rerenders, the PWA cache lookup is more deterministic, and core food imagery now has WebP delivery paths. Run `python tools/regression-check.py` together with the existing audit and health checks before release.
