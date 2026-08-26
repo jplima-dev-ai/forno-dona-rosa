@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://jplima-dev-ai.github.io/forno-dona-rosa/sitemap.xml

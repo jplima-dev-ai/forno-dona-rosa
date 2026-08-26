@@ -1,104 +1,79 @@
-# Pizzaria Premium — Forno Dona Rosa
+# Pizzaria Forno Dona Rosa — v1.0.9
 
-![Versão](https://img.shields.io/badge/vers%C3%A3o-1.0.1-c7331b)
-![Licença](https://img.shields.io/badge/licen%C3%A7a-MIT-e8a93b)
-![Stack](https://img.shields.io/badge/stack-HTML%20%2B%20CSS%20%2B%20JS-7a9b5c)
+Landing page premium desenvolvida como projeto de portfólio, com foco em identidade gastronômica, acessibilidade, responsividade, conversão e JavaScript vanilla.
 
-Landing page conceitual de pizzaria criada para portfólio, com foco em identidade visual, conversão, acessibilidade por teclado/leitor de tela e responsividade estrutural.
+## Assinatura do projeto
 
-**Forno Dona Rosa, endereço, telefone, avaliações e demais dados comerciais são fictícios.**
+**48 horas de paciência. 90 segundos de fogo.**
 
-## Destaques
+O conceito visual conecta fermentação lenta, ingredientes selecionados e forno a lenha em uma narrativa editorial própria.
 
-- HTML semântico com `header`, `nav`, `main`, `section` e `footer`.
-- Skip link e foco visível para navegação por teclado.
-- Menu mobile com `aria-expanded`, fechamento por `Escape`, scrim e isolamento do conteúdo com `inert`.
-- `prefers-reduced-motion` para reduzir animações não essenciais.
-- Layout fluido com Grid, Flexbox e `clamp()`.
-- Design tokens centralizados em `css/styles.css`.
-- WhatsApp e endereço centralizados em `js/config.js`.
-- JSON-LD de `Restaurant`, Open Graph e `robots.txt`.
-- Ilustrações SVG inline e capa Open Graph local em PNG.
-- JavaScript vanilla, sem framework e sem build obrigatório.
+## Principais recursos
+
+- Hero editorial com assinatura 48H → 400°C → 90S.
+- Seção “O ritual do fogo”.
+- Cardápio filtrável por categorias com botões acessíveis e `aria-pressed`.
+- Montador de pedido que gera mensagem estruturada para WhatsApp.
+- Contatos e localização da Pizzaria Forno Dona Rosa.
+- Navegação mobile com gerenciamento de foco, `Escape`, scrim e `inert`.
+- Skip link, foco visível e HTML semântico.
+- `prefers-reduced-motion`.
+- Layout fluido mobile-first com Grid, Flexbox e `clamp()`.
+- SEO técnico: canonical, Open Graph, JSON-LD, robots.txt e sitemap.xml.
+- Sem framework e sem etapa de build obrigatória.
+
+## Dados configurados
+
+- WhatsApp: (27) 99282-0798
+- E-mail: contato.fornodonarosa@gmail.com
+- Instagram: @fornodonarosa.pizzaria
+- Endereço: Av. Central, 420 - Parque Residencial Laranjeiras, Serra - ES, CEP 29165-130
+- GitHub Pages: https://jplima-dev-ai.github.io/forno-dona-rosa/
 
 ## Estrutura
 
 ```text
-pizzariapremiun-v1.0.1/
-├── assets/
-│   └── images/
-│       └── og-cover.png
-├── css/
-│   └── styles.css
-├── js/
-│   ├── config.js
-│   └── main.js
-├── tools/
-│   └── generate.py
+forno-dona-rosa-v1.0.9/
+├── assets/images/
+├── css/styles.css
+├── js/config.js
+├── js/main.js
+├── tools/generate.py
 ├── .gitignore
 ├── CHANGELOG.md
 ├── LICENSE
 ├── README.md
 ├── index.html
-└── robots.txt
+├── robots.txt
+└── sitemap.xml
 ```
 
 ## Rodar no VS Code
-
-Abra a pasta no VS Code e, no terminal integrado, execute:
 
 ```bash
 python -m http.server 8000
 ```
 
-Depois acesse `http://localhost:8000`.
+Abra `http://localhost:8000`.
 
-## Configuração para um cliente real
+## Publicar atualização
 
-1. Altere WhatsApp, mensagem padrão e endereço em `js/config.js`.
-2. Substitua em `index.html` nome, textos, cardápio, endereço, horário e JSON-LD.
-3. Ajuste a identidade no `:root` de `css/styles.css`.
-4. Troque os depoimentos fictícios por avaliações reais e autorizadas.
-5. Troque ilustrações por fotos próprias do cliente quando houver material real.
-6. Após criar o GitHub Pages, troque `SEU-USUARIO` em `canonical`, `og:url` e JSON-LD pela URL pública final.
-7. Em produção, use URL absoluta para `og:image`.
-
-O número de WhatsApp da demonstração é propositalmente inválido (`5500000000000`) para não enviar visitantes do portfólio a uma pessoa real.
-
-## GitHub Pages
+Copie os arquivos desta versão para a pasta do repositório local e execute:
 
 ```bash
-git init
 git add .
-git commit -m "release: v1.0.1"
-git branch -M main
-git remote add origin https://github.com/SEU-USUARIO/pizzariapremiun.git
-git push -u origin main
-git tag -a v1.0.1 -m "Pizzaria Premium v1.0.1"
-git push origin v1.0.1
+git commit -m "release: v1.0.9"
+git push
+git tag -a v1.0.9 -m "Forno Dona Rosa v1.0.9"
+git push origin v1.0.9
 ```
 
-No GitHub: **Settings → Pages → Deploy from a branch → main → /(root)**.
+## QA desta entrega
 
-## Acessibilidade e QA
+Foram executadas verificações automáticas locais de sintaxe JavaScript, compilação Python, referências de arquivos, IDs, âncoras, um único H1, viewport, skip link, labels de formulário e ausência de `href="#"`.
 
-A versão 1.0.1 foi preparada seguindo baseline WCAG 2.2 AA, HTML nativo, foco visível, teclado e redução de movimento.
-
-Nesta entrega foram executadas verificações reproduzíveis de:
-
-- sintaxe JavaScript;
-- compilação do utilitário Python;
-- IDs duplicados;
-- âncoras internas;
-- referências a arquivos locais;
-- existência de um único `h1`;
-- idioma da página;
-- meta viewport;
-- presença do skip link;
-- ausência de `href="#"`.
-
-**Não declaramos teste manual com NVDA, Axe ou aprovação visual cross-browser sem executar essas etapas especificamente.**
+Teste manual com NVDA, Axe e matriz visual cross-browser deve ser feito no ambiente Windows/navegadores do projeto antes de declarar conformidade integral.
 
 ## Licença
 
-MIT. Consulte [LICENSE](LICENSE).
+MIT.

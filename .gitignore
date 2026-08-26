@@ -1,15 +1,8 @@
-# Sistema operacional
-.DS_Store
-Thumbs.db
-
-# Editor
-.vscode/
-
-# Dependências e artefatos de teste
 node_modules/
 playwright-report/
 test-results/
-
-# Python
 __pycache__/
 *.pyc
+.DS_Store
+Thumbs.db
+.vscode/
