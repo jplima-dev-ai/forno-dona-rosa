@@ -1,78 +1,100 @@
-# Pizzaria Forno Dona Rosa — v1.0.9
+# Pizzaria Forno Dona Rosa
 
-Landing page premium desenvolvida como projeto de portfólio, com foco em identidade gastronômica, acessibilidade, responsividade, conversão e JavaScript vanilla.
+**Versão 1.2.9 — Stability & Security Edition**
 
-## Assinatura do projeto
+Landing page/PWA de portfólio construída em HTML, CSS e JavaScript puro, com cardápio explorável, favoritos, recomendador determinístico, carrinho persistente e envio estruturado do pedido pelo WhatsApp.
 
-**48 horas de paciência. 90 segundos de fogo.**
+## O que a linha 1.2.x representa
 
-O conceito visual conecta fermentação lenta, ingredientes selecionados e forno a lenha em uma narrativa editorial própria.
+A série **1.2.0 → 1.2.9** é um ciclo de hardening. Nenhuma grande feature foi adicionada; o foco foi revisar, corrigir e amadurecer os recursos existentes.
 
-## Principais recursos
+Principais resultados:
 
-- Hero editorial com assinatura 48H → 400°C → 90S.
-- Seção “O ritual do fogo”.
-- Cardápio filtrável por categorias com botões acessíveis e `aria-pressed`.
-- Montador de pedido que gera mensagem estruturada para WhatsApp.
-- Contatos e localização da Pizzaria Forno Dona Rosa.
-- Navegação mobile com gerenciamento de foco, `Escape`, scrim e `inert`.
-- Skip link, foco visível e HTML semântico.
-- `prefers-reduced-motion`.
-- Layout fluido mobile-first com Grid, Flexbox e `clamp()`.
-- SEO técnico: canonical, Open Graph, JSON-LD, robots.txt e sitemap.xml.
-- Sem framework e sem etapa de build obrigatória.
+- remoção de DOM XSS persistente associado a conteúdo do carrinho;
+- validação e normalização de todo estado vindo de `localStorage`;
+- preços recalculados sempre a partir do catálogo canônico;
+- limites defensivos de quantidade e tamanho do carrinho;
+- fluxo meio a meio validando segundo sabor diferente;
+- foco e fechamento do menu mobile refinados;
+- restauração explícita do foco ao fechar o carrinho;
+- deep links aceitos somente para pizzas existentes;
+- fallback de compartilhamento mais resiliente;
+- CSP restritiva compatível com a hospedagem estática atual;
+- links externos endurecidos com `noopener noreferrer`;
+- service worker restrito a same-origin, com estratégias distintas para navegação e assets;
+- suporte reforçado a contraste aumentado e forced-colors;
+- auditoria estática reproduzível em `tools/audit.py`.
 
-## Dados configurados
+## Rodar localmente
 
-- WhatsApp: (27) 99282-0798
-- E-mail: contato.fornodonarosa@gmail.com
-- Instagram: @fornodonarosa.pizzaria
-- Endereço: Av. Central, 420 - Parque Residencial Laranjeiras, Serra - ES, CEP 29165-130
-- GitHub Pages: https://jplima-dev-ai.github.io/forno-dona-rosa/
-
-## Estrutura
-
-```text
-forno-dona-rosa-v1.0.9/
-├── assets/images/
-├── css/styles.css
-├── js/config.js
-├── js/main.js
-├── tools/generate.py
-├── .gitignore
-├── CHANGELOG.md
-├── LICENSE
-├── README.md
-├── index.html
-├── robots.txt
-└── sitemap.xml
-```
-
-## Rodar no VS Code
+No terminal do VS Code:
 
 ```bash
 python -m http.server 8000
 ```
 
-Abra `http://localhost:8000`.
+Acesse `http://localhost:8000`.
 
-## Publicar atualização
+## Auditoria local
 
-Copie os arquivos desta versão para a pasta do repositório local e execute:
+Com Node e Python instalados:
+
+```bash
+python tools/audit.py
+```
+
+O script verifica integridade estrutural, âncoras, referências locais, links `_blank`, sinks DOM proibidos, CSP, service worker same-origin e sintaxe JavaScript.
+
+## Estrutura
+
+```text
+forno-dona-rosa-v1.2.9/
+├── assets/
+├── css/styles.css
+├── data/menu.js
+├── docs/
+├── js/
+│   ├── config.js
+│   └── main.js
+├── tools/
+│   ├── audit.py
+│   └── generate.py
+├── CHANGELOG.md
+├── LICENSE
+├── README.md
+├── SECURITY.md
+├── index.html
+├── manifest.webmanifest
+├── robots.txt
+├── service-worker.js
+└── sitemap.xml
+```
+
+## Segurança
+
+Leia [SECURITY.md](SECURITY.md). Este projeto é estático e não contém autenticação, banco de dados ou pagamentos. O GitHub Pages limita a configuração de headers HTTP; a CSP desta versão é aplicada via meta tag.
+
+## Acessibilidade
+
+O código preserva HTML semântico, skip link, foco visível, navegação por teclado, `dialog` nativo, regiões de status, `prefers-reduced-motion`, contraste aumentado e estados acessíveis. Veja `docs/ACCESSIBILITY.md`.
+
+**Importante:** auditoria estática não equivale a teste manual com NVDA, Axe, zoom, touch ou navegadores reais. Esses testes só devem ser declarados aprovados quando forem executados.
+
+## Publicação
+
+URL configurada para:
+
+`https://jplima-dev-ai.github.io/forno-dona-rosa/`
+
+Após substituir os arquivos no repositório:
 
 ```bash
 git add .
-git commit -m "release: v1.0.9"
+git commit -m "release: v1.2.9 stability and security hardening"
 git push
-git tag -a v1.0.9 -m "Forno Dona Rosa v1.0.9"
-git push origin v1.0.9
+git tag -a v1.2.9 -m "Forno Dona Rosa v1.2.9"
+git push origin v1.2.9
 ```
-
-## QA desta entrega
-
-Foram executadas verificações automáticas locais de sintaxe JavaScript, compilação Python, referências de arquivos, IDs, âncoras, um único H1, viewport, skip link, labels de formulário e ausência de `href="#"`.
-
-Teste manual com NVDA, Axe e matriz visual cross-browser deve ser feito no ambiente Windows/navegadores do projeto antes de declarar conformidade integral.
 
 ## Licença
 

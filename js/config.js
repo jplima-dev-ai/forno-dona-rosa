@@ -6,5 +6,8 @@ window.PIZZARIA_CONFIG = Object.freeze({
   email: "contato.fornodonarosa@gmail.com",
   instagram: "fornodonarosa.pizzaria",
   address: "Av. Central, 420 - Parque Residencial Laranjeiras, Serra - ES, CEP 29165-130",
-  siteUrl: "https://jplima-dev-ai.github.io/forno-dona-rosa/"
+  siteUrl: "https://jplima-dev-ai.github.io/forno-dona-rosa/",
+  timezone: "America/Sao_Paulo",
+  businessHours: null,
+  businessHoursNote: "Horários oficiais ainda não configurados. Consulte a disponibilidade pelo WhatsApp."
 });
