@@ -275,8 +275,24 @@
 
   function buildMenuCard(product, index) {
     const article = el("article", { className: "menu-card" });
-    const visual = el("div", { className: "menu-card__visual", attrs: { "aria-hidden": "true" } });
-    visual.append(el("span", { text: String(index + 1).padStart(2, "0") }));
+    const visual = el("div", { className: "menu-card__visual" });
+    if (product.image) {
+      const image = el("img", {
+        attrs: {
+          src: product.image,
+          alt: "",
+          loading: index < 2 ? "eager" : "lazy",
+          decoding: "async",
+          width: "1254",
+          height: "1254",
+        },
+      });
+      visual.append(image);
+    }
+    const overlay = el("div", { className: "menu-card__overlay", attrs: { "aria-hidden": "true" } });
+    overlay.append(el("span", { className: "menu-card__index", text: String(index + 1).padStart(2, "0") }));
+    if (product.badge) overlay.append(el("span", { className: "menu-card__badge", text: product.badge }));
+    visual.append(overlay);
 
     const body = el("div", { className: "menu-card__body" });
     body.append(el("p", { className: "menu-card__category", text: product.categoryLabel }));

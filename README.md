@@ -48,7 +48,7 @@ O script verifica integridade estrutural, âncoras, referências locais, links `
 ## Estrutura
 
 ```text
-forno-dona-rosa-v1.2.9/
+forno-dona-rosa-v1.3.9/
 ├── assets/
 ├── css/styles.css
 ├── data/menu.js
@@ -90,12 +90,17 @@ Após substituir os arquivos no repositório:
 
 ```bash
 git add .
-git commit -m "release: v1.2.9 stability and security hardening"
+git commit -m "release: v1.3.9 stability and security hardening"
 git push
-git tag -a v1.2.9 -m "Forno Dona Rosa v1.2.9"
-git push origin v1.2.9
+git tag -a v1.3.9 -m "Forno Dona Rosa v1.3.9"
+git push origin v1.3.9
 ```
 
 ## Licença
 
 MIT.
+
+
+## Linha 1.3.x
+
+A série 1.3.x foi dedicada a melhorar direção de arte, copies e imagens gastronômicas. A home agora usa fotografia editorial de pizzas, o cardápio ganhou imagens reais por item e a interface recebeu um passe visual mais sofisticado e apetitoso.

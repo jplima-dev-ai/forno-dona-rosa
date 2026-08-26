@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "forno-dona-rosa-v1.2.9";
+const CACHE_NAME = "forno-dona-rosa-v1.3.9";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -9,6 +9,10 @@ const CORE_ASSETS = [
   "./js/main.js",
   "./data/menu.js",
   "./manifest.webmanifest",
+  "./assets/images/hero-dona-rosa.jpg",
+  "./assets/images/gallery-cheese-pull.jpg",
+  "./assets/images/gallery-oven-scene.jpg",
+  "./assets/images/gallery-nutella-morango.jpg",
   "./assets/images/pizza-assinatura.svg",
   "./assets/images/og-cover.png",
   "./assets/icons/icon-192.png",
