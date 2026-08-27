@@ -4,7 +4,7 @@ from html.parser import HTMLParser
 import json, re, subprocess, sys
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.1.9"
+VERSION = "2.6.9"
 errors = []
 
 class AuditParser(HTMLParser):
@@ -42,7 +42,7 @@ for ref in p.refs:
     if re.match(r'^(?:https?:|data:|#)',ref): continue
     if not (ROOT/ref).exists(): errors.append(f'Missing local resource: {ref}')
 
-runtime_files=['js/main.js','js/rosa.js']
+runtime_files=['js/main.js','js/checkout.js','js/rosa.js']
 runtime_js={name:(ROOT/name).read_text(encoding='utf-8') for name in runtime_files}
 for name, js in runtime_js.items():
     for forbidden in ['innerHTML','outerHTML','insertAdjacentHTML','eval(','new Function','document.write']:
@@ -52,9 +52,9 @@ sw_text=(ROOT/'service-worker.js').read_text(encoding='utf-8')
 if 'url.origin !== self.location.origin' not in sw_text: errors.append('Service worker lacks an explicit same-origin restriction')
 if 'Content-Security-Policy' not in html: errors.append('Content Security Policy meta tag is missing')
 
-js_files=['js/app-meta.js','js/app-config.js','data/menu.js','data/rosa-knowledge-base.js','js/main.js','js/rosa.js','service-worker.js']
+js_files=['js/app-meta.js','data/brand/brand-config.js','data/brand/content-config.js','js/app-config.js','js/feature-flags.js','data/catalog-schema.js','js/brand-runtime.js','data/delivery-config.js','data/menu.js','data/rosa-knowledge-base.js','js/postal-code-service.js','js/main.js','js/checkout.js','js/rosa.js','service-worker.js']
 for jsfile in js_files:
-    r=subprocess.run(['node','--check',str(ROOT/jsfile)],capture_output=True,text=True)
+    r=subprocess.run(['node','--check',str(ROOT/jsfile)],capture_output=True,text=True,encoding="utf-8",errors="replace")
     if r.returncode: errors.append(f'JavaScript syntax error in {jsfile}: {r.stderr.strip()}')
 
 manifest=json.loads((ROOT/'manifest.webmanifest').read_text(encoding='utf-8'))
@@ -71,9 +71,9 @@ if 'id="menu-search"' not in html: errors.append('Menu search control is missing
 main_text=(ROOT/'js/main.js').read_text(encoding='utf-8')
 rosa_text=(ROOT/'js/rosa.js').read_text(encoding='utf-8')
 meta_text=(ROOT/'js/app-meta.js').read_text(encoding='utf-8')
-if not all(x in main_text for x in ['forno-bag-v3','forno-bag-v2','forno-cart','schemaVersion: BAG_SCHEMA_VERSION']): errors.append('Bag schema/migration coverage is incomplete')
-if 'forno-rosa-session-v3' not in rosa_text or 'classify' not in rosa_text or 'confidence' not in rosa_text: errors.append('Rosa hardening/confidence flow is incomplete')
-if 'result.product || findProduct' not in rosa_text: errors.append('Rosa add-item intent can lose the referenced product')
+if not all(x in main_text for x in ['bag-v3','bag-v2','cart','schemaVersion: BAG_SCHEMA_VERSION','storageNamespace']): errors.append('Bag schema/migration coverage is incomplete')
+if 'assistant-session-v4' not in rosa_text or 'SESSION_SCHEMA = 4' not in rosa_text or 'classify' not in rosa_text or 'confidence' not in rosa_text: errors.append('Rosa session v4/confidence flow is incomplete')
+if 'findProducts' not in rosa_text or 'resolveOrdinalReference' not in rosa_text or 'ambiguousChoice' not in rosa_text: errors.append('Rosa product resolution/disambiguation flow is incomplete')
 if 'window.ROSA?.open' not in main_text: errors.append('Delegated dynamic Rosa launcher is missing')
 if 'RUNTIME_LIMIT = 24' not in sw_text or 'trimRuntimeCache' not in sw_text: errors.append('Runtime cache limit is missing')
 
@@ -143,6 +143,85 @@ for image_path in product_paths:
     filename=Path(image_path).name.lower()
     if any(token in filename for token in non_english_tokens): errors.append(f'Non-English product image filename: {filename}')
 
+for patch in range(10):
+    version = f"2.2.{patch}"
+    if f"## {version} " not in changelog:
+        errors.append(f"Changelog missing {version}")
+
+# v2.2 conversion and mobile experience gates.
+responsive_variants=list((ROOT/'assets/images/products').glob('*-384.webp'))
+if len(responsive_variants)!=31: errors.append(f'Expected 31 responsive product variants, found {len(responsive_variants)}')
+if not (ROOT/'assets/images/dona-rosa-hero-pizza-640.webp').exists(): errors.append('Mobile hero image variant is missing')
+for token in ['sensory-tags','product-dialog','returning-order','mobile-nav','bag-feedback','review-cart-with-rosa']:
+    if token not in html: errors.append(f'v2.2 UI element missing: {token}')
+for token in ['LAST_ORDER_KEY','restoreLastOrder','smallProductImage','openProductDialog']:
+    if token not in main_text: errors.append(f'v2.2 main behavior missing: {token}')
+if 'rosa-product-cards' not in rosa_text or 'data-rosa-add' not in rosa_text: errors.append('Rosa actionable product cards are missing')
+if 'WhatsApp exige conexão' not in main_text or 'send.disabled = true' not in main_text: errors.append('Offline WhatsApp protection is missing')
+
+
+for patch in range(10):
+    version = f"2.3.{patch}"
+    if f"## {version} " not in changelog:
+        errors.append(f"Changelog missing {version}")
+
+# v2.3 Rosa finalization gates.
+for token in ['assistant-session-v4','SESSION_SCHEMA = 4','extractPreferences','applyPreferenceOverrides','resolveOrdinalReference','findComparisonProducts','ambiguousChoice','pendingAction','renderQuickActions','data-rosa-details']:
+    if token not in rosa_text: errors.append(f'Rosa v2.3 capability missing: {token}')
+if 'clearBag()' not in main_text: errors.append('Rosa destructive-action bridge is missing')
+if 'id="rosa-input-count"' not in html or 'rosa-privacy-note' not in html: errors.append('Rosa v2.3 accessible input/disclosure UI is missing')
+if not (ROOT/'tools/rosa-behavior-check.js').exists(): errors.append('Rosa behavior regression tool is missing')
+if not (ROOT/'docs/ROSA.md').exists(): errors.append('Rosa technical documentation is missing')
+
+
+for patch in range(10):
+    version = f"2.4.{patch}"
+    if f"## {version} " not in changelog:
+        errors.append(f"Changelog missing {version}")
+
+# v2.4 local checkout and inclusive mobile gates.
+checkout_text=(ROOT/'js/checkout.js').read_text(encoding='utf-8')
+postal_text=(ROOT/'js/postal-code-service.js').read_text(encoding='utf-8')
+delivery_text=(ROOT/'data/delivery-config.js').read_text(encoding='utf-8')
+for token in ['checkout-dialog','checkout-form','checkout-review-step','checkout-postal-code','checkout-no-number','checkout-remember','checkout-confirm']:
+    if token not in html: errors.append(f'v2.4 checkout UI missing: {token}')
+for token in ['viacep.com.br','brasilapi.com.br','function isServiceArea','function lookup']:
+    if token not in postal_text: errors.append(f'v2.4 postal service missing: {token}')
+if 'brand.delivery' not in delivery_text and 'const delivery = brand.delivery' not in delivery_text: errors.append('v2.4 delivery boundary is not derived from brand config')
+for token in ['getCheckoutSnapshot','handoffToWhatsApp','openCheckout']:
+    if token not in main_text: errors.append(f'v2.4 application bridge missing: {token}')
+for token in ['sessionStorage','savedAddressKey','delivery-validation','messageForWhatsApp','updateSavedAddressControl']:
+    if token not in checkout_text: errors.append(f'v2.4 checkout behavior missing: {token}')
+if 'https://viacep.com.br' not in html or 'https://brasilapi.com.br' not in html: errors.append('CSP does not allow the two CEP providers')
+if not (ROOT/'docs/CHECKOUT.md').exists(): errors.append('Checkout technical documentation is missing')
+if not (ROOT/'tools/checkout-behavior-check.js').exists(): errors.append('Checkout behavior regression tool is missing')
+
+for patch in range(10):
+    version = f"2.5.{patch}"
+    if f"## {version} " not in changelog:
+        errors.append(f"Changelog missing {version}")
+
+# v2.5 reusable product architecture gates.
+for rel in ['data/brand/brand.json','data/brand/content.json','data/brand/brand-config.js','data/brand/content-config.js','css/brand-theme.css','data/catalog-schema.js','js/feature-flags.js','js/brand-runtime.js','tools/brand-sync.py','tools/config-check.py','tools/brand-leak-check.py','docs/WHITE-LABEL.md','docs/COMPONENTS.md','docs/BRAND-ASSETS.md','assets/images/brand/forno-dona-rosa-logo.png','assets/images/brand/forno-dona-rosa-logo-720.webp']:
+    if not (ROOT/rel).exists(): errors.append(f'v2.5 reusable asset missing: {rel}')
+brand_json=(ROOT/'data/brand/brand.json').read_text(encoding='utf-8')
+if '"storageNamespace": "forno"' not in brand_json: errors.append('v2.5 storage namespace missing')
+for token in ['BRAND_CONFIG','storageNamespace','features']:
+    if token not in (ROOT/'js/app-config.js').read_text(encoding='utf-8'): errors.append(f'v2.5 app config missing {token}')
+
+for patch in range(10):
+    version = f"2.6.{patch}"
+    if f"## {version} " not in changelog:
+        errors.append(f"Changelog missing {version}")
+
+# v2.6 template-factory production-readiness gates.
+for rel in ['schemas/brand.schema.json','schemas/content.schema.json','schemas/catalog.schema.json','presets/pizzeria/preset.json','presets/coffee-shop/preset.json','tools/create-brand.py','tools/apply-brand.py','tools/project-doctor.py','tools/template-factory-check.py','tools/docs-check.py','docs/README.md','docs/getting-started/GETTING-STARTED.md','docs/customization/CREATE-A-CLIENT.md','docs/customization/CONFIGURATION.md','docs/quality/TESTING.md','docs/troubleshooting/TROUBLESHOOTING.md','docs/releases/v2.6.9.md','package.json','.github/workflows/quality.yml']:
+    if not (ROOT/rel).exists(): errors.append(f'v2.6 template-factory asset missing: {rel}')
+if 'container-type:inline-size' not in (ROOT/'css/styles.css').read_text(encoding='utf-8').replace(' ',''):
+    errors.append('v2.6 container-query resilience contract missing')
+if '"quality"' not in (ROOT/'package.json').read_text(encoding='utf-8'):
+    errors.append('v2.6 npm quality command missing')
+
 if errors:
     print('AUDIT FAILED')
     for e in errors: print('-',e)
@@ -160,4 +239,4 @@ print('- Bag schema v3 + migrations: OK')
 print('- Rosa hardening + confidence: OK')
 print('- International filename migration: OK')
 print('- Version sync: OK')
-print('- Changelog 1.3.0–2.1.9: OK')
+print('- Changelog 1.3.0–2.6.9: OK')

@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "brand": {
+    "name": "Forno Dona Rosa",
+    "legalDisplayName": "Pizzaria Forno Dona Rosa",
+    "shortName": "Dona Rosa",
+    "businessType": "pizzeria",
+    "businessTypeLabel": "Pizzaria artesanal",
+    "locale": "pt-BR",
+    "currency": "BRL",
+    "timezone": "America/Sao_Paulo",
+    "logo": {
+      "full": "assets/images/brand/forno-dona-rosa-logo.png",
+      "header": "assets/images/brand/forno-dona-rosa-logo-720.webp",
+      "alt": "Forno Dona Rosa — Pizzaria Artesanal"
+    },
+    "storageNamespace": "forno"
+  },
+  "contacts": {
+    "whatsappNumber": "5527992820798",
+    "whatsappDisplay": "(27) 99282-0798",
+    "email": "contato.fornodonarosa@gmail.com",
+    "instagram": "fornodonarosa.pizzaria"
+  },
+  "location": {
+    "streetAddress": "Av. Central, 420 - Parque Residencial Laranjeiras",
+    "city": "Serra",
+    "state": "ES",
+    "postalCode": "29165-130",
+    "country": "BR",
+    "fullAddress": "Av. Central, 420 - Parque Residencial Laranjeiras, Serra - ES, CEP 29165-130"
+  },
+  "delivery": {
+    "enabled": true,
+    "city": "Serra",
+    "state": "ES",
+    "country": "BR",
+    "serviceAreaLabel": "Serra — ES",
+    "postalCodeLookup": true,
+    "rememberAddressOptIn": true
+  },
+  "assistant": {
+    "enabled": true,
+    "name": "Rosa",
+    "role": "Anfitriã digital da Forno Dona Rosa",
+    "avatar": "assets/images/rosa-avatar.jpg"
+  },
+  "features": {
+    "favorites": true,
+    "reorder": true,
+    "assistant": true,
+    "checkout": true,
+    "postalCodeLookup": true,
+    "pwa": true,
+    "productSearch": true,
+    "halfAndHalf": true
+  },
+  "seo": {
+    "siteUrl": "https://jplima-dev-ai.github.io/forno-dona-rosa/",
+    "title": "Pizzaria Forno Dona Rosa | Cardápio completo, bebidas, Rosa e pedido pelo WhatsApp",
+    "description": "Pizzas artesanais, bebidas, sacola persistente e Rosa, a anfitriã digital local que ajuda a montar e revisar seu pedido.",
+    "ogTitle": "Pizzaria Forno Dona Rosa — pizzas artesanais que despertam o apetite",
+    "ogDescription": "Explore o cardápio, favorite sabores, veja imagens deliciosas e monte seu pedido pelo WhatsApp.",
+    "ogImage": "assets/images/dona-rosa-hero-pizza.jpg",
+    "schemaType": "Restaurant",
+    "servesCuisine": "Pizza"
+  },
+  "hours": {
+    "0": {
+      "open": "16:00",
+      "close": "24:00",
+      "label": "Domingo"
+    },
+    "1": {
+      "open": "18:00",
+      "close": "24:00",
+      "label": "Segunda-feira"
+    },
+    "2": {
+      "open": "18:00",
+      "close": "24:00",
+      "label": "Terça-feira"
+    },
+    "3": {
+      "open": "18:00",
+      "close": "24:00",
+      "label": "Quarta-feira"
+    },
+    "4": {
+      "open": "18:00",
+      "close": "24:00",
+      "label": "Quinta-feira"
+    },
+    "5": {
+      "open": "18:00",
+      "close": "24:00",
+      "label": "Sexta-feira"
+    },
+    "6": {
+      "open": "16:00",
+      "close": "24:00",
+      "label": "Sábado"
+    }
+  },
+  "businessHoursNote": "Segunda a sexta, das 18h à 0h. Sábados e domingos, das 16h à 0h."
+}

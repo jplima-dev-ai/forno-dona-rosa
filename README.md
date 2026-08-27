@@ -6,17 +6,11 @@ Forno Dona Rosa is a portfolio-grade front-end project for a Brazilian artisan p
 
 > The customer-facing website intentionally remains in Brazilian Portuguese because the fictional business operates in Brazil. The repository engineering, technical naming, and primary documentation are written in English for international reviewers.
 
-## v2.1.9 — Repository Refinement Edition
+## v2.6.9 — Template Factory & Production Readiness Edition
 
-### 2.0 visual-commerce focus
+This release turns the v2.5 white-label foundation into a repeatable client-creation workflow. The repository now includes machine-readable configuration contracts, pizzeria and coffee-shop presets, a guided brand generator, capability-aware component behavior, a Project Doctor, documentation drift checks, and a one-command quality pipeline designed to run locally and in GitHub Actions.
 
-- Mobile-first hierarchy for a customer base expected to be overwhelmingly mobile.
-- Product imagery for every pizza and beverage.
-- Compact image-led menu cards and touch-first “choose by desire” discovery.
-- Product thumbnails in the Bag with decorative images to avoid screen-reader repetition.
-- Performance-aware local WebP assets and lazy loading below the fold.
-
-This release focuses exclusively on responsive resilience, bug fixes and a shorter purchase path: simplified menu actions, progressive optional fields and a mobile bag review bar.
+The active reference implementation remains Forno Dona Rosa. Reuse is validated without flattening the brand into a generic template: client identity, theme, content and assets stay replaceable while the core keeps accessibility, responsive, checkout and state contracts. Start with [docs/README.md](docs/README.md) or [Create a new client](docs/customization/CREATE-A-CLIENT.md).
 
 ## Why this project exists
 
@@ -31,37 +25,66 @@ The goal is not to showcase a generic restaurant landing page. The repository de
 - Versioned persistent Bag state with migration and defensive normalization.
 - **Rosa**, a local browser-based pizzeria host using intent classification, contextual responses, short session memory, and a curated knowledge base — no external AI API required.
 - 30+ menu items across pizzas, desserts, and drinks.
-- Search, filtering, favorites, recommendations, half-and-half pizzas, drink pairing, and structured WhatsApp checkout.
+- Search, filtering, favorites, recommendations, half-and-half pizzas, drink pairing, and a structured local delivery checkout before WhatsApp handoff.
 - Content Security Policy, same-origin service-worker restrictions, safe DOM construction, and bounded user input.
 - Automated repository audit and health checks.
 
 ## Repository structure
 
 ```text
-forno-dona-rosa-v2.1.9/
+forno-dona-rosa-v2.6.9/
 ├── assets/
 │   ├── icons/
 │   └── images/
+│       └── brand/
 ├── css/
+│   ├── brand-theme.css
 │   └── styles.css
 ├── data/
+│   ├── brand/
+│   │   ├── brand.json
+│   │   ├── content.json
+│   │   ├── brand-config.js
+│   │   └── content-config.js
+│   ├── catalog-schema.js
+│   ├── delivery-config.js
 │   ├── menu.js
 │   └── rosa-knowledge-base.js
 ├── docs/
 │   ├── ACCESSIBILITY.md
 │   ├── ARCHITECTURE.md
 │   ├── CASE-STUDY.md
+│   ├── CHECKOUT.md
 │   ├── DESIGN-SYSTEM.md
 │   ├── PERFORMANCE.md
-│   └── QA.md
+│   ├── QA.md
+│   ├── ROSA.md
+│   ├── WHITE-LABEL.md
+│   ├── COMPONENTS.md
+│   └── BRAND-ASSETS.md
 ├── js/
 │   ├── app-config.js
 │   ├── app-meta.js
+│   ├── brand-runtime.js
+│   ├── feature-flags.js
+│   ├── checkout.js
 │   ├── main.js
+│   ├── postal-code-service.js
 │   └── rosa.js
+├── schemas/
+├── presets/
 ├── tools/
+│   ├── create-brand.py
+│   ├── project-doctor.py
+│   ├── docs-check.py
 │   ├── audit.py
-│   └── health-check.py
+│   ├── brand-sync.py
+│   ├── config-check.py
+│   ├── brand-leak-check.py
+│   ├── checkout-behavior-check.js
+│   ├── health-check.py
+│   ├── regression-check.py
+│   └── rosa-behavior-check.js
 ├── CHANGELOG.md
 ├── LICENSE
 ├── README.md
@@ -92,10 +115,11 @@ Run the static audit:
 python tools/audit.py
 ```
 
-Run the broader repository health check:
+Run the broader repository health check and high-value regression gate:
 
 ```bash
 python tools/health-check.py
+python tools/regression-check.py
 ```
 
 These checks cover version synchronization, local asset references, JavaScript syntax, changelog completeness, Bag schema migration, Rosa session safeguards, catalog IDs, CSP presence, and service-worker boundaries. They do **not** replace manual NVDA, browser, visual, or real-device testing.
@@ -104,12 +128,17 @@ These checks cover version synchronization, local asset references, JavaScript s
 
 ```text
 app-meta.js       → release metadata
-app-config.js     → business configuration
-menu.js           → product catalog and pricing rules
+brand.json        → canonical client/brand source
+brand-config.js   → generated runtime brand configuration
+app-config.js     → compatibility adapter for reusable application code
+menu.js             → product catalog and pricing rules
+delivery-config.js  → canonical local delivery area and checkout limits
 rosa-knowledge-base.js → local conversational knowledge
-main.js           → navigation, menu, Bag, PWA and ordering
-rosa.js           → conversational UI and local intent engine
-service-worker.js → offline/runtime cache strategy
+postal-code-service.js → ViaCEP lookup with BrasilAPI fallback
+main.js             → navigation, menu, Bag, PWA and canonical order snapshot
+checkout.js         → customer/address/review/WhatsApp handoff
+rosa.js             → conversational UI and local intent engine
+service-worker.js   → offline/runtime cache strategy
 ```
 
 ## Accessibility
@@ -131,7 +160,3 @@ For a concise engineering narrative, see [docs/CASE-STUDY.md](docs/CASE-STUDY.md
 ## License
 
 MIT. See [LICENSE](LICENSE).
-
-
-## v2.1.9 repository refinement
-The 1.8.x cycle focused on bug fixing and quality rather than feature expansion: persisted bag data is sanitized cumulatively, half-and-half data cannot reference drinks, Rosa verifies mutations before confirming them, keyboard focus survives bag rerenders, the PWA cache lookup is more deterministic, and core food imagery now has WebP delivery paths. Run `python tools/regression-check.py` together with the existing audit and health checks before release.

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/catalog.schema.json",
+  "title": "Catalog product contract",
+  "type": "object",
+  "required": ["id", "name", "category", "basePrice", "image"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,63}$"},
+    "name": {"type": "string", "minLength": 2, "maxLength": 120},
+    "category": {"type": "string", "minLength": 2, "maxLength": 64},
+    "basePrice": {"type": "number", "exclusiveMinimum": 0},
+    "image": {"type": "string", "minLength": 1},
+    "type": {"type": "string", "enum": ["pizza", "bebida", "food", "drink", "dessert"]}
+  },
+  "additionalProperties": true
+}

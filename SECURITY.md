@@ -15,6 +15,10 @@ Forno Dona Rosa is a static front-end portfolio project. It has no authenticatio
 - Service-worker caching is restricted to same-origin resources and bounded runtime cache behavior.
 - External `_blank` links include `noopener noreferrer`.
 - WhatsApp URLs use controlled destination numbers and encoded message text.
+- Checkout customer data is session-scoped by default; persistent name/address storage is opt-in only.
+- Postal lookup sends only the CEP to allowlisted HTTPS providers (ViaCEP, then BrasilAPI fallback).
+- Provider-returned city/state data is normalized and validated against Serra — ES before delivery handoff.
+- Manual fallback is explicitly marked as requiring staff confirmation; it does not pretend to be provider-verified.
 
 ## Reporting
 
@@ -23,3 +27,11 @@ If you find a security issue in this portfolio repository, open a GitHub issue w
 ## Important limitation
 
 Client-side controls cannot turn a static portfolio into a secure backend. Real payments, authentication, private customer data, order persistence, rate limiting, and administrative operations would require an appropriate server-side architecture.
+
+## Checkout data boundary
+
+The static portfolio does not submit customer details to a first-party server. Name and full delivery details remain in browser state until the customer explicitly opens WhatsApp. CEP assistance depends on third-party postal services and therefore should be reviewed before a real production launch, including provider terms, privacy notice and operational fallback policy.
+
+## v2.5 white-label isolation
+
+Client identity and delivery boundaries are sourced from `data/brand/brand.json` and generated runtime configuration. Reusable runtime modules must not hardcode the reference client's phone, email, address or service-area label. `tools/brand-leak-check.py` enforces that boundary, while `brand.storageNamespace` isolates browser state between client deployments.

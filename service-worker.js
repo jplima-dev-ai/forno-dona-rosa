@@ -1,13 +1,13 @@
 "use strict";
 
-const VERSION = "2.1.9";
+const VERSION = "2.6.9";
 const CORE_CACHE = `forno-core-${VERSION}`;
 const RUNTIME_CACHE = `forno-runtime-${VERSION}`;
 const RUNTIME_LIMIT = 24;
 const CORE_ASSETS = [
-  "./", "./index.html", "./css/styles.css", "./js/app-meta.js", "./js/app-config.js", "./js/main.js", "./js/rosa.js",
-  "./data/menu.js", "./data/rosa-knowledge-base.js", "./manifest.webmanifest",
-  "./assets/images/dona-rosa-hero-pizza.webp", "./assets/images/rosa-avatar.jpg",
+  "./", "./index.html", "./css/styles.css", "./css/brand-theme.css", "./js/app-meta.js", "./data/brand/brand-config.js", "./data/brand/content-config.js", "./js/app-config.js", "./js/feature-flags.js", "./data/catalog-schema.js", "./js/brand-runtime.js", "./js/main.js", "./js/rosa.js",
+  "./data/menu.js", "./data/rosa-knowledge-base.js", "./data/delivery-config.js", "./js/postal-code-service.js", "./js/checkout.js", "./manifest.webmanifest",
+  "./assets/images/dona-rosa-hero-pizza.webp", "./assets/images/dona-rosa-hero-pizza-640.webp", "./assets/images/rosa-avatar.jpg", "./assets/images/brand/forno-dona-rosa-logo-720.webp",
   "./assets/icons/icon-192.png", "./assets/icons/icon-512.png"
 ];
 const WARM_ASSETS = [

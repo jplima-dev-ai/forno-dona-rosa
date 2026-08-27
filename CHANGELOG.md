@@ -1,5 +1,327 @@
 # Changelog
 
+## 2.6.9 — Template Factory Release Gate
+### Changed
+- Finalized the Template Factory and production-readiness workflow after configuration, preset, component-resilience, documentation and CI review.
+### Verified
+- Required every 2.6.x microversion, template-factory invariant, documentation check and Project Doctor gate to remain executable.
+
+### Fixed
+
+- Windows Python 3.13 subprocess decoding: quality tools now capture child-process output explicitly as UTF-8 with safe replacement, preventing CP1252 `UnicodeDecodeError` crashes before result evaluation.
+- Internal Python quality-tool invocations now use `sys.executable` where applicable, keeping nested checks on the same interpreter as the parent process.
+
+## 2.6.8 — Reproducible Quality Pipeline
+### Added
+- Added `package.json` with a one-command `npm run quality` gate and `.github/workflows/quality.yml` for Linux and Windows CI execution.
+### Accessibility
+- Kept real screen-reader validation outside automated PASS claims unless the assistive technology is actually executed and recorded.
+
+## 2.6.7 — Docs & Brand Drift Prevention
+### Added
+- Added `tools/docs-check.py` to detect stale file references, obsolete artifacts and version drift in public technical documentation.
+- Strengthened capability-aware UI isolation so disabled features do not leave misleading controls behind.
+
+## 2.6.6 — Documentation Architecture
+### Added
+- Added task-oriented Getting Started, Configuration, Create-a-Client, Testing and Troubleshooting documentation plus a canonical docs map.
+- Added a high-value bug ledger and v2.6.9 release notes without duplicating machine truth.
+
+## 2.6.5 — Quality Doctor
+### Added
+- Added `tools/project-doctor.py` to validate brand, catalog, assets, versioning, responsive contracts, workflow presence and changelog invariants.
+- Added `tools/template-factory-check.py` to generate and validate a second business preset without mutating the active Forno Dona Rosa brand.
+
+## 2.6.4 — Template Presets
+### Added
+- Added `pizzeria` and `coffee-shop` presets with capability models for products, checkout and optional features.
+### Architecture
+- Presets define reusable behavior boundaries while final art direction and real client content remain explicit customization work.
+
+## 2.6.3 — Component Resilience
+### Changed
+- Added container-query readiness, long-content wrapping and capability-aware presentation rules for reusable product, Bag and client configurations.
+### Fixed
+- Closed a reuse bug where disabled features could remain visually discoverable despite existing feature flags.
+
+## 2.6.2 — Client Generator
+### Added
+- Added `tools/create-brand.py` for guided client-package generation and `tools/apply-brand.py` for controlled activation followed by static brand synchronization.
+- Generated brands receive isolated storage namespaces, preset capabilities, theme copy and asset requirements.
+
+## 2.6.1 — Configuration Schema
+### Added
+- Added machine-readable schemas for brand, content and catalog contracts under `schemas/`.
+### Security
+- Constrained critical identifiers such as storage namespaces, business types and WhatsApp digits to predictable formats.
+
+## 2.6.0 — Product Forensics Audit
+### Reviewed
+- Audited white-label configuration, feature flags, component coupling, documentation drift, long-content resilience, runtime assets and release tooling using expected-vs-actual and first-divergence principles.
+### Fixed
+- Identified incomplete presentation isolation for optional capabilities as the first reusable-template divergence to address in the 2.6.x cycle.
+
+## 2.5.9 — Reusable Product Release Gate
+### Changed
+- Finalized the reusable product architecture after full regression review, brand isolation, storage namespacing and white-label documentation.
+### Verified
+- Added configuration, brand-leak and white-label gates and required every 2.5.x changelog entry to remain present.
+
+## 2.5.8 — Documentation & Adaptation Guide
+### Added
+- Added `docs/WHITE-LABEL.md`, `docs/COMPONENTS.md` and `docs/BRAND-ASSETS.md` with adaptation and accessibility contracts.
+- Added `tools/brand-sync.py` as the documented static-brand synchronization path for GitHub Pages.
+
+## 2.5.7 — White-Label Safety
+### Added
+- Added `tools/config-check.py` and `tools/brand-leak-check.py` to validate required client configuration and prevent current-brand identity from leaking into reusable runtime modules.
+### Security
+- Client identity, contact and delivery boundaries are now consumed from canonical configuration instead of hardcoded runtime strings.
+
+## 2.5.6 — Feature Flags & Capability Model
+### Added
+- Added feature flags for assistant, favorites, reorder, checkout, postal lookup, PWA, product search and half-and-half support.
+- Added catalog capability metadata separating simple products from pizza modifiers and presentation groups.
+
+## 2.5.5 — Configurable Assistant
+### Changed
+- Rosa's runtime identity and delivery wording now derive from brand/assistant configuration rather than fixed client strings.
+- Assistant session storage now uses the configured brand namespace.
+
+## 2.5.4 — Reusable Bag & Checkout
+### Changed
+- Bag, favorites and last-order storage use a brand namespace while preserving the Forno Dona Rosa namespace for backward compatibility.
+- Checkout delivery boundaries and customer-facing handoff greeting now derive from brand configuration.
+### Fixed
+- Removed runtime coupling to Serra and Forno Dona Rosa from checkout implementation files.
+
+## 2.5.3 — Catalog Abstraction
+### Added
+- Added `data/catalog-schema.js` to document product groups, simple product types and configurable modifiers.
+### Architecture
+- Established a capability boundary for future food/local-commerce presets without rewriting the existing catalog.
+
+## 2.5.2 — Content & Theme Separation
+### Added
+- Added `data/brand/content.json`, generated content runtime configuration and a dedicated `css/brand-theme.css` layer.
+- Hero brand content can now be changed independently from application behavior.
+
+## 2.5.1 — Central Brand Configuration
+### Added
+- Added canonical `data/brand/brand.json` for identity, logo, contacts, location, delivery, assistant, features, SEO and hours.
+- Added a generated runtime brand config and compatibility `app-config.js` adapter.
+- Added a premium transparent Forno Dona Rosa logo master plus an optimized header WebP in `assets/images/brand/`.
+
+## 2.5.0 — Full Product Audit
+### Reviewed
+- Audited brand strings, storage keys, checkout coupling, assistant coupling, PWA assets, product configuration and documentation before modularization.
+### Fixed
+- Identified hardcoded client identity and storage-collision risks as architectural bugs for white-label reuse and removed them from reusable runtime modules.
+
+## 2.4.9 — Local Checkout Release Gate
+### Changed
+- Finalized the mobile-first local checkout after focused bug review, address validation, WhatsApp handoff hardening and accessibility refinements.
+### Verified
+- Added dedicated postal-code behavior checks plus checkout-specific audit, health and regression gates.
+- Required every 2.4.x changelog entry, checkout module, delivery rule and CSP endpoint to remain synchronized.
+
+## 2.4.8 — Inclusive Mobile & Accessibility Hardening
+### Changed
+- Increased operational text and primary-action sizing on mobile, strengthened touch targets and improved low-height/very-narrow reflow.
+- Added explicit field-level error messages, predictable focus movement, live status announcements and a visible text close action.
+- Added Rosa's “help me step by step” path for customers who prefer guided ordering.
+### Accessibility
+- CEP lookup announces one concise result instead of every auto-filled field; keyboard focus moves to the next field the customer must complete.
+
+## 2.4.7 — Rosa Checkout Integration
+### Added
+- Rosa can explain the delivery step, open the checkout from a non-empty Bag and guide customers according to the current order state.
+- Added a contextual “Fill delivery details” quick action when the Bag already contains items.
+### Changed
+- Rosa's order explanation now includes delivery details and final review before WhatsApp.
+
+## 2.4.6 — Privacy & Saved Address
+### Added
+- Delivery data is stored in session storage by default so form progress survives the current tab session without creating a permanent customer profile.
+- Added an explicit opt-in to remember name and address on the device plus an “Forget saved address” action.
+### Privacy
+- Only the CEP is sent to postal-code lookup providers; customer name, number, complement and reference stay in the browser until the customer chooses WhatsApp handoff.
+- Non-opted-in checkout session data is cleared after a successful WhatsApp handoff.
+
+## 2.4.5 — Address Review
+### Added
+- Added a final review step with customer name, complete address, validation state, grouped Bag contents and demonstrative subtotal.
+- Added explicit “Everything is correct — go to WhatsApp” and “I want to correct information” actions.
+### Changed
+- WhatsApp no longer opens directly from the Bag; the customer always sees the review step first.
+
+## 2.4.4 — Serra Delivery Validation
+### Added
+- Added canonical delivery configuration limiting delivery to Serra — ES.
+- Added three explicit address states: validated in Serra, manual confirmation required, and outside the delivery area.
+### Security
+- City and state returned by CEP lookup are treated as validation data rather than editable customer assertions.
+
+## 2.4.3 — Postal Provider Fallback
+### Added
+- Added BrasilAPI CEP v1 as a fallback when the primary ViaCEP lookup is unavailable or does not resolve the postal code.
+- Added timeout and failure handling that preserves already-entered customer data.
+### Changed
+- Failed lookup now falls back to manual street/neighborhood entry while keeping Serra — ES as the only supported city.
+
+## 2.4.2 — Smart CEP Lookup
+### Added
+- Added automatic ViaCEP lookup after eight CEP digits, with formatting, loading state and accessible result announcement.
+- Auto-fills street, neighborhood, city and state when available; generic CEPs can still request only the missing street/neighborhood fields.
+### Accessibility
+- Uses `autocomplete="postal-code"`, numeric mobile input hints and field-specific help/error text.
+
+## 2.4.1 — Customer Delivery Details
+### Added
+- Added structured fields for customer name, CEP, street, house/building number, no-number option, neighborhood, city, state, optional complement and optional landmark.
+- Added clear mobile copy explaining exactly what each required field is for.
+### Changed
+- Replaced the Bag's direct WhatsApp CTA with “Continue to address”.
+
+## 2.4.0 — Local Checkout Architecture
+### Reviewed
+- Audited the complete handoff from Bag to WhatsApp with emphasis on elderly users, low digital familiarity, NVDA, touch ergonomics and mobile cognitive load.
+### Decision
+- Adopted a three-stage model: Bag → Delivery details → Review → WhatsApp, without account creation, payment forms or hidden automatic submission.
+- Kept checkout data client-side and limited the supported delivery city to Serra — ES.
+
+## 2.3.9 — Rosa Final Release Gate
+### Changed
+- Finalized the Rosa conversational layer after focused bug review, mobile UX refinement, session-schema migration and action safety hardening.
+### Verified
+- Added a dedicated executable behavior suite for real Portuguese prompts covering preferences, comparison, ambiguity, exact product resolution, destructive actions and product details.
+- Extended audit, health and regression gates to require every 2.3.x capability and changelog entry.
+
+## 2.3.8 — Accessibility & Security Hardening
+### Changed
+- Refined screen-reader announcements so only new Rosa responses are announced while conversation history remains navigable as a log.
+- Added an input character counter that stays silent until the user approaches the limit, plus explicit local-processing disclosure.
+- Improved mobile dialog behavior for full-height viewports, virtual keyboards, safe areas, forced-colors and low-height landscape.
+### Security
+- Session state now validates schema, messages, product references, temporary preferences and pending destructive actions before reuse.
+
+## 2.3.7 — Mobile Rosa UX
+### Changed
+- Reworked the Rosa dialog as a mobile-first full-screen conversational surface with a compact header, persistent composition area and horizontal quick-action scroller.
+- Converted recommendation cards into thumb-friendly horizontal cards on small screens while preserving keyboard and screen-reader access.
+
+## 2.3.6 — Bag Assistant
+### Added
+- Rosa can review the current Bag summary and adapt quick actions when items are already present.
+- Added a safe Bag-clear bridge exposed by the application API.
+### Security
+- “Clear my Bag” is treated as destructive: Rosa always asks for explicit confirmation before executing it.
+
+## 2.3.5 — Actionable Product Cards
+### Added
+- Recommendation cards now expose both “Add” and “View details” actions using canonical product IDs.
+- Added current price and concise product traits to Rosa cards without duplicating the adjacent accessible product name.
+### Changed
+- Rosa validates product references before actions and checks the result of add-to-Bag operations before claiming success.
+
+## 2.3.4 — Product Comparison
+### Added
+- Added deterministic comparison between two recognized products using canonical traits, current prices and temporary conversational preferences.
+- Added ordinal references such as “the first”, “the second” and short references to recently recommended products.
+### Fixed
+- Prevented the substring “ou” inside words such as “recomendou” from incorrectly triggering comparison intent.
+
+## 2.3.3 — Conversational Recommendations
+### Added
+- Recommendations now rank products against temporary preferences such as vegetarian, vegan, cheese-forward, sweet, light, intense and non-spicy.
+- Rosa can explain why a product was recommended using only preferences actually expressed in the current session.
+### Changed
+- Recommendations prioritize a small curated set instead of returning long result lists.
+
+## 2.3.2 — Intent Resolution 2.0
+### Added
+- Added stronger product resolution with aliases, exact-match priority and ambiguity detection.
+- Generic commands such as “Add Coke” now request disambiguation, while “Add Coca-Cola 2 L” resolves directly to the exact catalog item.
+### Fixed
+- Prevented product-action intents from silently choosing a weaker partial match when a stronger exact match exists.
+
+## 2.3.1 — Context & Preference Memory
+### Added
+- Migrated Rosa session state to schema v4 with short-lived temporary preferences, last referenced product IDs and pending confirmation state.
+- Added multi-turn preference continuity without creating a permanent customer profile.
+- Added explicit preference overrides for “no restrictions”, meat, spice, savory choices and returning from beverage-only intent.
+### Privacy
+- Clearing the conversation now also clears temporary preferences and pending conversational state.
+
+## 2.3.0 — Rosa Architecture Audit
+### Reviewed
+- Audited the complete Rosa flow: intent resolution, product matching, recommendations, actions, Bag integration, mobile layout, focus, live regions, session storage and privacy boundaries.
+### Decision
+- Kept Rosa deterministic and local-first: no remote LLM, no invented commercial facts and no hidden automatic order submission.
+
+## 2.2.9 — Conversion Quality Gate
+### Changed
+- Synchronized release metadata, documentation, PWA cache version, mobile behavior and automated quality gates for the completed 2.2.x cycle.
+### Verified
+- Added explicit regression coverage for sensory tags, product detail dialog behavior, responsive media variants, returning-order state, Rosa product actions, mobile navigation and offline WhatsApp protection.
+
+## 2.2.8 — Responsive Media & Offline UX
+### Added
+- Generated 384 px WebP variants for all 31 product images and a 640 px hero variant for lower-cost mobile delivery.
+- Added responsive `srcset`/`sizes` behavior to dynamic menu cards and a mobile-specific hero source.
+### Changed
+- Offline status now clearly explains that the cached menu and Bag remain usable while WhatsApp requires connectivity; the send action is disabled while offline.
+
+## 2.2.7 — Mobile Navigation Refinement
+### Added
+- Added a four-action mobile navigation bar for Home, Menu, Rosa and Bag when the Bag is empty.
+### Changed
+- The existing live Bag bar takes priority as soon as products are added, preventing competing fixed controls and preserving thumb-friendly reach.
+
+## 2.2.6 — Returning Customer Flow
+### Added
+- Added a local “repeat last order” flow stored only after the customer actively opens WhatsApp to confirm an order.
+- Added a 45-day local retention boundary and an explicit “Clear history” action.
+### Security
+- Repeated orders are sanitized and rebuilt against the current catalog so persisted product IDs, quantities and prices are never trusted as canonical.
+
+## 2.2.5 — Rosa Product Actions
+### Added
+- Rosa recommendations can now include compact product cards with image, name, current price and an accessible Add action.
+### Changed
+- Recommendation cards remain deterministic and local; their product IDs are validated before being stored in short-lived session history.
+
+## 2.2.4 — Smart Bag Review
+### Changed
+- Bag review now separates pizzas, beverages and desserts for faster scanning.
+- Reframed the final CTA as “Enviar pedido para confirmar” and explicitly states that nothing is sent automatically.
+### Added
+- Added “Revisar com a Rosa” directly in the Bag before WhatsApp handoff.
+
+## 2.2.3 — Faster Add-to-Bag
+### Changed
+- Quick-add buttons now expose the actual demonstrative quick-add price in the action label.
+### Added
+- Added a persistent-enough, dismissible confirmation surface with “Ver sacola” and “Continuar escolhendo” actions while retaining screen-reader announcements.
+
+## 2.2.2 — Product Detail Experience
+### Added
+- Added an accessible product-detail dialog with product image, sensory characteristics, current demonstrative price, quick add and a path to full pizza customization.
+### Changed
+- On mobile the dialog behaves as a bottom sheet; beverage details omit pizza-only size and crust customization.
+
+## 2.2.1 — Sensory Product Language
+### Added
+- Added concise sensory tags such as “Leve”, “Intensa”, “Cremosa”, “Picante”, “Vegana” and “Muito queijo” derived from canonical product traits.
+### Changed
+- Product cards now emphasize decision-relevant sensory cues before long ingredient descriptions, improving scanning on small screens.
+
+## 2.2.0 — Experience Audit
+### Reviewed
+- Audited the full discovery-to-WhatsApp journey with priority on mobile reachability, decision load, keyboard/NVDA behavior, repeat-customer friction, offline boundaries and image cost.
+### Decision
+- Kept the public experience static and privacy-preserving: no login, no cloud AI dependency and no automatic order submission.
+
 ## 2.1.9 — Repository Refinement Release Gate
 - Completed structural cleanup, version synchronization, regression coverage and obsolete-file validation for the 2.1.x cycle.
 

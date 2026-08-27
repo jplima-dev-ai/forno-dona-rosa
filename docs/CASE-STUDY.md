@@ -26,3 +26,7 @@ The project evolved from a static pizzeria landing page into a small client-side
 ## Stack
 
 HTML5, modern CSS, vanilla JavaScript, browser storage APIs, Service Worker/PWA, Python maintenance scripts, Git/GitHub Pages.
+
+## v2.4: reducing WhatsApp handoff friction
+
+The local checkout addresses a common operational gap in WhatsApp ordering: incomplete names and delivery addresses create repeated questions for staff. The solution does not introduce accounts or a backend. Instead, it prepares structured customer/address/order data in the browser, validates CEP-derived city/state against Serra — ES, provides a review screen, and then opens WhatsApp with a customer-approved message. This preserves the low-friction channel while improving information quality and accessibility.

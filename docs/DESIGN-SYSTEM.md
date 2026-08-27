@@ -21,3 +21,7 @@ Forno Dona Rosa uses an editorial food aesthetic inspired by fire, flour, wood, 
 ## Interaction rules
 
 Hover is enhancement only. Keyboard focus remains visible. Motion must have a purpose and must respect reduced-motion preferences.
+
+## Brand layer
+
+`css/brand-theme.css` is the client-specific token layer. It should change before core component CSS when adapting a client. Brand assets live under `assets/images/brand/`; product photography and structural UI rules remain separate. A new client should feel bespoke through art direction, copy and tokens without forking accessibility or responsive component behavior.

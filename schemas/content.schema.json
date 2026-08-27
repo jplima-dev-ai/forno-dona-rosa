@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/content.schema.json",
+  "title": "Brand content",
+  "type": "object",
+  "required": ["hero"],
+  "properties": {
+    "hero": {
+      "type": "object",
+      "required": ["title", "lead"],
+      "properties": {
+        "title": {"type": "string", "minLength": 8, "maxLength": 180},
+        "lead": {"type": "string", "minLength": 16, "maxLength": 320}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

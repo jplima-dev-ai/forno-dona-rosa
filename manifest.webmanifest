@@ -1,9 +1,8 @@
 {
   "name": "Pizzaria Forno Dona Rosa",
-  "short_name": "Forno Rosa",
-  "description": "Pizza artesanal no forno a lenha em Laranjeiras, Serra - ES.",
+  "short_name": "Dona Rosa",
+  "description": "Pizzas artesanais, bebidas, sacola persistente e Rosa, a anfitriã digital local que ajuda a montar e revisar seu pedido.",
   "start_url": "./",
-  "scope": "./",
   "display": "standalone",
   "background_color": "#17100c",
   "theme_color": "#17100c",
@@ -12,14 +11,12 @@
     {
       "src": "assets/icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
       "src": "assets/icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
   ]
 }

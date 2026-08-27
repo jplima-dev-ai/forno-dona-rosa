@@ -1,0 +1,17 @@
+{
+  "id": "pizzeria",
+  "label": "Pizzeria",
+  "businessType": "pizzeria",
+  "defaultFeatures": {
+    "favorites": true,
+    "reorder": true,
+    "assistant": true,
+    "checkout": true,
+    "postalCodeLookup": true,
+    "pwa": true,
+    "productSearch": true,
+    "halfAndHalf": true
+  },
+  "productCapabilities": ["size", "crust", "halfAndHalf", "notes"],
+  "checkoutCapabilities": ["delivery", "postalCodeLookup", "cityRestriction", "whatsappHandoff"]
+}

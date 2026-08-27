@@ -1,0 +1,17 @@
+{
+  "id": "coffee-shop",
+  "label": "Coffee Shop",
+  "businessType": "coffee-shop",
+  "defaultFeatures": {
+    "favorites": true,
+    "reorder": true,
+    "assistant": true,
+    "checkout": true,
+    "postalCodeLookup": false,
+    "pwa": true,
+    "productSearch": true,
+    "halfAndHalf": false
+  },
+  "productCapabilities": ["size", "extras", "notes"],
+  "checkoutCapabilities": ["pickup", "whatsappHandoff"]
+}

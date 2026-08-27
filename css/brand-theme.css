@@ -1,0 +1,20 @@
+/* Brand layer: replace these tokens (or this file) for another client. */
+:root{
+  --brand-primary:#7b1f16;
+  --brand-primary-strong:#5f1712;
+  --brand-accent:#f1b64b;
+  --brand-ink:#17100c;
+  --brand-cream:#fff7ec;
+  --brand-surface:#211610;
+  --brand-radius:.95rem;
+}
+.brand-logo{display:block;width:clamp(8.5rem,18vw,13.5rem);height:auto;max-height:4.25rem;object-fit:contain;object-position:left center}
+@media(max-width:48rem){.brand-logo{width:9.1rem;max-height:3.25rem}}
+@media(max-width:22rem){.brand-logo{width:7.8rem}}
+@media(forced-colors:active){.brand-logo{forced-color-adjust:auto}}
+html[data-feature-assistant="off"] [data-rosa-open],html[data-feature-assistant="off"] #rosa,html[data-feature-assistant="off"] .rosa-launcher{display:none!important}
+html[data-feature-favorites="off"] [data-favorite],html[data-feature-favorites="off"] .favorites-only{display:none!important}
+html[data-feature-reorder="off"] #returning-order{display:none!important}
+html[data-feature-product-search="off"] .menu-search{display:none!important}
+html[data-feature-half-and-half="off"] [data-capability="halfAndHalf"]{display:none!important}
+html[data-feature-pwa="off"] #install-app{display:none!important}

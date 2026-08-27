@@ -3,7 +3,7 @@ from pathlib import Path
 import re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.1.9'
+VERSION='2.6.9'
 checks=[]
 def check(name, ok, detail=''):
     checks.append((name,bool(ok),detail))
@@ -21,9 +21,9 @@ version=version_match.group(1) if version_match else None
 check('Version source', version==VERSION, version or 'missing')
 check('HTML version', f'content="{VERSION}" name="x-project-version"' in html or f'name="x-project-version" content="{VERSION}"' in html)
 check('Service worker version', f'const VERSION = "{VERSION}"' in sw)
-check('Bag schema v3', 'forno-bag-v3' in main and 'schemaVersion: BAG_SCHEMA_VERSION' in main)
-check('Legacy Bag migration', 'forno-bag-v2' in main and 'forno-cart' in main)
-check('Rosa session v3', 'forno-rosa-session-v3' in rosa and 'schemaVersion: 3' in rosa)
+check('Bag schema v3', 'bag-v3' in main and 'schemaVersion: BAG_SCHEMA_VERSION' in main and 'storageNamespace' in main)
+check('Legacy Bag migration', 'bag-v2' in main and '-cart`' in main)
+check('Rosa session v4', 'assistant-session-v4' in rosa and 'SESSION_SCHEMA = 4' in rosa)
 check('Rosa confidence', 'confidence' in rosa and 'classify' in rosa)
 check('Runtime cache limit', 'RUNTIME_LIMIT = 24' in sw and 'trimRuntimeCache' in sw)
 ids=re.findall(r'id:"([^"]+)"',menu)
@@ -52,23 +52,100 @@ check('Responsive bottom-sheet CSS', '.cart-dialog{width:100%;max-width:none;hei
 check('WebP food assets', all((ROOT/p).exists() for p in [
     'assets/images/dona-rosa-hero-pizza.webp','assets/images/cheese-pull-pizza.webp',
     'assets/images/wood-fired-oven-pizza.webp','assets/images/nutella-strawberry-pizza.webp']))
-product_images=list((ROOT/'assets/images/products').glob('*.webp'))
+product_images=[p for p in (ROOT/'assets/images/products').glob('*.webp') if not p.stem.endswith('-384')]
 check('31 product images', len(product_images)==31, str(len(product_images)))
 check('Every menu item has product image', menu.count('image:"assets/images/products/')==31)
 check('Desire discovery', 'data-desire="classica"' in html and 'data-desire="bebida"' in html)
 check('Bag thumbnails', 'cart-item__thumb' in main)
 check('Obsolete files removed', all(not (ROOT/p).exists() for p in ['assets/images/signature-pizza.svg','assets/images/og-cover.png','tools/generate.py']))
-product_names=[p.name for p in (ROOT/'assets/images/products').glob('*.webp')]
+product_names=[p.name for p in (ROOT/'assets/images/products').glob('*.webp') if not p.stem.endswith('-384')]
 pt_tokens=['agua','gas','lata','suco','laranja','mucarela','calabresa','portuguesa','frango','toscana','forno','casa','trufa','picante','vegana','chocolate-belga','banana-doce-leite','romeu-julieta']
 check('English product image filenames', all(not any(t in name.lower() for t in pt_tokens) for name in product_names), f'{len(product_names)} files')
 check('Hero CTA leads to menu', 'href="#cardapio">Escolher minha pizza</a>' in html)
 
-for f in ['js/app-meta.js','js/app-config.js','data/menu.js','data/rosa-knowledge-base.js','js/main.js','js/rosa.js','service-worker.js']:
-    r=subprocess.run(['node','--check',str(ROOT/f)],capture_output=True,text=True)
+for patch in range(10): check(f'Changelog 2.2.{patch}', f'## 2.2.{patch} ' in changelog)
+check('Sensory tags', 'sensory-tags' in html and 'sensoryLabels' in main)
+check('Product detail dialog', 'id="product-dialog"' in html and 'openProductDialog' in main)
+check('Returning-order local flow', 'last-order-v1' in main and 'restoreLastOrder' in main)
+check('Rosa actionable product cards', 'rosa-product-cards' in rosa and 'data-rosa-add' in rosa)
+check('Mobile quick navigation', 'class="mobile-nav"' in html and '.has-mobile-bag .mobile-nav{display:none}' in (ROOT/'css/styles.css').read_text(encoding='utf-8'))
+check('Offline WhatsApp gate', 'WhatsApp exige conexão' in main and 'send.disabled = true' in main)
+check('31 responsive product variants', len(list((ROOT/'assets/images/products').glob('*-384.webp')))==31)
+check('Mobile hero variant', (ROOT/'assets/images/dona-rosa-hero-pizza-640.webp').exists())
+check('Dismissible Bag feedback', 'id="bag-feedback"' in html and 'showBagFeedback' in main)
+check('Smart Bag groups', '"Sobremesas"' in main and '"Bebidas"' in main and '"Pizzas"' in main)
+
+
+for patch in range(10): check(f'Changelog 2.3.{patch}', f'## 2.3.{patch} ' in changelog)
+check('Rosa temporary preferences', 'extractPreferences' in rosa and 'mergePreferences' in rosa)
+check('Rosa ordinal references', 'resolveOrdinalReference' in rosa)
+check('Rosa comparisons', 'findComparisonProducts' in rosa and 'compareProducts' in rosa)
+check('Rosa disambiguation', 'ambiguousChoice' in rosa)
+check('Rosa destructive confirmation', 'pendingAction' in rosa and 'clearBag()' in main)
+check('Rosa contextual quick actions', 'renderQuickActions' in rosa and 'quickActionModel' in rosa)
+check('Rosa product detail action', 'data-rosa-details' in rosa)
+check('Rosa accessible input counter', 'id="rosa-input-count"' in html)
+check('Rosa privacy disclosure', 'rosa-privacy-note' in html)
+check('Rosa documentation', (ROOT/'docs/ROSA.md').exists())
+check('Rosa behavior tool', (ROOT/'tools/rosa-behavior-check.js').exists())
+
+behavior=subprocess.run(['node',str(ROOT/'tools/rosa-behavior-check.js')],capture_output=True,text=True,encoding="utf-8",errors="replace")
+check('Rosa behavior suite', behavior.returncode==0, behavior.stdout.strip().splitlines()[-1] if behavior.stdout.strip() else behavior.stderr.strip())
+
+
+for patch in range(10): check(f'Changelog 2.4.{patch}', f'## 2.4.{patch} ' in changelog)
+checkout=(ROOT/'js/checkout.js').read_text(encoding='utf-8')
+postal=(ROOT/'js/postal-code-service.js').read_text(encoding='utf-8')
+delivery=(ROOT/'data/delivery-config.js').read_text(encoding='utf-8')
+check('Checkout dialog', 'id="checkout-dialog"' in html and 'id="checkout-form"' in html)
+check('Configured delivery boundary', 'const delivery = brand.delivery' in delivery and 'serviceAreaLabel' in delivery)
+check('ViaCEP primary provider', 'viacep.com.br' in postal)
+check('BrasilAPI fallback provider', 'brasilapi.com.br' in postal)
+check('CEP CSP allowlist', 'https://viacep.com.br' in html and 'https://brasilapi.com.br' in html)
+check('Checkout session privacy', 'sessionStorage' in checkout and 'checkout-remember' in html)
+check('Saved address delete action', 'checkout-forget-address' in html and 'updateSavedAddressControl' in checkout)
+check('Address review step', 'checkout-review-step' in html and 'checkout-review-content' in html)
+check('WhatsApp checkout bridge', 'handoffToWhatsApp' in main and 'messageForWhatsApp' in checkout)
+check('No-number address option', 'checkout-no-number' in html)
+check('Checkout docs', (ROOT/'docs/CHECKOUT.md').exists())
+check('Checkout behavior tool', (ROOT/'tools/checkout-behavior-check.js').exists())
+checkout_behavior=subprocess.run(['node',str(ROOT/'tools/checkout-behavior-check.js')],capture_output=True,text=True,encoding="utf-8",errors="replace")
+check('Checkout behavior suite', checkout_behavior.returncode==0, checkout_behavior.stdout.strip().splitlines()[-1] if checkout_behavior.stdout.strip() else checkout_behavior.stderr.strip())
+
+for patch in range(10): check(f'Changelog 2.5.{patch}', f'## 2.5.{patch} ' in changelog)
+check('Canonical brand JSON', (ROOT/'data/brand/brand.json').exists())
+check('Brand theme layer', (ROOT/'css/brand-theme.css').exists())
+check('Premium brand logo', (ROOT/'assets/images/brand/forno-dona-rosa-logo.png').exists() and (ROOT/'assets/images/brand/forno-dona-rosa-logo-720.webp').exists())
+check('Storage namespace', 'storageNamespace' in (ROOT/'js/app-config.js').read_text(encoding='utf-8') and 'storageNamespace' in main and 'assistant-session-v4' in rosa)
+check('Feature flags', (ROOT/'js/feature-flags.js').exists() and 'APP_FEATURES' in (ROOT/'js/feature-flags.js').read_text(encoding='utf-8'))
+check('Catalog capability model', (ROOT/'data/catalog-schema.js').exists())
+check('White-label docs', all((ROOT/p).exists() for p in ['docs/WHITE-LABEL.md','docs/COMPONENTS.md','docs/BRAND-ASSETS.md']))
+config_result=subprocess.run([sys.executable,str(ROOT/'tools/config-check.py')],capture_output=True,text=True,encoding="utf-8",errors="replace")
+check('Brand config validation', config_result.returncode==0, config_result.stdout.strip().splitlines()[0] if config_result.stdout.strip() else config_result.stderr.strip())
+leak_result=subprocess.run([sys.executable,str(ROOT/'tools/brand-leak-check.py')],capture_output=True,text=True,encoding="utf-8",errors="replace")
+check('Brand leak validation', leak_result.returncode==0, leak_result.stdout.strip().splitlines()[0] if leak_result.stdout.strip() else leak_result.stderr.strip())
+
+for patch in range(10): check(f'Changelog 2.6.{patch}', f'## 2.6.{patch} ' in changelog)
+check('Brand schema contract', (ROOT/'schemas/brand.schema.json').exists())
+check('Content schema contract', (ROOT/'schemas/content.schema.json').exists())
+check('Catalog JSON schema contract', (ROOT/'schemas/catalog.schema.json').exists())
+check('Template presets', all((ROOT/p).exists() for p in ['presets/pizzeria/preset.json','presets/coffee-shop/preset.json']))
+check('Client generator', (ROOT/'tools/create-brand.py').exists() and (ROOT/'tools/apply-brand.py').exists())
+check('Project doctor', (ROOT/'tools/project-doctor.py').exists())
+check('Docs drift checker', (ROOT/'tools/docs-check.py').exists())
+check('Template factory test', (ROOT/'tools/template-factory-check.py').exists())
+check('Capability-aware feature isolation', 'data-feature-favorites="off"' in (ROOT/'css/styles.css').read_text(encoding='utf-8'))
+check('Container-query resilience', 'container-type:inline-size' in (ROOT/'css/styles.css').read_text(encoding='utf-8').replace(' ',''))
+check('One-command quality gate', '"quality"' in (ROOT/'package.json').read_text(encoding='utf-8'))
+check('Cross-platform quality workflow', (ROOT/'.github/workflows/quality.yml').exists())
+check('Documentation map', (ROOT/'docs/README.md').exists())
+
+for f in ['js/app-meta.js','data/brand/brand-config.js','data/brand/content-config.js','js/app-config.js','js/feature-flags.js','data/catalog-schema.js','js/brand-runtime.js','data/delivery-config.js','data/menu.js','data/rosa-knowledge-base.js','js/postal-code-service.js','js/main.js','js/checkout.js','js/rosa.js','service-worker.js']:
+    r=subprocess.run(['node','--check',str(ROOT/f)],capture_output=True,text=True,encoding="utf-8",errors="replace")
     check(f'JS syntax {f}',r.returncode==0,r.stderr.strip())
 
 passed=sum(1 for _,ok,_ in checks if ok)
-print(f'Forno Dona Rosa — Responsive Checkout Health Check v{VERSION}')
+print(f'Forno Dona Rosa — Reusable Product Health Check v{VERSION}')
 for name,ok,detail in checks:
     print(f'{name:.<38} {"PASS" if ok else "FAIL"}' + (f' ({detail})' if detail else ''))
 print(f'\n{passed}/{len(checks)} checks passed')
