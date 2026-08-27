@@ -4,7 +4,7 @@ from html.parser import HTMLParser
 import json, re, subprocess, sys
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.6.9"
+VERSION = "2.7.9"
 errors = []
 
 class AuditParser(HTMLParser):
@@ -109,10 +109,19 @@ for path in required_paths:
     if not (ROOT/path).exists(): errors.append(f'Required internationalized file missing: {path}')
 
 changelog=(ROOT/'CHANGELOG.md').read_text(encoding='utf-8')
-for minor in range(3, 9):
-    for patch in range(10):
-        version=f'1.{minor}.{patch}'
-        if f'[{version}]' not in changelog: errors.append(f'Changelog missing {version}')
+
+# Release-history continuity gate. Changelog headings may use either the
+# historical bracket form (`## [1.2.3]`) or the current professional form
+# (`## 1.2.3 — Title`), but every planned microversion must exist.
+def changelog_has_version(version):
+    return re.search(rf'^##\s+\[?{re.escape(version)}\]?(?:\s|$)', changelog, re.MULTILINE) is not None
+
+for major, max_minor in ((1, 9), (2, 6)):
+    for minor in range(max_minor + 1):
+        for patch in range(10):
+            version=f'{major}.{minor}.{patch}'
+            if not changelog_has_version(version):
+                errors.append(f'Changelog missing {version}')
 
 version_match=re.search(r'version:\s*"([^"]+)"',meta_text)
 source_version=version_match.group(1) if version_match else None
@@ -222,6 +231,21 @@ if 'container-type:inline-size' not in (ROOT/'css/styles.css').read_text(encodin
 if '"quality"' not in (ROOT/'package.json').read_text(encoding='utf-8'):
     errors.append('v2.6 npm quality command missing')
 
+for patch in range(10):
+    version = f"2.7.{patch}"
+    if f"## {version} " not in changelog:
+        errors.append(f"Changelog missing {version}")
+
+# v2.7 fast-purchase and reliability gates.
+for rel in ['tools/conversion-flow-check.py','docs/releases/v2.7.9.md']:
+    if not (ROOT/rel).exists(): errors.append(f'v2.7 conversion asset missing: {rel}')
+if not (html.find('id="topo"') < html.find('id="como-pedir"') < html.find('id="cardapio"')):
+    errors.append('v2.7 fast purchase page order missing')
+if 'requestAnimationFrame(() => openCart(trigger))' not in (ROOT/'js/main.js').read_text(encoding='utf-8'):
+    errors.append('v2.7 checkout recovery contract missing')
+if 'Aguarde a validação do CEP antes de continuar.' not in (ROOT/'js/checkout.js').read_text(encoding='utf-8'):
+    errors.append('v2.7 pending CEP protection missing')
+
 if errors:
     print('AUDIT FAILED')
     for e in errors: print('-',e)
@@ -239,4 +263,4 @@ print('- Bag schema v3 + migrations: OK')
 print('- Rosa hardening + confidence: OK')
 print('- International filename migration: OK')
 print('- Version sync: OK')
-print('- Changelog 1.3.0–2.6.9: OK')
+print('- Changelog 1.0.0–2.7.9 continuity: OK')

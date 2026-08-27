@@ -58,15 +58,15 @@
 
   function writeForm(data = {}) {
     const pairs = {
-      "checkout-name": data.name,
-      "checkout-postal-code": data.postalCode,
-      "checkout-street": data.street,
-      "checkout-number": data.noNumber ? "" : data.number,
-      "checkout-neighborhood": data.neighborhood,
-      "checkout-city": data.city,
-      "checkout-state": data.state,
-      "checkout-complement": data.complement,
-      "checkout-reference": data.reference
+      "checkout-name": clean(data.name, config.maxLengths?.name || 80),
+      "checkout-postal-code": postal?.formatPostalCode(data.postalCode) || "",
+      "checkout-street": clean(data.street, config.maxLengths?.street || 120),
+      "checkout-number": data.noNumber ? "" : clean(data.number, config.maxLengths?.number || 20),
+      "checkout-neighborhood": clean(data.neighborhood, config.maxLengths?.neighborhood || 80),
+      "checkout-city": clean(data.city, 60),
+      "checkout-state": clean(data.state, 2).toUpperCase(),
+      "checkout-complement": clean(data.complement, config.maxLengths?.complement || 80),
+      "checkout-reference": clean(data.reference, config.maxLengths?.reference || 120)
     };
     Object.entries(pairs).forEach(([id, value]) => { if (field(id) && value !== undefined) field(id).value = value || ""; });
     if (field("checkout-no-number")) field("checkout-no-number").checked = Boolean(data.noNumber || data.number === "S/N");
@@ -103,6 +103,11 @@
     if (!preservePostalCode && field("checkout-postal-code")) field("checkout-postal-code").value = "";
     verifiedAddress = null;
     addressMode = "pending";
+  }
+
+  function hideDeliveryState() {
+    const box = field("delivery-validation");
+    if (box) box.hidden = true;
   }
 
   async function lookupPostalCode() {
@@ -191,6 +196,10 @@
     ];
     required.forEach(([id, condition, message]) => { const invalid = !condition; setError(id, invalid ? message : ""); if (invalid) ok = false; });
 
+    if (addressMode === "loading" || (addressMode === "pending" && digits(data.postalCode).length === 8)) {
+      setError("checkout-postal-code", "Aguarde a validação do CEP antes de continuar.");
+      ok = false;
+    }
     if (addressMode === "blocked") {
       setError("checkout-postal-code", `Este CEP está fora de ${config.serviceAreaLabel || "a área atendida"}.`);
       ok = false;
@@ -269,7 +278,7 @@
     reviewStep.hidden = !isReview;
     field("checkout-step-label").textContent = isReview ? "Etapa 3 de 3" : "Etapa 2 de 3";
     field("checkout-dialog-title").textContent = isReview ? "Confira antes de abrir o WhatsApp" : "Dados de entrega";
-    (isReview ? field("checkout-confirm") : field("checkout-name"))?.focus();
+    (isReview ? field("checkout-dialog-title") : field("checkout-name"))?.focus();
   }
 
   function messageForWhatsApp(data) {
@@ -308,7 +317,12 @@
     field("checkout-postal-code")?.addEventListener("input", (event) => {
       event.currentTarget.value = postal.formatPostalCode(event.currentTarget.value);
       if (postal.stripPostalCode(event.currentTarget.value).length === 8) lookupPostalCode();
-      else { addressMode = "pending"; verifiedAddress = null; }
+      else {
+        ++lookupToken;
+        clearAddress();
+        hideDeliveryState();
+        setError("checkout-postal-code", "");
+      }
       persistSession();
     });
     field("checkout-postal-code")?.addEventListener("blur", () => { if (postal.stripPostalCode(field("checkout-postal-code").value).length === 8 && addressMode === "pending") lookupPostalCode(); });

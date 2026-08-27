@@ -1,103 +1,177 @@
-# Forno Dona Rosa — Accessible Premium Pizzeria Experience
+# Forno Dona Rosa
 
-[Versão em português](README-PT.md)
+**Accessible premium local-commerce experience · PWA · local conversational assistant · smart delivery checkout · white-label template factory**
 
-Forno Dona Rosa is a portfolio-grade front-end project for a Brazilian artisan pizzeria. It combines **premium art direction, accessibility-first engineering, responsive architecture, a local conversational assistant, PWA capabilities, defensive client-side state management, and WhatsApp ordering** without a front-end framework.
+[Português](README-PT.md) · [Documentation](docs/README.md) · [Changelog](CHANGELOG.md) · [Security](SECURITY.md)
 
-> The customer-facing website intentionally remains in Brazilian Portuguese because the fictional business operates in Brazil. The repository engineering, technical naming, and primary documentation are written in English for international reviewers.
+Forno Dona Rosa is a portfolio-grade front-end product built around a fictional Brazilian artisan pizzeria. What began as a premium landing page evolved release by release into a reusable local-commerce platform with a data-driven catalog, defensive client-side state, an accessible ordering flow, a deterministic conversational host, PWA support, smart CEP-assisted delivery checkout, and a white-label client-generation workflow.
 
-## v2.6.9 — Template Factory & Production Readiness Edition
+The public customer experience intentionally remains in **Brazilian Portuguese**. Repository engineering, technical naming and primary documentation are maintained in **English** for international review.
 
-This release turns the v2.5 white-label foundation into a repeatable client-creation workflow. The repository now includes machine-readable configuration contracts, pizzeria and coffee-shop presets, a guided brand generator, capability-aware component behavior, a Project Doctor, documentation drift checks, and a one-command quality pipeline designed to run locally and in GitHub Actions.
+## Current release
 
-The active reference implementation remains Forno Dona Rosa. Reuse is validated without flattening the brand into a generic template: client identity, theme, content and assets stay replaceable while the core keeps accessibility, responsive, checkout and state contracts. Start with [docs/README.md](docs/README.md) or [Create a new client](docs/customization/CREATE-A-CLIENT.md).
+**v2.7.9 — Fast Purchase & Reliability**
 
-## Why this project exists
+The current line simplifies the public purchase journey before adding more features. The first natural scroll path is now **hero → three-step purchase orientation → menu**, product cards expose only the primary purchase decisions, Bag and checkout actions have clearer hierarchy, and recovery/focus bugs discovered during the conversion audit are protected by regression checks.
 
-The goal is not to showcase a generic restaurant landing page. The repository demonstrates how a marketing experience can evolve into a maintainable web product while preserving accessibility, performance, security, and brand identity across many releases.
+The Template Factory, white-label architecture and production tooling from v2.6 remain intact. The reference implementation stays unmistakably Forno Dona Rosa while the public experience prioritizes one fast path: **Menu → Bag → address → customer-controlled WhatsApp handoff**.
 
-## Highlights
+## Product experience
 
-- Semantic HTML and keyboard-first interaction.
-- WCAG 2.2 AA baseline with explicit NVDA considerations.
-- Adaptive mobile-first layout with zoom/reflow support.
-- Progressive Web App with controlled service-worker caching.
-- Versioned persistent Bag state with migration and defensive normalization.
-- **Rosa**, a local browser-based pizzeria host using intent classification, contextual responses, short session memory, and a curated knowledge base — no external AI API required.
-- 30+ menu items across pizzas, desserts, and drinks.
-- Search, filtering, favorites, recommendations, half-and-half pizzas, drink pairing, and a structured local delivery checkout before WhatsApp handoff.
-- Content Security Policy, same-origin service-worker restrictions, safe DOM construction, and bounded user input.
-- Automated repository audit and health checks.
-
-## Repository structure
+The customer journey is intentionally short:
 
 ```text
-forno-dona-rosa-v2.6.9/
-├── assets/
-│   ├── icons/
-│   └── images/
-│       └── brand/
-├── css/
-│   ├── brand-theme.css
-│   └── styles.css
+Open the menu
+      ↓
+Add a product or personalize it
+      ↓
+Review the Bag
+      ↓
+Enter the minimum delivery details
+      ↓
+Review order + address
+      ↓
+Open WhatsApp with the structured message
+```
+
+The primary conversion rule is deliberately simple: exploration features such as Rosa, desire discovery, the recommendation finder and the advanced order builder must never block the direct purchase path.
+
+Core experience highlights:
+
+- Mobile-first visual menu with product imagery, sensory tags, search and filters.
+- Pizza sizes, crusts, removals and half-and-half customization where applicable.
+- Persistent Bag, favorites and repeat-order support with defensive schema validation.
+- **Rosa**, a local deterministic conversational host for recommendations, comparisons, product actions and guided ordering.
+- CEP lookup through ViaCEP with BrasilAPI fallback and explicit manual recovery.
+- Delivery-area validation for the configured city/state before WhatsApp handoff.
+- Address review and customer-controlled WhatsApp opening; nothing is sent automatically.
+- PWA shell and bounded offline/runtime caching.
+
+## Engineering principles
+
+### Accessibility first
+
+Accessibility is part of the product contract, not a finishing pass. The implementation favors semantic HTML, native controls, visible focus, keyboard operation, accessible dialogs, bounded live regions, error recovery, reduced motion, forced-colors support, zoom/reflow resilience and screen-reader-oriented naming/state design.
+
+The repository does **not** treat static analysis as proof of complete accessibility. Manual NVDA, JAWS, Narrator, TalkBack, VoiceOver, browser and real-device tests must only be reported as passed when they were actually executed. See [docs/ACCESSIBILITY.md](docs/ACCESSIBILITY.md).
+
+### Responsive by architecture
+
+The UI is designed around available space and content rather than device names. It uses fluid sizing, intrinsic Grid/Flex behavior, responsive images, safe-area handling, mobile dialog patterns, long-content resilience and container-query readiness. Mobile is the primary commerce context, but tablet, desktop, landscape, zoom and large-screen behavior remain part of the quality contract.
+
+### Defensive client-side state
+
+`localStorage` and `sessionStorage` are treated as untrusted input. Product IDs, quantities, modifiers and persisted orders are normalized against canonical catalog data. Prices are recalculated from the active catalog instead of trusting stored totals.
+
+### Static-first deployment
+
+The public site remains deployable to GitHub Pages without a server runtime. Client-generation, synchronization and quality tooling run locally or in CI, while the published experience remains HTML/CSS/JavaScript and static assets.
+
+## Rosa — local conversational host
+
+Rosa is deliberately **not** presented as a remote LLM. She runs in the browser using deterministic intent handling, canonical catalog data, confidence/fallback rules, bounded session context and explicit action bridges.
+
+She can:
+
+- recommend products from expressed preferences;
+- compare recognized products;
+- resolve exact and ambiguous product references;
+- add canonical products to the Bag;
+- review the current Bag;
+- guide a customer step by step;
+- request explicit confirmation before destructive actions.
+
+No external AI API key is required for the public demo, and customer address data is not used as conversational memory. See [docs/ROSA.md](docs/ROSA.md).
+
+## Smart local checkout
+
+The checkout is intentionally lighter than a traditional e-commerce checkout:
+
+```text
+Bag → Customer & delivery → Address review → WhatsApp
+```
+
+It supports:
+
+- customer name and structured address fields;
+- eight-digit CEP normalization;
+- ViaCEP lookup with BrasilAPI fallback;
+- configured city/state eligibility validation;
+- manual-address recovery when lookup services fail;
+- optional device-local address remembering only through explicit opt-in;
+- final order/address review before leaving the site.
+
+See [docs/CHECKOUT.md](docs/CHECKOUT.md).
+
+## White-label architecture
+
+The project separates reusable behavior from client identity. Canonical client data lives under `data/brand/`, while theme, content, assets and capabilities are independently replaceable.
+
+```text
+core behavior
+├── catalog / Bag / checkout / Rosa / PWA
+│
+client layer
+├── brand configuration
+├── content
+├── theme
+├── assets
+└── feature capabilities
+```
+
+A client package can be generated with:
+
+```bash
+python tools/create-brand.py --name "Bella Napoli" --slug bella-napoli --preset pizzeria
+```
+
+Validate it before activation:
+
+```bash
+python tools/project-doctor.py --brand brands/bella-napoli
+```
+
+Then apply it:
+
+```bash
+python tools/apply-brand.py bella-napoli
+```
+
+See [Create a new client](docs/customization/CREATE-A-CLIENT.md) and [Configuration](docs/customization/CONFIGURATION.md).
+
+## Repository map
+
+```text
+forno-dona-rosa-v2.7.9/
+├── .github/workflows/       CI quality workflow
+├── assets/                  icons, product media and brand assets
+├── brands/                  generated client packages
+├── css/                     core styles and brand theme
 ├── data/
-│   ├── brand/
-│   │   ├── brand.json
-│   │   ├── content.json
-│   │   ├── brand-config.js
-│   │   └── content-config.js
-│   ├── catalog-schema.js
-│   ├── delivery-config.js
-│   ├── menu.js
+│   ├── brand/               active client source + generated runtime config
+│   ├── catalog-schema.js    catalog capability model
+│   ├── delivery-config.js   delivery-area and postal lookup configuration
+│   ├── menu.js              canonical catalog and pricing data
 │   └── rosa-knowledge-base.js
-├── docs/
-│   ├── ACCESSIBILITY.md
-│   ├── ARCHITECTURE.md
-│   ├── CASE-STUDY.md
-│   ├── CHECKOUT.md
-│   ├── DESIGN-SYSTEM.md
-│   ├── PERFORMANCE.md
-│   ├── QA.md
-│   ├── ROSA.md
-│   ├── WHITE-LABEL.md
-│   ├── COMPONENTS.md
-│   └── BRAND-ASSETS.md
-├── js/
-│   ├── app-config.js
-│   ├── app-meta.js
-│   ├── brand-runtime.js
-│   ├── feature-flags.js
-│   ├── checkout.js
-│   ├── main.js
-│   ├── postal-code-service.js
-│   └── rosa.js
-├── schemas/
-├── presets/
-├── tools/
-│   ├── create-brand.py
-│   ├── project-doctor.py
-│   ├── docs-check.py
-│   ├── audit.py
-│   ├── brand-sync.py
-│   ├── config-check.py
-│   ├── brand-leak-check.py
-│   ├── checkout-behavior-check.js
-│   ├── health-check.py
-│   ├── regression-check.py
-│   └── rosa-behavior-check.js
-├── CHANGELOG.md
-├── LICENSE
-├── README.md
-├── README-PT.md
-├── SECURITY.md
+├── docs/                    architecture, features, QA and onboarding
+├── js/                      application runtime
+├── presets/                 reusable business presets
+├── schemas/                 machine-readable configuration contracts
+├── tools/                   generators, audits and release gates
 ├── index.html
-├── manifest.webmanifest
-├── robots.txt
 ├── service-worker.js
-└── sitemap.xml
+├── manifest.webmanifest
+├── CHANGELOG.md
+├── SECURITY.md
+└── README.md
 ```
 
 ## Run locally
+
+Requirements used by the repository tooling:
+
+- Python 3
+- Node.js/npm for the consolidated quality command
 
 From the repository root:
 
@@ -105,57 +179,101 @@ From the repository root:
 python -m http.server 8000
 ```
 
-Open `http://localhost:8000`.
+Then open:
+
+```text
+http://localhost:8000
+```
+
+On Windows PowerShell systems that block `npm.ps1`, use:
+
+```powershell
+npm.cmd run quality
+```
 
 ## Quality gates
 
-Run the static audit:
+Run the consolidated local pipeline:
+
+```bash
+npm run quality
+```
+
+The pipeline coordinates the repository's executable checks, including configuration validation, brand-leak protection, static audit, health checks, regressions, Rosa behavior, checkout behavior, template-factory checks, documentation drift and Project Doctor diagnostics.
+
+Individual tools can also be run directly:
 
 ```bash
 python tools/audit.py
-```
-
-Run the broader repository health check and high-value regression gate:
-
-```bash
 python tools/health-check.py
 python tools/regression-check.py
+node tools/rosa-behavior-check.js
+node tools/checkout-behavior-check.js
+python tools/template-factory-check.py
+python tools/docs-check.py
+python tools/project-doctor.py
 ```
 
-These checks cover version synchronization, local asset references, JavaScript syntax, changelog completeness, Bag schema migration, Rosa session safeguards, catalog IDs, CSP presence, and service-worker boundaries. They do **not** replace manual NVDA, browser, visual, or real-device testing.
-
-## Architecture at a glance
-
-```text
-app-meta.js       → release metadata
-brand.json        → canonical client/brand source
-brand-config.js   → generated runtime brand configuration
-app-config.js     → compatibility adapter for reusable application code
-menu.js             → product catalog and pricing rules
-delivery-config.js  → canonical local delivery area and checkout limits
-rosa-knowledge-base.js → local conversational knowledge
-postal-code-service.js → ViaCEP lookup with BrasilAPI fallback
-main.js             → navigation, menu, Bag, PWA and canonical order snapshot
-checkout.js         → customer/address/review/WhatsApp handoff
-rosa.js             → conversational UI and local intent engine
-service-worker.js   → offline/runtime cache strategy
-```
-
-## Accessibility
-
-Accessibility is treated as a product requirement rather than a post-processing step. The project uses semantic landmarks, visible focus, native controls, accessible dialogs, bounded live regions, reduced-motion support, forced-colors support, responsive reflow, and keyboard-operable flows. See [docs/ACCESSIBILITY.md](docs/ACCESSIBILITY.md).
+Quality tooling intentionally distinguishes executable evidence from manual validation. See [docs/quality/TESTING.md](docs/quality/TESTING.md).
 
 ## Security model
 
-This is a static client-side project, but it still applies defensive engineering: no unsafe HTML rendering for user-controlled text, normalized persisted state, bounded inputs, same-origin service-worker caching, CSP, safe external links, and canonical price recalculation from the catalog. See [SECURITY.md](SECURITY.md).
+Even as a static client-side application, the project applies defensive boundaries:
 
-## Rosa: local conversational host
+- no unsafe runtime HTML rendering for user-controlled content;
+- restrictive Content Security Policy;
+- same-origin service-worker runtime caching;
+- canonical product and price reconstruction;
+- bounded persisted state and user input;
+- safe external-link handling;
+- explicit confirmation for destructive conversational actions;
+- address persistence disabled unless the customer explicitly opts in.
 
-Rosa is intentionally **not presented as a cloud LLM**. On GitHub Pages she runs entirely in the browser using deterministic intents, confidence handling, contextual actions, a local menu knowledge base, and short-lived session memory. This keeps the public demo functional without exposing API keys or sending chat text to an AI service.
+See [SECURITY.md](SECURITY.md).
 
-## Portfolio notes
+## Release evolution
 
-For a concise engineering narrative, see [docs/CASE-STUDY.md](docs/CASE-STUDY.md). Release history is available in [CHANGELOG.md](CHANGELOG.md).
+The repository preserves every microversion in each planned release line. No `x.y.0 → x.y.9` line is intentionally collapsed.
+
+| Release line | Main evolution |
+| --- | --- |
+| 1.0.x | Stable premium landing-page foundation and local business flow |
+| 1.1.x | PWA, persistent commerce state, data-driven menu and recommendations |
+| 1.2.x | Security, persistence, accessibility and PWA hardening |
+| 1.3.x | Premium editorial art direction, food imagery and sensory copy |
+| 1.4.x | Rosa local conversational host |
+| 1.5.x | Bag terminology, expanded catalog, search and drinks |
+| 1.6.x | State, PWA, Rosa and accessibility hardening |
+| 1.7.x | International engineering naming and portfolio documentation |
+| 1.8.x | Full-project bug sweep, regression tooling and reliability |
+| 1.9.x | Mobile purchase simplification and responsive checkout behavior |
+| 2.0.x | Mobile visual commerce and full product-image system |
+| 2.1.x | Repository cleanup and English technical asset naming |
+| 2.2.x | Product detail, returning customer, Rosa actions and offline UX |
+| 2.3.x | Multi-turn Rosa, comparison, ambiguity handling and safe actions |
+| 2.4.x | Smart local checkout and CEP-assisted delivery validation |
+| 2.5.x | White-label architecture, brand configuration and reusable core |
+| 2.6.x | Template Factory, schemas, client generation, Project Doctor and CI |
+
+The detailed release record is in [CHANGELOG.md](CHANGELOG.md).
+
+## Documentation
+
+Start with [docs/README.md](docs/README.md). High-value references include:
+
+- [Getting Started](docs/getting-started/GETTING-STARTED.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Accessibility](docs/ACCESSIBILITY.md)
+- [Checkout](docs/CHECKOUT.md)
+- [Rosa](docs/ROSA.md)
+- [Create a Client](docs/customization/CREATE-A-CLIENT.md)
+- [Testing](docs/quality/TESTING.md)
+- [Troubleshooting](docs/troubleshooting/TROUBLESHOOTING.md)
+- [Case Study](docs/CASE-STUDY.md)
+
+## Portfolio value
+
+The project is intended to demonstrate more than visual execution. It documents the evolution from a single landing page into a maintainable local-commerce system with explicit decisions around accessibility, responsive architecture, security, state integrity, conversational UX, white-label reuse, release engineering and documentation quality.
 
 ## License
 

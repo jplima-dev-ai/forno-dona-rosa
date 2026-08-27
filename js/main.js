@@ -401,14 +401,9 @@
       el("button", { className: "small-action small-action--primary", text: product.type === "bebida" ? `Adicionar · ${money(quickPrice)}` : `Adicionar média · ${money(quickPrice)}`, attrs: { type: "button", "data-quick-add": product.id, "aria-label": product.type === "bebida" ? `Adicionar ${product.name} à sacola por ${money(quickPrice)}` : `Adicionar ${product.name} média com borda tradicional à sacola por ${money(quickPrice)}` } }),
     );
     if (product.type !== "bebida") {
-      actions.append(el("button", { className: "small-action", text: "Ver e personalizar", attrs: { type: "button", "data-customize": product.id, "aria-label": `Ver detalhes e personalizar ${product.name}` } }));
+      actions.append(el("button", { className: "small-action", text: "Personalizar", attrs: { type: "button", "data-customize": product.id, "aria-label": `Ver detalhes e personalizar ${product.name}` } }));
     }
-    const utility = el("div", { className: "card-utility" });
-    utility.append(
-      el("button", { className: "text-button", text: favorites.has(product.id) ? "★ Favorito" : "☆ Favoritar", attrs: { type: "button", "data-favorite": product.id, "aria-pressed": String(favorites.has(product.id)), "aria-label": `${favorites.has(product.id) ? "Remover" : "Adicionar"} ${product.name} ${favorites.has(product.id) ? "dos" : "aos"} favoritos` } }),
-      el("button", { className: "text-button", text: "Compartilhar", attrs: { type: "button", "data-share-pizza": product.id, "aria-label": `Compartilhar ${product.name}` } })
-    );
-    body.append(actions, utility);
+    body.append(actions);
     article.append(visual, body);
     return article;
   }
@@ -489,16 +484,12 @@
         window.ROSA.open(rosaButton, rosaButton.dataset.rosaContext || "cardapio", rosaButton.dataset.rosaPrompt || "");
         return;
       }
-      const favoriteButton = event.target.closest("[data-favorite]");
       const addButton = event.target.closest("[data-quick-add]");
       const customizeButton = event.target.closest("[data-customize]");
       const detailButton = event.target.closest("[data-product-detail]");
-      const shareButton = event.target.closest("[data-share-pizza]");
-      if (favoriteButton) toggleFavorite(favoriteButton.dataset.favorite);
       if (addButton) addDefaultProduct(addButton.dataset.quickAdd);
       if (customizeButton) openProductDialog(customizeButton.dataset.customize, customizeButton);
       if (detailButton) openProductDialog(detailButton.dataset.productDetail, detailButton);
-      if (shareButton) sharePizza(shareButton.dataset.sharePizza);
     });
     $$('[data-desire]').forEach((button) => button.addEventListener("click", () => {
       const desire = cleanText(button.dataset.desire, 40);
@@ -637,6 +628,19 @@
     }
     const customize = $("#product-dialog-customize");
     if (customize) customize.hidden = product.type === "bebida";
+    const favorite = $("#product-dialog-favorite");
+    if (favorite) {
+      favorite.hidden = features.favorites === false;
+      favorite.dataset.favorite = product.id;
+      favorite.setAttribute("aria-pressed", String(favorites.has(product.id)));
+      favorite.textContent = favorites.has(product.id) ? "★ Favorito" : "☆ Favoritar";
+      favorite.setAttribute("aria-label", `${favorites.has(product.id) ? "Remover" : "Adicionar"} ${product.name} ${favorites.has(product.id) ? "dos" : "aos"} favoritos`);
+    }
+    const shareButton = $("#product-dialog-share");
+    if (shareButton) {
+      shareButton.dataset.sharePizza = product.id;
+      shareButton.setAttribute("aria-label", `Compartilhar ${product.name}`);
+    }
     dialog.showModal();
     $("#product-dialog-add")?.focus();
   }
@@ -662,6 +666,20 @@
       select.value = id; updatePreview(); closeProductDialog();
       $("#pedido")?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
       requestAnimationFrame(() => select.focus());
+    });
+    $("#product-dialog-favorite")?.addEventListener("click", (event) => {
+      const id = event.currentTarget.dataset.favorite;
+      if (!id || !menuById.has(id)) return;
+      toggleFavorite(id);
+      const product = menuById.get(id);
+      event.currentTarget.setAttribute("aria-pressed", String(favorites.has(id)));
+      event.currentTarget.textContent = favorites.has(id) ? "★ Favorito" : "☆ Favoritar";
+      event.currentTarget.setAttribute("aria-label", `${favorites.has(id) ? "Remover" : "Adicionar"} ${product.name} ${favorites.has(id) ? "dos" : "aos"} favoritos`);
+      event.currentTarget.focus();
+    });
+    $("#product-dialog-share")?.addEventListener("click", (event) => {
+      const id = event.currentTarget.dataset.sharePizza;
+      if (id) sharePizza(id);
     });
   }
 
@@ -940,7 +958,11 @@
       button.addEventListener("click", () => openCart(button)),
     );
     $("#close-cart")?.addEventListener("click", closeCart);
-    $("#review-cart-with-rosa")?.addEventListener("click", (event) => { closeCart(); window.ROSA?.open?.(event.currentTarget, "sacola", "Revise minha sacola e me diga se falta alguma coisa"); });
+    $("#review-cart-with-rosa")?.addEventListener("click", () => {
+      const returnTarget = $("#open-cart") || document.activeElement;
+      closeCart();
+      requestAnimationFrame(() => window.ROSA?.open?.(returnTarget, "sacola", "Revise minha sacola e me diga se falta alguma coisa"));
+    });
     $("#bag-feedback-open")?.addEventListener("click", (event) => openCart(event.currentTarget));
     $("#bag-feedback-close")?.addEventListener("click", () => { const feedback = $("#bag-feedback"); if (feedback) feedback.hidden = true; });
 
@@ -1001,9 +1023,13 @@
         announceCart("Adicione ao menos um item à sacola antes de continuar.");
         return;
       }
+      const trigger = event.currentTarget;
       closeCart();
-      const opened = window.FORNO_CHECKOUT?.open?.(event.currentTarget);
-      if (!opened) announceApp("Não consegui abrir os dados de entrega. Tente novamente sem perder sua sacola.");
+      const opened = window.FORNO_CHECKOUT?.open?.(trigger);
+      if (!opened) {
+        announceApp("Não consegui abrir os dados de entrega. Sua sacola continua intacta.");
+        requestAnimationFrame(() => openCart(trigger));
+      }
     });
 
     renderCart();

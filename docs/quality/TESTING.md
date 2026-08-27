@@ -6,7 +6,7 @@
 npm run quality
 ```
 
-This command runs JavaScript syntax checks, configuration checks, brand-leak checks, the repository audit, health/regression suites, Rosa and checkout behavior tests, template-factory generation checks, documentation drift checks and the Project Doctor.
+This command runs JavaScript syntax checks, configuration checks, brand-leak checks, the repository audit, health/regression suites, Rosa and checkout behavior tests, template-factory generation checks, documentation drift checks, conversion-flow checks and the Project Doctor.
 
 ## Individual commands
 
@@ -18,6 +18,7 @@ node tools/rosa-behavior-check.js
 node tools/checkout-behavior-check.js
 python tools/template-factory-check.py
 python tools/docs-check.py
+python tools/conversion-flow-check.py
 python tools/project-doctor.py
 ```
 

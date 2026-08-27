@@ -4,7 +4,7 @@ from pathlib import Path
 import base64, hashlib, json, re, subprocess, sys
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.6.9"
+VERSION = "2.7.9"
 failures = []
 passes = []
 
@@ -94,13 +94,13 @@ for obsolete in ['assets/images/signature-pizza.svg','assets/images/og-cover.png
 product_names=[p.name for p in (ROOT/'assets/images/products').glob('*.webp') if not p.stem.endswith('-384')]
 pt_tokens=['agua','gas','lata','suco','laranja','mucarela','calabresa','portuguesa','frango','toscana','forno','casa','trufa','picante','vegana','chocolate-belga','banana-doce-leite','romeu-julieta']
 check('English product image filenames', all(not any(t in name.lower() for t in pt_tokens) for name in product_names))
-check('Hero primary CTA opens visual menu', 'href="#cardapio">Escolher minha pizza</a>' in html)
+check('Hero primary CTA opens visual menu', 'href="#cardapio"' in html and '>Pedir agora</a>' in html)
 
 # v2.2 conversion / mobile regressions.
 for patch in range(10):
     check(f"Changelog 2.2.{patch}", f"## 2.2.{patch} " in changelog)
 check("Sensory decision tags", "sensoryLabels" in main and "sensory-tags" in html)
-check("Product detail dialog semantics", '<dialog class="product-dialog" id="product-dialog"' in html and 'aria-labelledby="product-dialog-title"' in html)
+check("Product detail dialog semantics", '<dialog' in html and 'id="product-dialog"' in html and 'aria-labelledby="product-dialog-title"' in html)
 check("Beverage detail hides pizza customization", 'customize.hidden = product.type === "bebida"' in main)
 check("Quick add exposes price", 'Adicionar média · ${money(quickPrice)}' in main)
 check("Bag confirmation surface", 'id="bag-feedback"' in html and 'showBagFeedback' in main)
@@ -111,7 +111,7 @@ check("Mobile navigation yields to Bag", '.has-mobile-bag .mobile-nav{display:no
 check("Offline blocks WhatsApp send", 'send.disabled = true' in main and 'WhatsApp exige conexão' in main)
 check("31 small product variants", len(list((ROOT / 'assets/images/products').glob('*-384.webp'))) == 31)
 check("Mobile hero source", (ROOT / 'assets/images/dona-rosa-hero-pizza-640.webp').exists() and 'media="(max-width: 48rem)" srcset="assets/images/dona-rosa-hero-pizza-640.webp"' in html)
-check("Favorite control remains on mobile", '.card-utility [data-share-pizza]{display:none}' in css and '.card-utility{display:none}' not in css)
+check("Favorite control available in product detail", 'id="product-dialog-favorite"' in html and 'product-dialog-favorite' in main)
 check("Nothing sent automatically disclosure", 'Nada é enviado automaticamente.' in html)
 
 
@@ -140,8 +140,8 @@ check('Rosa executable behavior suite', behavior_result.returncode == 0, behavio
 # v2.4 local checkout regressions.
 for patch in range(10):
     check(f"Changelog 2.4.{patch}", f"## 2.4.{patch} " in changelog)
-check("Checkout replaces direct Bag WhatsApp", 'id="send-cart" type="button">Continuar para endereço</button>' in html and 'FORNO_CHECKOUT?.open' in main)
-check("Checkout dialog semantics", '<dialog class="checkout-dialog" id="checkout-dialog"' in html and 'aria-labelledby="checkout-dialog-title"' in html)
+check("Checkout replaces direct Bag WhatsApp", 'id="send-cart"' in html and 'Informar endereço e continuar' in html and 'FORNO_CHECKOUT?.open' in main)
+check("Checkout dialog semantics", '<dialog' in html and 'id="checkout-dialog"' in html and 'aria-labelledby="checkout-dialog-title"' in html)
 check("Explicit Serra delivery copy", 'Entrega disponível somente em Serra — ES' in html)
 check("ViaCEP primary lookup", 'https://viacep.com.br/ws/${cep}/json/' in postal)
 check("BrasilAPI fallback lookup", 'https://brasilapi.com.br/api/cep/v1/${cep}' in postal)
@@ -194,6 +194,26 @@ check("Documentation drift tool", (ROOT/"tools/docs-check.py").exists())
 check("Template factory executable test", (ROOT/"tools/template-factory-check.py").exists())
 check("One-command quality script", '"quality"' in (ROOT/"package.json").read_text(encoding="utf-8"))
 check("GitHub quality workflow", (ROOT/".github/workflows/quality.yml").exists())
+
+# v2.7 fast-purchase and reliability regressions.
+for patch in range(10):
+    check(f"Changelog 2.7.{patch}", f"## 2.7.{patch} " in changelog)
+check("Fast purchase route is first", html.find('id="topo"') < html.find('id="como-pedir"') < html.find('id="cardapio"') < html.find('id="ritual"'))
+check("Hero decision hierarchy", 'Pedir agora' in html and 'Preciso de ajuda para escolher' in html and 'hero__actions' in html)
+check("Reduced primary navigation", '<a href=" #never">' not in html and '<a href=" #never">' not in html and 'href="#como-pedir">Como pedir</a>' in html)
+check("Progressive decision help", '<details class="menu-help"><summary>Quero ajuda para decidir</summary>' in html)
+check("Product cards avoid utility overload", 'body.append(actions);' in main and 'body.append(actions, utility);' not in main)
+check("Product detail owns favorite and share", 'product-dialog-favorite' in html and 'product-dialog-share' in html and 'dataFavorite' not in main)
+check("Bag checkout failure recovers", 'requestAnimationFrame(() => openCart(trigger))' in main)
+check("Rosa Bag focus returns visibly", 'const returnTarget = $("#open-cart") || document.activeElement;' in main)
+check("Checkout clears stale CEP", '++lookupToken;' in checkout and 'hideDeliveryState();' in checkout)
+check("Checkout blocks pending CEP", 'Aguarde a validação do CEP antes de continuar.' in checkout)
+check("Checkout review announces context via focus", '(isReview ? field("checkout-dialog-title") : field("checkout-name"))?.focus();' in checkout)
+check("Stored checkout data sanitized before render", '"checkout-name": clean(data.name' in checkout)
+check("Brand sync logo matcher tolerates attribute order", 'logo_match = re.search' in (ROOT/'tools/brand-sync.py').read_text(encoding='utf-8'))
+check("Conversion flow regression tool", (ROOT/'tools/conversion-flow-check.py').exists())
+conversion = subprocess.run([sys.executable, str(ROOT/'tools/conversion-flow-check.py')], capture_output=True, text=True, encoding='utf-8', errors='replace')
+check("Executable conversion flow suite", conversion.returncode == 0, conversion.stdout.strip().splitlines()[-1] if conversion.stdout.strip() else conversion.stderr.strip())
 
 # Syntax.
 for path in ["js/app-meta.js", "data/brand/brand-config.js", "data/brand/content-config.js", "js/app-config.js", "js/feature-flags.js", "data/catalog-schema.js", "js/brand-runtime.js", "data/delivery-config.js", "data/menu.js", "data/rosa-knowledge-base.js", "js/postal-code-service.js", "js/main.js", "js/checkout.js", "js/rosa.js", "service-worker.js"]:

@@ -1,13 +1,96 @@
 # Changelog
 
+All notable changes to **Forno Dona Rosa** are recorded in this file. The project uses a structured, SemVer-style release history in which every planned release line is documented continuously from `.0` through `.9`.
+
+## Release-history policy
+
+- Every requested release line must contain all ten microversions: `x.y.0` through `x.y.9`; skipped numbers are not allowed.
+- Entries are listed newest first and describe observable product, engineering, accessibility, security, documentation or release changes.
+- Categories such as **Added**, **Changed**, **Fixed**, **Security**, **Accessibility**, **Privacy**, **Architecture**, **Reviewed** and **Verified** are used when they add useful meaning; they are not added merely for ceremony.
+- Historical entries preserve the strongest available repository evidence. Claims are not upgraded beyond what archived artifacts support.
+- `2.0.0` is explicitly marked as a historical reconstruction because the preserved 2.0.x changelog started at `2.0.1`.
+- Automated checks are not presented as proof of manual assistive-technology, browser or real-device testing unless those tests were actually executed.
+
+---
+
+
+## 2.7.9 — Fast Purchase & Reliability Release Gate
+### Changed
+- Finalized the 2.7 customer journey around one dominant path: Cardápio → Sacola → endereço → WhatsApp, while keeping discovery and Rosa as optional support.
+- Updated version metadata, service-worker cache version, release documentation and quality gates for the complete 2.7.x line.
+### Verified
+- Added executable conversion-flow checks and required all ten 2.7.x microversions to remain present in the changelog.
+
+## 2.7.8 — Documentation & Conversion QA
+### Added
+- Added conversion-flow release documentation and executable checks for page order, CTA hierarchy, product decision paths, checkout recovery and documentation/version alignment.
+### Changed
+- Updated README guidance so the fastest customer path is explicit before advanced/template architecture details.
+
+## 2.7.7 — Responsive & Adversarial Resilience
+### Changed
+- Added compact responsive rules for the three-step purchase orientation, progressive menu help and product-dialog utilities.
+- Strengthened narrow-screen, landscape, forced-colors and reduced-motion behavior for the new conversion surfaces.
+### Reviewed
+- Rechecked fixed/sticky purchase controls, long labels, safe areas and component container behavior for small viewports.
+
+## 2.7.6 — Accessibility Flow Hardening
+### Accessibility
+- Changed checkout review-step focus to the updated dialog heading so screen-reader and keyboard users encounter the review context before the final WhatsApp action.
+- Fixed Rosa-from-Sacola focus recovery so closing Rosa returns to a visible Sacola trigger rather than a control inside a closed dialog.
+- Preserved native controls, explicit labels, keyboard operation, focus visibility and non-automatic WhatsApp disclosure throughout the shortened purchase path.
+
+## 2.7.5 — Checkout Friction Reduction
+### Changed
+- Removed redundant visible city/state fields from the checkout while keeping canonical hidden values and the explicit Serra — ES delivery notice.
+- Simplified checkout guidance around the minimum customer decisions: name, CEP, number, and manual street/bairro only when lookup cannot supply them.
+### Fixed
+- Clearing or partially editing a CEP now clears stale address data and invalidates an in-flight lookup token instead of leaving the previous address visible.
+- Checkout validation now blocks progression while an eight-digit CEP is still pending/loading instead of producing ambiguous area errors.
+- Persisted/session address data is sanitized before being written back into form controls.
+
+## 2.7.4 — Sacola Decision Simplification
+### Changed
+- Gave the Sacola one dominant action: informar endereço e continuar.
+- Reduced visual weight of optional Rosa review and destructive “Esvaziar sacola” actions.
+### Fixed
+- If checkout cannot open after the Sacola closes, the Sacola is reopened with the order intact instead of leaving the customer without the expected next step.
+
+## 2.7.3 — Product Decision Simplification
+### Changed
+- Reduced product cards to the two decisions that matter most at purchase time: add immediately or personalize.
+- Moved favorite/share utilities into the product detail dialog so every catalog card no longer exposes four competing actions.
+- Shortened personalization labels while retaining accessible names with product context.
+
+## 2.7.2 — Menu-First Information Architecture
+### Changed
+- Moved the Cardápio directly below the purchase-orientation section so customers who scroll naturally reach products before brand-story sections.
+- Reduced the primary navigation to Cardápio, Como pedir, Rosa and Localização.
+- Converted desire-based discovery into progressive disclosure under “Quero ajuda para decidir”.
+
+## 2.7.1 — Fast Purchase Entry
+### Changed
+- Reworked the hero to one primary CTA, “Pedir agora”, plus one optional assistance CTA.
+- Added a compact three-step orientation: escolher, revisar na Sacola and confirmar through WhatsApp.
+- Rewrote hero microcopy to explain the customer-controlled handoff before purchase begins.
+
+## 2.7.0 — Conversion & Product Forensics Audit
+### Reviewed
+- Audited the complete customer path from first screen through catalog, product choice, Sacola, checkout, address validation and WhatsApp handoff using expected-vs-actual and first-divergence principles.
+### Fixed
+- Identified duplicated/competing purchase routes, fragile brand-sync logo matching, stale CEP state risk and closed-dialog focus-return risk as the primary 2.7.x causes of unnecessary friction or maintenance failure.
+
 ## 2.6.9 — Template Factory Release Gate
 ### Changed
 - Finalized the Template Factory and production-readiness workflow after configuration, preset, component-resilience, documentation and CI review.
+- Rebuilt the root README as a professional product-and-engineering entry point and synchronized the Portuguese companion README.
+- Normalized the complete release history into one consistent heading format from `1.0.0` through `2.6.9`, recovering archived 1.0.x–1.2.x records and explicitly marking the reconstructed `2.0.0` transition.
 ### Verified
 - Required every 2.6.x microversion, template-factory invariant, documentation check and Project Doctor gate to remain executable.
 
 ### Fixed
 
+- Updated the changelog audit from legacy bracket-specific matching to semantic release-heading detection and added a continuity gate that requires every microversion from `1.0.0` through `2.6.9`.
 - Windows Python 3.13 subprocess decoding: quality tools now capture child-process output explicitly as UTF-8 with safe replacement, preventing CP1252 `UnicodeDecodeError` crashes before result evaluation.
 - Internal Python quality-tool invocations now use `sys.executable` where applicable, keeping nested checks on the same interpreter as the parent process.
 
@@ -379,6 +462,11 @@
 ## 2.0.1 — Mobile-First Art Direction
 - Introduced the visual-commerce design layer: warmer surfaces, stronger typography, tighter spacing and touch-first hierarchy.
 
+## 2.0.0 — Mobile Visual Commerce Audit
+### Historical reconstruction
+- Opened the 2.0.x line around a mobile-first visual-commerce review before the documented art-direction, hero, product-media, discovery and release-gate work in 2.0.1–2.0.9.
+- This entry is reconstructed from the preserved 2.0.x release sequence; no additional test result or implementation claim is attributed to 2.0.0 beyond that documented line-level transition.
+
 ## 1.9.9 — Responsive Checkout Release Gate
 - Final responsive, keyboard, purchase-flow and regression review.
 
@@ -409,231 +497,416 @@
 ## 1.9.0 — Responsive Purchase Audit
 - Started a focused audit of responsive behavior, purchase friction and cross-component layout bugs.
 
-## [1.8.9] - 2026-08-26
-### Quality Refinement release gate
+## 1.8.9 — Quality Refinement release gate
 - Completed the v1.8.x bug-fix and refinement cycle.
 - Added regression checks for bag sanitation, half-and-half integrity, Rosa actions, CSP, PWA cache behavior, modern images, business hours, version sync, and granular changelog history.
 - Finalized the Quality Refinement Edition metadata and documentation.
 
-## [1.8.8] - 2026-08-26
-### Regression coverage
+## 1.8.8 — Regression coverage
 - Added `tools/regression-check.py` for high-value semantic regressions that syntax-only checks could not detect.
 - Added explicit checks for cumulative bag limits, product-type integrity, focus recovery, CSP hash accuracy, and 1.8.x changelog completeness.
 
-## [1.8.7] - 2026-08-26
-### Interaction and content resilience
+## 1.8.7 — Interaction and content resilience
 - Corrected the customer-facing “do seu sacola” grammar defect.
 - Improved order-form error association and search help relationships.
 - Refined customer-facing empty and favorite states to work for both pizzas and drinks.
 
-## [1.8.6] - 2026-08-26
-### Performance refinement
+## 1.8.6 — Performance refinement
 - Added WebP variants for the four core food photographs while retaining JPEG fallbacks in static editorial content.
 - Prioritized the hero image and moved dynamic menu cards to the lighter WebP assets.
 
-## [1.8.5] - 2026-08-26
-### PWA and cache reliability
+## 1.8.5 — PWA and cache reliability
 - Split critical and warm-cache assets so an optional editorial asset cannot block service-worker installation.
 - Added explicit runtime-before-core cache matching to prevent a stale core response from permanently shadowing a refreshed runtime resource.
 - Preserved the same-origin request restriction and bounded runtime cache.
 
-## [1.8.4] - 2026-08-26
-### Responsive and zoom resilience
+## 1.8.4 — Responsive and zoom resilience
 - Strengthened narrow-screen cart layout, process-strip reflow, footer stacking, landscape dialog behavior, and long-content wrapping.
 - Added reduced-motion safeguards for document scrolling and transitions.
 
-## [1.8.3] - 2026-08-26
-### Accessibility refinement
+## 1.8.3 — Accessibility refinement
 - Added more explicit status semantics for business availability and relationships for search/order help.
 - Restored logical keyboard focus after bag quantity/removal rerenders.
 - Improved minimum interactive target sizing and narrow-dialog usability.
 
-## [1.8.2] - 2026-08-26
-### Rosa reliability
+## 1.8.2 — Rosa reliability
 - Improved local product matching for punctuation/spacing variations.
 - Rosa now checks whether an add-to-bag action actually succeeded before claiming success.
 - Preserved local-only conversation architecture and bounded session memory.
 
-## [1.8.1] - 2026-08-26
-### Bag integrity hardening
+## 1.8.1 — Bag integrity hardening
 - Added cumulative quantity sanitation when loading persisted state, not only when adding new items.
 - Regenerates unsafe or duplicate bag item identifiers.
 - Rejects drinks as the second half of a half-and-half pizza loaded from untrusted storage.
 
-## [1.8.0] - 2026-08-26
-### Full-project bug sweep
+## 1.8.0 — Full-project bug sweep
 - Audited the v1.7.9 release across bag persistence, Rosa, PWA caching, responsive layout, accessibility semantics, performance assets, copy, and release tooling.
 - Prioritized root-cause fixes and regression prevention over new feature expansion.
 
-## [1.7.9] — 2026-08-26
-### International portfolio release gate
+## 1.7.9 — International portfolio release gate
 - Completed the English-first repository review and synchronized documentation, paths, cache references, audits, and version metadata.
 - Added release checks that reject legacy technical filenames and missing 1.7.x changelog entries.
 
-## [1.7.8] — 2026-08-26
-### International repository review
+## 1.7.8 — International repository review
 - Reviewed the repository from the perspective of an international recruiter or engineer.
 - Added a concise engineering case study and improved discoverability of architecture, accessibility, security, performance, and QA documentation.
 
-## [1.7.7] — 2026-08-26
-### Internal naming consistency
+## 1.7.7 — Internal naming consistency
 - Standardized technical naming around `app-config`, `app-meta`, knowledge-base terminology, Bag state, and English maintenance language.
 - Kept `Rosa` and `Forno Dona Rosa` unchanged because they are brand/persona names rather than technical terms.
 
-## [1.7.6] — 2026-08-26
-### English code comments and tooling
+## 1.7.6 — English code comments and tooling
 - Translated maintenance/tooling comments to English while preserving runtime behavior.
 - Updated audit and health-check output for international readability.
 
-## [1.7.5] — 2026-08-26
-### Technical documentation in English
+## 1.7.5 — Technical documentation in English
 - Rewrote accessibility, architecture, design-system, performance, QA, and security documentation in English.
 - Added explicit boundaries between automated checks and manual validation.
 
-## [1.7.4] — 2026-08-26
-### Portuguese companion README
+## 1.7.4 — Portuguese companion README
 - Added `README-PT.md` so Brazilian reviewers keep a first-class localized project overview.
 - Cross-linked English and Portuguese entry points.
 
-## [1.7.3] — 2026-08-26
-### English-first README
+## 1.7.3 — English-first README
 - Rebuilt the root `README.md` in English for international portfolio visibility.
 - Added repository structure, quality gates, Rosa architecture, accessibility, security, and portfolio notes.
 
-## [1.7.2] — 2026-08-26
-### Reference-safe rename migration
+## 1.7.2 — Reference-safe rename migration
 - Updated HTML, catalog data, service worker, documentation, audits, and tooling references after technical file/asset renames.
 - Added checks to ensure renamed local resources remain resolvable.
 
-## [1.7.1] — 2026-08-26
-### Asset naming internationalization
+## 1.7.1 — Asset naming internationalization
 - Renamed food imagery to descriptive English filenames such as `cheese-pull-pizza.jpg`, `wood-fired-oven-pizza.jpg`, and `nutella-strawberry-pizza.jpg`.
 - Preserved `rosa-avatar.jpg` because Rosa is the character name.
 
-## [1.7.0] — 2026-08-26
-### International portfolio naming foundation
+## 1.7.0 — International portfolio naming foundation
 - Established English as the repository engineering language while keeping the customer-facing Brazilian Portuguese experience intact.
 - Renamed `js/config.js` to `js/app-config.js` and `data/rosa-knowledge.js` to `data/rosa-knowledge-base.js`.
 
-## [1.6.9] — 2026-08-26
+## 1.6.9 — Release Update
 - Final release gate, Self-Audit Mode, version synchronization, and QA/hardening documentation.
 
-## [1.6.8] — 2026-08-26
+## 1.6.8 — Release Update
 - Improved empty states, recovery messages, and useful actions for zero-result search states.
 
-## [1.6.7] — 2026-08-26
+## 1.6.7 — Release Update
 - Strengthened catalog resilience, normalized search, deep links, and data validation.
 
-## [1.6.6] — 2026-08-26
+## 1.6.6 — Release Update
 - Reviewed performance with bounded cache behavior, image loading, and runtime work.
 
-## [1.6.5] — 2026-08-26
+## 1.6.5 — Release Update
 - Hardened the PWA with separated caches, obsolete-cache cleanup, per-resource strategies, and runtime cache limits.
 
-## [1.6.4] — 2026-08-26
+## 1.6.4 — Release Update
 - Strengthened responsive reflow for narrow viewports, dialogs, high zoom, and the Rosa launcher.
 
-## [1.6.3] — 2026-08-26
+## 1.6.3 — Release Update
 - Accessibility pass covering disciplined live regions, Rosa status announcements, forced colors, focus, and search descriptions.
 
-## [1.6.2] — 2026-08-26
+## 1.6.2 — Release Update
 - Hardened Rosa with Unicode normalization, control-character filtering, rate limits, session schema validation, intent confidence, and safe fallback behavior.
 
-## [1.6.1] — 2026-08-26
+## 1.6.1 — Release Update
 - Hardened the Bag with schema v3, v2/legacy migration, line/quantity/message limits, and canonical price recalculation.
 
-## [1.6.0] — 2026-08-26
+## 1.6.0 — Release Update
 - Started the bug hunt and broad security/state/PWA/Rosa/Bag/accessibility/responsive audit.
 
-## [1.5.9] — 2026-08-26
+## 1.5.9 — Release Update
 - Final QA across the expanded catalog, Bag, search, Rosa, PWA, security, integrations, documentation, and cache version.
 
-## [1.5.8] — 2026-08-26
+## 1.5.8 — Release Update
 - Refined catalog visuals so pizza and drink cards remain coherent without reducing pizza imagery prominence.
 
-## [1.5.7] — 2026-08-26
+## 1.5.7 — Release Update
 - Added editorial combinations and the local “Build a night with Rosa” suggestion flow without fake promotions.
 
-## [1.5.6] — 2026-08-26
+## 1.5.6 — Release Update
 - Integrated Rosa with drinks and the Bag; updated conversational language from Cart to Bag.
 
-## [1.5.5] — 2026-08-26
+## 1.5.5 — Release Update
 - Grouped Bag contents into pizzas/desserts and drinks and added contextual order-completeness feedback.
 
-## [1.5.4] — 2026-08-26
+## 1.5.4 — Release Update
 - Added menu search by product, ingredient, category, and trait with keyboard-operable filters and announced result counts.
 
-## [1.5.3] — 2026-08-26
+## 1.5.3 — Release Update
 - Added soft drinks, water, and juice with demonstration prices; drinks use fixed pricing without pizza size/crust logic.
 
-## [1.5.2] — 2026-08-26
+## 1.5.2 — Release Update
 - Expanded house specials, vegetarian/vegan pizzas, and dessert pizzas.
 
-## [1.5.1] — 2026-08-26
+## 1.5.1 — Release Update
 - Expanded traditional pizzas with Mozzarella, Portuguese, Chicken with Catupiry, Neapolitan, and Wood-Fired Pepperoni options.
 
-## [1.5.0] — 2026-08-26
+## 1.5.0 — Release Update
 - Renamed the customer experience from Cart to Bag and added migration from the legacy `forno-cart` state.
 
-## [1.4.9] — 2026-08-26
+## 1.4.9 — Release Update
 - Final Rosa QA covering conversation UI, session memory, inputs, integrations, documentation, security, and PWA assets.
 
-## [1.4.8] — 2026-08-26
+## 1.4.8 — Release Update
 - Polished Rosa panel, launcher, portrait, microinteractions, mobile states, focus, and reduced-motion behavior.
 
-## [1.4.7] — 2026-08-26
+## 1.4.7 — Release Update
 - Added bounded short-term session memory in `sessionStorage` with an explicit clear-conversation action.
 
-## [1.4.6] — 2026-08-26
+## 1.4.6 — Release Update
 - Made Rosa context-aware across hero, menu, signature pizza, order, location, Bag summary, and business status.
 
-## [1.4.5] — 2026-08-26
+## 1.4.5 — Release Update
 - Added local recommendation logic for classic, intense, vegetarian, cheese-forward, and sweet preferences.
 
-## [1.4.4] — 2026-08-26
+## 1.4.4 — Release Update
 - Connected menu, ingredients, sizes, crusts, half-and-half behavior, contacts, address, and operating hours to Rosa’s local knowledge.
 
-## [1.4.3] — 2026-08-26
+## 1.4.3 — Release Update
 - Added Rosa’s local conversational engine and knowledge data with no external AI API dependency.
 
-## [1.4.2] — 2026-08-26
+## 1.4.2 — Release Update
 - Added an accessible conversational `dialog`, conversation log, input field, quick suggestions, focus return, and keyboard flow.
 
-## [1.4.1] — 2026-08-26
+## 1.4.1 — Release Update
 - Added Rosa’s original avatar, floating launcher, hero card, and dedicated “Meet Rosa” section.
 
-## [1.4.0] — 2026-08-26
+## 1.4.0 — Release Update
 - Established Rosa as the digital host and configured official hours: weekdays 18:00–00:00; weekends 16:00–00:00 in `America/Sao_Paulo`.
 
-## [1.3.9] — 2026-08-26
+## 1.3.9 — Release Update
 - Final design/copy/image polish while preserving the security protections introduced in 1.2.x.
 
-## [1.3.8] — 2026-08-26
+## 1.3.8 — Release Update
 - Refined final CTA and microcopy around direct ordering, wood-fired preparation, and the Laranjeiras experience without artificial urgency.
 
-## [1.3.7] — 2026-08-26
+## 1.3.7 — Release Update
 - Refined gastronomic hover, focus, elevation, and transition states with reduced-motion support.
 
-## [1.3.6] — 2026-08-26
+## 1.3.6 — Release Update
 - Strengthened the fire-inspired atmosphere using depth, warm light, surfaces, and controlled gradients.
 
-## [1.3.5] — 2026-08-26
+## 1.3.5 — Release Update
 - Added the Dona Rosa signature-pizza section with sensory copy and a dedicated CTA.
 
-## [1.3.4] — 2026-08-26
+## 1.3.4 — Release Update
 - Upgraded menu cards with photography, overlays, badges, and stronger editorial hierarchy.
 
-## [1.3.3] — 2026-08-26
+## 1.3.3 — Release Update
 - Added original food imagery for pizza, cheese pull, wood-fired oven, and dessert and integrated it into the hero, gallery, and menu.
 
-## [1.3.2] — 2026-08-26
+## 1.3.2 — Release Update
 - Rewrote hero, process, menu, recommender, ordering, location, and final CTA copy for a more sensory and product-specific voice.
 
-## [1.3.1] — 2026-08-26
+## 1.3.1 — Release Update
 - Promoted food photography to the hero and sharpened the primary CTA and visual-discovery microcopy.
 
-## [1.3.0] — 2026-08-26
+## 1.3.0 — Release Update
 - Recalibrated palette, depth, surfaces, hierarchy, and visual rhythm around fire, flour, wood, and tomato.
 
-## [1.2.9] — 2026-08-26
-- Stability & Security release focused on client-side hardening, accessibility, and reliability.
+## 1.2.9 — Stability & Security Release Gate
+- Adicionada auditoria reproduzível `tools/audit.py`.
+- Documentação e versão visual atualizadas para Stability & Security Edition.
+- Verificações de integridade, CSP, links externos, recursos locais e sintaxe consolidadas.
+
+## 1.2.8 — SEO & Deep-Link Resilience
+- Metadados de referrer e versão adicionados.
+- Deep links agora validam IDs contra o catálogo antes de qualquer ação.
+- Compartilhamento ganhou fallback de cópia compatível com contextos sem Clipboard API moderna.
+
+## 1.2.7 — Performance & Runtime Stability
+- Renderização dinâmica passou a criar nós DOM diretamente, reduzindo parsing HTML repetido.
+- Atualizações de carrinho e favoritos foram centralizadas e normalizadas.
+- Service worker evita cache de respostas inválidas.
+
+## 1.2.6 — Persistent State Defense
+- `localStorage` passou a ser tratado como entrada não confiável.
+- IDs de produtos inválidos são descartados.
+- Quantidades são limitadas e preços/totais são recalculados a partir do catálogo canônico.
+- Carrinho demonstrativo limitado defensivamente a 50 linhas.
+
+## 1.2.5 — PWA Cache Hardening
+- Cache versionado para v1.2.9.
+- Service worker limitado a requisições GET same-origin.
+- Navegação usa network-first com fallback do shell.
+- Assets usam stale-while-revalidate.
+- Falha de asset não recebe mais `index.html` como resposta indevida.
+- `skipWaiting()` e `clients.claim()` tornam atualizações mais previsíveis.
+
+## 1.2.4 — Responsive Reflow Hardening
+- Conteúdo longo do carrinho ganhou quebra resiliente.
+- Alvos interativos receberam `touch-action: manipulation`.
+- Âncoras ganharam `scroll-margin-top` para não ficarem sob o header sticky.
+- Fallback do backdrop-filter adicionado.
+
+## 1.2.3 — Accessibility Hardening
+- Menu mobile passou a isolar conteúdo externo quando `inert` é suportado e controlar ciclo de foco.
+- Carrinho restaura explicitamente o foco ao acionador ao fechar.
+- Botões dinâmicos ganharam nomes acessíveis contextuais.
+- Grid de cardápio deixou de ser uma live region redundante; anúncio permanece no status dedicado.
+- Reforço para `prefers-contrast` e `forced-colors`.
+
+## 1.2.2 — DOM XSS & Security Hardening
+- Removido uso de `innerHTML` em conteúdo dinâmico.
+- Corrigido vetor de DOM XSS persistente em observações recuperadas de `localStorage`.
+- Adicionada CSP restritiva via meta tag.
+- Links `_blank` usam `noopener noreferrer`.
+- Criado `SECURITY.md` com modelo de ameaça e limitações do GitHub Pages.
+
+## 1.2.1 — State Integrity
+- Pizza meio a meio exige segundo sabor válido e diferente.
+- Quantidade é normalizada entre 1 e 10.
+- Nomes, tamanhos, bordas e valores exibidos no carrinho derivam das fontes canônicas.
+- Estados corrompidos ou obsoletos do navegador deixam de quebrar a interface.
+
+## 1.2.0 — Stability & Security Audit
+- Revisão de segurança, persistência, carrinho, favoritos, deep links, menu mobile, compartilhamento e PWA.
+- Congelamento de features para priorizar estabilidade e regressões.
+
+## 1.1.9 — Portfolio Engineering Release Gate
+- Portfolio Engineering Edition consolidada.
+
+## 1.1.8 — Sharing & Deep Links
+- Compartilhamento via Web Share API, fallback de cópia e deep links por `?pizza=`.
+
+## 1.1.7 — Persistent Favorites
+- Favoritos persistentes com `localStorage` e `aria-pressed`.
+
+## 1.1.6 — Process Storytelling
+- Storytelling “Da farinha ao fogo”, responsivo e compatível com reduced motion.
+
+## 1.1.5 — Business Hours Engine
+- Motor de horário comercial configurável. Sem horário oficial fornecido, o site orienta consultar o WhatsApp.
+
+## 1.1.4 — Deterministic Recommender
+- Recomendador determinístico “Qual pizza combina comigo?”.
+
+## 1.1.3 — Data-Driven Catalog
+- Catálogo e regras de preço movidos para `data/menu.js`.
+
+## 1.1.2 — Product Customization
+- Tamanhos, bordas, remoção de ingredientes e pizza meio a meio.
+
+## 1.1.1 — Persistent Cart
+- Carrinho persistente com subtotal, alteração de quantidade e envio consolidado ao WhatsApp.
+
+## 1.1.0 — PWA Foundation
+- PWA: manifest, ícones, service worker, instalação e experiência offline básica.
+
+## 1.0.9 — Portfolio Edition Release Gate
+- Base premium anterior: identidade, cardápio filtrável, pedido simples, localização e QA estrutural.
+
+## 1.0.8 — Local Business Experience
+- Nova experiência local “Do forno para Laranjeiras”.
+- E-mail, Instagram, WhatsApp e endereço atualizados.
+- Link de rota montado a partir da configuração central.
+
+## 1.0.7 — Accessible Order Builder
+- Montador acessível de pedido com pizza, tamanho, quantidade e observações.
+- Mensagem estruturada gerada para WhatsApp sem checkout intermediário.
+
+## 1.0.6 — Accessible Menu Discovery
+- Cardápio explorável por Tradicionais, Especiais, Vegetarianas/Veganas e Doces.
+- Filtros com botões reais, `aria-pressed` e status anunciado.
+
+## 1.0.5 — Fire Ritual Storytelling
+- Storytelling “O ritual do fogo”.
+- Assinatura 48H → 400°C → 90S incorporada à narrativa.
+
+## 1.0.4 — Editorial Hero Redesign
+- Hero redesenhado com composição editorial, CTA principal e pizza assinatura.
+- Novo momento visual de marca.
+
+## 1.0.3 — Visual System Foundation
+- Sistema visual proprietário inspirado em carvão, farinha, terracota, tomate, oliva e calor do forno.
+- Nova escala tipográfica, superfícies, raios e motion.
+
+## 1.0.2 — Brand & Business Data Integration
+- Dados da Pizzaria Forno Dona Rosa integrados em contato, SEO e configuração.
+- Hero atualizado com a proposta de valor fornecida.
+
+## 1.0.1 — Structural Stabilization
+- Estrutura física alinhada aos caminhos usados pelo HTML: `css/styles.css`, `js/config.js` e `js/main.js`.
+- Criado `js/config.js`, eliminando as referências JavaScript inexistentes a configurações de WhatsApp.
+- Corrigidas duplicações acidentais de propriedades no CSS.
+- Removido `overflow-x: hidden` global como remendo preventivo; a versão deve expor overflow real durante QA em vez de escondê-lo.
+- Navegação mobile passa a usar `100dvh` em vez de altura rígida baseada apenas em `100vh`.
+- Mídia ganhou regras resilientes de largura máxima.
+- Links vazios de Instagram/Facebook foram removidos da demonstração.
+- Depoimentos e dados comerciais passaram a ser identificados explicitamente como fictícios.
+- Número de WhatsApp da demo é propositalmente inválido para evitar contato com terceiros reais.
+- Imagem Open Graph externa foi substituída por asset local do projeto.
+- README reescrito para refletir exatamente a estrutura e as validações realmente executadas.
+
+### Adicionado
+- `.gitignore`.
+- `LICENSE` MIT.
+- `robots.txt`.
+- Capa local `assets/images/og-cover.png`.
+- Pasta `docs/` para screenshots reais da renderização.
+- Pasta `tools/` para separar o gerador Python do runtime da landing page.
+
+### Observações de publicação
+- `canonical` e `og:url` usam `SEU-USUARIO` porque a URL final do repositório ainda não foi informada; altere depois de criar o GitHub Pages.
+- Para produção, use URL absoluta em `og:image`.
+- NVDA e Axe não são declarados como aprovados nesta entrega sem execução específica dessas ferramentas.
+
+## 1.0.0 — Initial Stable Template
+Primeira versão estável do template. Testada de ponta a ponta antes do
+release — não é "achismo de que funciona", é resultado de auditoria real
+(Playwright + axe-core), documentado abaixo.
+
+### Adicionado
+- Estrutura completa da landing page: hero, diferenciais, cardápio (6
+  itens), depoimentos, localização/horário, CTA final, rodapé.
+- Sistema de reuso multi-cliente: paleta centralizada em `css/styles.css`
+  (`:root`), WhatsApp centralizado em `js/config.js`.
+- Menu mobile acessível: painel deslizante, `aria-expanded` sincronizado,
+  fecha com `Esc` (foco retorna ao botão), fecha ao clicar fora, fecha ao
+  navegar por um link.
+- Links de WhatsApp dinâmicos por item do cardápio, com nome e preço
+  pré-preenchidos na mensagem.
+- Rastreamento de conversão (`whatsapp_click`, `pizza_selecionada`) em
+  `window.dataLayer`, compatível com GA4/GTM.
+- Dados estruturados `schema.org/Restaurant` (JSON-LD) para SEO local.
+- `robots.txt`, `sitemap.xml`, meta tags Open Graph e `canonical`.
+- Ilustrações SVG originais (pizza do hero + 6 pizzas do cardápio),
+  geradas por `pizza-art/generate.py`, substituindo fotos de banco
+  hotlinkadas — zero dependência de rede, zero risco de link quebrado.
+- `LICENSE` (MIT), `.gitignore`, README como case study de portfólio.
+
+### Corrigido durante a auditoria pré-release
+- `aria-prohibited-attr`: containers de estrelas dos depoimentos usavam
+  `aria-label` num `<div>` sem `role` que suportasse nome acessível.
+  Corrigido com `role="img"`.
+- `id` duplicado (`id="ps"`) repetido em 7 elementos `<svg>` irmãos no
+  mesmo documento (filtro de sombra das ilustrações) — HTML inválido e
+  risco de falha em `duplicate-id`. Corrigido com ids únicos por variante
+  (`ps-hero`, `ps-margherita`, etc.).
+- `width`/`height` ausentes em imagens do cardápio, causando risco de
+  layout shift (CLS) — corrigido (hoje sem efeito prático, já que as
+  imagens viraram SVG inline, mas o padrão continua documentado para
+  quando forem trocadas por fotos reais).
+
+### Auditado e verificado (não apenas assumido)
+- **Acessibilidade**: 0 violações WCAG 2.0/2.1 A+AA via axe-core
+  (Playwright + Chromium headless). 23 regras verificadas com sucesso.
+- **Contraste de cor**: calculado com a fórmula WCAG oficial (luminância
+  relativa), incluindo o pior caso dos gradientes decorativos atrás do
+  header — todas as combinações usadas passam AA (mínimo 4.5:1 para texto
+  normal); a mais apertada fica em 4.65:1.
+- **Navegação por teclado**: trilha de foco testada elemento a elemento
+  (skip-link → logo → nav → CTAs → cardápio), sem armadilhas de foco.
+- **Zero erros de JavaScript** em viewport desktop (1440px) e mobile
+  (390px).
+- **Links de WhatsApp**: verificado que cada um monta a URL correta,
+  inclusive os 6 do cardápio com nome e preço citados na mensagem.
+
+### Limitações conhecidas desta versão
+- `og:image` e o campo `image` do JSON-LD ainda apontam para uma imagem
+  de placeholder externa — essas duas specs exigem uma URL HTTP real
+  (não aceitam SVG inline), então precisam de uma foto real hospedada
+  antes de publicar para um cliente.
+- Conteúdo (nome da pizzaria, WhatsApp, endereço, depoimentos) é
+  fictício, para demonstração. Ver checklist de customização no README.
+- Testado com axe-core (automatizado); ainda não testado manualmente com
+  NVDA ligado — recomendado antes de entregar a um cliente real.

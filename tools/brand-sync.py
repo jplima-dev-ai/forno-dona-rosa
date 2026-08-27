@@ -60,7 +60,14 @@ def main():
     digest = base64.b64encode(hashlib.sha256(inline.group(1).encode()).digest()).decode()
     html = replace_once(html, r"script-src 'self' 'sha256-[^']+'", f"script-src 'self' 'sha256-{digest}'", "CSP JSON-LD hash")
     html = replace_once(html, r'<a aria-label="[^"]* — início" class="brand" href="#topo">', f'<a aria-label="{b["legalDisplayName"]} — início" class="brand" href="#topo">', "brand aria-label")
-    html = replace_once(html, r'(<img class="brand-logo" data-brand-logo="" src=")[^"]*(" alt="" width="720" height="240"/>)', r'\1'+b["logo"]["header"]+r'\2', "header logo")
+    logo_match = re.search(r'<img\b(?=[^>]*\bdata-brand-logo(?:="")?)[^>]*>', html, re.S)
+    if not logo_match:
+        raise ValueError("Could not synchronize header logo")
+    logo_tag = logo_match.group(0)
+    if not re.search(r'\bsrc="[^"]*"', logo_tag):
+        raise ValueError("Brand logo is missing a src attribute")
+    synced_logo_tag = re.sub(r'\bsrc="[^"]*"', f'src="{b["logo"]["header"]}"', logo_tag, count=1)
+    html = html[:logo_match.start()] + synced_logo_tag + html[logo_match.end():]
     html_path.write_text(html, encoding="utf-8")
 
     manifest = {"name":b["legalDisplayName"],"short_name":b["shortName"],"description":seo["description"],"start_url":"./","display":"standalone","background_color":"#17100c","theme_color":"#17100c","lang":b.get("locale","pt-BR"),"icons":[{"src":"assets/icons/icon-192.png","sizes":"192x192","type":"image/png"},{"src":"assets/icons/icon-512.png","sizes":"512x512","type":"image/png"}]}

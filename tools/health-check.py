@@ -3,7 +3,7 @@ from pathlib import Path
 import re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.6.9'
+VERSION='2.7.9'
 checks=[]
 def check(name, ok, detail=''):
     checks.append((name,bool(ok),detail))
@@ -61,7 +61,7 @@ check('Obsolete files removed', all(not (ROOT/p).exists() for p in ['assets/imag
 product_names=[p.name for p in (ROOT/'assets/images/products').glob('*.webp') if not p.stem.endswith('-384')]
 pt_tokens=['agua','gas','lata','suco','laranja','mucarela','calabresa','portuguesa','frango','toscana','forno','casa','trufa','picante','vegana','chocolate-belga','banana-doce-leite','romeu-julieta']
 check('English product image filenames', all(not any(t in name.lower() for t in pt_tokens) for name in product_names), f'{len(product_names)} files')
-check('Hero CTA leads to menu', 'href="#cardapio">Escolher minha pizza</a>' in html)
+check('Hero CTA leads to menu', 'href="#cardapio"' in html and '>Pedir agora</a>' in html)
 
 for patch in range(10): check(f'Changelog 2.2.{patch}', f'## 2.2.{patch} ' in changelog)
 check('Sensory tags', 'sensory-tags' in html and 'sensoryLabels' in main)
@@ -139,6 +139,19 @@ check('Container-query resilience', 'container-type:inline-size' in (ROOT/'css/s
 check('One-command quality gate', '"quality"' in (ROOT/'package.json').read_text(encoding='utf-8'))
 check('Cross-platform quality workflow', (ROOT/'.github/workflows/quality.yml').exists())
 check('Documentation map', (ROOT/'docs/README.md').exists())
+
+for patch in range(10): check(f'Changelog 2.7.{patch}', f'## 2.7.{patch} ' in changelog)
+check('Fast purchase orientation', 'id="como-pedir"' in html and 'Da escolha ao WhatsApp em 3 passos.' in html)
+check('Menu-first page order', html.find('id="topo"') < html.find('id="como-pedir"') < html.find('id="cardapio"') < html.find('id="ritual"'))
+check('Reduced primary navigation', '<a href="#cardapio">Cardápio</a><a href="#como-pedir">Como pedir</a><a href="#rosa">Rosa</a><a href="#localizacao">Localização</a>' in html)
+check('Product card decision simplification', 'body.append(actions);' in main and 'body.append(actions, utility);' not in main)
+check('Product utilities in detail dialog', 'id="product-dialog-favorite"' in html and 'id="product-dialog-share"' in html)
+check('Checkout stale CEP protection', '++lookupToken;' in checkout and 'hideDeliveryState();' in checkout)
+check('Checkout review heading focus', 'checkout-dialog-title' in checkout and '(isReview ? field("checkout-dialog-title") : field("checkout-name"))?.focus();' in checkout)
+check('Checkout transition recovery', 'requestAnimationFrame(() => openCart(trigger))' in main)
+check('Conversion flow tool', (ROOT/'tools/conversion-flow-check.py').exists())
+conversion_result=subprocess.run([sys.executable,str(ROOT/'tools/conversion-flow-check.py')],capture_output=True,text=True,encoding='utf-8',errors='replace')
+check('Conversion flow suite', conversion_result.returncode==0, conversion_result.stdout.strip().splitlines()[-1] if conversion_result.stdout.strip() else conversion_result.stderr.strip())
 
 for f in ['js/app-meta.js','data/brand/brand-config.js','data/brand/content-config.js','js/app-config.js','js/feature-flags.js','data/catalog-schema.js','js/brand-runtime.js','data/delivery-config.js','data/menu.js','data/rosa-knowledge-base.js','js/postal-code-service.js','js/main.js','js/checkout.js','js/rosa.js','service-worker.js']:
     r=subprocess.run(['node','--check',str(ROOT/f)],capture_output=True,text=True,encoding="utf-8",errors="replace")
