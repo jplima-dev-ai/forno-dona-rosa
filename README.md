@@ -6,7 +6,15 @@ Forno Dona Rosa is a portfolio-grade front-end project for a Brazilian artisan p
 
 > The customer-facing website intentionally remains in Brazilian Portuguese because the fictional business operates in Brazil. The repository engineering, technical naming, and primary documentation are written in English for international reviewers.
 
-## v1.9.9 — Responsive Checkout Edition
+## v2.1.9 — Repository Refinement Edition
+
+### 2.0 visual-commerce focus
+
+- Mobile-first hierarchy for a customer base expected to be overwhelmingly mobile.
+- Product imagery for every pizza and beverage.
+- Compact image-led menu cards and touch-first “choose by desire” discovery.
+- Product thumbnails in the Bag with decorative images to avoid screen-reader repetition.
+- Performance-aware local WebP assets and lazy loading below the fold.
 
 This release focuses exclusively on responsive resilience, bug fixes and a shorter purchase path: simplified menu actions, progressive optional fields and a mobile bag review bar.
 
@@ -30,7 +38,7 @@ The goal is not to showcase a generic restaurant landing page. The repository de
 ## Repository structure
 
 ```text
-forno-dona-rosa-v1.9.9/
+forno-dona-rosa-v2.1.9/
 ├── assets/
 │   ├── icons/
 │   └── images/
@@ -53,7 +61,6 @@ forno-dona-rosa-v1.9.9/
 │   └── rosa.js
 ├── tools/
 │   ├── audit.py
-│   ├── generate.py
 │   └── health-check.py
 ├── CHANGELOG.md
 ├── LICENSE
@@ -126,5 +133,5 @@ For a concise engineering narrative, see [docs/CASE-STUDY.md](docs/CASE-STUDY.md
 MIT. See [LICENSE](LICENSE).
 
 
-## v1.9.9 quality refinement
+## v2.1.9 repository refinement
 The 1.8.x cycle focused on bug fixing and quality rather than feature expansion: persisted bag data is sanitized cumulatively, half-and-half data cannot reference drinks, Rosa verifies mutations before confirming them, keyboard focus survives bag rerenders, the PWA cache lookup is more deterministic, and core food imagery now has WebP delivery paths. Run `python tools/regression-check.py` together with the existing audit and health checks before release.

@@ -1,6 +1,6 @@
 "use strict";
 
-const VERSION = "1.9.9";
+const VERSION = "2.1.9";
 const CORE_CACHE = `forno-core-${VERSION}`;
 const RUNTIME_CACHE = `forno-runtime-${VERSION}`;
 const RUNTIME_LIMIT = 24;
@@ -8,11 +8,42 @@ const CORE_ASSETS = [
   "./", "./index.html", "./css/styles.css", "./js/app-meta.js", "./js/app-config.js", "./js/main.js", "./js/rosa.js",
   "./data/menu.js", "./data/rosa-knowledge-base.js", "./manifest.webmanifest",
   "./assets/images/dona-rosa-hero-pizza.webp", "./assets/images/rosa-avatar.jpg",
-  "./assets/images/signature-pizza.svg", "./assets/icons/icon-192.png", "./assets/icons/icon-512.png"
+  "./assets/icons/icon-192.png", "./assets/icons/icon-512.png"
 ];
 const WARM_ASSETS = [
+  "assets/images/products/margherita-pizza.webp",
+  "assets/images/products/mozzarella-pizza.webp",
+  "assets/images/products/calabrese-sausage-pizza.webp",
+  "assets/images/products/portuguese-style-pizza.webp",
+  "assets/images/products/chicken-catupiry-pizza.webp",
+  "assets/images/products/neapolitan-pizza.webp",
+  "assets/images/products/pepperoni-pizza.webp",
+  "assets/images/products/dona-rosa-signature-pizza.webp",
+  "assets/images/products/four-cheese-pizza.webp",
+  "assets/images/products/burrata-parma-pizza.webp",
+  "assets/images/products/tuscan-wood-fired-pizza.webp",
+  "assets/images/products/house-carbonara-pizza.webp",
+  "assets/images/products/mushroom-truffle-pizza.webp",
+  "assets/images/products/rosa-spicy-pizza.webp",
+  "assets/images/products/garden-vegetable-pizza.webp",
+  "assets/images/products/vegan-margherita-pizza.webp",
+  "assets/images/products/mediterranean-pizza.webp",
+  "assets/images/products/vegan-mushroom-pizza.webp",
+  "assets/images/products/nutella-strawberry-dessert-pizza.webp",
+  "assets/images/products/belgian-chocolate-pizza.webp",
+  "assets/images/products/banana-cinnamon-caramel-pizza.webp",
+  "assets/images/products/guava-cheese-dessert-pizza.webp",
+  "assets/images/products/coca-cola-can.webp",
+  "assets/images/products/coca-cola-zero-can.webp",
+  "assets/images/products/guarana-can.webp",
+  "assets/images/products/sprite-can.webp",
+  "assets/images/products/coca-cola-2l-bottle.webp",
+  "assets/images/products/guarana-2l-bottle.webp",
+  "assets/images/products/still-water-bottle.webp",
+  "assets/images/products/sparkling-water-bottle.webp",
+  "assets/images/products/orange-juice.webp",
   "./assets/images/cheese-pull-pizza.webp", "./assets/images/wood-fired-oven-pizza.webp",
-  "./assets/images/nutella-strawberry-pizza.webp", "./assets/images/og-cover.png"
+  "./assets/images/nutella-strawberry-pizza.webp"
 ];
 
 self.addEventListener("install", (event) => {

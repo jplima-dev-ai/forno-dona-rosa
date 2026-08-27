@@ -6,7 +6,15 @@ Projeto conceitual de pizzaria artesanal desenvolvido como case de portfólio, c
 
 > A interface pública permanece em português porque representa uma pizzaria brasileira. A engenharia do repositório, nomes técnicos e documentação principal foram internacionalizados a partir da série 1.7.x.
 
-## v1.9.9 — Responsive Checkout Edition
+## v2.1.9 — Repository Refinement Edition
+
+### Foco visual da versão 2.0
+
+- Hierarquia mobile-first para uma base de clientes majoritariamente móvel.
+- Imagem de produto para todas as pizzas e bebidas.
+- Cards compactos orientados por imagem e descoberta por desejo.
+- Miniaturas na Sacola sem duplicar informação para leitores de tela.
+- Assets WebP locais e carregamento preguiçoso abaixo da primeira dobra.
 
 Esta versão foca exclusivamente em responsividade, correção de bugs e um caminho de compra mais curto: ações simplificadas no cardápio, campos opcionais progressivos e uma barra móvel para revisar a Sacola.
 
@@ -52,5 +60,5 @@ python tools/health-check.py
 A Forno Dona Rosa é apresentada como um projeto de portfólio. Preços e alguns conteúdos do catálogo são demonstrativos; disponibilidade, entrega e valores finais são confirmados pelo WhatsApp.
 
 
-## Refinamento de qualidade v1.9.9
+## Refinamento do repositório v2.1.9
 A linha 1.8.x prioriza correções e qualidade em vez de novas funcionalidades: a Sacola sanitiza cumulativamente dados persistidos, meio a meio não aceita bebida como segundo sabor, Rosa confirma se uma mutação realmente funcionou, o foco de teclado sobrevive às rerenderizações da Sacola, o cache da PWA ficou mais determinístico e as principais imagens gastronômicas ganharam entrega em WebP. Antes de uma release, execute `python tools/regression-check.py` junto com os auditores existentes.

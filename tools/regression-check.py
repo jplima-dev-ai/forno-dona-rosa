@@ -4,7 +4,7 @@ from pathlib import Path
 import base64, hashlib, json, re, subprocess, sys
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.9.9"
+VERSION = "2.1.9"
 failures = []
 passes = []
 
@@ -49,6 +49,8 @@ for name in ["dona-rosa-hero-pizza", "cheese-pull-pizza", "wood-fired-oven-pizza
     check(f"WebP asset {name}", (ROOT / f"assets/images/{name}.webp").exists())
 check("Hero fetch priority", 'fetchpriority="high"' in html)
 check("Menu uses modern images", '.webp"' in menu_text and '.jpg"' not in menu_text)
+check("All catalog products have images", menu_text.count('image:"assets/images/products/') == 31)
+check("All product image files exist", len(list((ROOT / "assets/images/products").glob("*.webp"))) == 31)
 
 # Business hours remain canonical.
 for day in range(7):
@@ -61,6 +63,10 @@ check("HTML version", f'content="{VERSION}" name="x-project-version"' in html)
 check("SW version", f'const VERSION = "{VERSION}"' in sw)
 for patch in range(10):
     check(f"Changelog 1.9.{patch}", f"## 1.9.{patch} " in changelog)
+for patch in range(1,10):
+    check(f"Changelog 2.0.{patch}", f"## 2.0.{patch} " in changelog)
+for patch in range(10):
+    check(f"Changelog 2.1.{patch}", f"## 2.1.{patch} " in changelog)
 
 # Responsive checkout regressions.
 css = (ROOT / "css/styles.css").read_text(encoding="utf-8")
@@ -72,6 +78,19 @@ check("Mobile menu single column", '@media(max-width:48rem)' in css and '.menu-g
 check("Mobile bag bottom sheet", '.cart-dialog{width:100%;max-width:none;height:min(92dvh,52rem)' in css)
 check("Compact viewport fallback", '@media(max-width:22rem)' in css)
 check("Low-height landscape fallback", '@media(max-height:30rem) and (orientation:landscape)' in css)
+check("Mobile desire scroller", 'class="desire-scroll"' in html and 'data-desire="queijo"' in html)
+check("Desire interaction", "data-desire" in main and "renderMenu(lastMenuFilter)" in main)
+check("Bag product thumbnails", 'className: "cart-item__thumb"' in main)
+check("Mobile gallery deprioritized", '@media(max-width:48rem)' in css and '.gallery{display:none}' in css)
+
+
+# Repository hygiene regressions.
+for obsolete in ['assets/images/signature-pizza.svg','assets/images/og-cover.png','tools/generate.py']:
+    check(f'Obsolete removed {obsolete}', not (ROOT / obsolete).exists())
+product_names=[p.name for p in (ROOT/'assets/images/products').glob('*.webp')]
+pt_tokens=['agua','gas','lata','suco','laranja','mucarela','calabresa','portuguesa','frango','toscana','forno','casa','trufa','picante','vegana','chocolate-belga','banana-doce-leite','romeu-julieta']
+check('English product image filenames', all(not any(t in name.lower() for t in pt_tokens) for name in product_names))
+check('Hero primary CTA opens visual menu', 'href="#cardapio">Escolher minha pizza</a>' in html)
 
 # Syntax.
 for path in ["js/app-meta.js", "js/app-config.js", "data/menu.js", "data/rosa-knowledge-base.js", "js/main.js", "js/rosa.js", "service-worker.js"]:

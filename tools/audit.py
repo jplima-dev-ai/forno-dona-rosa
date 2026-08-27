@@ -4,7 +4,7 @@ from html.parser import HTMLParser
 import json, re, subprocess, sys
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.9.9"
+VERSION = "2.1.9"
 errors = []
 
 class AuditParser(HTMLParser):
@@ -103,7 +103,7 @@ required_paths=[
     'README.md','README-PT.md','docs/CASE-STUDY.md','js/app-config.js',
     'data/rosa-knowledge-base.js','assets/images/dona-rosa-hero-pizza.jpg',
     'assets/images/cheese-pull-pizza.jpg','assets/images/wood-fired-oven-pizza.jpg',
-    'assets/images/nutella-strawberry-pizza.jpg','assets/images/signature-pizza.svg'
+    'assets/images/nutella-strawberry-pizza.jpg'
 ]
 for path in required_paths:
     if not (ROOT/path).exists(): errors.append(f'Required internationalized file missing: {path}')
@@ -119,6 +119,29 @@ source_version=version_match.group(1) if version_match else None
 if source_version!=VERSION: errors.append(f'app-meta.js version mismatch: expected {VERSION}, got {source_version}')
 if f'content="{VERSION}" name="x-project-version"' not in html and f'name="x-project-version" content="{VERSION}"' not in html: errors.append('HTML version metadata is out of sync')
 if f'const VERSION = "{VERSION}"' not in sw_text: errors.append('Service-worker version is out of sync')
+
+for patch in range(1, 10):
+    version = f"2.0.{patch}"
+    if f"## {version} " not in changelog:
+        errors.append(f"Changelog missing {version}")
+
+for patch in range(10):
+    version = f"2.1.{patch}"
+    if f"## {version} " not in changelog:
+        errors.append(f"Changelog missing {version}")
+
+# v2.1 repository hygiene gate.
+obsolete_paths=['assets/images/signature-pizza.svg','assets/images/og-cover.png','tools/generate.py']
+for obsolete in obsolete_paths:
+    if (ROOT/obsolete).exists(): errors.append(f'Obsolete file returned: {obsolete}')
+    for source in [html, main_text, rosa_text, sw_text, menu_text]:
+        if obsolete in source: errors.append(f'Obsolete runtime reference returned: {obsolete}')
+
+product_paths=re.findall(r'image:"(assets/images/products/[^"]+)"', menu_text)
+non_english_tokens=['agua','gas','lata','suco','laranja','mucarela','calabresa','portuguesa','frango','toscana','forno','casa','trufa','picante','vegana','chocolate-belga','banana-doce-leite','romeu-julieta']
+for image_path in product_paths:
+    filename=Path(image_path).name.lower()
+    if any(token in filename for token in non_english_tokens): errors.append(f'Non-English product image filename: {filename}')
 
 if errors:
     print('AUDIT FAILED')
@@ -137,4 +160,4 @@ print('- Bag schema v3 + migrations: OK')
 print('- Rosa hardening + confidence: OK')
 print('- International filename migration: OK')
 print('- Version sync: OK')
-print('- Changelog 1.3.0–1.9.9: OK')
+print('- Changelog 1.3.0–2.1.9: OK')

@@ -1,6 +1,6 @@
 window.FORNO_META = Object.freeze({
-  version: "1.9.9",
+  version: "2.1.9",
   bagSchemaVersion: 3,
   catalogSchemaVersion: 1,
-  release: "Responsive Checkout Edition"
+  release: "Repository Refinement Edition"
 });

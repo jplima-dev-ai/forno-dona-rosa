@@ -337,13 +337,15 @@
           alt: "",
           loading: index < 2 ? "eager" : "lazy",
           decoding: "async",
-          width: "1254",
-          height: "1254",
+          width: "768",
+          height: "768",
         },
       });
+      image.addEventListener("error", () => visual.classList.add("is-image-fallback"), { once: true });
       visual.append(image);
     } else {
-      visual.append(el("span", { className: "menu-card__icon", text: product.icon || "•", attrs: { "aria-hidden": "true" } }));
+      visual.classList.add("is-image-fallback");
+      visual.append(el("span", { className: "menu-card__icon", text: "Produto", attrs: { "aria-hidden": "true" } }));
     }
     const overlay = el("div", { className: "menu-card__overlay", attrs: { "aria-hidden": "true" } });
     overlay.append(el("span", { className: "menu-card__index", text: String(index + 1).padStart(2, "0") }));
@@ -461,6 +463,31 @@
       }
       if (shareButton) sharePizza(shareButton.dataset.sharePizza);
     });
+    $$('[data-desire]').forEach((button) => button.addEventListener("click", () => {
+      const desire = cleanText(button.dataset.desire, 40);
+      const search = $("#menu-search");
+      menuSearch = desire;
+      if (search) search.value = desire === "bebida" ? "" : desire;
+      if (desire === "bebida") {
+        lastMenuFilter = "bebidas";
+        $$(".filter-chip").forEach((candidate) => {
+          const active = candidate.dataset.filter === "bebidas";
+          candidate.classList.toggle("is-active", active);
+          candidate.setAttribute("aria-pressed", String(active));
+        });
+        menuSearch = "";
+      } else {
+        lastMenuFilter = "todas";
+        $$(".filter-chip").forEach((candidate) => {
+          const active = candidate.dataset.filter === "todas";
+          candidate.classList.toggle("is-active", active);
+          candidate.setAttribute("aria-pressed", String(active));
+        });
+      }
+      renderMenu(lastMenuFilter);
+      $("#cardapio")?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    }));
+
   }
 
   function toggleFavorite(id) {
@@ -711,6 +738,10 @@
       const crust = pricing.crusts?.[item.crust]?.label || item.crust;
       const article = el("article", { className: "cart-item" });
       const top = el("div", { className: "cart-item__top" });
+      const firstProduct = menuById.get(item.pizzaId);
+      if (firstProduct?.image) {
+        top.append(el("img", { className: "cart-item__thumb", attrs: { src: firstProduct.image, alt: "", loading: "lazy", decoding: "async", width: "88", height: "88" } }));
+      }
       const details = el("div");
       details.append(el("strong", { text: names.second ? `${names.first} + ${names.second}` : names.first }));
       details.append(el("p", { text: item.productType === "bebida" ? `${item.qty}x bebida` : `${size} • borda ${crust} • ${item.qty}x` }));

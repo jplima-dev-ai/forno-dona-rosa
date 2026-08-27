@@ -3,7 +3,7 @@ from pathlib import Path
 import re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='1.9.9'
+VERSION='2.1.9'
 checks=[]
 def check(name, ok, detail=''):
     checks.append((name,bool(ok),detail))
@@ -36,8 +36,10 @@ check('knowledge-base naming', (ROOT/'data/rosa-knowledge-base.js').exists() and
 check('English hero asset', (ROOT/'assets/images/dona-rosa-hero-pizza.jpg').exists())
 check('English food assets', all((ROOT/p).exists() for p in [
     'assets/images/cheese-pull-pizza.jpg','assets/images/wood-fired-oven-pizza.jpg',
-    'assets/images/nutella-strawberry-pizza.jpg','assets/images/signature-pizza.svg']))
+    'assets/images/nutella-strawberry-pizza.jpg']))
 for patch in range(10): check(f'Changelog 1.9.{patch}', f'## 1.9.{patch} ' in changelog)
+for patch in range(1,10): check(f'Changelog 2.0.{patch}', f'## 2.0.{patch} ' in changelog)
+for patch in range(10): check(f'Changelog 2.1.{patch}', f'## 2.1.{patch} ' in changelog)
 check('Cumulative Bag sanitation', 'function sanitizeBag' in main and 'MAX_BAG_QTY - totalQty' in main)
 check('Half-and-half type integrity', 'candidate2?.type === "pizza"' in main)
 check('Bag focus recovery', 'restoreCartActionFocus' in main)
@@ -50,6 +52,17 @@ check('Responsive bottom-sheet CSS', '.cart-dialog{width:100%;max-width:none;hei
 check('WebP food assets', all((ROOT/p).exists() for p in [
     'assets/images/dona-rosa-hero-pizza.webp','assets/images/cheese-pull-pizza.webp',
     'assets/images/wood-fired-oven-pizza.webp','assets/images/nutella-strawberry-pizza.webp']))
+product_images=list((ROOT/'assets/images/products').glob('*.webp'))
+check('31 product images', len(product_images)==31, str(len(product_images)))
+check('Every menu item has product image', menu.count('image:"assets/images/products/')==31)
+check('Desire discovery', 'data-desire="classica"' in html and 'data-desire="bebida"' in html)
+check('Bag thumbnails', 'cart-item__thumb' in main)
+check('Obsolete files removed', all(not (ROOT/p).exists() for p in ['assets/images/signature-pizza.svg','assets/images/og-cover.png','tools/generate.py']))
+product_names=[p.name for p in (ROOT/'assets/images/products').glob('*.webp')]
+pt_tokens=['agua','gas','lata','suco','laranja','mucarela','calabresa','portuguesa','frango','toscana','forno','casa','trufa','picante','vegana','chocolate-belga','banana-doce-leite','romeu-julieta']
+check('English product image filenames', all(not any(t in name.lower() for t in pt_tokens) for name in product_names), f'{len(product_names)} files')
+check('Hero CTA leads to menu', 'href="#cardapio">Escolher minha pizza</a>' in html)
+
 for f in ['js/app-meta.js','js/app-config.js','data/menu.js','data/rosa-knowledge-base.js','js/main.js','js/rosa.js','service-worker.js']:
     r=subprocess.run(['node','--check',str(ROOT/f)],capture_output=True,text=True)
     check(f'JS syntax {f}',r.returncode==0,r.stderr.strip())

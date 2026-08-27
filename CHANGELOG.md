@@ -1,5 +1,62 @@
 # Changelog
 
+## 2.1.9 — Repository Refinement Release Gate
+- Completed structural cleanup, version synchronization, regression coverage and obsolete-file validation for the 2.1.x cycle.
+
+## 2.1.8 — Quality Gate Modernization
+- Updated audit, health and regression tooling to validate English image filenames, removed assets and 2.1.x changelog completeness.
+
+## 2.1.7 — Customer Flow Review
+- Corrected the primary hero action so “Escolher minha pizza” leads to the visual menu before customization, reducing an unnecessary jump into the order form.
+
+## 2.1.6 — PWA Asset Cleanup
+- Removed obsolete warm/core cache entries and kept the service worker limited to resources that are actually part of the current experience.
+
+## 2.1.5 — Documentation Cleanup
+- Removed documentation references to retired tooling and synchronized repository structure notes with the actual project tree.
+
+## 2.1.4 — Obsolete Asset Removal
+- Removed `assets/images/signature-pizza.svg` and `assets/images/og-cover.png` after verifying that neither is used by the customer-facing runtime.
+
+## 2.1.3 — Tooling Cleanup
+- Removed the obsolete `tools/generate.py` asset-generation helper after confirming it is no longer part of the build or release workflow.
+
+## 2.1.2 — Beverage Image Naming
+- Renamed beverage product files to English descriptive filenames such as `coca-cola-can.webp`, `sparkling-water-bottle.webp` and `orange-juice.webp`.
+
+## 2.1.1 — Pizza Image Naming
+- Renamed every pizza product image to descriptive English filenames while preserving Portuguese customer-facing product names and stable catalog IDs.
+
+## 2.1.0 — Repository Review & Cleanup Audit
+- Reviewed the full v2.0.9 tree for stale files, mixed-language image filenames, dead references, version drift and repository maintenance debt.
+
+## 2.0.9 — Mobile Visual Commerce Release Gate
+- Final mobile-first QA, version synchronization, product-image coverage and release validation.
+
+## 2.0.8 — Accessibility, Reflow & Performance
+- Refined keyboard/NVDA semantics, reduced-motion behavior, forced-colors support, lazy product media and compact mobile imagery.
+
+## 2.0.7 — Rosa & Bag Visual Integration
+- Added product thumbnails to the Bag and aligned Rosa recommendations with the visual catalog without duplicating accessible names.
+
+## 2.0.6 — Menu 2.0 & Desire Discovery
+- Added the “Choose by desire” mobile scroller, tighter product cards and faster image-led discovery.
+
+## 2.0.5 — Beverage Product Imagery
+- Added local product illustrations to every beverage so no catalog item depends on emoji-only representation.
+
+## 2.0.4 — Full Pizza Image Coverage
+- Added explicit product-image paths for every pizza while retaining optimized local WebP delivery.
+
+## 2.0.3 — Product Photography System
+- Standardized square product media, card cropping, lazy loading, fallback states and consistent visual framing.
+
+## 2.0.2 — Hero 2.0
+- Reframed the hero around “48 hours / 90 seconds,” simplified mobile CTAs and moved users directly toward menu discovery.
+
+## 2.0.1 — Mobile-First Art Direction
+- Introduced the visual-commerce design layer: warmer surfaces, stronger typography, tighter spacing and touch-first hierarchy.
+
 ## 1.9.9 — Responsive Checkout Release Gate
 - Final responsive, keyboard, purchase-flow and regression review.
 

@@ -104,3 +104,31 @@ button, a, input, select, textarea { touch-action: manipulation; }
   .cart-dialog,.rosa-dialog{height:100dvh;max-height:100dvh;border-radius:0}
   .cart-actions{padding:.55rem 1rem}.cart-note{margin:.35rem 0}.cart-summary{padding-block:.55rem}
 }
+
+
+/* v2.0.x — mobile visual commerce edition */
+:root{--surface-warm:#fff8ee;--ink-warm:#24150d;--ember:#a83220;--gold-soft:#f0b74f;--mobile-edge:clamp(.85rem,4vw,1.25rem)}
+.hero{background:radial-gradient(circle at 72% 24%,rgba(180,72,27,.22),transparent 32%),linear-gradient(180deg,#120c09 0%,#1d120d 100%)}
+.hero__grid{gap:1.35rem}.hero h1{max-width:13ch;letter-spacing:-.035em}.hero h1 em{color:#f3bf62}.hero__lead{max-width:39rem}.hero__visual{border-radius:1.35rem;overflow:hidden}.hero__visual picture img{aspect-ratio:1/1;object-fit:cover}
+.desire-strip{margin:0 0 1.15rem;padding:1rem;border:1px solid rgba(241,182,75,.2);border-radius:1.1rem;background:linear-gradient(145deg,rgba(241,182,75,.08),rgba(255,255,255,.025))}.desire-strip__head{display:flex;align-items:end;justify-content:space-between;gap:1rem}.desire-strip__head .kicker{margin:0}.desire-strip__head h3{margin:0;font-size:clamp(1.25rem,5vw,1.65rem)}.desire-scroll{display:flex;gap:.55rem;overflow-x:auto;margin-top:.9rem;padding:.08rem .05rem .45rem;scroll-snap-type:x proximity;scrollbar-width:thin}.desire-chip{flex:0 0 auto;min-height:2.9rem;padding:.65rem .9rem;border:1px solid rgba(241,182,75,.3);border-radius:999px;background:#21150f;color:#fff;font-weight:800;scroll-snap-align:start}.desire-chip:hover,.desire-chip:focus-visible{background:#f1b64b;color:#24150d}
+.menu-grid{gap:1rem}.menu-card{border-radius:1.15rem;overflow:hidden;background:linear-gradient(180deg,#20150f,#17100c);box-shadow:0 18px 50px rgba(0,0,0,.18)}.menu-card__visual{aspect-ratio:1.18/1;min-height:0;overflow:hidden}.menu-card__visual img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease}.menu-card:focus-within .menu-card__visual img,.menu-card:hover .menu-card__visual img{transform:scale(1.025)}.menu-card__visual.is-image-fallback{display:grid;place-items:center;background:linear-gradient(145deg,#3c2417,#17100c)}.menu-card__visual.is-image-fallback .menu-card__icon{font-size:.9rem;text-transform:uppercase;letter-spacing:.12em}.menu-card__body>p{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.menu-card__top h3{font-size:clamp(1.15rem,4.8vw,1.4rem)}.menu-card__top>span{font-weight:900;color:#f1b64b}
+.menu-card[data-product-type="bebida"] .menu-card__visual{background:#1a110d}.menu-card[data-product-type="bebida"] .menu-card__visual img{object-fit:cover}
+.cart-item__top{grid-template-columns:auto minmax(0,1fr) auto;align-items:center}.cart-item__thumb{width:4.25rem;height:4.25rem;border-radius:.85rem;object-fit:cover;background:#2c1b12}.cart-item__top>strong:last-child{white-space:nowrap}
+@media(max-width:48rem){
+  .section-shell{width:min(100% - calc(var(--mobile-edge)*2),76rem)}
+  .hero{padding-top:1rem}.hero__grid{display:flex;flex-direction:column}.hero__copy{order:1}.hero__visual{order:2}.hero__visual picture img{aspect-ratio:4/3}.hero__seal{top:.75rem;right:.75rem}.rosa-hero-card{margin-top:.65rem}
+  .hero h1{font-size:clamp(2.35rem,11vw,3.85rem);line-height:.94}.hero__lead{font-size:1.02rem}.hero__actions{margin-top:1rem}.hero__actions .text-link{min-height:2.9rem;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.14);border-radius:.75rem;text-decoration:none}
+  .process-strip{margin-top:1rem;padding:.9rem;grid-template-columns:repeat(3,1fr);gap:.5rem;border-radius:1rem}.process-strip>span[aria-hidden="true"]{display:none}.process-strip div{text-align:center;padding:.3rem}.process-strip strong{font-size:1.1rem}.process-strip span{font-size:.72rem}
+  .section-head{margin-bottom:1.15rem}.section-head h2{font-size:clamp(1.9rem,8vw,2.65rem)}
+  .desire-strip{margin-inline:calc(var(--mobile-edge)*-1);border-left:0;border-right:0;border-radius:0;padding-inline:var(--mobile-edge)}.desire-strip__head{display:block}.desire-strip__head h3{margin-top:.2rem}
+  .filter-bar{margin-inline:calc(var(--mobile-edge)*-1);padding-inline:var(--mobile-edge)}
+  .menu-search{margin-bottom:.85rem}.menu-search input{font-size:1rem}
+  .menu-card{display:grid;grid-template-columns:7.6rem minmax(0,1fr);min-height:10.6rem}.menu-card__visual{aspect-ratio:auto;height:100%;min-height:10.6rem;border-radius:0}.menu-card__overlay{padding:.55rem}.menu-card__index{display:none}.menu-card__badge{font-size:.65rem}.menu-card__body{padding:.85rem}.menu-card__category{font-size:.68rem}.menu-card__top{display:block}.menu-card__top h3{font-size:1.15rem;line-height:1.05;margin-bottom:.28rem}.menu-card__top>span{display:block;font-size:1rem}.menu-card__body>p{font-size:.82rem;line-height:1.35;-webkit-line-clamp:2;margin:.4rem 0 .6rem}.card-actions{display:grid;grid-template-columns:1fr;gap:.4rem}.small-action{min-height:2.7rem;padding:.48rem .6rem;font-size:.78rem}.menu-card[data-product-type="bebida"] .menu-card__visual img{object-fit:cover}
+  .cart-item__top{grid-template-columns:3.8rem minmax(0,1fr);gap:.65rem}.cart-item__thumb{width:3.8rem;height:3.8rem}.cart-item__top>strong:last-child{grid-column:2;justify-self:start}
+  .gallery{display:none}
+}
+@media(max-width:24rem){.menu-card{grid-template-columns:6.4rem minmax(0,1fr)}.menu-card__visual{min-height:11rem}.menu-card__body{padding:.75rem}.menu-card__body>p{font-size:.78rem}.desire-chip{min-height:2.75rem;padding-inline:.75rem}}
+@media(min-width:48.01rem){.menu-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.menu-card__visual{aspect-ratio:4/3}}
+@media(min-width:70rem){.menu-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero__grid{grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr)}.hero__visual picture img{aspect-ratio:1/1}}
+@media(prefers-reduced-motion:reduce){.menu-card__visual img{transition:none}.menu-card:hover .menu-card__visual img,.menu-card:focus-within .menu-card__visual img{transform:none}}
+@media(forced-colors:active){.desire-chip{border:1px solid ButtonText;background:Canvas;color:CanvasText}.desire-chip:focus-visible{background:Highlight;color:HighlightText}.menu-card{border:1px solid CanvasText}.cart-item__thumb{border:1px solid CanvasText}}
