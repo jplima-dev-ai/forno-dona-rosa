@@ -3,7 +3,7 @@ from pathlib import Path
 import re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='1.8.9'
+VERSION='1.9.9'
 checks=[]
 def check(name, ok, detail=''):
     checks.append((name,bool(ok),detail))
@@ -37,12 +37,16 @@ check('English hero asset', (ROOT/'assets/images/dona-rosa-hero-pizza.jpg').exis
 check('English food assets', all((ROOT/p).exists() for p in [
     'assets/images/cheese-pull-pizza.jpg','assets/images/wood-fired-oven-pizza.jpg',
     'assets/images/nutella-strawberry-pizza.jpg','assets/images/signature-pizza.svg']))
-for patch in range(10): check(f'Changelog 1.8.{patch}', f'[1.8.{patch}]' in changelog)
+for patch in range(10): check(f'Changelog 1.9.{patch}', f'## 1.9.{patch} ' in changelog)
 check('Cumulative Bag sanitation', 'function sanitizeBag' in main and 'MAX_BAG_QTY - totalQty' in main)
 check('Half-and-half type integrity', 'candidate2?.type === "pizza"' in main)
 check('Bag focus recovery', 'restoreCartActionFocus' in main)
 check('Rosa mutation verification', 'const added = window.FORNO_APP.addProduct' in rosa)
 check('Versioned cache lookup', 'async function matchVersioned' in sw and 'Promise.allSettled(WARM_ASSETS' in sw)
+check('Mobile bag bar', 'id="mobile-bag-bar"' in html and 'has-mobile-bag' in main)
+check('Progressive order extras', '<details class="order-extras">' in html)
+check('Simplified card actions', 'data-customize' in main and 'Adicionar média' in main)
+check('Responsive bottom-sheet CSS', '.cart-dialog{width:100%;max-width:none;height:min(92dvh,52rem)' in (ROOT/'css/styles.css').read_text(encoding='utf-8'))
 check('WebP food assets', all((ROOT/p).exists() for p in [
     'assets/images/dona-rosa-hero-pizza.webp','assets/images/cheese-pull-pizza.webp',
     'assets/images/wood-fired-oven-pizza.webp','assets/images/nutella-strawberry-pizza.webp']))
@@ -51,7 +55,7 @@ for f in ['js/app-meta.js','js/app-config.js','data/menu.js','data/rosa-knowledg
     check(f'JS syntax {f}',r.returncode==0,r.stderr.strip())
 
 passed=sum(1 for _,ok,_ in checks if ok)
-print(f'Forno Dona Rosa — Quality Refinement Health Check v{VERSION}')
+print(f'Forno Dona Rosa — Responsive Checkout Health Check v{VERSION}')
 for name,ok,detail in checks:
     print(f'{name:.<38} {"PASS" if ok else "FAIL"}' + (f' ({detail})' if detail else ''))
 print(f'\n{passed}/{len(checks)} checks passed')

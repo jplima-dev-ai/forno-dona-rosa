@@ -1,6 +1,6 @@
 "use strict";
 
-const VERSION = "1.8.9";
+const VERSION = "1.9.9";
 const CORE_CACHE = `forno-core-${VERSION}`;
 const RUNTIME_CACHE = `forno-runtime-${VERSION}`;
 const RUNTIME_LIMIT = 24;

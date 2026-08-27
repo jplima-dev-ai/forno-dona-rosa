@@ -358,23 +358,11 @@
 
     const actions = el("div", { className: "card-actions" });
     actions.append(
-      el("button", { className: "small-action", text: "Adicionar", attrs: { type: "button", "data-quick-add": product.id } }),
-      el("button", {
-        className: "small-action",
-        text: favorites.has(product.id) ? "Favoritada" : "Favoritar",
-        attrs: {
-          type: "button",
-          "data-favorite": product.id,
-          "aria-pressed": String(favorites.has(product.id)),
-          "aria-label": `${favorites.has(product.id) ? "Remover" : "Adicionar"} ${product.name} ${favorites.has(product.id) ? "dos" : "aos"} favoritos`,
-        },
-      }),
-      el("button", {
-        className: "small-action",
-        text: "Compartilhar",
-        attrs: { type: "button", "data-share-pizza": product.id, "aria-label": `Compartilhar ${product.name}` },
-      }),
+      el("button", { className: "small-action small-action--primary", text: product.type === "bebida" ? "Adicionar à sacola" : "Adicionar média", attrs: { type: "button", "data-quick-add": product.id, "aria-label": product.type === "bebida" ? `Adicionar ${product.name} à sacola` : `Adicionar ${product.name} média com borda tradicional à sacola` } }),
     );
+    if (product.type !== "bebida") {
+      actions.append(el("button", { className: "small-action", text: "Personalizar", attrs: { type: "button", "data-customize": product.id, "aria-label": `Personalizar ${product.name}` } }));
+    }
     body.append(actions);
     article.append(visual, body);
     return article;
@@ -458,9 +446,19 @@
       }
       const favoriteButton = event.target.closest("[data-favorite]");
       const addButton = event.target.closest("[data-quick-add]");
+      const customizeButton = event.target.closest("[data-customize]");
       const shareButton = event.target.closest("[data-share-pizza]");
       if (favoriteButton) toggleFavorite(favoriteButton.dataset.favorite);
       if (addButton) addDefaultProduct(addButton.dataset.quickAdd);
+      if (customizeButton) {
+        const select = $("#pizza-select");
+        if (select && menuById.has(customizeButton.dataset.customize)) {
+          select.value = customizeButton.dataset.customize;
+          updatePreview();
+          $("#pedido")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+          requestAnimationFrame(() => select.focus());
+        }
+      }
       if (shareButton) sharePizza(shareButton.dataset.sharePizza);
     });
   }
@@ -683,7 +681,15 @@
       count.textContent = String(countNumber);
       count.setAttribute("aria-label", `${countNumber} ${countNumber === 1 ? "item" : "itens"}`);
     }
-    if (total) total.textContent = money(bag.reduce((sum, item) => sum + item.total, 0));
+    const totalValue = bag.reduce((sum, item) => sum + item.total, 0);
+    if (total) total.textContent = money(totalValue);
+    const mobileBar = $("#mobile-bag-bar");
+    const mobileCount = $("#mobile-bag-count");
+    const mobileTotal = $("#mobile-bag-total");
+    if (mobileBar) mobileBar.hidden = countNumber === 0;
+    if (mobileCount) mobileCount.textContent = `${countNumber} ${countNumber === 1 ? "item" : "itens"}`;
+    if (mobileTotal) mobileTotal.textContent = money(totalValue);
+    document.body.classList.toggle("has-mobile-bag", countNumber > 0);
     if (!box) return;
 
     empty(box);

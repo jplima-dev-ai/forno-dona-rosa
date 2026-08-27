@@ -4,7 +4,7 @@ from pathlib import Path
 import base64, hashlib, json, re, subprocess, sys
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.8.9"
+VERSION = "1.9.9"
 failures = []
 passes = []
 
@@ -60,7 +60,18 @@ for day in range(7):
 check("HTML version", f'content="{VERSION}" name="x-project-version"' in html)
 check("SW version", f'const VERSION = "{VERSION}"' in sw)
 for patch in range(10):
-    check(f"Changelog 1.8.{patch}", f"[1.8.{patch}]" in changelog)
+    check(f"Changelog 1.9.{patch}", f"## 1.9.{patch} " in changelog)
+
+# Responsive checkout regressions.
+css = (ROOT / "css/styles.css").read_text(encoding="utf-8")
+check("Mobile bag review bar", 'id="mobile-bag-bar"' in html and "mobile-bag-bar" in css)
+check("Bag bar reflects live totals", 'mobile-bag-total' in main and 'mobile-bag-count' in main)
+check("Optional order fields progressive", '<details class="order-extras">' in html)
+check("Pizza card personalization path", 'data-customize' in main and 'scrollIntoView' in main)
+check("Mobile menu single column", '@media(max-width:48rem)' in css and '.menu-grid{grid-template-columns:1fr}' in css)
+check("Mobile bag bottom sheet", '.cart-dialog{width:100%;max-width:none;height:min(92dvh,52rem)' in css)
+check("Compact viewport fallback", '@media(max-width:22rem)' in css)
+check("Low-height landscape fallback", '@media(max-height:30rem) and (orientation:landscape)' in css)
 
 # Syntax.
 for path in ["js/app-meta.js", "js/app-config.js", "data/menu.js", "data/rosa-knowledge-base.js", "js/main.js", "js/rosa.js", "service-worker.js"]:

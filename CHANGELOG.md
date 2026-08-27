@@ -1,5 +1,35 @@
 # Changelog
 
+## 1.9.9 — Responsive Checkout Release Gate
+- Final responsive, keyboard, purchase-flow and regression review.
+
+## 1.9.8 — Extreme Reflow QA
+- Hardened dialogs, cards and controls for very narrow and low-height viewports.
+
+## 1.9.7 — Accessible Purchase Feedback
+- Preserved clear bag status, focus behavior and keyboard-operable purchase actions.
+
+## 1.9.6 — Mobile Bag Bar
+- Added a compact mobile-only bag summary with item count, total and one-tap review.
+
+## 1.9.5 — Bag Dialog Mobile Layout
+- Converted the mobile bag into a bottom-sheet style dialog with safer scrolling and sticky actions.
+
+## 1.9.4 — Simplified Customization
+- Moved optional removals and notes behind a native details disclosure to reduce cognitive load.
+
+## 1.9.3 — Fast Purchase Cards
+- Reduced menu-card purchase actions to quick add plus personalization for pizzas, and one-step add for drinks.
+
+## 1.9.2 — Responsive Menu Discovery
+- Improved single-column mobile cards and horizontally scrollable category filters.
+
+## 1.9.1 — Responsive Layout Hardening
+- Strengthened hero, order, local and footer reflow across tablet and compact viewports.
+
+## 1.9.0 — Responsive Purchase Audit
+- Started a focused audit of responsive behavior, purchase friction and cross-component layout bugs.
+
 ## [1.8.9] - 2026-08-26
 ### Quality Refinement release gate
 - Completed the v1.8.x bug-fix and refinement cycle.

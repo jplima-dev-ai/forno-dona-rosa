@@ -53,3 +53,54 @@ button, a, input, select, textarea { touch-action: manipulation; }
 @media(max-width:30rem){.cart-item__top{display:grid}.cart-item__top>strong:last-child{justify-self:start}.footer-bottom{flex-direction:column}.business-status{border-radius:.8rem;align-items:flex-start}.process-strip{grid-template-columns:1fr}.process-strip>span[aria-hidden="true"]{display:none}.process-strip div{text-align:left;border-left:2px solid rgba(241,182,75,.35);padding-left:1rem}}
 @media(max-height:32rem) and (orientation:landscape){.rosa-dialog,.cart-dialog{max-height:calc(100dvh - .5rem)}.rosa-log{height:min(25vh,8rem)}.rosa-dialog__header img{width:3rem;height:3rem}.rosa-dialog__header{padding:.65rem}.rosa-quick{max-height:7rem;overflow:auto}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+
+/* v1.9.x — responsive checkout edition */
+.order-extras{border:1px solid rgba(255,255,255,.12);border-radius:.85rem;padding:.8rem 1rem;background:rgba(255,255,255,.025)}
+.order-extras summary{cursor:pointer;font-weight:850;min-height:2.75rem;display:flex;align-items:center}
+.order-extras[open]{display:grid;gap:1rem}
+.small-action--primary{background:#f1b64b;color:#24150d;border-color:#f1b64b}
+.mobile-bag-bar{display:none}
+.card-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}
+.menu-card[data-product-type="bebida"] .card-actions{grid-template-columns:1fr}
+@media(max-width:64rem){
+  .hero__grid,.order-builder__grid,.local-grid,.footer-grid{grid-template-columns:1fr}
+  .hero__copy{max-width:48rem}
+  .hero__visual{max-width:44rem;margin-inline:auto;width:100%}
+  .section-head--split{grid-template-columns:1fr}
+  .section-head--split>.btn{justify-self:start}
+  .menu-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:48rem){
+  body.has-mobile-bag{padding-bottom:calc(5.25rem + env(safe-area-inset-bottom))}
+  .mobile-bag-bar:not([hidden]){position:fixed;z-index:135;left:max(.65rem,env(safe-area-inset-left));right:max(.65rem,env(safe-area-inset-right));bottom:max(.65rem,env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:3.8rem;padding:.65rem 1rem;border:1px solid #f1b64b;border-radius:1rem;background:#24150d;color:#fff;box-shadow:0 18px 50px rgba(0,0,0,.45)}
+  .mobile-bag-bar span{display:grid;text-align:left}.mobile-bag-bar small{color:#d9caba}
+  body.has-mobile-bag .rosa-launcher{bottom:calc(5.2rem + env(safe-area-inset-bottom))}
+  .menu-grid{grid-template-columns:1fr}
+  .card-actions{grid-template-columns:1fr}
+  .filter-bar{display:flex;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:.4rem;overscroll-behavior-inline:contain}
+  .filter-chip{flex:0 0 auto;scroll-snap-align:start}
+  .order-form{padding:1rem}
+  .field-row{grid-template-columns:1fr}
+  .cart-dialog{width:100%;max-width:none;height:min(92dvh,52rem);max-height:92dvh;margin:auto 0 0;border-radius:1.25rem 1.25rem 0 0}
+  .cart-items{max-height:none;min-height:0;overflow:auto}
+  .cart-actions{position:sticky;bottom:0;background:inherit;padding-bottom:max(1rem,env(safe-area-inset-bottom))}
+  .hero__actions,.rosa-section__actions,.local-card__actions,.final-cta__inner>div{display:grid;grid-template-columns:1fr;width:100%}
+  .hero__actions .btn,.rosa-section__actions .btn,.local-card__actions .btn,.final-cta__inner .btn{width:100%;justify-content:center}
+}
+@media(max-width:30rem){
+  .site-header{padding-inline:.65rem}.brand{max-width:10.5rem;line-height:1.05}
+  .hero{padding-top:2rem}.hero__lead{font-size:1rem}
+  .menu-card__body{padding:1rem}.menu-card__top{display:grid;gap:.35rem}.menu-card__top>span{justify-self:start}
+  .cart-dialog{height:96dvh;max-height:96dvh}.cart-head,.cart-summary,.cart-note,.cart-actions{padding-inline:1rem}
+  .rosa-dialog{width:100%;max-width:none;max-height:96dvh;border-radius:1rem 1rem 0 0;margin:auto 0 0}
+}
+@media(max-width:22rem){
+  .mobile-bag-bar{left:.35rem;right:.35rem;padding:.55rem .7rem}.mobile-bag-bar small{display:none}
+  .cart-button span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .hero__actions{gap:.6rem}.btn--large{padding-inline:.8rem}
+}
+@media(max-height:30rem) and (orientation:landscape){
+  .cart-dialog,.rosa-dialog{height:100dvh;max-height:100dvh;border-radius:0}
+  .cart-actions{padding:.55rem 1rem}.cart-note{margin:.35rem 0}.cart-summary{padding-block:.55rem}
+}

@@ -6,6 +6,10 @@ Forno Dona Rosa is a portfolio-grade front-end project for a Brazilian artisan p
 
 > The customer-facing website intentionally remains in Brazilian Portuguese because the fictional business operates in Brazil. The repository engineering, technical naming, and primary documentation are written in English for international reviewers.
 
+## v1.9.9 — Responsive Checkout Edition
+
+This release focuses exclusively on responsive resilience, bug fixes and a shorter purchase path: simplified menu actions, progressive optional fields and a mobile bag review bar.
+
 ## Why this project exists
 
 The goal is not to showcase a generic restaurant landing page. The repository demonstrates how a marketing experience can evolve into a maintainable web product while preserving accessibility, performance, security, and brand identity across many releases.
@@ -26,7 +30,7 @@ The goal is not to showcase a generic restaurant landing page. The repository de
 ## Repository structure
 
 ```text
-forno-dona-rosa-v1.8.9/
+forno-dona-rosa-v1.9.9/
 ├── assets/
 │   ├── icons/
 │   └── images/
@@ -122,5 +126,5 @@ For a concise engineering narrative, see [docs/CASE-STUDY.md](docs/CASE-STUDY.md
 MIT. See [LICENSE](LICENSE).
 
 
-## v1.8.9 quality refinement
+## v1.9.9 quality refinement
 The 1.8.x cycle focused on bug fixing and quality rather than feature expansion: persisted bag data is sanitized cumulatively, half-and-half data cannot reference drinks, Rosa verifies mutations before confirming them, keyboard focus survives bag rerenders, the PWA cache lookup is more deterministic, and core food imagery now has WebP delivery paths. Run `python tools/regression-check.py` together with the existing audit and health checks before release.

@@ -4,7 +4,7 @@ from html.parser import HTMLParser
 import json, re, subprocess, sys
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.8.9"
+VERSION = "1.9.9"
 errors = []
 
 class AuditParser(HTMLParser):
@@ -137,4 +137,4 @@ print('- Bag schema v3 + migrations: OK')
 print('- Rosa hardening + confidence: OK')
 print('- International filename migration: OK')
 print('- Version sync: OK')
-print('- Changelog 1.8.0–1.8.9: OK')
+print('- Changelog 1.3.0–1.9.9: OK')
