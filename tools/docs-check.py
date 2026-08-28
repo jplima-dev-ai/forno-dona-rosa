@@ -4,7 +4,7 @@ from __future__ import annotations
 import re, sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-VERSION="2.7.9"
+VERSION="2.9.9"
 DOCS=[ROOT/"README.md",ROOT/"README-PT.md",ROOT/"SECURITY.md",*sorted((ROOT/"docs").rglob("*.md"))]
 errors=[]
 known_removed=("tools/generate.py","signature-pizza.svg","og-cover.png")

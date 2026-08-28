@@ -1,6 +1,6 @@
 # Create a new client
 
-Applies to v2.7.9.
+Applies to v2.9.9.
 
 ## 1. Choose a preset
 Supported starter presets:

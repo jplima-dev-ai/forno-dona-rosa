@@ -3,7 +3,7 @@ from pathlib import Path
 import re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.7.9'
+VERSION='2.9.9'
 checks=[]
 def check(name, ok, detail=''):
     checks.append((name,bool(ok),detail))

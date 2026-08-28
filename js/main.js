@@ -6,6 +6,8 @@
   const features = window.APP_FEATURES || {};
   const storageNamespace = String(cfg.storageNamespace || "forno").replace(/[^a-z0-9-]/gi, "-").toLowerCase();
   const pricing = window.FORNO_PRICING || {};
+  const commerce = window.FORNO_COMMERCE || {};
+  const unavailableProductIds = commerce.unavailableProductIds instanceof Set ? commerce.unavailableProductIds : new Set();
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const MAX_QTY = 10;
@@ -37,6 +39,7 @@
       item.basePrice >= 0,
   );
   const menuById = new Map(menu.map((item) => [item.id, item]));
+  const isAvailable = (id) => menuById.has(id) && !unavailableProductIds.has(id);
 
   const whatsappNumber = String(cfg.whatsappNumber || "").replace(/\D/g, "");
   const whatsappReady = /^55\d{10,11}$/.test(whatsappNumber);
@@ -125,9 +128,9 @@
   const normalizeCartItem = (raw) => {
     if (!raw || typeof raw !== "object") return null;
     const pizza = menuById.get(raw.pizzaId);
-    if (!pizza) return null;
+    if (!pizza || !isAvailable(pizza.id)) return null;
     const isDrink = pizza.type === "bebida";
-    const candidate2 = !isDrink && raw.pizza2Id && raw.pizza2Id !== raw.pizzaId ? menuById.get(raw.pizza2Id) : null;
+    const candidate2 = !isDrink && raw.pizza2Id && raw.pizza2Id !== raw.pizzaId && isAvailable(raw.pizza2Id) ? menuById.get(raw.pizza2Id) : null;
     const pizza2 = candidate2?.type === "pizza" ? candidate2 : null;
     const size = isDrink ? null : safeSize(raw.size);
     const crust = isDrink ? null : safeCrust(raw.crust);
@@ -188,7 +191,18 @@
     return safe;
   }
 
-  let bag = sanitizeBag(readStoredBag());
+  const rawStoredBag = readStoredBag();
+  const bagReconciliation = (() => {
+    let unavailable = 0, repriced = 0;
+    for (const raw of Array.isArray(rawStoredBag) ? rawStoredBag : []) {
+      if (!raw || typeof raw !== "object") continue;
+      if (typeof raw.pizzaId === "string" && !isAvailable(raw.pizzaId)) { unavailable += 1; continue; }
+      const normalized = normalizeCartItem(raw);
+      if (normalized && Number.isFinite(Number(raw.unitPrice)) && Math.abs(Number(raw.unitPrice) - normalized.unitPrice) > 0.009) repriced += 1;
+    }
+    return { unavailable, repriced };
+  })();
+  let bag = sanitizeBag(rawStoredBag);
 
   const storedFavorites = storage.get(FAVORITES_KEY, []);
   let favorites = new Set(
@@ -360,7 +374,8 @@
   }
 
   function buildMenuCard(product, index) {
-    const article = el("article", { className: "menu-card", attrs: { "data-product-type": product.type || "pizza" } });
+    const available = isAvailable(product.id);
+    const article = el("article", { className: "menu-card", attrs: { "data-product-type": product.type || "pizza", "data-available": String(available) } });
     const visual = el("button", { className: "menu-card__visual", attrs: { type: "button", "data-product-detail": product.id, "aria-label": `Ver detalhes de ${product.name}` } });
     if (product.image) {
       const small = smallProductImage(product.image);
@@ -394,13 +409,14 @@
       body.append(tagList);
     }
     body.append(el("p", { text: product.description }));
+    if (!available) body.append(el("p", { className: "menu-card__availability", text: "Indisponível hoje" }));
 
     const actions = el("div", { className: "card-actions" });
     const quickPrice = product.type === "bebida" ? product.basePrice : unitPriceFor(product.id, null, "media", "tradicional");
     actions.append(
-      el("button", { className: "small-action small-action--primary", text: product.type === "bebida" ? `Adicionar · ${money(quickPrice)}` : `Adicionar média · ${money(quickPrice)}`, attrs: { type: "button", "data-quick-add": product.id, "aria-label": product.type === "bebida" ? `Adicionar ${product.name} à sacola por ${money(quickPrice)}` : `Adicionar ${product.name} média com borda tradicional à sacola por ${money(quickPrice)}` } }),
+      el("button", { className: "small-action small-action--primary", text: available ? (product.type === "bebida" ? `Adicionar · ${money(quickPrice)}` : `Adicionar média · ${money(quickPrice)}`) : "Indisponível", attrs: { type: "button", "data-quick-add": product.id, "aria-label": available ? (product.type === "bebida" ? `Adicionar ${product.name} à sacola por ${money(quickPrice)}` : `Adicionar ${product.name} média com borda tradicional à sacola por ${money(quickPrice)}`) : `${product.name} indisponível hoje`, disabled: available ? null : "" } }),
     );
-    if (product.type !== "bebida") {
+    if (product.type !== "bebida" && available) {
       actions.append(el("button", { className: "small-action", text: "Personalizar", attrs: { type: "button", "data-customize": product.id, "aria-label": `Ver detalhes e personalizar ${product.name}` } }));
     }
     body.append(actions);
@@ -415,6 +431,27 @@
     .replace(/\s+/g, " ")
     .toLowerCase()
     .trim();
+
+  const editDistanceAtMostOne = (a, b) => {
+    if (a === b) return true;
+    if (Math.abs(a.length - b.length) > 1 || Math.max(a.length, b.length) < 4) return false;
+    let i=0,j=0,d=0;
+    while (i<a.length && j<b.length) {
+      if (a[i] === b[j]) { i++; j++; continue; }
+      if (++d > 1) return false;
+      if (a.length > b.length) i++; else if (b.length > a.length) j++; else { i++; j++; }
+    }
+    if (i<a.length || j<b.length) d++;
+    return d <= 1;
+  };
+  const searchMatches = (product, query) => {
+    if (!query) return true;
+    const aliases = Array.isArray(product.aliases) ? product.aliases : [];
+    const haystack = normalizeSearch([product.name, product.description, product.categoryLabel, ...(product.traits || []), ...aliases].join(" "));
+    if (haystack.includes(query)) return true;
+    const words = haystack.split(" ").filter(Boolean);
+    return query.split(" ").filter(Boolean).every((token) => words.some((word) => editDistanceAtMostOne(token, word)));
+  };
 
   function renderMenu(filter = lastMenuFilter) {
     const grid = $("#menu-grid");
@@ -431,8 +468,7 @@
           : product.category === lastMenuFilter;
       if (!filterMatch) return false;
       if (!query) return true;
-      const haystack = normalizeSearch([product.name, product.description, product.categoryLabel, ...(product.traits || [])].join(" "));
-      return haystack.includes(query);
+      return searchMatches(product, query);
     });
 
     empty(grid);
@@ -610,6 +646,7 @@
     const product = menuById.get(productId);
     const dialog = $("#product-dialog");
     if (!product || !dialog?.showModal) return;
+    const available = isAvailable(product.id);
     productPreviousFocus = trigger instanceof HTMLElement ? trigger : document.activeElement;
     dialog.dataset.productId = product.id;
     const image = $("#product-dialog-image");
@@ -624,10 +661,11 @@
     if (quick) {
       const quickPrice = product.type === "bebida" ? product.basePrice : unitPriceFor(product.id, null, "media", "tradicional");
       quick.dataset.productId = product.id;
-      quick.textContent = product.type === "bebida" ? `Adicionar · ${money(quickPrice)}` : `Adicionar média · ${money(quickPrice)}`;
+      quick.textContent = available ? (product.type === "bebida" ? `Adicionar · ${money(quickPrice)}` : `Adicionar média · ${money(quickPrice)}`) : "Indisponível hoje";
+      quick.disabled = !available;
     }
     const customize = $("#product-dialog-customize");
-    if (customize) customize.hidden = product.type === "bebida";
+    if (customize) customize.hidden = product.type === "bebida" || !available;
     const favorite = $("#product-dialog-favorite");
     if (favorite) {
       favorite.hidden = features.favorites === false;
@@ -734,7 +772,7 @@
 
   function addDefaultProduct(productId) {
     const product = menuById.get(productId);
-    if (!product) return false;
+    if (!product || !isAvailable(productId)) { announceApp(`${product?.name || "Produto"} está indisponível hoje.`); return false; }
     const item = createCartItem({
       pizzaId: productId, pizza2Id: null, size: product.type === "bebida" ? null : "media",
       crust: product.type === "bebida" ? null : "tradicional", qty: 1, remove: "", notes: "",
@@ -1262,6 +1300,38 @@
     setNetworkStatus();
   }
 
+
+  function announceBagReconciliation() {
+    if (!bagReconciliation.unavailable && !bagReconciliation.repriced) return;
+    const parts = [];
+    if (bagReconciliation.unavailable) parts.push(`${bagReconciliation.unavailable} ${bagReconciliation.unavailable === 1 ? "item indisponível foi removido" : "itens indisponíveis foram removidos"}`);
+    if (bagReconciliation.repriced) parts.push(`${bagReconciliation.repriced} ${bagReconciliation.repriced === 1 ? "preço foi atualizado" : "preços foram atualizados"} pelo cardápio atual`);
+    showTransientStatus(`${parts.join(" e ")}. Confira sua Sacola.`);
+  }
+
+  function initCommerceStatus() {
+    const detail = $("#commerce-live-detail");
+    const title = $("#commerce-live-status");
+    const live = getBusinessStatus();
+    if (title) title.textContent = live.open === true ? "Aberta agora" : live.open === false ? "Fechada agora" : "Horário da pizzaria";
+    if (detail) {
+      const fee = commerce.deliveryFee?.label || "Taxa de entrega confirmada no WhatsApp";
+      const eta = commerce.deliveryEstimate?.label || "Prazo confirmado no WhatsApp";
+      detail.textContent = `${live.text} ${fee}. ${eta}.`;
+    }
+  }
+
+  function initStorageSync() {
+    addEventListener("storage", (event) => {
+      if (event.key !== BAG_KEY) return;
+      const fresh = storage.get(BAG_KEY, null);
+      const items = fresh && typeof fresh === "object" && Array.isArray(fresh.items) ? fresh.items : [];
+      bag = sanitizeBag(items);
+      renderCart();
+      announceApp("Sua Sacola foi atualizada por outra aba deste site.");
+    });
+  }
+
   function initYear() {
     const year = $("#current-year");
     if (year) year.textContent = String(new Date().getFullYear());
@@ -1333,7 +1403,8 @@
   }
 
   window.FORNO_APP = Object.freeze({
-    addProduct(id) { return menuById.has(id) ? addDefaultProduct(id) : false; },
+    addProduct(id) { return isAvailable(id) ? addDefaultProduct(id) : false; },
+    isProductAvailable(id) { return isAvailable(id); },
     openBag() { openCart(document.activeElement); },
     openCart() { openCart(document.activeElement); },
     getBagSummary,
@@ -1384,5 +1455,8 @@
     initHours();
     initPWA();
     initYear();
+    initCommerceStatus();
+    initStorageSync();
+    announceBagReconciliation();
   });
 })();

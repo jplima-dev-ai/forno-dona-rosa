@@ -14,6 +14,133 @@ All notable changes to **Forno Dona Rosa** are recorded in this file. The projec
 ---
 
 
+## 2.9.9 — Mobile Design Refinement Release Gate
+### Changed
+- Finalized the 2.9.x visual and responsive system across mobile navigation, hero, catalog, Bag, checkout, Rosa and supporting commerce sections.
+- Updated runtime metadata, service-worker cache, documentation and quality tooling for the complete 2.9.x line.
+### Verified
+- Added `tools/responsive-design-check.py` as a release gate for the new mobile layout contracts and changelog continuity.
+
+## 2.9.8 — Adaptive Resilience & Accessibility Polish
+### Changed
+- Added explicit small-phone, mobile-landscape, tablet and large-screen rules driven by content needs rather than device names.
+- Strengthened safe-area handling, touch targets, text wrapping, forced-colors fallbacks and reduced-motion behavior for the refined interface.
+### Accessibility
+- Preserved semantic DOM order while changing only visual composition; no duplicate mobile/desktop content was introduced.
+
+## 2.9.7 — Rosa & Secondary Surface Refinement
+### Changed
+- Reduced the mobile Rosa launcher to a compact circular affordance so it no longer competes with the Bag action or bottom navigation.
+- Refined Rosa, operational FAQ, location and footer density for smaller screens while preserving their full functionality.
+
+## 2.9.6 — Mobile Checkout Refinement
+### Changed
+- Tightened checkout typography, spacing, choice cards and review surfaces for one-handed mobile use.
+- Kept the checkout full-height on phones with safe-area padding, scroll containment and clearer visual hierarchy between step, fields and primary action.
+
+## 2.9.5 — Mobile Bag Refinement
+### Changed
+- Promoted the mobile Bag into a full-height task surface with denser item rows, clearer totals and larger quantity controls.
+- Strengthened the floating Bag bar as the dominant mobile continuation action after the first item is added.
+
+## 2.9.4 — Search & Filter Efficiency
+### Changed
+- Reduced vertical space used by menu search help text on mobile and strengthened the search field as the primary catalog-navigation control.
+- Converted category filters into a compact horizontal scroll surface with stable touch targets and hidden decorative scrollbars.
+
+## 2.9.3 — Fast-Scan Product Cards
+### Changed
+- Reworked phone product cards into horizontal image/content compositions so more products can be evaluated with less scrolling.
+- Reduced nonessential visual metadata on narrow screens while preserving name, price, description, availability and purchase actions.
+- Kept product-card actions large enough for touch and stacked when horizontal space is insufficient.
+
+## 2.9.2 — Mobile Hero & Header Direction
+### Changed
+- Reduced sticky-header height and mobile chrome while keeping logo, Bag and navigation immediately reachable.
+- Reframed the mobile Hero around copy first, one-column actions and an edge-to-edge food image.
+- Removed the duplicate Rosa hero card on phones and compressed the artisan-process strip into three immediately scannable facts.
+
+## 2.9.1 — Mobile Design Foundations
+### Added
+- Added shared mobile edge, touch-target, elevated-surface and shadow tokens for the 2.9 responsive layer.
+### Changed
+- Normalized mobile spacing, control sizing, numeric alignment and overscroll behavior across shared components.
+
+## 2.9.0 — Responsive Design Forensics Audit
+### Reviewed
+- Audited the v2.8.9 page as a 320–430 px purchase experience, prioritizing vertical cost, visual competition, fixed controls, touch comfort and content resilience.
+### Findings
+- Identified excessive mobile height and simultaneous visual competition between the Hero seal, Rosa hero card, process strip, vertical product cards and fixed commerce controls.
+- Chose an intrinsic mobile redesign rather than adding device-specific breakpoint patches or hiding page overflow.
+
+## 2.8.9 — Real Commerce Operations Release Gate
+### Changed
+- Finalized delivery, pickup, scheduling, Pix/cash payment, availability, operational disclosures, offline recovery and commerce QA as one coherent checkout release.
+- Updated runtime metadata, service-worker cache, documentation and quality gates for the complete 2.8.x line.
+### Verified
+- Added `tools/commerce-operations-check.py` and requires every `2.8.0`–`2.8.9` changelog entry to remain present.
+
+## 2.8.8 — Operational Documentation & Trust
+### Added
+- Added concise customer FAQ covering delivery area, pickup, payment and manual WhatsApp confirmation.
+- Added privacy and order-condition disclosures explaining session storage, optional address persistence and final operational confirmation.
+- Added v2.8.9 release documentation and updated README operational guidance.
+
+## 2.8.7 — Offline, Recovery & Multi-Tab Resilience
+### Added
+- Added branded `offline.html` and `404.html` recovery pages.
+- Added cross-tab Sacola synchronization through the browser `storage` event.
+### Changed
+- Service-worker navigation fallback now prefers the dedicated offline page when the network is unavailable.
+
+## 2.8.6 — Search, Reorder & Context Intelligence
+### Added
+- Added controlled product aliases and limited one-edit fuzzy matching for common spelling variants such as calabreza, marguerita and muçarela/mussarela.
+- Added startup reconciliation notices when a persisted Sacola contains unavailable items or stored prices that differ from the current canonical catalog.
+### Changed
+- Reorder and persisted Sacola reconstruction continue to use current catalog prices and availability rather than trusting stale browser data.
+
+## 2.8.5 — Product Availability Safety
+### Added
+- Added configurable unavailable-product IDs with disabled purchase actions and explicit “Indisponível hoje” states.
+### Fixed
+- Unavailable products and unavailable half-and-half secondary products are rejected during persisted Sacola normalization.
+
+## 2.8.4 — Scheduling & Business-Hour Validation
+### Added
+- Added “o mais rápido possível” and scheduled-order modes.
+- Added civil-time schedule validation against configured Dona Rosa opening hours, lead time and maximum scheduling horizon.
+### Accessibility
+- Scheduling errors are associated with the datetime field and block review with actionable recovery instructions.
+
+## 2.8.3 — Pix, Cash & Change Handling
+### Added
+- Added Pix and cash as the only enabled payment methods for the reference implementation.
+- Added optional cash-change amount with validation against the current demonstrative subtotal.
+### Privacy
+- Payment selection is session-local and only enters the WhatsApp message when the customer chooses to continue.
+
+## 2.8.2 — Delivery & Pickup Checkout
+### Added
+- Added first-class delivery and pickup fulfillment choices.
+- Pickup removes delivery-address requirements and shows the configured pizzeria address instead.
+### Changed
+- Review and WhatsApp copy now adapt to the selected fulfillment method.
+
+## 2.8.1 — Commerce Configuration Foundation
+### Added
+- Added a canonical `commerce` configuration for fulfillment, payments, scheduling, delivery fee/estimate disclosure, pickup, availability and analytics.
+- Added `data/commerce-config.js` and an analytics adapter that remains disabled by default.
+### Changed
+- Unknown delivery fee and ETA values remain explicit “confirm on WhatsApp” states instead of fabricated numbers.
+
+## 2.8.0 — Real Commerce Forensics Audit
+### Reviewed
+- Audited the 2.7.9 fast-purchase flow as a real pizzeria operation rather than a portfolio-only experience.
+- Defined invariants for fulfillment, payment, scheduling, availability, persisted prices, offline recovery, privacy and operational truth.
+### Architecture
+- Preserved the short Cardápio → Sacola → checkout → WhatsApp path while adding operational choices through progressive disclosure.
+
 ## 2.7.9 — Fast Purchase & Reliability Release Gate
 ### Changed
 - Finalized the 2.7 customer journey around one dominant path: Cardápio → Sacola → endereço → WhatsApp, while keeping discovery and Rosa as optional support.

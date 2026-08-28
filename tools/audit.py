@@ -4,7 +4,7 @@ from html.parser import HTMLParser
 import json, re, subprocess, sys
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.7.9"
+VERSION = "2.9.9"
 errors = []
 
 class AuditParser(HTMLParser):
@@ -116,7 +116,7 @@ changelog=(ROOT/'CHANGELOG.md').read_text(encoding='utf-8')
 def changelog_has_version(version):
     return re.search(rf'^##\s+\[?{re.escape(version)}\]?(?:\s|$)', changelog, re.MULTILINE) is not None
 
-for major, max_minor in ((1, 9), (2, 6)):
+for major, max_minor in ((1, 9), (2, 9)):
     for minor in range(max_minor + 1):
         for patch in range(10):
             version=f'{major}.{minor}.{patch}'
@@ -246,6 +246,19 @@ if 'requestAnimationFrame(() => openCart(trigger))' not in (ROOT/'js/main.js').r
 if 'Aguarde a validação do CEP antes de continuar.' not in (ROOT/'js/checkout.js').read_text(encoding='utf-8'):
     errors.append('v2.7 pending CEP protection missing')
 
+
+for patch in range(10):
+    version = f"2.9.{patch}"
+    if f"## {version} " not in changelog:
+        errors.append(f"Changelog missing {version}")
+
+# v2.9 mobile design refinement gates.
+for rel in ['tools/responsive-design-check.py','docs/releases/v2.9.9.md']:
+    if not (ROOT/rel).exists(): errors.append(f'v2.9 responsive design asset missing: {rel}')
+styles=(ROOT/'css/styles.css').read_text(encoding='utf-8')
+for token in ['--tap-target:3rem','@media(max-width:23rem)','@media(max-height:32rem) and (orientation:landscape)','grid-template-columns:minmax(7.2rem,34vw) minmax(0,1fr)']:
+    if token not in styles: errors.append(f'v2.9 mobile design contract missing: {token}')
+
 if errors:
     print('AUDIT FAILED')
     for e in errors: print('-',e)
@@ -263,4 +276,4 @@ print('- Bag schema v3 + migrations: OK')
 print('- Rosa hardening + confidence: OK')
 print('- International filename migration: OK')
 print('- Version sync: OK')
-print('- Changelog 1.0.0–2.7.9 continuity: OK')
+print('- Changelog 1.0.0–2.9.9 continuity: OK')

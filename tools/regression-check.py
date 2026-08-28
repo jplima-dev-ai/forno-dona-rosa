@@ -4,7 +4,7 @@ from pathlib import Path
 import base64, hashlib, json, re, subprocess, sys
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.7.9"
+VERSION = "2.9.9"
 failures = []
 passes = []
 
@@ -152,9 +152,9 @@ check("Session-only default checkout data", 'sessionStorage' in checkout and 'ch
 check("Remember address is opt-in", 'id="checkout-remember" type="checkbox"' in html)
 check("Saved address can be forgotten", 'id="checkout-forget-address"' in html and 'safeRemoveLocal(savedKey)' in checkout)
 check("No-number option", 'id="checkout-no-number"' in html and 'S/N' in checkout)
-check("Review before WhatsApp", 'id="checkout-review-step"' in html and 'Está tudo certo — ir para WhatsApp' in html)
+check("Review before WhatsApp", 'id="checkout-review-step"' in html and 'Abrir WhatsApp com meu pedido' in html)
 check("WhatsApp address payload", 'CLIENTE' in checkout and 'ENTREGA' in checkout and 'PEDIDO' in checkout)
-check("No automatic send disclosure", 'Você ainda poderá revisar a mensagem antes de enviar.' in html)
+check("No automatic send disclosure", 'Você ainda revisa e toca em enviar; nada é enviado automaticamente.' in html)
 check("Checkout external CSP allowlist", 'https://viacep.com.br https://brasilapi.com.br' in html)
 check("Checkout mobile fullscreen", '.checkout-dialog{width:100%;height:100dvh' in css)
 check("Checkout touch target sizing", '.checkout-actions .btn,.checkout-review__actions .btn' in css and 'min-height:3.35rem' in css)

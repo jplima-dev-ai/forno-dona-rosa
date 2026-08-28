@@ -1,54 +1,36 @@
-# Local Smart Checkout
+# Checkout — v2.9.9
 
 ## Goal
 
-The v2.4 checkout reduces WhatsApp back-and-forth by preparing a structured customer-and-delivery payload before handoff. It remains a static front-end flow: no account, payment processor, server-side customer profile or automatic order submission is introduced.
+Keep ordering short while supporting real pizzeria operations. The checkout is local/browser-first and hands the final message to WhatsApp; it never sends an order automatically.
 
-## Customer flow
+## Flow
 
-1. Review the Bag.
-2. Continue to delivery details.
-3. Enter the customer's name and CEP.
-4. Resolve the CEP through ViaCEP, with BrasilAPI CEP v1 as fallback.
-5. Validate that the resolved city/state is Serra — ES.
-6. Complete house/building number and optional complement/reference.
-7. Review customer, address and Bag summary.
-8. Open WhatsApp with a prefilled message; the customer still sends it manually.
+Sacola → fulfillment → customer data → timing → payment → review → WhatsApp.
 
-## Delivery rules
+## Fulfillment
 
-- Supported city: Serra.
-- Supported state: ES.
-- A successful provider lookup outside Serra — ES blocks checkout handoff.
-- When both providers fail, manual street/neighborhood entry remains possible, but the UI explicitly marks the address as requiring confirmation by staff.
-- City and state remain constrained to Serra — ES in manual fallback mode.
+- **Delivery:** Serra — ES only. CEP uses ViaCEP first and BrasilAPI as fallback; provider failure allows manual street/bairro input while the business confirms the address.
+- **Pickup:** removes delivery-address requirements and shows the configured pizzeria address.
+
+## Timing
+
+- ASAP is available.
+- Scheduling is enabled for the reference implementation.
+- Scheduled civil time is checked against configured business hours, minimum lead time and maximum days ahead.
+
+## Payment
+
+The Forno Dona Rosa reference accepts only **Pix** and **cash**. Cash may include an optional change amount. If entered, it must be at least the current demonstrative subtotal.
+
+## Operational truth
+
+Delivery fee and ETA are configurable. Until the business provides real numbers, the reference implementation explicitly says they are confirmed on WhatsApp. Availability and final value are also confirmed by the pizzeria.
 
 ## Privacy
 
-- CEP lookup sends only the CEP to the selected postal provider.
-- Name, house/building number, complement and landmark are not sent to CEP providers.
-- Form progress uses `sessionStorage` by default.
-- Persistent address storage requires explicit opt-in.
-- A saved address can be deleted from the checkout.
-- Non-persistent session checkout data is removed after a successful WhatsApp handoff.
+Name/address are session-only by default. Persistent address storage requires an unchecked explicit opt-in and can be deleted from the checkout. Browser storage is treated as untrusted input and sanitized before reuse.
 
-## Accessibility
+## Accessibility contracts
 
-- Native `dialog` semantics with labelled title and description.
-- Explicit text close action.
-- Field labels remain visible.
-- Field errors are specific and linked to their fields.
-- CEP lookup emits one concise live-region update.
-- Focus moves to the next customer-editable field after lookup.
-- Main actions exceed minimum touch target expectations on mobile.
-- Layout reflows to a single column and full-height mobile surface.
-- Forced-colors styling is included.
-
-## External services
-
-The current browser-side postal lookup uses:
-
-- ViaCEP: `https://viacep.com.br/ws/{CEP}/json/`
-- BrasilAPI CEP v1: `https://brasilapi.com.br/api/cep/v1/{CEP}`
-
-These services are used only for address assistance. Order availability, delivery acceptance and final value remain confirmed by the pizzeria in WhatsApp.
+Choices use native radio controls grouped by `fieldset`/`legend`; errors are associated with fields; review receives heading focus before the final handoff action; conditional fields are removed from the active flow with `hidden`; WhatsApp handoff is disclosed as manual. Automated checks do not substitute NVDA, JAWS, Narrator, TalkBack or VoiceOver testing.

@@ -19,6 +19,10 @@ This documentation is organized by task rather than by repository history.
 - [Security](../SECURITY.md)
 
 ## Release engineering
+- [v2.8.9 release notes](releases/v2.8.9.md)
 - [v2.7.9 release notes](releases/v2.7.9.md)
 - [v2.6.9 release notes](releases/v2.6.9.md)
 - [Bug ledger](quality/BUG-LEDGER.md)
+
+
+- [v2.9.9 release notes](releases/v2.9.9.md)

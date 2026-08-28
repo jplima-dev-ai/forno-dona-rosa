@@ -10,11 +10,13 @@ The public customer experience intentionally remains in **Brazilian Portuguese**
 
 ## Current release
 
-**v2.7.9 — Fast Purchase & Reliability**
+**v2.9.9 — Mobile Design Refinement**
 
-The current line simplifies the public purchase journey before adding more features. The first natural scroll path is now **hero → three-step purchase orientation → menu**, product cards expose only the primary purchase decisions, Bag and checkout actions have clearer hierarchy, and recovery/focus bugs discovered during the conversion audit are protected by regression checks.
+The 2.9 line is a focused visual and responsive refinement of the real-commerce experience. It does not add another layer of product complexity; it makes the existing purchase flow faster to scan and easier to operate on narrow touch screens.
 
-The Template Factory, white-label architecture and production tooling from v2.6 remain intact. The reference implementation stays unmistakably Forno Dona Rosa while the public experience prioritizes one fast path: **Menu → Bag → address → customer-controlled WhatsApp handoff**.
+On phones, the header is shorter, the Hero is cleaner, the artisan process is compact, catalog cards become horizontal fast-scan rows, search and category filters consume less vertical space, the Bag becomes a full-height task surface, checkout density is improved, and Rosa becomes a secondary circular affordance instead of competing with the purchase action.
+
+The DOM remains semantic and shared between breakpoints: the mobile presentation is achieved through CSS adaptation rather than duplicated desktop/mobile markup. The direct purchase path remains **Menu → Bag → fulfillment/payment → review → customer-controlled WhatsApp handoff**.
 
 ## Product experience
 
@@ -142,7 +144,7 @@ See [Create a new client](docs/customization/CREATE-A-CLIENT.md) and [Configurat
 ## Repository map
 
 ```text
-forno-dona-rosa-v2.7.9/
+forno-dona-rosa-v2.9.9/
 ├── .github/workflows/       CI quality workflow
 ├── assets/                  icons, product media and brand assets
 ├── brands/                  generated client packages
@@ -278,3 +280,9 @@ The project is intended to demonstrate more than visual execution. It documents 
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+## Real commerce operations
+
+The reference implementation now supports **delivery or pickup**, **ASAP or scheduled orders**, and **Pix or cash**. Cash orders may include an optional change amount. Delivery fee and ETA are deliberately configured as “confirm on WhatsApp” until the business provides real numbers. Products can be marked unavailable without removing them from the catalog, persisted Sacola prices are rebuilt from canonical menu data, and analytics remains disabled by default.
+
+The customer still controls the final handoff: the site prepares the message, opens WhatsApp, and **does not send anything automatically**.

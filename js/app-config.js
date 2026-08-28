@@ -26,6 +26,7 @@
     timezone: brand.timezone || "America/Sao_Paulo",
     storageNamespace: brand.storageNamespace || "local-business",
     businessHours: source.hours || {},
-    businessHoursNote: source.businessHoursNote || ""
+    businessHoursNote: source.businessHoursNote || "",
+    commerce: source.commerce || {}
   });
 })();

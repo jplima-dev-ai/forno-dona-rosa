@@ -543,7 +543,7 @@
         const summary = window.FORNO_APP?.getBagSummary?.();
         if (!summary?.count) reply = "Sua sacola ainda está vazia. Escolha pelo menos um item antes de preencher os dados de entrega.";
         else {
-          reply = `Sua sacola está pronta para a próxima etapa. Vou abrir os dados de entrega; o CEP pode preencher rua, bairro, cidade e estado automaticamente, e a entrega é somente em ${deliveryLabel}.`;
+          reply = `Sua sacola está pronta para a próxima etapa. Vou abrir a finalização; você pode escolher entrega ou retirada, pagamento por Pix ou dinheiro e, se quiser, agendar. Na entrega, o CEP pode preencher rua e bairro automaticamente, e a área atendida é ${deliveryLabel}.`;
           window.setTimeout(() => { closeRosa(); window.setTimeout(() => window.FORNO_APP?.openCheckout?.(), 0); }, 140);
         }
         break;
@@ -631,7 +631,7 @@
         break;
       }
       case "menu": reply = `O cardápio demonstrativo tem ${menu.filter((i) => i.type !== "bebida").length} pizzas e ${menu.filter((i) => i.type === "bebida").length} bebidas. Você pode me dizer o perfil de sabor que procura.`; break;
-      case "order": reply = "Você escolhe o produto, personaliza quando necessário, revisa a sacola, preenche o endereço de entrega e confere tudo antes de abrir o WhatsApp. Nada é enviado automaticamente."; break;
+      case "order": reply = "Você escolhe o produto, personaliza quando necessário, revisa a sacola, escolhe entrega ou retirada, Pix ou dinheiro, define se quer o mais rápido possível ou agendar e confere tudo antes de abrir o WhatsApp. Nada é enviado automaticamente."; break;
       case "thanks": reply = vary(["Foi um prazer te ajudar. Quando quiser, eu continuo daqui.", "Sempre um prazer. Se quiser revisar a sacola antes de sair, eu faço isso com você."]); break;
       default: reply = `Não tenho certeza do que você quis dizer. ${contextualIntro()}`;
     }

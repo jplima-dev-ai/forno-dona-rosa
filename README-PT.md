@@ -10,11 +10,13 @@ A experiência pública permanece em **português brasileiro**. A engenharia do 
 
 ## Versão atual
 
-**v2.7.9 — Compra Rápida & Confiabilidade**
+**v2.9.9 — Refinamento de Design Mobile**
 
-A versão atual simplifica primeiro o caminho de compra. A ordem natural da página passa a ser **hero → orientação em três passos → cardápio**; os cards mostram apenas as decisões principais de compra; Sacola e checkout ganharam hierarquia mais clara; e bugs de recuperação, foco e estado de CEP encontrados durante a auditoria viraram regressões.
+A linha 2.9 é um refinamento visual e responsivo concentrado na experiência de comércio real. Ela não adiciona outra camada de complexidade ao produto; melhora a leitura, a densidade e a operação do fluxo existente em telas estreitas e dispositivos de toque.
 
-A Template Factory e a arquitetura white-label da 2.6 continuam intactas. A regra pública agora é explícita: **Cardápio → Sacola → endereço → WhatsApp**, enquanto Rosa, recomendador e personalizações permanecem como recursos opcionais.
+No celular, o cabeçalho ficou menor, o Hero mais limpo, o processo artesanal mais compacto, os produtos viraram cards horizontais de leitura rápida, busca e filtros ocupam menos altura, a Sacola virou uma superfície de tarefa em tela cheia, o checkout ganhou hierarquia mais forte e a Rosa passou a ser um acionador circular secundário em vez de competir com a compra.
+
+O DOM continua semântico e compartilhado entre breakpoints: a apresentação mobile nasce de CSS adaptativo, não de conteúdo desktop/mobile duplicado. O caminho direto continua sendo **Cardápio → Sacola → entrega/retirada e pagamento → revisão → WhatsApp controlado pelo cliente**.
 
 ## Fluxo do cliente
 
@@ -119,7 +121,7 @@ npm.cmd run quality
 
 ## Evolução do projeto
 
-O histórico agora preserva **todas as microversões de 1.0.0 até 2.7.9**, sem saltar diretamente de `x.y.0` para `x.y.9`. Cada linha possui suas dez versões `x.y.0`–`x.y.9`.
+O histórico agora preserva **todas as microversões de 1.0.0 até 2.9.9**, sem saltar diretamente de `x.y.0` para `x.y.9`. Cada linha possui suas dez versões `x.y.0`–`x.y.9`.
 
 | Linha | Evolução principal |
 | --- | --- |
@@ -151,3 +153,9 @@ Comece por [docs/README.md](docs/README.md). Também consulte [Arquitetura](docs
 ## Licença
 
 MIT. Consulte [LICENSE](LICENSE).
+
+## Operação comercial real
+
+A implementação de referência agora aceita **entrega ou retirada**, pedido **o mais rápido possível ou agendado** e pagamento por **Pix ou dinheiro em espécie**. Em dinheiro, o cliente pode informar opcionalmente para quanto precisa de troco. Taxa e prazo de entrega permanecem como “confirmar no WhatsApp” enquanto não houver números reais configurados. Produtos podem ser marcados como indisponíveis sem desaparecer do cardápio, preços persistidos são reconstruídos a partir do catálogo canônico e analytics fica desativado por padrão.
+
+O cliente mantém controle do envio: o site prepara a mensagem, abre o WhatsApp e **não envia nada automaticamente**.

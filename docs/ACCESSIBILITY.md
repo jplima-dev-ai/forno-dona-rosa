@@ -27,3 +27,9 @@ Static audits cannot prove full accessibility. Important release checks include 
 The checkout is intentionally optimized for low digital familiarity as well as assistive technology use. Required fields keep visible labels, error text explains how to recover, and CEP lookup produces one concise status update rather than announcing every auto-filled field. After a successful lookup, focus moves to the next editable address field; when the provider omits street or neighborhood, only the missing fields become editable while city/state remain constrained to Serra — ES.
 
 Primary checkout actions use explicit outcome-oriented labels and larger mobile targets. The full-screen mobile layout supports reflow, virtual keyboards, safe areas, forced colors and keyboard-only operation. A real NVDA/device pass remains required before claiming production conformance.
+
+## v2.9 responsive accessibility notes
+
+The v2.9 mobile redesign changes visual composition without changing semantic DOM order. Product cards, navigation, Bag and checkout are not duplicated into separate mobile and desktop trees. This protects reading order and focus order from visual/DOM divergence.
+
+The refined CSS preserves visible focus, safe-area spacing, forced-colors fallbacks and reduced-motion behavior. Automated/static validation is not a substitute for NVDA, JAWS, Narrator, TalkBack or VoiceOver testing; those combinations remain `NOT TESTED` unless an evidence ledger explicitly records real execution.

@@ -1,12 +1,12 @@
 "use strict";
 
-const VERSION = "2.7.9";
+const VERSION = "2.9.9";
 const CORE_CACHE = `forno-core-${VERSION}`;
 const RUNTIME_CACHE = `forno-runtime-${VERSION}`;
 const RUNTIME_LIMIT = 24;
 const CORE_ASSETS = [
   "./", "./index.html", "./css/styles.css", "./css/brand-theme.css", "./js/app-meta.js", "./data/brand/brand-config.js", "./data/brand/content-config.js", "./js/app-config.js", "./js/feature-flags.js", "./data/catalog-schema.js", "./js/brand-runtime.js", "./js/main.js", "./js/rosa.js",
-  "./data/menu.js", "./data/rosa-knowledge-base.js", "./data/delivery-config.js", "./js/postal-code-service.js", "./js/checkout.js", "./manifest.webmanifest",
+  "./data/menu.js", "./data/rosa-knowledge-base.js", "./data/delivery-config.js", "./data/commerce-config.js", "./js/analytics-adapter.js", "./js/postal-code-service.js", "./js/checkout.js", "./manifest.webmanifest", "./offline.html",
   "./assets/images/dona-rosa-hero-pizza.webp", "./assets/images/dona-rosa-hero-pizza-640.webp", "./assets/images/rosa-avatar.jpg", "./assets/images/brand/forno-dona-rosa-logo-720.webp",
   "./assets/icons/icon-192.png", "./assets/icons/icon-512.png"
 ];
@@ -75,7 +75,7 @@ async function networkFirstNavigation(request) {
     }
     return response;
   } catch {
-    return (await caches.match("./index.html")) || Response.error();
+    return (await caches.match("./offline.html")) || (await caches.match("./index.html")) || Response.error();
   }
 }
 

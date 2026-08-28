@@ -102,5 +102,49 @@
       "label": "Sábado"
     }
   },
-  "businessHoursNote": "Segunda a sexta, das 18h à 0h. Sábados e domingos, das 16h à 0h."
+  "businessHoursNote": "Segunda a sexta, das 18h à 0h. Sábados e domingos, das 16h à 0h.",
+  "commerce": {
+    "fulfillment": {
+      "delivery": true,
+      "pickup": true,
+      "default": "delivery"
+    },
+    "payment": {
+      "methods": [
+        "pix",
+        "cash"
+      ],
+      "default": "pix",
+      "cashChangeEnabled": true
+    },
+    "scheduling": {
+      "enabled": true,
+      "asapEnabled": true,
+      "minLeadMinutes": 45,
+      "maxDaysAhead": 7
+    },
+    "deliveryFee": {
+      "mode": "confirm-on-whatsapp",
+      "flatFee": null,
+      "label": "Taxa de entrega confirmada no WhatsApp"
+    },
+    "deliveryEstimate": {
+      "mode": "confirm-on-whatsapp",
+      "minMinutes": null,
+      "maxMinutes": null,
+      "label": "Prazo de entrega confirmado no WhatsApp"
+    },
+    "pickup": {
+      "addressLabel": "Av. Central, 420 - Parque Residencial Laranjeiras, Serra - ES, CEP 29165-130",
+      "leadTimeMinutes": 30
+    },
+    "minimumOrder": null,
+    "availability": {
+      "unavailableProductIds": []
+    },
+    "analytics": {
+      "enabled": false,
+      "provider": null
+    }
+  }
 }

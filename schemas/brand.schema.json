@@ -3,28 +3,98 @@
   "$id": "schemas/brand.schema.json",
   "title": "Brand configuration",
   "type": "object",
-  "required": ["schemaVersion", "brand", "contacts", "location", "delivery", "assistant", "features", "seo"],
+  "required": [
+    "schemaVersion",
+    "brand",
+    "contacts",
+    "location",
+    "delivery",
+    "assistant",
+    "features",
+    "seo",
+    "commerce"
+  ],
   "properties": {
-    "schemaVersion": {"type": "integer", "minimum": 1},
+    "schemaVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
     "brand": {
       "type": "object",
-      "required": ["name", "legalDisplayName", "shortName", "businessType", "locale", "currency", "timezone", "logo", "storageNamespace"],
+      "required": [
+        "name",
+        "legalDisplayName",
+        "shortName",
+        "businessType",
+        "locale",
+        "currency",
+        "timezone",
+        "logo",
+        "storageNamespace"
+      ],
       "properties": {
-        "name": {"type": "string", "minLength": 2, "maxLength": 80},
-        "legalDisplayName": {"type": "string", "minLength": 2, "maxLength": 120},
-        "shortName": {"type": "string", "minLength": 1, "maxLength": 40},
-        "businessType": {"type": "string", "enum": ["pizzeria", "coffee-shop", "burger-shop", "dessert-shop", "local-commerce"]},
-        "locale": {"type": "string", "pattern": "^[a-z]{2}(?:-[A-Z]{2})?$"},
-        "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
-        "timezone": {"type": "string", "minLength": 3},
-        "storageNamespace": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,31}$"},
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "legalDisplayName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "shortName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "businessType": {
+          "type": "string",
+          "enum": [
+            "pizzeria",
+            "coffee-shop",
+            "burger-shop",
+            "dessert-shop",
+            "local-commerce"
+          ]
+        },
+        "locale": {
+          "type": "string",
+          "pattern": "^[a-z]{2}(?:-[A-Z]{2})?$"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "timezone": {
+          "type": "string",
+          "minLength": 3
+        },
+        "storageNamespace": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]{1,31}$"
+        },
         "logo": {
           "type": "object",
-          "required": ["full", "header", "alt"],
+          "required": [
+            "full",
+            "header",
+            "alt"
+          ],
           "properties": {
-            "full": {"type": "string", "minLength": 1},
-            "header": {"type": "string", "minLength": 1},
-            "alt": {"type": "string", "minLength": 2, "maxLength": 160}
+            "full": {
+              "type": "string",
+              "minLength": 1
+            },
+            "header": {
+              "type": "string",
+              "minLength": 1
+            },
+            "alt": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 160
+            }
           },
           "additionalProperties": false
         }
@@ -33,28 +103,180 @@
     },
     "contacts": {
       "type": "object",
-      "required": ["whatsappNumber", "whatsappDisplay"],
+      "required": [
+        "whatsappNumber",
+        "whatsappDisplay"
+      ],
       "properties": {
-        "whatsappNumber": {"type": "string", "pattern": "^[1-9][0-9]{9,14}$"},
-        "whatsappDisplay": {"type": "string", "minLength": 8, "maxLength": 32},
-        "email": {"type": "string"},
-        "instagram": {"type": "string"}
+        "whatsappNumber": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]{9,14}$"
+        },
+        "whatsappDisplay": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 32
+        },
+        "email": {
+          "type": "string"
+        },
+        "instagram": {
+          "type": "string"
+        }
       },
       "additionalProperties": false
     },
-    "location": {"type": "object", "required": ["city", "state", "country"], "additionalProperties": true},
-    "delivery": {"type": "object", "required": ["enabled", "city", "state", "country"], "additionalProperties": true},
-    "assistant": {"type": "object", "required": ["enabled", "name", "role", "avatar"], "additionalProperties": true},
+    "location": {
+      "type": "object",
+      "required": [
+        "city",
+        "state",
+        "country"
+      ],
+      "additionalProperties": true
+    },
+    "delivery": {
+      "type": "object",
+      "required": [
+        "enabled",
+        "city",
+        "state",
+        "country"
+      ],
+      "additionalProperties": true
+    },
+    "assistant": {
+      "type": "object",
+      "required": [
+        "enabled",
+        "name",
+        "role",
+        "avatar"
+      ],
+      "additionalProperties": true
+    },
     "features": {
       "type": "object",
       "properties": {
-        "favorites": {"type": "boolean"}, "reorder": {"type": "boolean"}, "assistant": {"type": "boolean"},
-        "checkout": {"type": "boolean"}, "postalCodeLookup": {"type": "boolean"}, "pwa": {"type": "boolean"},
-        "productSearch": {"type": "boolean"}, "halfAndHalf": {"type": "boolean"}
+        "favorites": {
+          "type": "boolean"
+        },
+        "reorder": {
+          "type": "boolean"
+        },
+        "assistant": {
+          "type": "boolean"
+        },
+        "checkout": {
+          "type": "boolean"
+        },
+        "postalCodeLookup": {
+          "type": "boolean"
+        },
+        "pwa": {
+          "type": "boolean"
+        },
+        "productSearch": {
+          "type": "boolean"
+        },
+        "halfAndHalf": {
+          "type": "boolean"
+        }
       },
       "additionalProperties": false
     },
-    "seo": {"type": "object", "required": ["siteUrl", "title", "description", "schemaType"], "additionalProperties": true}
+    "seo": {
+      "type": "object",
+      "required": [
+        "siteUrl",
+        "title",
+        "description",
+        "schemaType"
+      ],
+      "additionalProperties": true
+    },
+    "commerce": {
+      "type": "object",
+      "required": [
+        "fulfillment",
+        "payment",
+        "scheduling",
+        "deliveryFee",
+        "deliveryEstimate",
+        "pickup",
+        "availability",
+        "analytics"
+      ],
+      "properties": {
+        "fulfillment": {
+          "type": "object",
+          "required": [
+            "delivery",
+            "pickup",
+            "default"
+          ],
+          "additionalProperties": true
+        },
+        "payment": {
+          "type": "object",
+          "required": [
+            "methods",
+            "default",
+            "cashChangeEnabled"
+          ],
+          "additionalProperties": true
+        },
+        "scheduling": {
+          "type": "object",
+          "required": [
+            "enabled",
+            "asapEnabled",
+            "minLeadMinutes",
+            "maxDaysAhead"
+          ],
+          "additionalProperties": true
+        },
+        "deliveryFee": {
+          "type": "object",
+          "required": [
+            "mode",
+            "label"
+          ],
+          "additionalProperties": true
+        },
+        "deliveryEstimate": {
+          "type": "object",
+          "required": [
+            "mode",
+            "label"
+          ],
+          "additionalProperties": true
+        },
+        "pickup": {
+          "type": "object",
+          "required": [
+            "addressLabel",
+            "leadTimeMinutes"
+          ],
+          "additionalProperties": true
+        },
+        "availability": {
+          "type": "object",
+          "required": [
+            "unavailableProductIds"
+          ],
+          "additionalProperties": true
+        },
+        "analytics": {
+          "type": "object",
+          "required": [
+            "enabled"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
   },
   "additionalProperties": true
 }
