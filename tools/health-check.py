@@ -3,7 +3,7 @@ from pathlib import Path
 import re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.9.9'
+VERSION='3.0.9'
 checks=[]
 def check(name, ok, detail=''):
     checks.append((name,bool(ok),detail))
@@ -61,7 +61,7 @@ check('Obsolete files removed', all(not (ROOT/p).exists() for p in ['assets/imag
 product_names=[p.name for p in (ROOT/'assets/images/products').glob('*.webp') if not p.stem.endswith('-384')]
 pt_tokens=['agua','gas','lata','suco','laranja','mucarela','calabresa','portuguesa','frango','toscana','forno','casa','trufa','picante','vegana','chocolate-belga','banana-doce-leite','romeu-julieta']
 check('English product image filenames', all(not any(t in name.lower() for t in pt_tokens) for name in product_names), f'{len(product_names)} files')
-check('Hero CTA leads to menu', 'href="#cardapio"' in html and '>Pedir agora</a>' in html)
+check('Hero CTA leads to menu', 'href="menu/"' in html and '>Pedir agora</a>' in html)
 
 for patch in range(10): check(f'Changelog 2.2.{patch}', f'## 2.2.{patch} ' in changelog)
 check('Sensory tags', 'sensory-tags' in html and 'sensoryLabels' in main)
@@ -143,7 +143,7 @@ check('Documentation map', (ROOT/'docs/README.md').exists())
 for patch in range(10): check(f'Changelog 2.7.{patch}', f'## 2.7.{patch} ' in changelog)
 check('Fast purchase orientation', 'id="como-pedir"' in html and 'Da escolha ao WhatsApp em 3 passos.' in html)
 check('Menu-first page order', html.find('id="topo"') < html.find('id="como-pedir"') < html.find('id="cardapio"') < html.find('id="ritual"'))
-check('Reduced primary navigation', '<a href="#cardapio">Cardápio</a><a href="#como-pedir">Como pedir</a><a href="#rosa">Rosa</a><a href="#localizacao">Localização</a>' in html)
+check('Reduced primary navigation', all(token in html for token in ['href="menu/">Cardápio</a>','href="order/">Pedir</a>','href="about/">Nossa história</a>','href="location/">Localização</a>','href="help/">Ajuda</a>']))
 check('Product card decision simplification', 'body.append(actions);' in main and 'body.append(actions, utility);' not in main)
 check('Product utilities in detail dialog', 'id="product-dialog-favorite"' in html and 'id="product-dialog-share"' in html)
 check('Checkout stale CEP protection', '++lookupToken;' in checkout and 'hideDeliveryState();' in checkout)

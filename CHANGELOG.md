@@ -14,6 +14,65 @@ All notable changes to **Forno Dona Rosa** are recorded in this file. The projec
 ---
 
 
+## 3.0.9 — Production Website Release Gate
+### Changed
+- Finalized the transition from single-page landing experience to a production-style multi-page website for small and medium pizzerias.
+- Synchronized runtime metadata, sitemap, documentation and executable website/naming gates.
+### Verified
+- Requires every 3.0.x microversion, generated page, product URL, pickup-state correction and sauce-ordering contract to remain present.
+
+## 3.0.8 — SEO, Accessibility & Adaptive Hardening
+### Added
+- Added canonical URLs and page-specific metadata to generated pages plus Product/Restaurant structured data where applicable.
+- Added nested-route asset resolution and service-worker registration so deep pages remain compatible with GitHub Pages project paths.
+### Accessibility
+- Preserved semantic landmarks, skip links, native controls, visible focus, reduced-motion and forced-colors contracts across generated pages.
+
+## 3.0.7 — Cross-Page State, Search & Rosa Context
+### Changed
+- Reused the canonical Bag namespace and existing commerce runtime across every page so the order survives navigation.
+- Added cross-page product actions and page-aware Rosa entry points without making the assistant mandatory.
+
+## 3.0.6 — Brand Story & Local Presence
+### Added
+- Added dedicated `about/`, `experience/`, `location/`, `help/` and `privacy/` pages with Portuguese customer-facing copy.
+- Moved local-business questions into focused destinations instead of forcing every visitor through one long page.
+
+## 3.0.5 — Dedicated Ordering & Extras
+### Added
+- Added dedicated `order/` experience and optional sauce selection for Maionese, Ketchup, Mostarda, Molho de alho and Molho picante.
+- Sauce choices now appear in review and WhatsApp payload only when selected.
+### Fixed
+- Fixed restored Pickup sessions showing delivery/CEP controls by reapplying conditional state after restoration, disabling hidden delivery controls and invalidating pending CEP lookup state.
+
+## 3.0.4 — Product Detail System
+### Added
+- Added generated detail URLs for all 31 catalog products under `products/<id>/`.
+- Added canonical product metadata, direct Add-to-Bag actions and pizza customization entry points.
+
+## 3.0.3 — Dedicated Menu Experience
+### Added
+- Added `menu/` as a focused catalog destination with existing search, categories, favorites, quick add and personalization behavior.
+- Product names now expose stable product URLs in addition to modal detail behavior.
+
+## 3.0.2 — Shared Site Shell & Navigation
+### Added
+- Added shared multipage header/footer/navigation contracts and cross-page runtime fragments for Bag, checkout, product detail and Rosa.
+- Added `js/site-pages.js` for page-specific progressive enhancement without duplicating commerce state.
+
+## 3.0.1 — Multi-Page Information Architecture
+### Added
+- Established dedicated routes for menu, ordering, story, experience, location, help and privacy.
+- Added a static-site build pipeline that generates 38 pages and the sitemap from canonical data.
+
+## 3.0.0 — Website Architecture & Bug Forensics
+### Reviewed
+- Audited the 2.9.9 landing-page architecture for conversion into a complete pizzeria website while preserving validated commerce behavior.
+- Defined English-only technical naming as a repository invariant while keeping customer-facing copy and documentation content in Portuguese.
+### Architecture
+- Added canonical `data/catalog.json`, `templates/runtime-fragments.html` and the static multipage generation strategy.
+- Identified restored checkout state as the first divergence behind the Pickup/CEP visibility bug.
+
 ## 2.9.9 — Mobile Design Refinement Release Gate
 ### Changed
 - Finalized the 2.9.x visual and responsive system across mobile navigation, hero, catalog, Bag, checkout, Rosa and supporting commerce sections.

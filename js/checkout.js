@@ -71,6 +71,7 @@
       complement: fulfillment === "delivery" ? clean(field("checkout-complement")?.value, config.maxLengths?.complement || 80) : "",
       reference: fulfillment === "delivery" ? clean(field("checkout-reference")?.value, config.maxLengths?.reference || 120) : "",
       remember: fulfillment === "delivery" && Boolean(field("checkout-remember")?.checked),
+      sauces: $$('[name="sauces"]:checked').map((node) => node.value).filter((id) => commerce.orderExtras?.sauces?.some((item) => item.id === id)).slice(0, 12),
       validation: fulfillment === "delivery" ? addressMode : "pickup",
       provider: fulfillment === "delivery" ? (verifiedAddress?.provider || "manual") : "pickup"
     };
@@ -99,6 +100,8 @@
     $(`input[name="fulfillment"][value="${fulfillment}"]`)?.click();
     $(`input[name="timing"][value="${timing}"]`)?.click();
     $(`input[name="payment"][value="${payment}"]`)?.click();
+    const savedSauces = new Set(Array.isArray(data.sauces) ? data.sauces : []);
+    $$('[name="sauces"]').forEach((node) => { node.checked = savedSauces.has(node.value); });
     updateNumberState();
     updateConditionalFields();
   }
@@ -218,8 +221,17 @@
 
   function updateConditionalFields() {
     const fulfillment = selected("fulfillment", "delivery"), timing = selected("timing", "asap"), payment = selected("payment", "pix");
-    $$('[data-delivery-fields]').forEach((node) => { node.hidden = fulfillment !== "delivery"; });
-    $$('[data-pickup-fields]').forEach((node) => { node.hidden = fulfillment !== "pickup"; });
+    $$('[data-delivery-fields]').forEach((node) => {
+      const hidden = fulfillment !== "delivery";
+      node.hidden = hidden;
+      node.querySelectorAll?.("input, select, textarea, button").forEach((control) => { control.disabled = hidden; });
+    });
+    $$('[data-pickup-fields]').forEach((node) => {
+      const hidden = fulfillment !== "pickup";
+      node.hidden = hidden;
+      node.querySelectorAll?.("input, select, textarea, button").forEach((control) => { control.disabled = hidden; });
+    });
+    if (fulfillment === "pickup") { ++lookupToken; addressMode = "pending"; verifiedAddress = null; hideDeliveryState(); }
     $$('[data-schedule-fields]').forEach((node) => { node.hidden = timing !== "scheduled"; });
     $$('[data-cash-fields]').forEach((node) => { node.hidden = payment !== "cash"; });
     if (field("checkout-postal-code")) field("checkout-postal-code").required = fulfillment === "delivery";
@@ -238,6 +250,8 @@
     else block("Retirada",[commerce.pickup?.addressLabel || brandCfg.address || "Retirada na pizzaria"]);
     block("Quando",[data.timing === "scheduled" ? `Agendado para ${data.scheduledAt.replace("T"," às ")}` : "O mais rápido possível"]);
     block("Pagamento",[data.payment === "pix" ? "Pix" : "Dinheiro em espécie", data.payment === "cash" && data.changeFor ? `Troco para: ${data.changeFor}` : ""]);
+    const sauceNames = (data.sauces || []).map((id) => commerce.orderExtras?.sauces?.find((item) => item.id === id)?.name).filter(Boolean);
+    if (sauceNames.length) block("Molhos", sauceNames);
     if(snapshot?.lines?.length)block("Seu pedido",snapshot.lines); block("Subtotal demonstrativo",[snapshot?.totalLabel||"R$ 0,00"]);
   }
 
@@ -258,19 +272,33 @@
     else lines.push("RETIRADA NA PIZZARIA",commerce.pickup?.addressLabel || brandCfg.address || "Confirmar endereço de retirada");
     lines.push("", "QUANDO", data.timing === "scheduled" ? `Agendado: ${data.scheduledAt.replace("T"," ")}` : "O mais rápido possível", "", "PAGAMENTO", data.payment === "pix" ? "Pix" : "Dinheiro em espécie");
     if(data.payment==="cash" && data.changeFor)lines.push(`Troco para: ${data.changeFor}`);
+    const sauceNames=(data.sauces||[]).map((id)=>commerce.orderExtras?.sauces?.find((item)=>item.id===id)?.name).filter(Boolean);
+    if(sauceNames.length)lines.push("","MOLHOS",...sauceNames.map((name)=>`- ${name}`));
     lines.push("","PEDIDO",...snapshot.messageLines,"",`Subtotal demonstrativo: ${snapshot.totalLabel}`,"","Pode confirmar disponibilidade, valor final e os detalhes do atendimento?"); return lines.join("\n");
   }
 
-  function open(trigger) { const dialog=field("checkout-dialog"),summary=app()?.getBagSummary?.(); if(!dialog?.showModal||!summary?.count)return false;previousFocus=trigger instanceof HTMLElement&&trigger.offsetParent!==null?trigger:document.querySelector("#open-cart")||document.activeElement;restoreSavedData();showStep("delivery");dialog.showModal();field("checkout-name")?.focus();return true; }
+  function open(trigger) { const dialog=field("checkout-dialog"),summary=app()?.getBagSummary?.(); if(!dialog?.showModal||!summary?.count)return false;previousFocus=trigger instanceof HTMLElement&&trigger.offsetParent!==null?trigger:document.querySelector("#open-cart")||document.activeElement;restoreSavedData();updateConditionalFields();showStep("delivery");dialog.showModal();field("checkout-name")?.focus();return true; }
   function close(){const dialog=field("checkout-dialog");if(dialog?.open)dialog.close();}
 
   function init() {
-    const dialog=field("checkout-dialog");if(!dialog)return;restoreSavedData();
+    const dialog=field("checkout-dialog");if(!dialog)return;
     const pickupAddress=field("checkout-pickup-address");if(pickupAddress)pickupAddress.textContent=commerce.pickup?.addressLabel||brandCfg.address||"Endereço confirmado no WhatsApp";
     const pickupRadio=field("checkout-fulfillment-pickup");if(pickupRadio)pickupRadio.closest("label").hidden=commerce.fulfillment?.pickup!==true;
     const deliveryRadio=field("checkout-fulfillment-delivery");if(deliveryRadio)deliveryRadio.closest("label").hidden=commerce.fulfillment?.delivery===false;
     const scheduledRadio=field("checkout-time-scheduled");if(scheduledRadio)scheduledRadio.closest("label").hidden=commerce.scheduling?.enabled!==true;
+    const sauceList=field("checkout-sauce-list");
+    if(sauceList){
+      while(sauceList.firstChild)sauceList.removeChild(sauceList.firstChild);
+      (commerce.orderExtras?.sauces||[]).forEach((sauce)=>{
+        const label=document.createElement("label");label.className="check-row checkout-sauce-option";
+        const input=document.createElement("input");input.type="checkbox";input.name="sauces";input.value=sauce.id;
+        const text=document.createElement("span");text.textContent=sauce.price>0?`${sauce.name} (+ ${new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(sauce.price)})`:sauce.name;
+        label.append(input,text);sauceList.append(label);
+      });
+      sauceList.closest("fieldset").hidden=!commerce.orderExtras?.sauces?.length;
+    }
     const pix=field("checkout-payment-pix"),cash=field("checkout-payment-cash"); if(pix)pix.closest("label").hidden=!commerce.payment?.methods?.includes("pix"); if(cash)cash.closest("label").hidden=!commerce.payment?.methods?.includes("cash");
+    restoreSavedData();
     updateConditionalFields();
     field("checkout-postal-code")?.addEventListener("input",(event)=>{event.currentTarget.value=postal.formatPostalCode(event.currentTarget.value);if(postal.stripPostalCode(event.currentTarget.value).length===8)lookupPostalCode();else{++lookupToken;clearAddress();hideDeliveryState();setError("checkout-postal-code","");}persistSession();});
     field("checkout-postal-code")?.addEventListener("blur",()=>{if(postal.stripPostalCode(field("checkout-postal-code").value).length===8&&addressMode==="pending")lookupPostalCode();});

@@ -10,13 +10,17 @@ A experiência pública permanece em **português brasileiro**. A engenharia do 
 
 ## Versão atual
 
-**v2.9.9 — Refinamento de Design Mobile**
+**v3.0.9 — Site Comercial Multipágina**
 
 A linha 2.9 é um refinamento visual e responsivo concentrado na experiência de comércio real. Ela não adiciona outra camada de complexidade ao produto; melhora a leitura, a densidade e a operação do fluxo existente em telas estreitas e dispositivos de toque.
 
 No celular, o cabeçalho ficou menor, o Hero mais limpo, o processo artesanal mais compacto, os produtos viraram cards horizontais de leitura rápida, busca e filtros ocupam menos altura, a Sacola virou uma superfície de tarefa em tela cheia, o checkout ganhou hierarquia mais forte e a Rosa passou a ser um acionador circular secundário em vez de competir com a compra.
 
 O DOM continua semântico e compartilhado entre breakpoints: a apresentação mobile nasce de CSS adaptativo, não de conteúdo desktop/mobile duplicado. O caminho direto continua sendo **Cardápio → Sacola → entrega/retirada e pagamento → revisão → WhatsApp controlado pelo cliente**.
+
+## Website 3.0
+
+A v3 transforma a implementação de referência em um site multipágina: `menu/`, `order/`, `about/`, `experience/`, `location/`, `help/`, `privacy/` e uma URL gerada para cada um dos 31 produtos. O runtime de Sacola, checkout e Rosa é compartilhado entre as páginas. Arquivos e pastas técnicas permanecem em inglês; copy pública e documentação permanecem em português.
 
 ## Fluxo do cliente
 
@@ -121,7 +125,7 @@ npm.cmd run quality
 
 ## Evolução do projeto
 
-O histórico agora preserva **todas as microversões de 1.0.0 até 2.9.9**, sem saltar diretamente de `x.y.0` para `x.y.9`. Cada linha possui suas dez versões `x.y.0`–`x.y.9`.
+O histórico agora preserva **todas as microversões de 1.0.0 até 3.0.9**, sem saltar diretamente de `x.y.0` para `x.y.9`. Cada linha possui suas dez versões `x.y.0`–`x.y.9`.
 
 | Linha | Evolução principal |
 | --- | --- |

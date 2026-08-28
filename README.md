@@ -10,7 +10,7 @@ The public customer experience intentionally remains in **Brazilian Portuguese**
 
 ## Current release
 
-**v2.9.9 — Mobile Design Refinement**
+**v3.0.9 — Production Website**
 
 The 2.9 line is a focused visual and responsive refinement of the real-commerce experience. It does not add another layer of product complexity; it makes the existing purchase flow faster to scan and easier to operate on narrow touch screens.
 
@@ -144,7 +144,7 @@ See [Create a new client](docs/customization/CREATE-A-CLIENT.md) and [Configurat
 ## Repository map
 
 ```text
-forno-dona-rosa-v2.9.9/
+forno-dona-rosa-v3.0.9/
 ├── .github/workflows/       CI quality workflow
 ├── assets/                  icons, product media and brand assets
 ├── brands/                  generated client packages

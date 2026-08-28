@@ -1,14 +1,15 @@
 {
   "name": "forno-dona-rosa-template-factory",
-  "version": "2.9.9",
+  "version": "3.0.9",
   "private": true,
-  "description": "Static-first accessible local-commerce template factory and Forno Dona Rosa reference implementation.",
+  "description": "Static-first accessible multi-page commerce website and template architecture for pizzerias.",
   "scripts": {
-    "check:js": "node --check js/main.js && node --check js/rosa.js && node --check js/checkout.js && node --check js/postal-code-service.js && node --check js/analytics-adapter.js && node --check data/commerce-config.js",
+    "check:js": "node --check js/main.js && node --check js/rosa.js && node --check js/checkout.js && node --check js/postal-code-service.js && node --check js/analytics-adapter.js && node --check js/site-pages.js && node --check data/commerce-config.js",
     "audit": "python tools/audit.py",
     "doctor": "python tools/project-doctor.py",
     "docs": "python tools/docs-check.py",
-    "quality": "npm run check:js && python tools/config-check.py && python tools/brand-leak-check.py && python tools/audit.py && python tools/health-check.py && python tools/regression-check.py && node tools/rosa-behavior-check.js && node tools/checkout-behavior-check.js && python tools/template-factory-check.py && python tools/docs-check.py && python tools/conversion-flow-check.py && python tools/commerce-operations-check.py && python tools/responsive-design-check.py && python tools/project-doctor.py"
+    "quality": "npm run build && npm run check:js && python tools/config-check.py && python tools/brand-leak-check.py && python tools/repository-naming-check.py && python tools/audit.py && python tools/health-check.py && python tools/regression-check.py && node tools/rosa-behavior-check.js && node tools/checkout-behavior-check.js && python tools/template-factory-check.py && python tools/docs-check.py && python tools/conversion-flow-check.py && python tools/commerce-operations-check.py && python tools/responsive-design-check.py && python tools/website-architecture-check.py && python tools/project-doctor.py",
+    "build": "python tools/build-site.py"
   },
   "engines": {
     "node": ">=20",

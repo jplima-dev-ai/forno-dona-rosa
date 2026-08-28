@@ -4,7 +4,7 @@ from pathlib import Path
 import base64, hashlib, json, re, subprocess, sys
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.9.9"
+VERSION = "3.0.9"
 failures = []
 passes = []
 
@@ -94,7 +94,7 @@ for obsolete in ['assets/images/signature-pizza.svg','assets/images/og-cover.png
 product_names=[p.name for p in (ROOT/'assets/images/products').glob('*.webp') if not p.stem.endswith('-384')]
 pt_tokens=['agua','gas','lata','suco','laranja','mucarela','calabresa','portuguesa','frango','toscana','forno','casa','trufa','picante','vegana','chocolate-belga','banana-doce-leite','romeu-julieta']
 check('English product image filenames', all(not any(t in name.lower() for t in pt_tokens) for name in product_names))
-check('Hero primary CTA opens visual menu', 'href="#cardapio"' in html and '>Pedir agora</a>' in html)
+check('Hero primary CTA opens visual menu', 'href="menu/"' in html and '>Pedir agora</a>' in html)
 
 # v2.2 conversion / mobile regressions.
 for patch in range(10):
@@ -200,7 +200,7 @@ for patch in range(10):
     check(f"Changelog 2.7.{patch}", f"## 2.7.{patch} " in changelog)
 check("Fast purchase route is first", html.find('id="topo"') < html.find('id="como-pedir"') < html.find('id="cardapio"') < html.find('id="ritual"'))
 check("Hero decision hierarchy", 'Pedir agora' in html and 'Preciso de ajuda para escolher' in html and 'hero__actions' in html)
-check("Reduced primary navigation", '<a href=" #never">' not in html and '<a href=" #never">' not in html and 'href="#como-pedir">Como pedir</a>' in html)
+check("Reduced primary navigation", '<a href=" #never">' not in html and '<a href=" #never">' not in html and 'href="menu/">Cardápio</a>' in html and 'href="order/">Pedir</a>' in html)
 check("Progressive decision help", '<details class="menu-help"><summary>Quero ajuda para decidir</summary>' in html)
 check("Product cards avoid utility overload", 'body.append(actions);' in main and 'body.append(actions, utility);' not in main)
 check("Product detail owns favorite and share", 'product-dialog-favorite' in html and 'product-dialog-share' in html and 'dataFavorite' not in main)

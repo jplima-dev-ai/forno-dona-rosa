@@ -4,7 +4,7 @@ from html.parser import HTMLParser
 import json, re, subprocess, sys
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.9.9"
+VERSION = "3.0.9"
 errors = []
 
 class AuditParser(HTMLParser):
@@ -252,6 +252,14 @@ for patch in range(10):
     if f"## {version} " not in changelog:
         errors.append(f"Changelog missing {version}")
 
+
+for patch in range(10):
+    version = f"3.0.{patch}"
+    if f"## {version} " not in changelog:
+        errors.append(f"Changelog missing {version}")
+for rel in ['tools/build-site.py','tools/website-architecture-check.py','tools/repository-naming-check.py','docs/releases/v3.0.9.md','data/catalog.json']:
+    if not (ROOT/rel).exists(): errors.append(f'v3 website asset missing: {rel}')
+
 # v2.9 mobile design refinement gates.
 for rel in ['tools/responsive-design-check.py','docs/releases/v2.9.9.md']:
     if not (ROOT/rel).exists(): errors.append(f'v2.9 responsive design asset missing: {rel}')
@@ -276,4 +284,4 @@ print('- Bag schema v3 + migrations: OK')
 print('- Rosa hardening + confidence: OK')
 print('- International filename migration: OK')
 print('- Version sync: OK')
-print('- Changelog 1.0.0–2.9.9 continuity: OK')
+print('- Changelog 1.0.0–3.0.9 continuity: OK')

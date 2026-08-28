@@ -25,4 +25,5 @@ This documentation is organized by task rather than by repository history.
 - [Bug ledger](quality/BUG-LEDGER.md)
 
 
+- [v3.0.9 release notes](releases/v3.0.9.md)
 - [v2.9.9 release notes](releases/v2.9.9.md)

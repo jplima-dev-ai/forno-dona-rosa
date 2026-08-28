@@ -15,6 +15,11 @@
     unavailableProductIds: unavailable,
     hours: Object.freeze(hours),
     timezone: source.brand?.timezone || "America/Sao_Paulo",
+    orderExtras: Object.freeze({
+      sauces: Object.freeze(Array.isArray(commerce.orderExtras?.sauces) ? commerce.orderExtras.sauces
+        .filter((item) => item && typeof item.id === "string" && typeof item.name === "string" && item.available !== false)
+        .map((item) => Object.freeze({ id:item.id, name:item.name, price:Number.isFinite(item.price) ? Math.max(0,item.price) : 0 })) : [])
+    }),
     analytics: Object.freeze(commerce.analytics || { enabled:false })
   });
 })();

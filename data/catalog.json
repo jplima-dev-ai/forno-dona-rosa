@@ -1,0 +1,585 @@
+{
+  "schemaVersion": 2,
+  "products": [
+    {
+      "id": "margherita",
+      "aliases": [
+        "marguerita",
+        "margarita",
+        "margherita"
+      ],
+      "type": "pizza",
+      "name": "Margherita Clássica",
+      "category": "tradicionais",
+      "categoryLabel": "Tradicional",
+      "badge": "Clássica",
+      "description": "Molho San Marzano, muçarela de búfala, manjericão fresco e azeite extra virgem. Leve, aromática e sempre irresistível.",
+      "basePrice": 54.9,
+      "image": "assets/images/products/margherita-pizza.webp",
+      "traits": [
+        "classica",
+        "suave",
+        "queijo",
+        "vegetariana"
+      ]
+    },
+    {
+      "id": "mucarela",
+      "type": "pizza",
+      "name": "Muçarela do Forno",
+      "category": "tradicionais",
+      "categoryLabel": "Tradicional",
+      "badge": "Essencial",
+      "description": "Molho artesanal, muçarela selecionada, tomate e orégano. Simples na aparência, precisa no sabor.",
+      "basePrice": 49.9,
+      "image": "assets/images/products/mozzarella-pizza.webp",
+      "traits": [
+        "classica",
+        "suave",
+        "queijo",
+        "vegetariana"
+      ]
+    },
+    {
+      "id": "calabresa",
+      "aliases": [
+        "calabreza",
+        "calabresa"
+      ],
+      "type": "pizza",
+      "name": "Calabresa Artesanal",
+      "category": "tradicionais",
+      "categoryLabel": "Tradicional",
+      "badge": "Clássico da casa",
+      "description": "Calabresa artesanal, cebola roxa, muçarela e orégano fresco em uma pizza intensa e reconfortante.",
+      "basePrice": 52.9,
+      "image": "assets/images/products/calabrese-sausage-pizza.webp",
+      "traits": [
+        "classica",
+        "intensa",
+        "carne"
+      ]
+    },
+    {
+      "id": "portuguesa",
+      "type": "pizza",
+      "name": "Portuguesa",
+      "category": "tradicionais",
+      "categoryLabel": "Tradicional",
+      "badge": "Farta",
+      "description": "Presunto, ovos, cebola, azeitonas, muçarela e molho artesanal para quem gosta de uma pizza completa.",
+      "basePrice": 57.9,
+      "image": "assets/images/products/portuguese-style-pizza.webp",
+      "traits": [
+        "classica",
+        "intensa",
+        "carne"
+      ]
+    },
+    {
+      "id": "frango-catupiry",
+      "type": "pizza",
+      "name": "Frango com Catupiry",
+      "category": "tradicionais",
+      "categoryLabel": "Tradicional",
+      "badge": "Cremosa",
+      "description": "Frango temperado, Catupiry, muçarela e toque de orégano sobre molho artesanal.",
+      "basePrice": 58.9,
+      "image": "assets/images/products/chicken-catupiry-pizza.webp",
+      "traits": [
+        "classica",
+        "suave",
+        "carne",
+        "cremosa"
+      ]
+    },
+    {
+      "id": "napolitana",
+      "type": "pizza",
+      "name": "Napolitana",
+      "category": "tradicionais",
+      "categoryLabel": "Tradicional",
+      "badge": "Tomate & alho",
+      "description": "Muçarela, tomate fresco, parmesão, alho e manjericão para um clássico aromático e direto.",
+      "basePrice": 53.9,
+      "image": "assets/images/products/neapolitan-pizza.webp",
+      "traits": [
+        "classica",
+        "suave",
+        "queijo",
+        "vegetariana"
+      ]
+    },
+    {
+      "id": "pepperoni",
+      "type": "pizza",
+      "name": "Pepperoni do Forno",
+      "category": "tradicionais",
+      "categoryLabel": "Tradicional",
+      "badge": "Marcante",
+      "description": "Pepperoni, muçarela e molho de tomate artesanal, com bordas tostadas pelo fogo e final levemente picante.",
+      "basePrice": 59.9,
+      "image": "assets/images/products/pepperoni-pizza.webp",
+      "traits": [
+        "classica",
+        "intensa",
+        "carne",
+        "picante"
+      ]
+    },
+    {
+      "id": "dona-rosa",
+      "type": "pizza",
+      "name": "Dona Rosa",
+      "category": "especiais",
+      "categoryLabel": "Assinatura da casa",
+      "badge": "Pizza assinatura",
+      "description": "Presunto cru, muçarela de búfala, tomate confit, rúcula e parmesão. A combinação que traduz o espírito da casa em cada fatia.",
+      "basePrice": 63.9,
+      "image": "assets/images/products/dona-rosa-signature-pizza.webp",
+      "traits": [
+        "autoral",
+        "intensa",
+        "carne",
+        "aventura"
+      ]
+    },
+    {
+      "id": "quatro-formaggi",
+      "type": "pizza",
+      "name": "Quatro Formaggi",
+      "category": "especiais",
+      "categoryLabel": "Especial da Casa",
+      "badge": "Muito queijo",
+      "description": "Muçarela, gorgonzola, parmesão, provolone e toque de mel. Cremosa, marcante e intensa.",
+      "basePrice": 61.9,
+      "image": "assets/images/products/four-cheese-pizza.webp",
+      "traits": [
+        "autoral",
+        "intensa",
+        "queijo"
+      ]
+    },
+    {
+      "id": "burrata-parma",
+      "type": "pizza",
+      "name": "Burrata & Parma",
+      "category": "especiais",
+      "categoryLabel": "Especial da Casa",
+      "badge": "Elegante",
+      "description": "Burrata cremosa, presunto Parma, tomate confit, rúcula e azeite extra virgem sobre base delicada.",
+      "basePrice": 69.9,
+      "image": "assets/images/products/burrata-parma-pizza.webp",
+      "traits": [
+        "autoral",
+        "suave",
+        "carne",
+        "queijo"
+      ]
+    },
+    {
+      "id": "toscana-forno",
+      "type": "pizza",
+      "name": "Toscana do Forno",
+      "category": "especiais",
+      "categoryLabel": "Especial da Casa",
+      "badge": "Rústica",
+      "description": "Linguiça artesanal, cebola caramelizada, muçarela, alecrim e parmesão em uma composição quente e aromática.",
+      "basePrice": 64.9,
+      "image": "assets/images/products/tuscan-wood-fired-pizza.webp",
+      "traits": [
+        "autoral",
+        "intensa",
+        "carne"
+      ]
+    },
+    {
+      "id": "carbonara-casa",
+      "type": "pizza",
+      "name": "Carbonara da Casa",
+      "category": "especiais",
+      "categoryLabel": "Especial da Casa",
+      "badge": "Cremosa",
+      "description": "Pancetta, parmesão, muçarela e creme de gema inspirado na carbonara, finalizado com pimenta-do-reino.",
+      "basePrice": 66.9,
+      "image": "assets/images/products/house-carbonara-pizza.webp",
+      "traits": [
+        "autoral",
+        "intensa",
+        "carne",
+        "queijo"
+      ]
+    },
+    {
+      "id": "funghi-trufa",
+      "type": "pizza",
+      "name": "Funghi & Trufa",
+      "category": "especiais",
+      "categoryLabel": "Especial da Casa",
+      "badge": "Aromática",
+      "description": "Cogumelos salteados, muçarela, parmesão e toque de azeite trufado para uma pizza profunda e perfumada.",
+      "basePrice": 68.9,
+      "image": "assets/images/products/mushroom-truffle-pizza.webp",
+      "traits": [
+        "autoral",
+        "intensa",
+        "vegetais",
+        "vegetariana"
+      ]
+    },
+    {
+      "id": "picante-rosa",
+      "type": "pizza",
+      "name": "Picante da Rosa",
+      "category": "especiais",
+      "categoryLabel": "Especial da Casa",
+      "badge": "Picante",
+      "description": "Pepperoni, nduja suave, muçarela, mel e pimenta para um contraste ardente, doce e memorável.",
+      "basePrice": 67.9,
+      "image": "assets/images/products/rosa-spicy-pizza.webp",
+      "traits": [
+        "autoral",
+        "intensa",
+        "carne",
+        "picante"
+      ]
+    },
+    {
+      "id": "orto",
+      "type": "pizza",
+      "name": "Orto no Fogo",
+      "category": "veganas",
+      "categoryLabel": "Vegetariana & Vegana",
+      "badge": "Frescor do forno",
+      "description": "Abobrinha, cogumelos, tomate confit, cebola roxa e pesto de manjericão. Fresca, aromática e equilibrada.",
+      "basePrice": 58.9,
+      "image": "assets/images/products/garden-vegetable-pizza.webp",
+      "traits": [
+        "autoral",
+        "suave",
+        "vegetais",
+        "vegetariana",
+        "vegana"
+      ]
+    },
+    {
+      "id": "margherita-vegana",
+      "type": "pizza",
+      "name": "Margherita Vegana",
+      "category": "veganas",
+      "categoryLabel": "Vegetariana & Vegana",
+      "badge": "Vegana",
+      "description": "Molho de tomate, queijo vegetal, tomate fresco, manjericão e azeite extra virgem.",
+      "basePrice": 57.9,
+      "image": "assets/images/products/vegan-margherita-pizza.webp",
+      "traits": [
+        "classica",
+        "suave",
+        "vegetais",
+        "vegetariana",
+        "vegana"
+      ]
+    },
+    {
+      "id": "mediterranea",
+      "type": "pizza",
+      "name": "Mediterrânea",
+      "category": "veganas",
+      "categoryLabel": "Vegetariana & Vegana",
+      "badge": "Colorida",
+      "description": "Berinjela, abobrinha, tomate, azeitona, cebola roxa e ervas frescas assadas no fogo.",
+      "basePrice": 60.9,
+      "image": "assets/images/products/mediterranean-pizza.webp",
+      "traits": [
+        "autoral",
+        "suave",
+        "vegetais",
+        "vegetariana",
+        "vegana"
+      ]
+    },
+    {
+      "id": "funghi-vegana",
+      "type": "pizza",
+      "name": "Funghi Vegana",
+      "category": "veganas",
+      "categoryLabel": "Vegetariana & Vegana",
+      "badge": "Umami",
+      "description": "Cogumelos, creme vegetal, alho assado, rúcula e azeite trufado em uma combinação intensa sem ingredientes de origem animal.",
+      "basePrice": 62.9,
+      "image": "assets/images/products/vegan-mushroom-pizza.webp",
+      "traits": [
+        "autoral",
+        "intensa",
+        "vegetais",
+        "vegetariana",
+        "vegana"
+      ]
+    },
+    {
+      "id": "nutella",
+      "type": "pizza",
+      "name": "Nutella com Morango",
+      "category": "doces",
+      "categoryLabel": "Pizza Doce",
+      "badge": "Final irresistível",
+      "description": "Creme de avelã, morangos frescos e açúcar de confeiteiro sobre uma massa levemente tostada.",
+      "basePrice": 49.9,
+      "image": "assets/images/products/nutella-strawberry-dessert-pizza.webp",
+      "traits": [
+        "doce",
+        "aventura"
+      ]
+    },
+    {
+      "id": "chocolate-belga",
+      "type": "pizza",
+      "name": "Chocolate Belga",
+      "category": "doces",
+      "categoryLabel": "Pizza Doce",
+      "badge": "Chocolate",
+      "description": "Chocolate belga cremoso, raspas de chocolate e toque de flor de sal para um final intenso.",
+      "basePrice": 51.9,
+      "image": "assets/images/products/belgian-chocolate-pizza.webp",
+      "traits": [
+        "doce",
+        "chocolate"
+      ]
+    },
+    {
+      "id": "banana-doce-leite",
+      "type": "pizza",
+      "name": "Banana, Canela & Doce de Leite",
+      "category": "doces",
+      "categoryLabel": "Pizza Doce",
+      "badge": "Conforto",
+      "description": "Banana caramelizada, doce de leite, canela e açúcar mascavo sobre massa dourada.",
+      "basePrice": 48.9,
+      "image": "assets/images/products/banana-cinnamon-caramel-pizza.webp",
+      "traits": [
+        "doce",
+        "suave"
+      ]
+    },
+    {
+      "id": "romeu-julieta",
+      "type": "pizza",
+      "name": "Romeu e Julieta",
+      "category": "doces",
+      "categoryLabel": "Pizza Doce",
+      "badge": "Brasileira",
+      "description": "Goiabada cremosa e queijo em um contraste clássico de doce e salgado.",
+      "basePrice": 47.9,
+      "image": "assets/images/products/guava-cheese-dessert-pizza.webp",
+      "traits": [
+        "doce",
+        "queijo"
+      ]
+    },
+    {
+      "id": "coca-lata",
+      "aliases": [
+        "coca lata",
+        "coca 350",
+        "coca cola lata"
+      ],
+      "type": "bebida",
+      "name": "Coca-Cola 350 ml",
+      "category": "bebidas",
+      "categoryLabel": "Bebida",
+      "badge": "Gelada",
+      "description": "Refrigerante Coca-Cola em lata de 350 ml.",
+      "basePrice": 7.9,
+      "image": "assets/images/products/coca-cola-can.webp",
+      "traits": [
+        "bebida",
+        "refrigerante",
+        "cola"
+      ]
+    },
+    {
+      "id": "coca-zero-lata",
+      "aliases": [
+        "coca zero",
+        "coca sem acucar",
+        "coca zero lata"
+      ],
+      "type": "bebida",
+      "name": "Coca-Cola Zero 350 ml",
+      "category": "bebidas",
+      "categoryLabel": "Bebida",
+      "badge": "Zero açúcar",
+      "description": "Refrigerante Coca-Cola Zero em lata de 350 ml.",
+      "basePrice": 7.9,
+      "image": "assets/images/products/coca-cola-zero-can.webp",
+      "traits": [
+        "bebida",
+        "refrigerante",
+        "zero",
+        "cola"
+      ]
+    },
+    {
+      "id": "guarana-lata",
+      "type": "bebida",
+      "name": "Guaraná Antarctica 350 ml",
+      "category": "bebidas",
+      "categoryLabel": "Bebida",
+      "badge": "Gelada",
+      "description": "Guaraná Antarctica em lata de 350 ml.",
+      "basePrice": 7.5,
+      "image": "assets/images/products/guarana-can.webp",
+      "traits": [
+        "bebida",
+        "refrigerante",
+        "guarana"
+      ]
+    },
+    {
+      "id": "sprite-lata",
+      "type": "bebida",
+      "name": "Sprite 350 ml",
+      "category": "bebidas",
+      "categoryLabel": "Bebida",
+      "badge": "Cítrica",
+      "description": "Refrigerante Sprite em lata de 350 ml.",
+      "basePrice": 7.5,
+      "image": "assets/images/products/sprite-can.webp",
+      "traits": [
+        "bebida",
+        "refrigerante",
+        "citrica"
+      ]
+    },
+    {
+      "id": "coca-2l",
+      "aliases": [
+        "coca 2 litros",
+        "coca grande",
+        "coca cola 2l"
+      ],
+      "type": "bebida",
+      "name": "Coca-Cola 2 L",
+      "category": "bebidas",
+      "categoryLabel": "Bebida",
+      "badge": "Para compartilhar",
+      "description": "Coca-Cola em garrafa de 2 litros.",
+      "basePrice": 14.9,
+      "image": "assets/images/products/coca-cola-2l-bottle.webp",
+      "traits": [
+        "bebida",
+        "refrigerante",
+        "cola",
+        "familia"
+      ]
+    },
+    {
+      "id": "guarana-2l",
+      "aliases": [
+        "guarana 2 litros",
+        "guarana grande"
+      ],
+      "type": "bebida",
+      "name": "Guaraná Antarctica 2 L",
+      "category": "bebidas",
+      "categoryLabel": "Bebida",
+      "badge": "Para compartilhar",
+      "description": "Guaraná Antarctica em garrafa de 2 litros.",
+      "basePrice": 13.9,
+      "image": "assets/images/products/guarana-2l-bottle.webp",
+      "traits": [
+        "bebida",
+        "refrigerante",
+        "guarana",
+        "familia"
+      ]
+    },
+    {
+      "id": "agua",
+      "aliases": [
+        "agua sem gas",
+        "agua mineral"
+      ],
+      "type": "bebida",
+      "name": "Água Mineral 500 ml",
+      "category": "bebidas",
+      "categoryLabel": "Bebida",
+      "badge": "Leve",
+      "description": "Água mineral sem gás, 500 ml.",
+      "basePrice": 5,
+      "image": "assets/images/products/still-water-bottle.webp",
+      "traits": [
+        "bebida",
+        "agua",
+        "leve"
+      ]
+    },
+    {
+      "id": "agua-gas",
+      "aliases": [
+        "agua com gas",
+        "agua gas"
+      ],
+      "type": "bebida",
+      "name": "Água com Gás 500 ml",
+      "category": "bebidas",
+      "categoryLabel": "Bebida",
+      "badge": "Refrescante",
+      "description": "Água mineral com gás, 500 ml.",
+      "basePrice": 5.5,
+      "image": "assets/images/products/sparkling-water-bottle.webp",
+      "traits": [
+        "bebida",
+        "agua",
+        "gas"
+      ]
+    },
+    {
+      "id": "suco-laranja",
+      "type": "bebida",
+      "name": "Suco de Laranja 500 ml",
+      "category": "bebidas",
+      "categoryLabel": "Bebida",
+      "badge": "Frutado",
+      "description": "Suco de laranja em embalagem de 500 ml, sujeito à disponibilidade.",
+      "basePrice": 10.9,
+      "image": "assets/images/products/orange-juice.webp",
+      "traits": [
+        "bebida",
+        "suco",
+        "laranja"
+      ]
+    }
+  ],
+  "pricing": {
+    "sizes": {
+      "media": {
+        "label": "Média",
+        "multiplier": 1
+      },
+      "grande": {
+        "label": "Grande",
+        "multiplier": 1.18
+      },
+      "familia": {
+        "label": "Família",
+        "multiplier": 1.42
+      }
+    },
+    "crusts": {
+      "tradicional": {
+        "label": "Tradicional",
+        "add": 0
+      },
+      "catupiry": {
+        "label": "Catupiry",
+        "add": 8
+      },
+      "cheddar": {
+        "label": "Cheddar",
+        "add": 7
+      }
+    },
+    "halfHalfRule": "maior_preco"
+  }
+}

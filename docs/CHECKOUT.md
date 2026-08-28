@@ -1,4 +1,4 @@
-# Checkout — v2.9.9
+# Checkout — v3.0.9
 
 ## Goal
 

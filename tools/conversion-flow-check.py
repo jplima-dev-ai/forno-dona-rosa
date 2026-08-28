@@ -22,11 +22,11 @@ hero_match = re.search(r'<div class="hero__actions">(.*?)</div>', html, re.S)
 hero_body = hero_match.group(1) if hero_match else ''
 hero_actions = re.findall(r'<(?:a|button)\b', hero_body)
 check('Hero has two decisions', len(hero_actions) == 2, str(len(hero_actions)))
-check('Hero primary CTA', 'href="#cardapio"' in hero_body and '>Pedir agora</a>' in hero_body)
+check('Hero primary CTA', 'href="menu/"' in hero_body and '>Pedir agora</a>' in hero_body)
 nav_match = re.search(r'<nav[^>]*id="main-nav"[^>]*>(.*?)</nav>', html, re.S)
 nav_body = nav_match.group(1) if nav_match else ''
 nav_links = re.findall(r'<a\b', nav_body)
-check('Primary nav reduced', len(nav_links) == 4, str(len(nav_links)))
+check('Primary nav reduced', len(nav_links) == 5, str(len(nav_links)))
 fast_match = re.search(r'id="como-pedir".*?<ol class="fast-order__steps">(.*?)</ol>', html, re.S)
 check('Three-step orientation', len(re.findall(r'<li\b', fast_match.group(1) if fast_match else '')) == 3)
 check('Decision help progressive', '<details class="menu-help"><summary>Quero ajuda para decidir</summary>' in html)

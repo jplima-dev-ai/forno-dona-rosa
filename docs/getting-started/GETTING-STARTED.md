@@ -1,6 +1,6 @@
 # Getting started
 
-Applies to v2.9.9.
+Applies to v3.0.9.
 
 ## Requirements
 - Python 3.11 or newer.

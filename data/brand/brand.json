@@ -145,6 +145,40 @@
     "analytics": {
       "enabled": false,
       "provider": null
+    },
+    "orderExtras": {
+      "sauces": [
+        {
+          "id": "mayonnaise",
+          "name": "Maionese",
+          "available": true,
+          "price": 0
+        },
+        {
+          "id": "ketchup",
+          "name": "Ketchup",
+          "available": true,
+          "price": 0
+        },
+        {
+          "id": "mustard",
+          "name": "Mostarda",
+          "available": true,
+          "price": 0
+        },
+        {
+          "id": "garlic-sauce",
+          "name": "Molho de alho",
+          "available": true,
+          "price": 0
+        },
+        {
+          "id": "spicy-sauce",
+          "name": "Molho picante",
+          "available": true,
+          "price": 0
+        }
+      ]
     }
   }
 }

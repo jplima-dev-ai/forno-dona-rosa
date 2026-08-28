@@ -27,7 +27,7 @@
   }
   document.querySelectorAll("[data-brand-logo]").forEach((image) => {
     if (!(image instanceof HTMLImageElement)) return;
-    if (brand.logo?.header) image.src = brand.logo.header;
+    if (brand.logo?.header) image.src = window.FORNO_META?.resolve?.(brand.logo.header) || brand.logo.header;
     image.alt = "";
   });
 })();

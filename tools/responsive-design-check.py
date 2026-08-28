@@ -8,7 +8,7 @@ meta=(ROOT/'js/app-meta.js').read_text(encoding='utf-8')
 checks=[]
 def check(name, cond): checks.append((name, bool(cond)))
 
-check('version 2.9.9', 'version: "2.9.9"' in meta and 'content="2.9.9" name="x-project-version"' in html)
+check('version 3.0.9', 'version: "3.0.9"' in meta and 'content="3.0.9" name="x-project-version"' in html)
 for patch in range(10):
     check(f'changelog 2.9.{patch}', re.search(rf'^##\s+2\.9\.{patch}(?:\s|$)', changelog, re.M))
 check('mobile edge token', '--mobile-edge:' in css)

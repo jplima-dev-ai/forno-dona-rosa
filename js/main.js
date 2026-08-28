@@ -103,9 +103,11 @@
     .filter(Boolean)
     .slice(0, limit);
 
-  const smallProductImage = (src) => typeof src === "string" && src.endsWith(".webp")
-    ? src.replace(/\.webp$/, "-384.webp")
-    : src;
+  const assetUrl = (src) => window.FORNO_META?.resolve?.(src) || src;
+  const smallProductImage = (src) => {
+    const small = typeof src === "string" && src.endsWith(".webp") ? src.replace(/\.webp$/, "-384.webp") : src;
+    return assetUrl(small);
+  };
 
   const safeSize = (key) =>
     pricing.sizes?.[key] ? key : Object.keys(pricing.sizes || {})[0] || "media";
@@ -381,7 +383,7 @@
       const small = smallProductImage(product.image);
       const image = el("img", {
         attrs: {
-          src: small, srcset: `${small} 384w, ${product.image} 768w`,
+          src: small, srcset: `${small} 384w, ${assetUrl(product.image)} 768w`,
           sizes: "(max-width: 48rem) 34vw, (max-width: 70rem) 50vw, 33vw",
           alt: "", loading: index < 2 ? "eager" : "lazy", decoding: "async", width: "768", height: "768"
         },
@@ -400,7 +402,9 @@
     const body = el("div", { className: "menu-card__body" });
     body.append(el("p", { className: "menu-card__category", text: product.categoryLabel }));
     const top = el("div", { className: "menu-card__top" });
-    top.append(el("h3", { text: product.name }), el("span", { text: money(product.basePrice) }));
+    const title = el("h3");
+    title.append(el("a", { text: product.name, attrs: { href: window.FORNO_META?.resolve?.(`products/${product.id}/`) || `products/${product.id}/` } }));
+    top.append(title, el("span", { text: money(product.basePrice) }));
     body.append(top);
     const tags = sensoryFor(product);
     if (tags.length) {
@@ -651,7 +655,7 @@
     dialog.dataset.productId = product.id;
     const image = $("#product-dialog-image");
     const small = smallProductImage(product.image);
-    if (image) { image.src = small; image.srcset = `${small} 384w, ${product.image} 768w`; image.alt = ""; }
+    if (image) { image.src = small; image.srcset = `${small} 384w, ${assetUrl(product.image)} 768w`; image.alt = ""; }
     const title = $("#product-dialog-title"); if (title) title.textContent = product.name;
     const description = $("#product-dialog-description"); if (description) description.textContent = product.description;
     const price = $("#product-dialog-price"); if (price) price.textContent = product.type === "bebida" ? money(product.basePrice) : `A partir de ${money(product.basePrice)}`;
@@ -1254,7 +1258,7 @@
     if (features.pwa === false) return;
     if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
       window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./service-worker.js", { scope: "./" }).catch(() => {
+        navigator.serviceWorker.register(window.FORNO_META?.resolve?.("service-worker.js") || "./service-worker.js", { scope: new URL("./", window.FORNO_META?.siteRoot || location.href).pathname }).catch(() => {
           showTransientStatus("Modo offline indisponível neste navegador.");
         });
       });
