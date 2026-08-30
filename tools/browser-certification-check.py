@@ -47,6 +47,8 @@ check('minimum core tap token', '--tap-target' in css and 'min-height:var(--tap-
 check('browser testing docs', (ROOT/'docs/testing/BROWSER-TESTING.md').exists())
 check('release evidence manifest', (ROOT/'docs/releases/evidence/v3.7.9/summary.md').exists())
 check('mobile usability gate', (ROOT/'tools/mobile-usability-check.py').exists() and 'mobile-usability-check.py' in pkg.get('scripts',{}).get('quality',''))
+nested_samples=['menu/index.html','products/calabresa/index.html','articles/wood-fired-pizza-flavor/index.html','categories/ingredients/index.html']
+check('nested runtime fragment assets resolve by route depth', all('src="assets/images/rosa-avatar.jpg"' not in text(path) for path in nested_samples))
 
 failed=[c for c in checks if not c[1]]
 for name,ok,detail in checks:
