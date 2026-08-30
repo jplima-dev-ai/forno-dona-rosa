@@ -1,66 +1,68 @@
-# Rosa — Local Conversational Hostess
+# Rosa — anfitriã digital local
 
-## Purpose
-Rosa is the local conversational layer of the Forno Dona Rosa portfolio project. She helps customers discover, compare and add menu items, review the Bag and reach the WhatsApp confirmation step without pretending to be a remote generative-AI service.
+## Propósito
 
-## Product principles
-- Local-first and privacy-preserving.
-- Short, useful responses by default.
-- No invented delivery area, stock, preparation time or commercial availability.
-- Destructive actions require explicit confirmation.
-- Ambiguous product actions ask before mutating the Bag.
-- Recommendations are explainable from canonical menu traits and temporary session preferences.
+Rosa é a camada conversacional local do Forno Dona Rosa. Ela ajuda a descobrir, comparar e adicionar produtos, entender a Sacola e chegar ao checkout sem fingir ser um serviço remoto de IA generativa.
 
-## Session model
-Rosa uses `sessionStorage` under schema v4. The state is intentionally short-lived and limited to:
-- recent conversation messages;
-- temporary preference flags;
-- recently referenced product IDs;
-- one pending destructive confirmation.
+## Princípios
 
-The session is sanitized before reuse. Clearing the conversation removes messages, preferences and pending state. No conversational profile is persisted across browser sessions.
+- local-first e orientada à privacidade;
+- respostas curtas e úteis;
+- nenhum fato comercial inventado;
+- ações destrutivas exigem confirmação;
+- produto ambíguo não altera Sacola sem desambiguação;
+- recomendações são explicáveis por dados do catálogo e preferências temporárias.
 
-## Intent resolution
-The pipeline is deterministic:
-1. normalize and limit input;
-2. recognize products and stronger exact aliases;
-3. extract temporary preferences;
-4. resolve action or informational intent;
-5. use recent product references when the user says “the first”, “the second” or similar;
-6. ask for disambiguation when several products are plausible;
-7. execute only validated application actions.
+## Sessão
 
-## Recommendations
-Recommendations use current catalog traits such as `suave`, `intensa`, `queijo`, `vegetariana`, `vegana`, `picante`, `doce` and product type. The engine ranks a small set and can explain the choice using only preferences present in the current session.
+A sessão usa `sessionStorage` com schema limitado e sanitizado. Pode conter:
 
-## Product actions
-Rosa cards provide:
-- Add to Bag;
-- View details.
+- mensagens recentes;
+- preferências temporárias;
+- produtos referenciados recentemente;
+- uma confirmação destrutiva pendente.
 
-All actions use canonical catalog IDs. Add actions verify the application result before announcing success.
+Nenhum perfil conversacional permanente é criado.
 
-## Destructive actions
-Clearing the Bag is never executed immediately from the first natural-language command. Rosa stores a pending `clear-bag` action and requires an explicit yes/no response.
+## Resolução de intenção
 
-## Accessibility
-Rosa uses:
-- a native `dialog`;
-- real buttons and textarea controls;
-- focus return to the invoking control;
-- a conversation `role=log`;
-- a separate polite status region for only the newest response;
-- keyboard-operable quick actions and product-card actions;
-- forced-colors support;
-- mobile full-screen reflow and safe-area spacing.
+Pipeline simplificado:
 
-Manual NVDA, real-device mobile, browser rendering, zoom and E2E validation are still required before claiming full production verification. Static and behavior gates do not replace assistive-technology testing.
+1. normalizar/limitar entrada;
+2. reconhecer produtos e aliases;
+3. extrair preferências temporárias;
+4. resolver intenção;
+5. usar contexto recente para ordinais/referências;
+6. pedir desambiguação quando necessário;
+7. executar apenas ações validadas pela aplicação.
 
-## Behavior regression
-Run:
+## Recomendações
 
-```bash
+Usam características canônicas como intensidade, queijo, vegetariana, vegana, picante e doce. O conjunto é pequeno e pode explicar por que foi sugerido.
+
+## Contexto operacional
+
+Rosa pode reutilizar status comercial, disponibilidade e Sacola atual, mas não substitui a fonte canônica nem o checkout.
+
+## Acessibilidade
+
+- `<dialog>` nativo;
+- textarea/botões reais;
+- retorno de foco ao invocador visível;
+- conversa com `role="log"`;
+- status separado para a resposta mais recente;
+- quick actions por teclado;
+- forced colors;
+- full-screen/reflow no mobile.
+
+## Regressão
+
+```powershell
 node tools/rosa-behavior-check.js
 ```
 
-The suite executes the real Rosa classification code in a controlled browser-like context and checks representative Portuguese prompts for preference extraction, comparison, ambiguous and exact product matching, destructive intent and detail actions.
+A suíte cobre preferências, comparação, ambiguidade, resolução exata, intenção destrutiva e detalhes. Ela não substitui NVDA/dispositivo real.
+
+## Contexto editorial
+
+Na 3.9, a Rosa reconhece perguntas sobre artigos, forno, fermentação e curiosidades. Ela pode informar que existe uma leitura relacionada, mas não abre páginas automaticamente nem substitui a busca global. O índice editorial é gerado estaticamente em `data/articles-index.js`.

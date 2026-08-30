@@ -1,0 +1,15 @@
+"use strict";
+const fs=require("fs"),vm=require("vm");
+const newsletter=JSON.parse(fs.readFileSync("data/newsletter.json","utf8"));
+const source=fs.readFileSync("js/newsletter.js","utf8");
+const checks=[]; const add=(label,ok)=>checks.push([label,!!ok]);
+add("newsletter disabled by default",newsletter.enabled===false);
+add("provider none by default",newsletter.provider==="none");
+add("no endpoint without provider",newsletter.endpoint===null);
+add("HTTPS guard exists",source.includes('protocol === "https:"'));
+add("native validity preserved",source.includes("reportValidity"));
+add("future API is explicit",source.includes('provider !== "future-api"'));
+add("status uses aria-live in build",fs.readFileSync("tools/build-site.py","utf8").includes('data-newsletter-status'));
+add("newsletter never stores email locally",!source.includes("localStorage")&&!source.includes("sessionStorage"));
+for(const [label,ok] of checks) console.log(ok?"PASS":"FAIL",label);
+const failed=checks.filter(([,ok])=>!ok); console.log(`${checks.length-failed.length}/${checks.length} newsletter contract checks passed`); if(failed.length)process.exit(1);

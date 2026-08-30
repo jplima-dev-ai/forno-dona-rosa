@@ -11,7 +11,7 @@ main=(ROOT/'js/main.js').read_text(encoding='utf-8')
 changelog=(ROOT/'CHANGELOG.md').read_text(encoding='utf-8')
 brand=json.loads((ROOT/'data/brand/brand.json').read_text(encoding='utf-8'))
 catalog=json.loads((ROOT/'data/catalog.json').read_text(encoding='utf-8'))
-check('Version 3.0.9','version: "3.0.9"' in meta)
+VERSION=json.loads((ROOT/'package.json').read_text(encoding='utf-8'))['version']; check(f'Current version {VERSION}',f'version: "{VERSION}"' in meta)
 for patch in range(10): check(f'Changelog 3.0.{patch}',f'## 3.0.{patch} ' in changelog)
 for slug in ['menu','order','about','experience','location','help','privacy']:
     check(f'Page {slug}',(ROOT/slug/'index.html').exists())

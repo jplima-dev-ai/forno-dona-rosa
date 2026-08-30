@@ -1,36 +1,88 @@
-# Checkout — v3.0.9
+# Checkout
 
-## Goal
+## Objetivo
 
-Keep ordering short while supporting real pizzeria operations. The checkout is local/browser-first and hands the final message to WhatsApp; it never sends an order automatically.
+Transformar uma Sacola em uma mensagem completa para WhatsApp com o menor atrito possível, sem envio automático e sem exigir backend.
 
-## Flow
+## State machine
 
-Sacola → fulfillment → customer data → timing → payment → review → WhatsApp.
+```text
+bag
+→ fulfillment
+→ schedule
+→ payment
+→ extras
+→ review
+→ handoff
+```
 
-## Fulfillment
+As transições são explícitas em `js/checkout-state.js`.
 
-- **Delivery:** Serra — ES only. CEP uses ViaCEP first and BrasilAPI as fallback; provider failure allows manual street/bairro input while the business confirms the address.
-- **Pickup:** removes delivery-address requirements and shows the configured pizzeria address.
+## Entrega ou retirada
 
-## Timing
+### Entrega
 
-- ASAP is available.
-- Scheduling is enabled for the reference implementation.
-- Scheduled civil time is checked against configured business hours, minimum lead time and maximum days ahead.
+- exige os dados de endereço necessários;
+- CEP usa ViaCEP como primário e BrasilAPI como fallback;
+- área atendida é derivada da configuração da marca;
+- provider failure permite fallback manual identificado como sujeito a confirmação.
 
-## Payment
+### Retirada
 
-The Forno Dona Rosa reference accepts only **Pix** and **cash**. Cash may include an optional change amount. If entered, it must be at least the current demonstrative subtotal.
+- remove os campos de entrega da experiência ativa;
+- campos ocultos ficam `disabled` e fora da validação/foco;
+- lookup pendente de CEP é invalidado;
+- o endereço configurado da pizzaria é apresentado ao cliente.
 
-## Operational truth
+Esse contrato possui regressões específicas porque já existiu um bug histórico em que Retirada restaurada podia reexibir CEP/endereço.
 
-Delivery fee and ETA are configurable. Until the business provides real numbers, the reference implementation explicitly says they are confirmed on WhatsApp. Availability and final value are also confirmed by the pizzeria.
+## Horário
 
-## Privacy
+O cliente pode escolher o mais rápido possível ou agendar quando habilitado. Slots válidos são derivados de:
 
-Name/address are session-only by default. Persistent address storage requires an unchecked explicit opt-in and can be deleted from the checkout. Browser storage is treated as untrusted input and sanitized before reuse.
+- timezone da marca;
+- horários regulares;
+- horários especiais;
+- antecedência mínima;
+- horizonte máximo configurado.
 
-## Accessibility contracts
+## Pagamento
 
-Choices use native radio controls grouped by `fieldset`/`legend`; errors are associated with fields; review receives heading focus before the final handoff action; conditional fields are removed from the active flow with `hidden`; WhatsApp handoff is disclosed as manual. Automated checks do not substitute NVDA, JAWS, Narrator, TalkBack or VoiceOver testing.
+A referência Dona Rosa aceita:
+
+- Pix;
+- dinheiro em espécie.
+
+Ao escolher dinheiro, troco é opcional e o valor informado não pode ser menor que o subtotal demonstrativo atual.
+
+## Extras
+
+Molhos são configuráveis e opcionais. Somente opções disponíveis entram na revisão e na mensagem final.
+
+## Revisão
+
+A revisão apresenta itens, personalizações, recebimento, horário, pagamento, troco quando aplicável, molhos e endereço apenas para entrega. Ações de edição retornam diretamente à seção correspondente em vez de reiniciar o fluxo.
+
+## WhatsApp
+
+O site apenas abre o WhatsApp com mensagem pré-preenchida. O cliente continua responsável por revisar e tocar em **Enviar**.
+
+O snapshot de último pedido só é salvo no momento do handoff e é reconciliado posteriormente com catálogo/preços/disponibilidade atuais.
+
+## Privacidade
+
+Nome/endereço são de sessão por padrão. Persistência exige opt-in explícito e pode ser apagada pelo usuário. Storage é tratado como entrada não confiável e sanitizado antes de renderização.
+
+## Acessibilidade
+
+- `fieldset`/`legend` para escolhas relacionadas;
+- labels visíveis;
+- erros associados ao campo;
+- foco contextual ao entrar em revisão;
+- conditional UI removida do fluxo quando não aplicável;
+- touch targets e safe areas no mobile;
+- reduced motion e forced colors.
+
+## Evidência
+
+`node tools/checkout-behavior-check.js` cobre normalização/serviço de CEP. Os gates de conversão, commerce, security e browser certification protegem contratos adicionais. Nenhum deles substitui teste manual com tecnologia assistiva e dispositivo real.

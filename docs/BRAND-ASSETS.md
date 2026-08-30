@@ -1,10 +1,17 @@
-# Brand assets
+# Assets de marca
 
-The current reference brand assets live in `assets/images/brand/`.
+Os assets da referência ficam em `assets/images/brand/`.
 
-- `forno-dona-rosa-logo.png` — full-resolution transparent master.
-- `forno-dona-rosa-logo-720.webp` — optimized header/runtime version.
+- `forno-dona-rosa-logo.png` — master transparente;
+- `forno-dona-rosa-logo-720.webp` — versão otimizada para cabeçalho/runtime.
 
-For another client, replace these with appropriately named client assets and update `brand.logo.full` and `brand.logo.header` in `data/brand/brand.json`, then run `python tools/brand-sync.py`.
+Para outro cliente, use nomes técnicos em inglês e atualize os caminhos em `data/brand/brand.json`. Depois execute:
 
-Do not use the master PNG for small UI surfaces when an optimized derivative is available. Preserve intrinsic width/height or aspect ratio to avoid layout shift.
+```powershell
+python tools/brand-sync.py
+npm.cmd run quality
+```
+
+Não use o PNG master em superfícies pequenas quando existir derivado apropriado. Preserve proporção/dimensões para reduzir layout shift.
+
+Imagens de produto seguem contrato separado em `assets/images/products/` e podem ter derivados AVIF/WebP gerados por `tools/build-media.py`.

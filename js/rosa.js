@@ -7,6 +7,7 @@
   const brandName = cfg.shortName || cfg.businessName || "a empresa";
   const deliveryLabel = window.FORNO_DELIVERY?.serviceAreaLabel || "a área atendida";
   const menu = Array.isArray(window.FORNO_MENU) ? window.FORNO_MENU : [];
+  const editorialArticles = Array.isArray(window.EDITORIAL_ARTICLES_INDEX) ? window.EDITORIAL_ARTICLES_INDEX : [];
   const menuById = new Map(menu.map((item) => [item.id, item]));
   const storageNamespace = String(cfg.storageNamespace || "forno").replace(/[^a-z0-9-]/gi, "-").toLowerCase();
   const SESSION_KEY = `${storageNamespace}-assistant-session-v4`;
@@ -52,6 +53,20 @@
   const containsAny = (text, words) => words.some((word) => normalize(text).includes(normalize(word)));
   const safeProduct = (id) => menuById.get(id) || null;
   const money = (value) => new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number(value) || 0);
+
+
+  function findArticle(text) {
+    const q = normalize(text);
+    if (!q || !editorialArticles.length) return null;
+    let best = null;
+    for (const article of editorialArticles) {
+      const haystack = normalize([article.title, article.summary, article.category, ...(article.tags || [])].join(" "));
+      const tokens = q.split(" ").filter((token) => token.length >= 4);
+      const score = tokens.reduce((total, token) => total + (haystack.includes(token) ? 1 : 0), 0);
+      if (score && (!best || score > best.score)) best = { score, article };
+    }
+    return best?.article || null;
+  }
 
   function sanitizePreferences(raw) {
     if (!raw || typeof raw !== "object") return {};
@@ -423,6 +438,7 @@
     { id: "why", score: 6, words: ["por que", "porque sugeriu", "porque recomendou"] },
     { id: "greeting", score: 3, words: ["oi", "ola", "bom dia", "boa tarde", "boa noite", "quem e voce"] },
     { id: "privacy", score: 4, words: ["privacidade", "api", "meus dados", "dados da conversa", "internet"] },
+    { id: "articles", score: 5, words: ["artigo", "artigos", "curiosidade", "curiosidades", "ler sobre", "forno a lenha", "fermentacao", "fermentação", "historia da pizza", "história da pizza"] },
     { id: "guide", score: 7, words: ["me ajude passo a passo", "ajuda passo a passo", "nao sei mexer", "não sei mexer", "como faco o pedido", "como faço o pedido"] },
     { id: "delivery", score: 7, words: ["preencher entrega", "dados de entrega", "endereco de entrega", "endereço de entrega", "finalizar pedido", "meu cep", "cep"] },
     { id: "hours", score: 4, words: ["horario", "hora", "aberto", "abre", "fecha", "funciona"] },
@@ -532,6 +548,13 @@
       case "privacy":
         reply = "Eu funciono localmente nesta página. O histórico curto e suas preferências temporárias ficam somente nesta sessão do navegador e não são enviados para uma API externa.";
         break;
+      case "articles": {
+        const article = findArticle(normalized) || editorialArticles[0];
+        reply = article
+          ? `Temos um artigo chamado “${article.title}”. Ele fica na área Artigos do site e explica esse assunto com mais calma.`
+          : "A área Artigos reúne histórias, técnicas e curiosidades sobre pizza artesanal.";
+        break;
+      }
       case "guide": {
         const summary = window.FORNO_APP?.getBagSummary?.();
         reply = summary?.count
@@ -670,6 +693,7 @@
       ["Me mostre as bebidas", "Ver bebidas"],
       ["Monte uma noite para mim", "Monte uma noite"],
       ["Qual é o horário?", "Horário"],
+      ["Quero ler uma curiosidade sobre pizza", "Ler uma curiosidade"],
     ];
   }
 

@@ -7,6 +7,9 @@
   const brandName = brandCfg.shortName || brandCfg.businessName || "a empresa";
   const postal = window.FORNO_POSTAL;
   const app = () => window.FORNO_APP;
+  const flow = () => window.FORNO_CHECKOUT_STATE;
+  const commerceEvent = (type, detail = {}) => window.FORNO_COMMERCE_EVENTS?.emit?.(type, detail);
+  let checkoutState = "fulfillment";
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const clean = (value, max = 120) => String(value || "").replace(/[\u0000-\u001F\u007F]/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
@@ -88,7 +91,6 @@
       "checkout-state": clean(data.state, 2).toUpperCase(),
       "checkout-complement": clean(data.complement, config.maxLengths?.complement || 80),
       "checkout-reference": clean(data.reference, config.maxLengths?.reference || 120),
-      "checkout-scheduled-at": clean(data.scheduledAt, 30),
       "checkout-change-for": clean(data.changeFor, 30)
     };
     Object.entries(pairs).forEach(([id, value]) => { if (field(id) && value !== undefined) field(id).value = value || ""; });
@@ -104,6 +106,8 @@
     $$('[name="sauces"]').forEach((node) => { node.checked = savedSauces.has(node.value); });
     updateNumberState();
     updateConditionalFields();
+    const scheduled = clean(data.scheduledAt, 30);
+    if (scheduled && field("checkout-scheduled-at") && [...field("checkout-scheduled-at").options].some((option) => option.value === scheduled)) field("checkout-scheduled-at").value = scheduled;
   }
 
   function setAddressFieldsReadonly(readonly) {
@@ -177,13 +181,39 @@
     const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/.exec(String(value || ""));
     return m ? { y:+m[1],m:+m[2],d:+m[3],h:+m[4],min:+m[5] } : null;
   }
+  function dateKey(parts) { return `${parts.y}-${String(parts.m).padStart(2,"0")}-${String(parts.d).padStart(2,"0")}`; }
+  function hoursFor(parts) {
+    const special = commerce.scheduling?.specialHours?.[dateKey(parts)];
+    if (special?.closed === true) return null;
+    if (special?.open && special?.close) return special;
+    const weekday = new Date(Date.UTC(parts.y, parts.m-1, parts.d)).getUTCDay();
+    return commerce.hours?.[weekday] || null;
+  }
+  function formatSlot(parts) {
+    const dt = new Date(Date.UTC(parts.y,parts.m-1,parts.d,parts.h,parts.min));
+    const label = new Intl.DateTimeFormat("pt-BR",{weekday:"short",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit",timeZone:"UTC"}).format(dt);
+    return label.replace(",", " ·");
+  }
+  function buildScheduleSlots() {
+    const select = field("checkout-scheduled-at"); if (!select) return;
+    const current = select.value; while (select.options.length > 1) select.remove(1);
+    const now = businessNowParts(); const minLead = Math.max(0, Number(commerce.scheduling?.minLeadMinutes)||0); const maxDays=Math.max(1,Number(commerce.scheduling?.maxDaysAhead)||7); const interval=Math.max(15,Number(commerce.scheduling?.slotIntervalMinutes)||30);
+    const minEpoch=civilEpoch(now)+minLead*60000;
+    for(let offset=0; offset<=maxDays; offset++){
+      const date=new Date(Date.UTC(now.y,now.m-1,now.d+offset)); const parts={y:date.getUTCFullYear(),m:date.getUTCMonth()+1,d:date.getUTCDate()}; const slot=hoursFor(parts); if(!slot) continue;
+      const [oh,om]=String(slot.open||"00:00").split(":").map(Number), [ch,cm]=String(slot.close||"00:00").split(":").map(Number); const start=oh*60+om,end=ch===24?1440:ch*60+cm;
+      let minute=Math.ceil(start/interval)*interval;
+      for(; minute<end; minute+=interval){ const candidate={...parts,h:Math.floor(minute/60),min:minute%60}; if(civilEpoch(candidate)<minEpoch) continue; const value=`${candidate.y}-${String(candidate.m).padStart(2,"0")}-${String(candidate.d).padStart(2,"0")}T${String(candidate.h).padStart(2,"0")}:${String(candidate.min).padStart(2,"0")}`; const option=document.createElement("option"); option.value=value; option.textContent=formatSlot(candidate); select.append(option); }
+    }
+    if(current && [...select.options].some((o)=>o.value===current)) select.value=current;
+  }
   function validateSchedule(value) {
     const selectedTime = parseCivil(value); if (!selectedTime) return "Escolha a data e o horário do agendamento.";
     const now = businessNowParts(); const minLead = Math.max(0, Number(commerce.scheduling?.minLeadMinutes) || 0); const maxDays = Math.max(1, Number(commerce.scheduling?.maxDaysAhead) || 7);
     const selectedEpoch = civilEpoch(selectedTime), minEpoch = civilEpoch(now) + minLead*60000, maxEpoch = civilEpoch(now) + maxDays*86400000;
     if (selectedEpoch < minEpoch) return `Escolha um horário com pelo menos ${minLead} minutos de antecedência.`;
     if (selectedEpoch > maxEpoch) return `Escolha uma data dentro dos próximos ${maxDays} dias.`;
-    const weekday = new Date(Date.UTC(selectedTime.y, selectedTime.m-1, selectedTime.d)).getUTCDay(); const slot = commerce.hours?.[weekday];
+    const slot = hoursFor(selectedTime);
     if (!slot) return "A pizzaria não atende nesta data.";
     const [oh,om] = String(slot.open || "00:00").split(":").map(Number), [ch,cm] = String(slot.close || "00:00").split(":").map(Number);
     const mins = selectedTime.h*60+selectedTime.min, start=oh*60+om, end=ch===24?1440:ch*60+cm;
@@ -233,6 +263,7 @@
     });
     if (fulfillment === "pickup") { ++lookupToken; addressMode = "pending"; verifiedAddress = null; hideDeliveryState(); }
     $$('[data-schedule-fields]').forEach((node) => { node.hidden = timing !== "scheduled"; });
+    if (timing === "scheduled") buildScheduleSlots();
     $$('[data-cash-fields]').forEach((node) => { node.hidden = payment !== "cash"; });
     if (field("checkout-postal-code")) field("checkout-postal-code").required = fulfillment === "delivery";
     ["checkout-street","checkout-neighborhood"].forEach((id) => { if (field(id)) field(id).required = fulfillment === "delivery"; });
@@ -256,6 +287,11 @@
   }
 
   function showStep(step) {
+    const targetState = step === "review" ? "review" : "fulfillment";
+    if (targetState === "review") checkoutState = flow()?.phaseForForm?.(readForm()) || "extras";
+    const moved = flow()?.transition?.(checkoutState, targetState);
+    if (moved?.ok || checkoutState === targetState || !flow()) checkoutState = targetState;
+    commerceEvent("checkout:state", { state: checkoutState });
     const deliveryStep = field("checkout-delivery-step");
     const reviewStep = field("checkout-review-step");
     const isReview = step === "review";
@@ -277,7 +313,7 @@
     lines.push("","PEDIDO",...snapshot.messageLines,"",`Subtotal demonstrativo: ${snapshot.totalLabel}`,"","Pode confirmar disponibilidade, valor final e os detalhes do atendimento?"); return lines.join("\n");
   }
 
-  function open(trigger) { const dialog=field("checkout-dialog"),summary=app()?.getBagSummary?.(); if(!dialog?.showModal||!summary?.count)return false;previousFocus=trigger instanceof HTMLElement&&trigger.offsetParent!==null?trigger:document.querySelector("#open-cart")||document.activeElement;restoreSavedData();updateConditionalFields();showStep("delivery");dialog.showModal();field("checkout-name")?.focus();return true; }
+  function open(trigger) { checkoutState="fulfillment"; const dialog=field("checkout-dialog"),summary=app()?.getBagSummary?.(); if(!dialog?.showModal||!summary?.count)return false;previousFocus=trigger instanceof HTMLElement&&trigger.offsetParent!==null?trigger:document.querySelector("#open-cart")||document.activeElement;restoreSavedData();updateConditionalFields();showStep("delivery");dialog.showModal();field("checkout-name")?.focus();return true; }
   function close(){const dialog=field("checkout-dialog");if(dialog?.open)dialog.close();}
 
   function init() {
@@ -300,14 +336,16 @@
     const pix=field("checkout-payment-pix"),cash=field("checkout-payment-cash"); if(pix)pix.closest("label").hidden=!commerce.payment?.methods?.includes("pix"); if(cash)cash.closest("label").hidden=!commerce.payment?.methods?.includes("cash");
     restoreSavedData();
     updateConditionalFields();
+    buildScheduleSlots();
     field("checkout-postal-code")?.addEventListener("input",(event)=>{event.currentTarget.value=postal.formatPostalCode(event.currentTarget.value);if(postal.stripPostalCode(event.currentTarget.value).length===8)lookupPostalCode();else{++lookupToken;clearAddress();hideDeliveryState();setError("checkout-postal-code","");}persistSession();});
     field("checkout-postal-code")?.addEventListener("blur",()=>{if(postal.stripPostalCode(field("checkout-postal-code").value).length===8&&addressMode==="pending")lookupPostalCode();});
     field("checkout-no-number")?.addEventListener("change",()=>{updateNumberState();persistSession();});
     $$('input[name="fulfillment"],input[name="timing"],input[name="payment"]').forEach((node)=>node.addEventListener("change",updateConditionalFields));
     field("checkout-form")?.addEventListener("input",persistSession);
-    field("checkout-form")?.addEventListener("submit",(event)=>{event.preventDefault();const data=validate();if(!data)return;persistSession();if(data.remember)safeSetLocal(savedKey,{schemaVersion:2,...data});else safeRemoveLocal(savedKey);updateSavedAddressControl();buildReview(data);showStep("review");status("Dados prontos. Confira atendimento, pagamento e pedido antes de abrir o WhatsApp.");});
+    field("checkout-form")?.addEventListener("submit",(event)=>{event.preventDefault();const data=validate();if(!data)return;commerceEvent("checkout:review",{fulfillment:data.fulfillment,payment:data.payment,timing:data.timing});persistSession();if(data.remember)safeSetLocal(savedKey,{schemaVersion:2,...data});else safeRemoveLocal(savedKey);updateSavedAddressControl();buildReview(data);showStep("review");status("Dados prontos. Confira atendimento, pagamento e pedido antes de abrir o WhatsApp.");});
     field("checkout-edit")?.addEventListener("click",()=>showStep("delivery"));
-    field("checkout-confirm")?.addEventListener("click",()=>{if(!navigator.onLine){status("Você está offline. Conecte-se à internet para abrir o WhatsApp.");return;}const data=validate();if(!data){showStep("delivery");return;}const result=app()?.handoffToWhatsApp?.(messageForWhatsApp(data));if(!result?.ok){status(result?.reason==="message-too-long"?"O pedido ficou grande demais para uma única mensagem. Reduza alguns itens ou fale diretamente com a pizzaria.":"Não consegui abrir o WhatsApp. Você pode tentar novamente sem perder os dados.");return;}if(!data.remember){try{sessionStorage.removeItem(sessionKey);}catch{}}status("WhatsApp aberto com seu pedido pronto para você revisar e enviar.");window.FORNO_ANALYTICS?.track?.("checkout_handoff",{fulfillment:data.fulfillment,payment:data.payment,timing:data.timing});});
+    $$(`[data-review-edit]`).forEach((button)=>button.addEventListener("click",()=>{ showStep("delivery"); const target={fulfillment:"checkout-fulfillment-delivery",schedule:"checkout-time-scheduled",payment:"checkout-payment-pix",extras:"checkout-sauce-list"}[button.dataset.reviewEdit]; requestAnimationFrame(()=>field(target)?.focus?.()); }));
+    field("checkout-confirm")?.addEventListener("click",()=>{if(!navigator.onLine){status("Você está offline. Conecte-se à internet para abrir o WhatsApp.");return;}const data=validate();if(!data){showStep("delivery");return;}const result=app()?.handoffToWhatsApp?.(messageForWhatsApp(data));if(!result?.ok){commerceEvent("checkout:handoff-failed",{reason:result?.reason||"unknown"});status(result?.reason==="message-too-long"?"O pedido ficou grande demais para uma única mensagem. Reduza alguns itens ou fale diretamente com a pizzaria.":"Não consegui abrir o WhatsApp. Você pode tentar novamente sem perder os dados.");return;}commerceEvent("checkout:handoff",{fulfillment:data.fulfillment,payment:data.payment,timing:data.timing});if(!data.remember){try{sessionStorage.removeItem(sessionKey);}catch{}}status("WhatsApp aberto com seu pedido pronto para você revisar e enviar.");window.FORNO_ANALYTICS?.track?.("checkout_handoff",{fulfillment:data.fulfillment,payment:data.payment,timing:data.timing});});
     field("checkout-close")?.addEventListener("click",close);dialog.addEventListener("click",(event)=>{if(event.target===dialog)close();});dialog.addEventListener("close",()=>{previousFocus?.isConnected&&previousFocus.focus();previousFocus=null;});
     addEventListener("online",()=>{field("checkout-confirm").disabled=false;});addEventListener("offline",()=>{field("checkout-confirm").disabled=true;status("Você ficou offline. Seus dados continuam nesta sessão, mas o WhatsApp exige conexão.");});
     field("checkout-back-bag")?.addEventListener("click",()=>{close();requestAnimationFrame(()=>app()?.openBag?.());});

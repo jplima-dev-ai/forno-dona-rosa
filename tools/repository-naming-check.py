@@ -3,7 +3,7 @@ from pathlib import Path
 import re, sys
 ROOT=Path(__file__).resolve().parents[1]
 SKIP={'.git','node_modules','__pycache__'}
-ALLOWED={'README-PT.md'}
+ALLOWED=set()
 FORBIDDEN={
  'cardapio','pedido','pedidos','molho','molhos','sobre','historia','experiencia','localizacao','ajuda','privacidade',
  'cliente','clientes','produto','produtos','imagem','imagens','configuracao','entrega','retirada','pagamento','busca','teste','testes'

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import re, subprocess, sys
+import re, subprocess, sys,json
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='3.0.9'
+VERSION=json.loads((ROOT/'package.json').read_text(encoding='utf-8'))['version']
 checks=[]
 def check(name, ok, detail=''):
     checks.append((name,bool(ok),detail))
@@ -28,9 +28,10 @@ check('Rosa confidence', 'confidence' in rosa and 'classify' in rosa)
 check('Runtime cache limit', 'RUNTIME_LIMIT = 24' in sw and 'trimRuntimeCache' in sw)
 ids=re.findall(r'id:"([^"]+)"',menu)
 check('Catalog unique IDs', len(ids)==len(set(ids)), f'{len(ids)} items')
-check('English README', (ROOT/'README.md').exists())
-check('Portuguese README', (ROOT/'README-PT.md').exists())
-check('Case study', (ROOT/'docs/CASE-STUDY.md').exists())
+check('Canonical README', (ROOT/'README.md').exists())
+check('Architecture docs', (ROOT/'docs/ARCHITECTURE.md').exists())
+check('Case study architecture', (ROOT/'docs/case-study/architecture.md').exists())
+check('Case study commerce flow', (ROOT/'docs/case-study/commerce-flow.md').exists())
 check('app-config naming', (ROOT/'js/app-config.js').exists() and not (ROOT/'js/config.js').exists())
 check('knowledge-base naming', (ROOT/'data/rosa-knowledge-base.js').exists() and not (ROOT/'data/rosa-knowledge.js').exists())
 check('English hero asset', (ROOT/'assets/images/dona-rosa-hero-pizza.jpg').exists())
@@ -52,13 +53,14 @@ check('Responsive bottom-sheet CSS', '.cart-dialog{width:100%;max-width:none;hei
 check('WebP food assets', all((ROOT/p).exists() for p in [
     'assets/images/dona-rosa-hero-pizza.webp','assets/images/cheese-pull-pizza.webp',
     'assets/images/wood-fired-oven-pizza.webp','assets/images/nutella-strawberry-pizza.webp']))
-product_images=[p for p in (ROOT/'assets/images/products').glob('*.webp') if not p.stem.endswith('-384')]
+derived_suffixes=('-384','-480','-800','-1200','-social')
+product_images=[p for p in (ROOT/'assets/images/products').glob('*.webp') if not p.stem.endswith(derived_suffixes)]
 check('31 product images', len(product_images)==31, str(len(product_images)))
 check('Every menu item has product image', menu.count('image:"assets/images/products/')==31)
 check('Desire discovery', 'data-desire="classica"' in html and 'data-desire="bebida"' in html)
 check('Bag thumbnails', 'cart-item__thumb' in main)
 check('Obsolete files removed', all(not (ROOT/p).exists() for p in ['assets/images/signature-pizza.svg','assets/images/og-cover.png','tools/generate.py']))
-product_names=[p.name for p in (ROOT/'assets/images/products').glob('*.webp') if not p.stem.endswith('-384')]
+product_names=[p.name for p in (ROOT/'assets/images/products').glob('*.webp')]
 pt_tokens=['agua','gas','lata','suco','laranja','mucarela','calabresa','portuguesa','frango','toscana','forno','casa','trufa','picante','vegana','chocolate-belga','banana-doce-leite','romeu-julieta']
 check('English product image filenames', all(not any(t in name.lower() for t in pt_tokens) for name in product_names), f'{len(product_names)} files')
 check('Hero CTA leads to menu', 'href="menu/"' in html and '>Pedir agora</a>' in html)

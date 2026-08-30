@@ -1,66 +1,74 @@
-# White-label adaptation guide
+# White-label
 
-Forno Dona Rosa remains the reference implementation, but v2.5 separates client identity from reusable application behavior.
+Forno Dona Rosa é a implementação de referência. A arquitetura separa identidade do cliente, catálogo, conteúdo, regras comerciais e runtime reutilizável para que novas pizzarias possam ser configuradas sem copiar e editar o core manualmente.
 
-## Source of truth
+## Fontes da verdade
 
-Edit these files first:
+Edite preferencialmente:
 
-- `data/brand/brand.json` — identity, logo, contacts, location, delivery, assistant, feature flags, SEO and opening hours.
-- `data/brand/content.json` — client-facing hero and checkout microcopy.
-- `css/brand-theme.css` — brand colors and visual tokens.
-- `data/menu.js` — catalog data for the current business.
-- `assets/images/brand/` — logo assets for the client.
+- `data/brand/brand.json` — identidade, contatos, endereço, horários, recursos, SEO e operação;
+- `data/brand/content.json` — copy configurável;
+- `data/catalog.json` — produtos, preços, imagens e capacidades;
+- `css/brand-theme.css` — tokens visuais específicos da marca;
+- `assets/images/brand/` — logos e assets institucionais.
 
-Then run:
+Depois execute:
 
-```bash
+```powershell
 python tools/brand-sync.py
-python tools/config-check.py
-python tools/brand-leak-check.py
-python tools/audit.py
-python tools/health-check.py
-python tools/regression-check.py
+npm.cmd run quality
 ```
 
-`brand-sync.py` regenerates runtime brand configuration and synchronizes static SEO/PWA metadata. The site remains deployable as plain static files on GitHub Pages.
+## Core reutilizável
 
-## What belongs to the reusable core
+O core deve continuar independente da identidade Dona Rosa:
 
-- Bag persistence and canonical price recalculation
-- Favorites and last-order flows
-- Catalog search/discovery
-- Product dialogs
-- Checkout orchestration
-- Postal-code lookup abstraction
-- Local assistant engine
-- PWA/service-worker behavior
-- Accessibility and responsive interaction contracts
+- Sacola e reconciliação de preços;
+- busca/favoritos/recompra;
+- páginas de produto;
+- checkout e state machine;
+- abstração de CEP;
+- Rosa;
+- status comercial;
+- PWA/Service Worker;
+- Admin Studio;
+- acessibilidade, responsividade e quality gates.
 
-## What belongs to the client brand
+## Dados específicos do cliente
 
-- Name and logo
-- Contact channels
-- Address and delivery boundary
-- Business hours
-- SEO metadata
-- Assistant identity/avatar
-- Theme tokens
-- Hero/content copy
-- Catalog and product imagery
+- nome e identidade visual;
+- contatos;
+- endereço/área atendida;
+- horários e exceções;
+- catálogo e preços;
+- meios de recebimento/pagamento;
+- copy e SEO;
+- identidade da assistente;
+- mídia dos produtos;
+- crédito KJ Productions quando contratado/aplicável.
 
-## Storage isolation
+## Isolamento de storage
 
-`brand.storageNamespace` namespaces Bag, favorites, last order, checkout and assistant session data. Give every deployed client a stable, unique slug. Changing the namespace intentionally creates a clean browser state.
+`brand.storageNamespace` separa Sacola, favoritos, último pedido, checkout, assistente e rascunhos entre implantações. Cada cliente deve receber um slug estável e único.
+
+Alterar o namespace cria intencionalmente um novo espaço local de estado.
 
 ## Feature flags
 
-`brand.json` can enable or disable major capabilities without deleting implementation code. Current supported flags include assistant, favorites, reorder, checkout, postal-code lookup, PWA, product search and half-and-half support.
+A configuração pode habilitar/desabilitar capacidades sem apagar implementação. O runtime deve validar capacidade além de esconder UI por CSS.
 
-## Adapting beyond pizza
+## Admin Studio
 
-v2.5 is strongest for local food commerce. `data/catalog-schema.js` documents product groups and modifier capabilities so future presets can introduce burgers, cafés, desserts or other local-commerce catalogs without embedding every rule in the Bag UI. A non-food vertical may still need a dedicated catalog/checkout preset rather than simple copy replacement.
+Para operadores não técnicos, `/admin/` oferece uma camada humana sobre os mesmos dados. A exportação de bundle não é autenticação nem publicação remota; para escrita online futura, preserve os contratos de `js/admin-persistence.js` e repositories e implemente API autenticada no servidor.
 
-## Accessibility contract
+## Criar outro cliente
 
-Do not remove visible labels, focus return, keyboard actions, live-region status, native dialog semantics or reduced-motion/forced-colors handling when branding a new client. See `docs/ACCESSIBILITY.md` and `docs/COMPONENTS.md`.
+Use `tools/create-brand.py` e consulte `docs/customization/CREATE-A-CLIENT.md`.
+
+## Adaptação para outros nichos
+
+O modelo atual é otimizado para food commerce local. Presets podem reaproveitar parte significativa do core, mas uma vertical com regras de catálogo/checkout diferentes deve receber um preset próprio, em vez de forçar copy sobre semântica inadequada.
+
+## Contrato de acessibilidade
+
+White-label não pode remover labels visíveis, foco, teclado, dialogs semânticos, reduced motion, forced colors, reflow ou mensagens de erro apenas para combinar com uma direção visual. O core acessível é parte do produto, não opcional.

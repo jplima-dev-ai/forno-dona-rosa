@@ -1,29 +1,109 @@
-# Testing and quality gates
+# Testes e quality gates
 
-## One-command gate
+## Princípio
+
+O projeto separa **evidência executada** de **capacidade configurada**. Um teste só pode ser registrado como PASS quando realmente rodou no ambiente informado.
+
+## Gate principal
+
+No Windows/PowerShell:
+
+```powershell
+npm.cmd run quality
+```
+
+Em shells que permitem o wrapper do npm:
 
 ```bash
 npm run quality
 ```
 
-This command runs JavaScript syntax checks, configuration checks, brand-leak checks, the repository audit, health/regression suites, Rosa and checkout behavior tests, template-factory generation checks, documentation drift checks, conversion-flow checks and the Project Doctor.
+O gate principal executa build e checks de sintaxe, configuração, brand leak, nomenclatura, audit, saúde, regressão, Rosa, checkout, Template Factory, documentação, conversão, commerce, responsividade, arquitetura multipágina, produto, Smart Commerce, storefront, Admin Studio, segurança, Browser Certification estrutural, Mobile Usability e Project Doctor.
 
-## Individual commands
+## Comandos focados
 
-```bash
-python tools/audit.py
-python tools/health-check.py
-python tools/regression-check.py
-node tools/rosa-behavior-check.js
-node tools/checkout-behavior-check.js
-python tools/template-factory-check.py
-python tools/docs-check.py
-python tools/conversion-flow-check.py
-python tools/project-doctor.py
+```powershell
+npm.cmd run audit
+npm.cmd run security
+npm.cmd run docs
+npm.cmd run doctor
+npm.cmd run browser:gate
+npm.cmd run mobile:gate
 ```
 
-## Responsive test matrix
-Use the following as representative QA viewports, not device hardcodes: 320×568, 360×800, 390×844, 430×932, 768×1024, 1024×768, 1366×768 and 1920×1080. Also review mobile landscape, zoom/reflow, long content and virtual-keyboard behavior where forms are involved.
+## Browser E2E
 
-## Accessibility evidence
-Static and behavioral gates do not prove screen-reader compatibility. For a release requiring accessibility evidence, record platform, browser, assistive technology, flow, expected behavior, observed behavior and result. NVDA/TalkBack/VoiceOver checks must only be marked PASS when actually executed.
+Após instalar as dependências de desenvolvimento e o navegador do Playwright:
+
+```powershell
+npm.cmd run test:browser
+npm.cmd run test:browser:mobile
+npm.cmd run test:a11y
+```
+
+Consulte `docs/testing/BROWSER-TESTING.md` para matriz, execução e artifacts.
+
+## Matriz responsiva
+
+A matriz representa espaços de layout, não marcas de aparelho:
+
+- 320 × 640;
+- 360 × 800;
+- 390 × 844;
+- 430 × 932;
+- 768 × 1024;
+- 844 × 390 landscape;
+- 1366 × 768;
+- 1920 × 1080 para revisão manual ampliada.
+
+Também devem ser considerados zoom/reflow, conteúdo longo, teclado virtual, safe areas, reduced motion e forced colors.
+
+## Fluxos críticos
+
+### Cliente
+
+- Home → Cardápio → Produto → Sacola → Checkout;
+- busca/filtros e zero results;
+- produto indisponível e alternativas;
+- entrega e retirada;
+- agendamento;
+- Pix e dinheiro/troco;
+- molhos;
+- revisão e handoff manual para WhatsApp;
+- recompra e storage antigo;
+- offline/falha de CEP.
+
+### Administração
+
+- modo Simples/Avançado;
+- alteração de preço/disponibilidade;
+- preview e undo;
+- import inválido/oversized;
+- export de bundle;
+- recuperação de rascunho corrompido;
+- crédito configurável.
+
+## Acessibilidade
+
+Automação pode detectar uma classe de problemas, mas não comprova experiência de leitor de tela.
+
+Para evidência manual registre:
+
+- plataforma e versão;
+- navegador;
+- tecnologia assistiva;
+- viewport/zoom;
+- fluxo;
+- resultado esperado;
+- resultado observado;
+- PASS/FAIL/PARTIAL.
+
+NVDA, JAWS, Narrator, TalkBack e VoiceOver permanecem NOT TESTED até execução real registrada.
+
+## Segurança
+
+`npm.cmd run security` executa hardening estrutural, comportamento negativo e audit. Testes locais não substituem pentest de uma futura implantação com backend/autenticação.
+
+## Release evidence
+
+A linha 3.7 introduziu ledger de evidência em `docs/releases/evidence/`. Ele deve registrar explicitamente ambientes bloqueados e testes não executados em vez de converter ausência de evidência em aprovação.

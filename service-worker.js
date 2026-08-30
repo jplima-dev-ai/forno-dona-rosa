@@ -1,15 +1,15 @@
 "use strict";
 
-const VERSION = "3.0.9";
+const VERSION = "3.9.9";
 const CORE_CACHE = `forno-core-${VERSION}`;
 const RUNTIME_CACHE = `forno-runtime-${VERSION}`;
 const RUNTIME_LIMIT = 24;
 const CORE_ASSETS = [
   "./", "./index.html", "./css/styles.css", "./css/brand-theme.css", "./js/app-meta.js", "./data/brand/brand-config.js", "./data/brand/content-config.js", "./js/app-config.js", "./js/feature-flags.js", "./data/catalog-schema.js", "./js/brand-runtime.js", "./js/main.js", "./js/rosa.js",
-  "./data/menu.js", "./data/rosa-knowledge-base.js", "./data/delivery-config.js", "./data/commerce-config.js", "./js/analytics-adapter.js", "./js/postal-code-service.js", "./js/checkout.js", "./manifest.webmanifest", "./offline.html",
+  "./data/menu.js", "./data/rosa-knowledge-base.js", "./data/delivery-config.js", "./data/commerce-config.js", "./js/analytics-adapter.js", "./js/commerce-events.js", "./js/checkout-state.js", "./js/repositories.js", "./js/postal-code-service.js", "./js/checkout.js", "./manifest.webmanifest", "./offline.html",
   "./assets/images/dona-rosa-hero-pizza.webp", "./assets/images/dona-rosa-hero-pizza-640.webp", "./assets/images/rosa-avatar.jpg", "./assets/images/brand/forno-dona-rosa-logo-720.webp",
   "./assets/icons/icon-192.png", "./assets/icons/icon-512.png",
-  "./menu/", "./order/", "./about/", "./experience/", "./location/", "./help/", "./privacy/", "./css/site-pages.css", "./js/site-pages.js"
+  "./menu/", "./order/", "./about/", "./experience/", "./location/", "./help/", "./privacy/", "./articles/", "./css/site-pages.css", "./js/business-status.js", "./js/storefront.js", "./js/site-pages.js", "./js/newsletter.js", "./js/global-search.js", "./data/reviews.json", "./data/articles-index.js"
 ];
 const WARM_ASSETS = [
   "assets/images/products/margherita-pizza.webp",
@@ -114,11 +114,18 @@ async function cacheFirstImage(request) {
   } catch { return Response.error(); }
 }
 
+
+function isSensitiveToolingPath(url) {
+  const path = url.pathname;
+  return /(?:^|\/)admin(?:\/|$)/.test(path) || /(?:^|\/)dev(?:\/|$)/.test(path) || /\/(?:admin(?:-[a-z-]+)?\.js|admin\.css)$/.test(path);
+}
+
 self.addEventListener("fetch", (event) => {
   const request = event.request;
   if (request.method !== "GET") return;
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
+  if (isSensitiveToolingPath(url)) return;
   if (request.mode === "navigate") { event.respondWith(networkFirstNavigation(request)); return; }
   if (request.destination === "image") { event.respondWith(cacheFirstImage(request)); return; }
   if (["style", "script", "font", "manifest"].includes(request.destination)) event.respondWith(staleWhileRevalidate(request));

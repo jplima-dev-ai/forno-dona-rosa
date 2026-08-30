@@ -1,37 +1,85 @@
-# Security Policy
+# Política de Segurança
 
-## Scope
+## Escopo
 
-Forno Dona Rosa is a static front-end portfolio project. It has no authentication layer, payment processor, private database, or server-side order storage. Orders are handed off to WhatsApp for final confirmation.
+Forno Dona Rosa é um storefront e Admin Studio static-first. A versão atual não possui autenticação remota, processador de pagamentos, banco privado ou persistência server-side de pedidos. O pedido é revisado no navegador e entregue ao WhatsApp somente após ação explícita do cliente.
 
-## Defensive controls
+## Modelo de confiança
 
-- Content Security Policy in the document head.
-- User-controlled content is inserted with safe DOM/text APIs rather than unsafe HTML sinks.
-- Persistent Bag data is treated as untrusted and normalized against the canonical catalog.
-- Prices are recalculated from current catalog data rather than trusted from storage.
-- User input and session history are bounded.
-- Rosa runs locally in the browser and does not send chat text to an external AI API.
-- Service-worker caching is restricted to same-origin resources and bounded runtime cache behavior.
-- External `_blank` links include `noopener noreferrer`.
-- WhatsApp URLs use controlled destination numbers and encoded message text.
-- Checkout customer data is session-scoped by default; persistent name/address storage is opt-in only.
-- Postal lookup sends only the CEP to allowlisted HTTPS providers (ViaCEP, then BrasilAPI fallback).
-- Provider-returned city/state data is normalized and validated against Serra — ES before delivery handoff.
-- Manual fallback is explicitly marked as requiring staff confirmation; it does not pretend to be provider-verified.
+Dados provenientes de `localStorage`, `sessionStorage`, imports administrativos, CEP, query strings e conteúdo configurável são tratados como **não confiáveis** até serem normalizados e validados.
 
-## Reporting
+As fontes canônicas de preço, produto e configuração continuam sendo os arquivos de dados do projeto ou, futuramente, um repositório/API autenticado que implemente os mesmos contratos.
 
-If you find a security issue in this portfolio repository, open a GitHub issue without including sensitive exploit data. For a real production deployment, private disclosure would be preferable.
+## Controles defensivos implementados
 
-## Important limitation
+- Content Security Policy nas páginas públicas e administrativas.
+- Renderização de dados editáveis com APIs seguras de DOM/texto; sinks HTML inseguros são proibidos nos runtimes críticos.
+- IDs persistidos são reconciliados com o catálogo atual.
+- Preços são recalculados a partir do catálogo canônico.
+- Quantidades, textos, URLs e volumes de import são limitados.
+- Links externos com `target="_blank"` usam `noopener noreferrer`.
+- URL configurável de crédito aceita somente HTTPS.
+- WhatsApp usa destino controlado e mensagem codificada; nada é enviado automaticamente.
+- Nome/endereço do checkout permanecem em sessão por padrão; persistência exige opt-in explícito.
+- Consulta de CEP envia somente o CEP para provedores HTTPS allowlisted (ViaCEP e fallback BrasilAPI).
+- Cidade/UF retornadas por provedor são normalizadas e validadas contra a área configurada antes do handoff.
+- Falha de consulta mantém fallback manual identificado como dependente de confirmação da pizzaria.
+- Service Worker restringe runtime cache a same-origin, limita crescimento e exclui `/admin/` e `/dev/` de sua fronteira pública de cache.
+- Imports do Admin Studio aceitam JSON limitado e passam por validação estrutural antes de substituir o rascunho.
+- Rascunhos locais corrompidos ou excessivos são descartados com recuperação segura.
+- `tools/apply-admin-bundle.py` aplica limites, backup, escrita atômica, validação pós-escrita e rollback.
 
-Client-side controls cannot turn a static portfolio into a secure backend. Real payments, authentication, private customer data, order persistence, rate limiting, and administrative operations would require an appropriate server-side architecture.
+## Fronteira administrativa
 
-## Checkout data boundary
+O Admin Studio atual é local-first. Ele **não autentica um proprietário nem publica remotamente**. Qualquer implantação que permita escrita remota precisa adicionar, no servidor:
 
-The static portfolio does not submit customer details to a first-party server. Name and full delivery details remain in browser state until the customer explicitly opens WhatsApp. CEP assistance depends on third-party postal services and therefore should be reviewed before a real production launch, including provider terms, privacy notice and operational fallback policy.
+- autenticação;
+- autorização por função/escopo;
+- validação equivalente ou superior à do cliente;
+- proteção de segredos;
+- rate limiting quando aplicável;
+- trilha de auditoria;
+- backup/rollback;
+- controles de upload de mídia;
+- políticas de sessão e recuperação de conta.
 
-## v2.5 white-label isolation
+Nunca coloque tokens administrativos, senhas ou chaves privadas no JavaScript público.
 
-Client identity and delivery boundaries are sourced from `data/brand/brand.json` and generated runtime configuration. Reusable runtime modules must not hardcode the reference client's phone, email, address or service-area label. `tools/brand-leak-check.py` enforces that boundary, while `brand.storageNamespace` isolates browser state between client deployments.
+## Service Worker e offline
+
+O Service Worker é uma fronteira de disponibilidade, não de autorização. Conteúdo público pode ser cacheado conforme política; superfícies administrativas e de desenvolvimento não são tratadas como assets públicos offline.
+
+Mudanças de versão devem invalidar caches obsoletos sem fazer uma rota interna contaminar outra rota.
+
+## Testes de segurança
+
+Comandos principais:
+
+```powershell
+npm.cmd run security
+npm.cmd run quality
+```
+
+A suíte atual inclui checks estáticos e testes comportamentais para imports inválidos, storage corrompido, limites de bundle, URL insegura de crédito, service worker e invariantes de DOM/configuração.
+
+Isso **não equivale a pentest profissional**. Uma implantação comercial com backend, autenticação, pagamentos ou dados privados deve passar por revisão de segurança específica para a infraestrutura adotada.
+
+## Divulgação responsável
+
+Ao encontrar uma falha neste repositório de portfólio, não publique tokens, dados pessoais ou payloads sensíveis em issue pública. Para uma implantação real, use um canal privado de divulgação definido pelo operador.
+
+## Privacidade do checkout
+
+A versão static-first não envia dados pessoais para servidor próprio. Nome e endereço permanecem no navegador até o cliente abrir o WhatsApp. Provedores externos de CEP possuem seus próprios termos e políticas e devem ser revisados antes de uma implantação comercial real.
+
+## Evidência
+
+Claims de segurança devem corresponder a testes executados. “Gate configurado”, “teste bloqueado pelo ambiente” e “pentest não executado” não podem ser transformados em “PASS”.
+
+## Editorial e newsletter
+
+Artigos são conteúdo público gerado de `data/articles.json` e passam por escaping no build. Slugs, categorias e número de seções são validados antes da aplicação de bundles administrativos.
+
+A newsletter permanece desativada por padrão. Quando ativada, o endpoint precisa usar HTTPS e o CSP da página recebe somente a origem configurada. `js/newsletter.js` não persiste e-mail em `localStorage` ou `sessionStorage`.
+
+A presença de um formulário de newsletter não transforma GitHub Pages em backend. Consentimento, retenção, opt-out e política de privacidade dependem do provedor real escolhido e devem ser revisados antes de ativar a integração em produção.

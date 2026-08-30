@@ -121,7 +121,9 @@
       "enabled": true,
       "asapEnabled": true,
       "minLeadMinutes": 45,
-      "maxDaysAhead": 7
+      "maxDaysAhead": 7,
+      "slotIntervalMinutes": 30,
+      "specialHours": {}
     },
     "deliveryFee": {
       "mode": "confirm-on-whatsapp",
@@ -179,6 +181,37 @@
           "price": 0
         }
       ]
+    },
+    "smartCommerce": {
+      "enabled": true,
+      "maxSuggestions": 2,
+      "drinkFallbackId": "coca-2l",
+      "pizzaFallbackId": "dona-rosa",
+      "sweetDrinkFallbackId": "agua-gas",
+      "showContinueOrderNotice": true
+    },
+    "merchandising": {
+      "featuredProductIds": [
+        "dona-rosa",
+        "calabresa",
+        "quatro-formaggi"
+      ],
+      "seasonalProductIds": [],
+      "labels": {
+        "dona-rosa": "Assinatura Dona Rosa",
+        "calabresa": "Favorita da casa",
+        "quatro-formaggi": "Seleção do forno"
+      }
+    },
+    "reviews": {
+      "enabled": true,
+      "source": "data/reviews.json"
     }
+  },
+  "credits": {
+    "enabled": true,
+    "label": "Desenvolvido por",
+    "name": "KJ Productions",
+    "url": null
   }
 }

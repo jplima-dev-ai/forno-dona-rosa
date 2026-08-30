@@ -1,0 +1,23 @@
+"use strict";
+const memory = new Map();
+global.window={};
+require("../js/admin-core.js");
+require("../js/admin-history.js");
+require("../js/admin-persistence.js");
+const core=global.window.ADMIN_CORE;
+const historyFactory=global.window.ADMIN_HISTORY;
+const persistence=global.window.ADMIN_PERSISTENCE;
+let ok=0,fail=0;
+function test(label,fn){try{if(!fn())throw new Error("unexpected result");console.log("PASS ",label);ok++;}catch(e){console.log("FAIL ",label,"—",e.message);fail++;}}
+const storage={getItem:k=>memory.has(k)?memory.get(k):null,setItem:(k,v)=>memory.set(k,v),removeItem:k=>memory.delete(k)};
+const base={brand:{brand:{name:"Forno Dona Rosa",legalDisplayName:"Pizzaria Forno Dona Rosa",shortName:"Dona Rosa",storageNamespace:"forno"},contacts:{whatsappNumber:"5527992820798",email:"a@b.com"},location:{city:"Serra",state:"ES"},commerce:{availability:{unavailableProductIds:[]},merchandising:{featuredProductIds:[],labels:{}},fulfillment:{delivery:true,pickup:true},payment:{methods:["pix","cash"],default:"pix"},scheduling:{enabled:true}},credits:{enabled:true,label:"Desenvolvido por",name:"KJ Productions",url:null}},content:{hero:{title:"Uma pizza artesanal memorável",lead:"Escolha seu sabor e conclua seu pedido com rapidez."}},catalog:{products:[{id:"calabresa",name:"Calabresa",category:"tradicionais",basePrice:52.9,image:"x.webp"}]}};
+test("credits survive normalization",()=>core.normalizeBundle(base).brand.credits.name==="KJ Productions");
+test("old bundle receives credit defaults",()=>{const old=core.clone(base);delete old.brand.credits;return core.normalizeBundle(old).brand.credits.name==="KJ Productions";});
+test("history captures and undoes",()=>{const h=historyFactory.create(5);h.reset(base);const changed=core.clone(base);changed.brand.brand.name="Outra";h.capture(changed,"Nome");return h.canUndo()&&h.undo().brand.brand.name==="Forno Dona Rosa";});
+test("history is bounded",()=>{const h=historyFactory.create(3);h.reset(base);for(let i=0;i<8;i++){const b=core.clone(base);b.brand.brand.name=`Marca ${i}`;h.capture(b,`M${i}`);}return h.entries().length<=2;});
+test("local draft repository round trip",()=>{const r=persistence.createLocalDraftRepository(storage,"draft");r.save(base);return r.load().brand.brand.name==="Forno Dona Rosa";});
+test("local draft repository clears",()=>{const r=persistence.createLocalDraftRepository(storage,"draft2");r.save(base);r.clear();return r.load()===null;});
+test("publish capability does not fake backend",()=>{const c=persistence.describePublishCapability();return c.mode==="bundle"&&!c.automaticPublish&&c.backendRequiredForRemoteWrite;});
+test("credit disable remains valid",()=>{const b=core.clone(base);b.brand.credits.enabled=false;return core.validate(b).ok===true;});
+test("3.5 export envelope",()=>core.exportEnvelope(base,"3.5.9").projectVersion==="3.5.9");
+console.log(`${ok}/${ok+fail} operator behavior checks passed`);process.exit(fail?1:0);

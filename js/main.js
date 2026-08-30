@@ -105,7 +105,7 @@
 
   const assetUrl = (src) => window.FORNO_META?.resolve?.(src) || src;
   const smallProductImage = (src) => {
-    const small = typeof src === "string" && src.endsWith(".webp") ? src.replace(/\.webp$/, "-384.webp") : src;
+    const small = typeof src === "string" && src.endsWith(".webp") ? src.replace(/\.webp$/, "-480.webp") : src;
     return assetUrl(small);
   };
 
@@ -375,6 +375,23 @@
     elements.forEach((node) => observer.observe(node));
   }
 
+  function alternativeProducts(productId, limit = 2) {
+    const product = menuById.get(productId);
+    if (!product) return [];
+    const traits = new Set(product.traits || []);
+    return menu
+      .filter((candidate) => candidate.id !== productId && isAvailable(candidate.id))
+      .map((candidate) => {
+        const sharedTraits = (candidate.traits || []).filter((trait) => traits.has(trait)).length;
+        const score = (candidate.type === product.type ? 4 : 0) + (candidate.category === product.category ? 3 : 0) + sharedTraits;
+        return { candidate, score };
+      })
+      .filter((entry) => entry.score > 0)
+      .sort((a, b) => b.score - a.score || a.candidate.name.localeCompare(b.candidate.name, "pt-BR"))
+      .slice(0, limit)
+      .map((entry) => entry.candidate);
+  }
+
   function buildMenuCard(product, index) {
     const available = isAvailable(product.id);
     const article = el("article", { className: "menu-card", attrs: { "data-product-type": product.type || "pizza", "data-available": String(available) } });
@@ -413,12 +430,21 @@
       body.append(tagList);
     }
     body.append(el("p", { text: product.description }));
-    if (!available) body.append(el("p", { className: "menu-card__availability", text: "Indisponível hoje" }));
+    if (!available) {
+      body.append(el("p", { className: "menu-card__availability", text: "Indisponível hoje" }));
+      const alternatives = alternativeProducts(product.id, 2);
+      if (alternatives.length) {
+        const recovery = el("div", { className: "menu-card__alternatives" });
+        recovery.append(el("span", { text: "Experimente:" }));
+        alternatives.forEach((alternative) => recovery.append(el("a", { text: alternative.name, attrs: { href: window.FORNO_META?.resolve?.(`products/${alternative.id}/`) || `products/${alternative.id}/` } })));
+        body.append(recovery);
+      }
+    }
 
     const actions = el("div", { className: "card-actions" });
     const quickPrice = product.type === "bebida" ? product.basePrice : unitPriceFor(product.id, null, "media", "tradicional");
     actions.append(
-      el("button", { className: "small-action small-action--primary", text: available ? (product.type === "bebida" ? `Adicionar · ${money(quickPrice)}` : `Adicionar média · ${money(quickPrice)}`) : "Indisponível", attrs: { type: "button", "data-quick-add": product.id, "aria-label": available ? (product.type === "bebida" ? `Adicionar ${product.name} à sacola por ${money(quickPrice)}` : `Adicionar ${product.name} média com borda tradicional à sacola por ${money(quickPrice)}`) : `${product.name} indisponível hoje`, disabled: available ? null : "" } }),
+      el("button", { className: "small-action small-action--primary", text: available ? (product.type === "bebida" ? `Adicionar · ${money(quickPrice)}` : `Adicionar média · ${money(quickPrice)}`) : "Indisponível", attrs: { type: "button", "data-quick-add": product.id, "data-test": "add-product", "aria-label": available ? (product.type === "bebida" ? `Adicionar ${product.name} à sacola por ${money(quickPrice)}` : `Adicionar ${product.name} média com borda tradicional à sacola por ${money(quickPrice)}`) : `${product.name} indisponível hoje`, disabled: available ? null : "" } }),
     );
     if (product.type !== "bebida" && available) {
       actions.append(el("button", { className: "small-action", text: "Personalizar", attrs: { type: "button", "data-customize": product.id, "aria-label": `Ver detalhes e personalizar ${product.name}` } }));
@@ -902,6 +928,23 @@
     return { first: first?.name || "Pizza indisponível", second: second?.name || "" };
   }
 
+  function smartBagRecommendation() {
+    if (commerce.smartCommerce?.enabled === false || !bag.length) return null;
+    const summary=getBagSummary();
+    const sweet=bag.some((item)=>menuById.get(item.pizzaId)?.category==="doces");
+    if(summary.pizzas && !summary.drinks){ const id=sweet?(commerce.smartCommerce?.sweetDrinkFallbackId||"agua-gas"):(commerce.smartCommerce?.drinkFallbackId||"coca-2l"); const product=menuById.get(id); if(product&&isAvailable(id)) return {id,copy:`Seu pedido já tem pizza. ${product.name} pode completar sem mudar o que você escolheu.`}; }
+    if(!summary.pizzas && summary.drinks){ const id=commerce.smartCommerce?.pizzaFallbackId||"dona-rosa"; const product=menuById.get(id); if(product&&isAvailable(id)) return {id,copy:`Você já escolheu bebida. ${product.name} é uma boa forma de transformar isso em um pedido completo.`}; }
+    if(summary.pizzas && summary.drinks && commerce.orderExtras?.sauces?.length) return {checkout:true,copy:"Pizza e bebida já estão na Sacola. No checkout você pode escolher molhos opcionais antes da revisão."};
+    return null;
+  }
+
+  function renderSmartBag() {
+    const box=$("#bag-smart"),copy=$("#bag-smart-copy"),actions=$("#bag-smart-actions"); if(!box||!copy||!actions)return;
+    const rec=smartBagRecommendation(); empty(actions); box.hidden=!rec; if(!rec)return; copy.textContent=rec.copy;
+    if(rec.id){ const p=menuById.get(rec.id); actions.append(el("button",{className:"small-action small-action--primary",text:`Adicionar ${p.name}`,attrs:{type:"button","data-smart-add":rec.id}}),el("a",{className:"small-action",text:"Ver produto",attrs:{href:window.FORNO_META?.resolve?.(`products/${rec.id}/`)||`products/${rec.id}/`}})); }
+    else if(rec.checkout){ actions.append(el("button",{className:"small-action small-action--primary",text:"Escolher molhos no checkout",attrs:{type:"button","data-smart-checkout":""}})); }
+  }
+
   function renderCart() {
     const box = $("#cart-items");
     const count = $("#cart-count");
@@ -969,6 +1012,7 @@
         ? "Sua sacola já tem pizza. Você pode completar com uma bebida ou pedir uma sugestão à Rosa."
         : "Você adicionou bebidas. Escolha uma pizza para completar o pedido.";
     box.append(completion);
+    renderSmartBag();
   }
 
   function openCart(trigger) {
@@ -1015,6 +1059,8 @@
       if (bagPreviousFocus instanceof HTMLElement && bagPreviousFocus.isConnected) bagPreviousFocus.focus();
       bagPreviousFocus = null;
     });
+
+    $("#bag-smart-actions")?.addEventListener("click",(event)=>{ const add=event.target.closest("[data-smart-add]"); if(add&&addDefaultProduct(add.dataset.smartAdd)){ window.FORNO_COMMERCE_EVENTS?.emit?.("bag:smart-add",{productId:add.dataset.smartAdd}); renderCart(); announceCart("Complemento adicionado à Sacola."); return; } if(event.target.closest("[data-smart-checkout]")){ closeCart(); requestAnimationFrame(()=>window.FORNO_CHECKOUT?.open?.($("#open-cart")||document.activeElement)); }});
 
     $("#cart-items")?.addEventListener("click", (event) => {
       const inc = event.target.closest("[data-inc]");
@@ -1208,6 +1254,8 @@
   }
 
   function getBusinessStatus() {
+    const storefrontStatus = window.FORNO_BUSINESS_STATUS?.getStatus?.();
+    if (storefrontStatus) return { open: storefrontStatus.isOpen, text: `${storefrontStatus.headline}. ${storefrontStatus.detail}` };
     const hours = cfg.businessHours;
     if (!hours || typeof hours !== "object") {
       return { open: null, text: cleanText(cfg.businessHoursNote, 220) || "Consulte disponibilidade pelo WhatsApp." };
@@ -1400,6 +1448,7 @@
     if (!navigator.onLine) return { ok: false, reason: "offline" };
     if (!safeMessage || safeMessage.length > MAX_WHATSAPP_MESSAGE) return { ok: false, reason: "message-too-long" };
     saveLastOrder();
+    window.FORNO_COMMERCE_EVENTS?.emit?.("order:handoff-requested",{items:getBagSummary().count,total:getBagSummary().total});
     const opened = window.open(whatsappUrl(safeMessage), "_blank", "noopener,noreferrer");
     if (!opened) return { ok: false, reason: "popup-blocked" };
     opened.opener = null;

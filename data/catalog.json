@@ -21,7 +21,13 @@
         "suave",
         "queijo",
         "vegetariana"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "mucarela",
@@ -38,7 +44,13 @@
         "suave",
         "queijo",
         "vegetariana"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "calabresa",
@@ -58,7 +70,13 @@
         "classica",
         "intensa",
         "carne"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "portuguesa",
@@ -74,7 +92,13 @@
         "classica",
         "intensa",
         "carne"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "frango-catupiry",
@@ -91,7 +115,13 @@
         "suave",
         "carne",
         "cremosa"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "napolitana",
@@ -108,7 +138,13 @@
         "suave",
         "queijo",
         "vegetariana"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "pepperoni",
@@ -125,7 +161,13 @@
         "intensa",
         "carne",
         "picante"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "dona-rosa",
@@ -142,7 +184,13 @@
         "intensa",
         "carne",
         "aventura"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "quatro-formaggi",
@@ -158,7 +206,13 @@
         "autoral",
         "intensa",
         "queijo"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "burrata-parma",
@@ -175,7 +229,13 @@
         "suave",
         "carne",
         "queijo"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "toscana-forno",
@@ -191,7 +251,13 @@
         "autoral",
         "intensa",
         "carne"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "carbonara-casa",
@@ -208,7 +274,13 @@
         "intensa",
         "carne",
         "queijo"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "funghi-trufa",
@@ -225,7 +297,13 @@
         "intensa",
         "vegetais",
         "vegetariana"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "picante-rosa",
@@ -242,7 +320,13 @@
         "intensa",
         "carne",
         "picante"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "orto",
@@ -260,7 +344,13 @@
         "vegetais",
         "vegetariana",
         "vegana"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "margherita-vegana",
@@ -278,7 +368,13 @@
         "vegetais",
         "vegetariana",
         "vegana"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "mediterranea",
@@ -296,7 +392,13 @@
         "vegetais",
         "vegetariana",
         "vegana"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "funghi-vegana",
@@ -314,7 +416,13 @@
         "vegetais",
         "vegetariana",
         "vegana"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "nutella",
@@ -329,7 +437,13 @@
       "traits": [
         "doce",
         "aventura"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "chocolate-belga",
@@ -344,7 +458,13 @@
       "traits": [
         "doce",
         "chocolate"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "banana-doce-leite",
@@ -359,7 +479,13 @@
       "traits": [
         "doce",
         "suave"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "romeu-julieta",
@@ -374,7 +500,13 @@
       "traits": [
         "doce",
         "queijo"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "coca-lata",
@@ -395,7 +527,13 @@
         "bebida",
         "refrigerante",
         "cola"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "coca-zero-lata",
@@ -417,7 +555,13 @@
         "refrigerante",
         "zero",
         "cola"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "guarana-lata",
@@ -433,7 +577,13 @@
         "bebida",
         "refrigerante",
         "guarana"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "sprite-lata",
@@ -449,7 +599,13 @@
         "bebida",
         "refrigerante",
         "citrica"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "coca-2l",
@@ -471,7 +627,13 @@
         "refrigerante",
         "cola",
         "familia"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "guarana-2l",
@@ -492,7 +654,13 @@
         "refrigerante",
         "guarana",
         "familia"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "agua",
@@ -512,7 +680,13 @@
         "bebida",
         "agua",
         "leve"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "agua-gas",
@@ -532,7 +706,13 @@
         "bebida",
         "agua",
         "gas"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     },
     {
       "id": "suco-laranja",
@@ -548,7 +728,13 @@
         "bebida",
         "suco",
         "laranja"
-      ]
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        }
+      }
     }
   ],
   "pricing": {

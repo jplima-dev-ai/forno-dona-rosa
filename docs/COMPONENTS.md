@@ -1,43 +1,65 @@
-# Reusable component contracts
+# Contratos de componentes reutilizáveis
 
-These contracts define behavior that must survive client customization.
+Estes contratos devem sobreviver a mudanças de marca e layout.
 
-## Brand header
-- Uses the client logo from `brand.json`.
-- Keeps an accessible text name for screen readers.
-- Remains compact at narrow widths and does not force horizontal scrolling.
+## Cabeçalho
+
+- logo vem da configuração;
+- nome acessível permanece disponível;
+- navegação curta e operável por teclado;
+- mobile não cria overflow nem duplica a árvore DOM.
 
 ## Product card
-- Product name remains a semantic heading in context.
-- Price is textual, not encoded only through visual styling.
-- Product images are decorative when equivalent name/description text is adjacent.
-- Touch actions stay comfortably sized and keyboard operable.
 
-## Product detail dialog
-- Uses native `<dialog>` semantics.
-- Has an accessible title and description.
-- Restores focus after close.
-- Product capability determines which modifiers are shown.
+- nome é heading no contexto;
+- preço é textual;
+- disponibilidade é perceptível sem depender só de cor;
+- imagem é decorativa quando nome/descrição adjacentes já comunicam o conteúdo;
+- ações principais têm alvo de toque adequado e teclado.
 
-## Bag
-- Never trusts persisted prices or unknown product IDs.
-- Recalculates totals from the current catalog.
-- Announces meaningful add/remove/quantity changes without flooding assistive technology.
-- Groups products through catalog semantics rather than presentation order alone.
+## Product detail
+
+- superfície modal usa `<dialog>` quando aberta como overlay;
+- página individual possui heading, breadcrumb, preço e disponibilidade;
+- personalizações dependem das capacidades do produto;
+- foco retorna corretamente ao fechar dialog.
+
+## Sacola
+
+- storage nunca controla preço canônico;
+- IDs desconhecidos são rejeitados;
+- totais são recalculados;
+- mudanças relevantes são anunciadas sem spam;
+- uma única ação principal conduz para entrega/retirada.
 
 ## Checkout
-- Keeps visible labels and actionable error copy.
-- Preserves entered values when validation fails.
-- Treats provider-returned address data as input that still passes delivery-boundary validation.
-- Does not persist personal address data unless the user explicitly opts in.
 
-## Assistant
-- Uses configured assistant name, role and brand identity.
-- Receives only a sanitized application bridge, not unrestricted internal state.
-- Does not invent unavailable commercial facts.
-- Destructive actions require confirmation.
+- labels visíveis;
+- valores preservados em erro;
+- entrega e retirada têm estados distintos;
+- provider de CEP não substitui validação da área;
+- dados pessoais não persistem sem opt-in;
+- state machine impede progressão incoerente.
 
-## Fixed mobile UI
-- Must respect safe-area insets.
-- Must not cover the focused field when the virtual keyboard is open.
-- Bag navigation takes priority over secondary fixed navigation when an order exists.
+## Rosa
+
+- identidade vem da configuração;
+- recebe bridge sanitizada;
+- não inventa fatos comerciais;
+- ambiguidade pede confirmação;
+- ação destrutiva exige confirmação explícita.
+
+## Admin Studio
+
+- edita dados, não HTML;
+- rascunho e publicado são conceitos separados;
+- import é validado antes de substituir estado;
+- preview não é publicação;
+- ações irreversíveis devem ser explícitas.
+
+## UI móvel fixa
+
+- respeita safe areas;
+- não cobre campo focado;
+- Sacola tem prioridade sobre navegação secundária quando contém itens;
+- Rosa permanece secundária à ação comercial principal.

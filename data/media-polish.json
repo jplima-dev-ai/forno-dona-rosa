@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "assets/images/products/margherita-pizza.webp": {
+      "polishedSha256": "3dd3d4d261ce9651202a659d291d8544bcf9117875103a17047bc9433f191c6f",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/mozzarella-pizza.webp": {
+      "polishedSha256": "f5a6827786583d78140cd789af1106abf15513b6be67abc574cd3997796b65df",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/calabrese-sausage-pizza.webp": {
+      "polishedSha256": "21255aa70956bbb0e71c0246066705b1ffdf1e41b76ed14990ac8827c4a34d3a",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/portuguese-style-pizza.webp": {
+      "polishedSha256": "3dd3d4d261ce9651202a659d291d8544bcf9117875103a17047bc9433f191c6f",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/chicken-catupiry-pizza.webp": {
+      "polishedSha256": "f5a6827786583d78140cd789af1106abf15513b6be67abc574cd3997796b65df",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/neapolitan-pizza.webp": {
+      "polishedSha256": "3dd3d4d261ce9651202a659d291d8544bcf9117875103a17047bc9433f191c6f",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/pepperoni-pizza.webp": {
+      "polishedSha256": "21255aa70956bbb0e71c0246066705b1ffdf1e41b76ed14990ac8827c4a34d3a",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/dona-rosa-signature-pizza.webp": {
+      "polishedSha256": "3dd3d4d261ce9651202a659d291d8544bcf9117875103a17047bc9433f191c6f",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/four-cheese-pizza.webp": {
+      "polishedSha256": "f5a6827786583d78140cd789af1106abf15513b6be67abc574cd3997796b65df",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/burrata-parma-pizza.webp": {
+      "polishedSha256": "3dd3d4d261ce9651202a659d291d8544bcf9117875103a17047bc9433f191c6f",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/tuscan-wood-fired-pizza.webp": {
+      "polishedSha256": "21255aa70956bbb0e71c0246066705b1ffdf1e41b76ed14990ac8827c4a34d3a",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/house-carbonara-pizza.webp": {
+      "polishedSha256": "f5a6827786583d78140cd789af1106abf15513b6be67abc574cd3997796b65df",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/mushroom-truffle-pizza.webp": {
+      "polishedSha256": "21255aa70956bbb0e71c0246066705b1ffdf1e41b76ed14990ac8827c4a34d3a",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/rosa-spicy-pizza.webp": {
+      "polishedSha256": "21255aa70956bbb0e71c0246066705b1ffdf1e41b76ed14990ac8827c4a34d3a",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/garden-vegetable-pizza.webp": {
+      "polishedSha256": "21255aa70956bbb0e71c0246066705b1ffdf1e41b76ed14990ac8827c4a34d3a",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/vegan-margherita-pizza.webp": {
+      "polishedSha256": "3dd3d4d261ce9651202a659d291d8544bcf9117875103a17047bc9433f191c6f",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/mediterranean-pizza.webp": {
+      "polishedSha256": "21255aa70956bbb0e71c0246066705b1ffdf1e41b76ed14990ac8827c4a34d3a",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/vegan-mushroom-pizza.webp": {
+      "polishedSha256": "21255aa70956bbb0e71c0246066705b1ffdf1e41b76ed14990ac8827c4a34d3a",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/nutella-strawberry-dessert-pizza.webp": {
+      "polishedSha256": "3ae932db073bf7f5a8072a7dbf442aaaa2e2d6abef561275390643ada8643e33",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/belgian-chocolate-pizza.webp": {
+      "polishedSha256": "3ae932db073bf7f5a8072a7dbf442aaaa2e2d6abef561275390643ada8643e33",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/banana-cinnamon-caramel-pizza.webp": {
+      "polishedSha256": "3ae932db073bf7f5a8072a7dbf442aaaa2e2d6abef561275390643ada8643e33",
+      "profile": "food-premium-v1"
+    },
+    "assets/images/products/guava-cheese-dessert-pizza.webp": {
+      "polishedSha256": "3ae932db073bf7f5a8072a7dbf442aaaa2e2d6abef561275390643ada8643e33",
+      "profile": "food-premium-v1"
+    }
+  }
+}

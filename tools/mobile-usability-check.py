@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+from pathlib import Path
+import re,sys
+ROOT=Path(__file__).resolve().parents[1]
+html=(ROOT/'index.html').read_text(encoding='utf-8')
+frag=(ROOT/'templates/runtime-fragments.html').read_text(encoding='utf-8')
+main=(ROOT/'js/main.js').read_text(encoding='utf-8')
+css=(ROOT/'css/styles.css').read_text(encoding='utf-8')
+checks=[]
+def check(name, cond): checks.append((name,bool(cond)))
+check('primary CTA says Pedir agora', '>Pedir agora<' in html)
+check('primary CTA goes directly to menu', re.search(r'href="menu/">Pedir agora</a>',html) is not None)
+hero_actions=html.split('class="hero__actions"',1)[1].split('</div>',1)[0] if 'class="hero__actions"' in html else ''
+check('hero exposes only two primary decisions', hero_actions.count('<a ')+hero_actions.count('<button ')==2 and 'Pedir agora' in hero_actions and 'Preciso de ajuda para escolher' in hero_actions)
+check('three-step order orientation', all(x in html for x in ['1. Escolha','2. Revise','3. Confirme']))
+check('mobile navigation limited to four actions', '<nav aria-label="Navegação rápida" class="mobile-nav">' in html and html.count('<a href="menu/">Cardápio</a>')>=1)
+check('menu search has visible label', '<label for="menu-search">Buscar sabor ou ingrediente</label>' in html)
+check('tolerant search help exists', 'pizza, bebida, ingrediente ou característica' in html)
+check('product cards have canonical quick add', 'data-quick-add' in main and 'data-test": "add-product"' in main)
+check('product cards keep customization optional', 'Personalizar' in main)
+check('Bag primary action does not assume delivery', 'Escolher entrega ou retirada' in frag and 'Informar endereço e continuar' not in frag)
+check('checkout explicitly offers delivery', 'value="delivery"' in frag and '<strong>Entrega</strong>' in frag)
+check('checkout explicitly offers pickup', 'value="pickup"' in frag and 'Retirada na pizzaria' in frag)
+check('pickup promises no CEP', 'sem preencher CEP' in frag)
+check('payment choices are explicit', '<strong>Pix</strong>' in frag and 'Dinheiro em espécie' in frag)
+check('order is never described as auto-sent', 'nada é enviado automaticamente' in (html+frag).lower())
+check('mobile Bag has one dominant review action', 'mobile-bag-bar' in frag and 'Revisar pedido' in frag)
+check('mobile nav yields when Bag is active', '.has-mobile-bag .mobile-nav{display:none}' in css)
+check('fixed mobile controls reserve bottom space', 'body:not(.has-mobile-bag){padding-bottom:' in css and 'body.has-mobile-bag{padding-bottom:' in css)
+check('safe-area is used for mobile actions', 'env(safe-area-inset-bottom)' in css)
+check('core tap target token is enforced', '--tap-target' in css and 'min-height:var(--tap-target)' in css)
+check('very small phone rule exists', '@media(max-width:23rem)' in css or '@media(max-width:22rem)' in css)
+check('low-height landscape rule exists', 'orientation:landscape' in css)
+check('reduced motion supported', 'prefers-reduced-motion:reduce' in css)
+check('forced colors supported', 'forced-colors:active' in css)
+failed=[x for x in checks if not x[1]]
+for name,ok in checks: print(('PASS' if ok else 'FAIL').ljust(5),name)
+print(f'{len(checks)-len(failed)}/{len(checks)} mobile-usability checks passed')
+if failed: sys.exit(1)

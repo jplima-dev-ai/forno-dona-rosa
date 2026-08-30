@@ -1,37 +1,61 @@
 # Troubleshooting
 
-## The logo does not appear
-1. Confirm `brand.logo.header` in `data/brand/brand.json`.
-2. Confirm that the referenced file exists.
-3. Run `python tools/brand-sync.py`.
-4. Run `python tools/project-doctor.py`.
+## PowerShell bloqueia `npm.ps1`
 
-## A generated client fails validation
-Run:
+Use:
 
-```bash
-python tools/project-doctor.py --brand brands/<slug>
+```powershell
+npm.cmd run quality
 ```
 
-Correct the first reported failed invariant before changing unrelated code.
+Isso evita depender da política de execução do wrapper PowerShell do npm.
 
-## Postal-code lookup does not fill the address
-The checkout tries the configured lookup flow and can degrade to manual address entry. Confirm network connectivity, then inspect the browser network/console. A provider outage should not erase already entered customer data.
+## `python` não é encontrado
 
-## Rosa does not recognize a product
-Check the catalog ID/name/aliases first, then run:
+Confirme:
 
-```bash
-node tools/rosa-behavior-check.js
+```powershell
+python --version
 ```
 
-Do not patch the conversation engine with arbitrary substring exceptions before reproducing the mismatch.
+O projeto requer Python 3.11+.
 
-## Documentation references a missing file
-Run:
+## Quality falha após editar marca
 
-```bash
-python tools/docs-check.py
+Execute primeiro:
+
+```powershell
+python tools/brand-sync.py
+npm.cmd run quality
 ```
 
-Update the canonical document or restore the legitimately required file; do not silence the checker for stale documentation.
+Leia o **primeiro** erro real; falhas seguintes podem ser consequência.
+
+## Bundle do Admin é rejeitado
+
+Verifique:
+
+- arquivo JSON;
+- tamanho dentro do limite;
+- preços numéricos positivos;
+- URLs externas do crédito em HTTPS;
+- quantidade de produtos dentro do contrato;
+- estrutura compatível com o bundle atual.
+
+Não edite o validador apenas para “fazer passar”. Corrija o dado ou a incompatibilidade de schema.
+
+## CEP não consulta
+
+A consulta depende de internet e dos provedores ViaCEP/BrasilAPI. Offline ou falha de provider deve permitir fallback manual quando a configuração autoriza, sem fingir validação remota.
+
+## Retirada ainda mostra endereço
+
+Isso é regressão. O estado Retirada deve ocultar e desabilitar campos de entrega. Rode os gates de regressão/browser e verifique `js/checkout.js` antes de publicar.
+
+## Playwright não inicia localmente
+
+Instale dependências e browser do Playwright conforme `docs/testing/BROWSER-TESTING.md`. Políticas corporativas podem bloquear navegação automatizada; nesse caso registre BLOCKED e use o workflow do GitHub Actions para evidência E2E.
+
+## Cache mostra versão antiga
+
+Confirme `package.json`, `js/app-meta.js` e `service-worker.js`. O quality gate verifica sincronização de versão e limpeza de caches obsoletos.

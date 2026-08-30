@@ -4,7 +4,7 @@ from html.parser import HTMLParser
 import json, re, subprocess, sys
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "3.0.9"
+VERSION = json.loads((ROOT/"package.json").read_text(encoding="utf-8"))["version"]
 errors = []
 
 class AuditParser(HTMLParser):
@@ -100,7 +100,7 @@ for legacy in legacy_paths:
         if legacy in source: errors.append(f'Legacy technical reference still exists: {legacy}')
 
 required_paths=[
-    'README.md','README-PT.md','docs/CASE-STUDY.md','js/app-config.js',
+    'README.md','docs/ARCHITECTURE.md','docs/case-study/architecture.md','docs/case-study/commerce-flow.md','js/app-config.js',
     'data/rosa-knowledge-base.js','assets/images/dona-rosa-hero-pizza.jpg',
     'assets/images/cheese-pull-pizza.jpg','assets/images/wood-fired-oven-pizza.jpg',
     'assets/images/nutella-strawberry-pizza.jpg'
@@ -257,7 +257,15 @@ for patch in range(10):
     version = f"3.0.{patch}"
     if f"## {version} " not in changelog:
         errors.append(f"Changelog missing {version}")
-for rel in ['tools/build-site.py','tools/website-architecture-check.py','tools/repository-naming-check.py','docs/releases/v3.0.9.md','data/catalog.json']:
+current_major, current_minor, current_patch = map(int, VERSION.split("."))
+if current_major >= 3:
+    for minor in range(0, current_minor + 1):
+        max_patch = current_patch if minor == current_minor else 9
+        for patch in range(max_patch + 1):
+            version = f"3.{minor}.{patch}"
+            if not changelog_has_version(version):
+                errors.append(f"Changelog missing {version}")
+for rel in ['tools/build-site.py','tools/website-architecture-check.py','tools/repository-naming-check.py','docs/releases/v3.1.9.md','data/catalog.json']:
     if not (ROOT/rel).exists(): errors.append(f'v3 website asset missing: {rel}')
 
 # v2.9 mobile design refinement gates.
@@ -284,4 +292,4 @@ print('- Bag schema v3 + migrations: OK')
 print('- Rosa hardening + confidence: OK')
 print('- International filename migration: OK')
 print('- Version sync: OK')
-print('- Changelog 1.0.0–3.0.9 continuity: OK')
+print(f'- Changelog 1.0.0–{VERSION} continuity: OK')

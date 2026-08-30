@@ -1,5 +1,5 @@
 from pathlib import Path
-import re, sys
+import re, sys, json
 ROOT=Path(__file__).resolve().parents[1]
 css=(ROOT/'css/styles.css').read_text(encoding='utf-8')
 html=(ROOT/'index.html').read_text(encoding='utf-8')
@@ -8,7 +8,7 @@ meta=(ROOT/'js/app-meta.js').read_text(encoding='utf-8')
 checks=[]
 def check(name, cond): checks.append((name, bool(cond)))
 
-check('version 3.0.9', 'version: "3.0.9"' in meta and 'content="3.0.9" name="x-project-version"' in html)
+VERSION=json.loads((ROOT/'package.json').read_text(encoding='utf-8'))['version']; check(f'current version {VERSION}', f'version: "{VERSION}"' in meta and (f'content="{VERSION}" name="x-project-version"' in html or f'name="x-project-version" content="{VERSION}"' in html))
 for patch in range(10):
     check(f'changelog 2.9.{patch}', re.search(rf'^##\s+2\.9\.{patch}(?:\s|$)', changelog, re.M))
 check('mobile edge token', '--mobile-edge:' in css)

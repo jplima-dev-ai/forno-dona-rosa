@@ -1,50 +1,60 @@
-# Create a new client
+# Criar um novo cliente
 
-Applies to v3.0.9.
+## 1. Escolha um preset
 
-## 1. Choose a preset
-Supported starter presets:
-- `pizzeria`
-- `coffee-shop`
+Presets iniciais disponíveis:
 
-Presets define capabilities, not final art direction. A new client still requires real brand, content, catalog and media work.
+- `pizzeria`;
+- `coffee-shop`.
 
-## 2. Generate the client package
+O preset define capacidades iniciais, não direção artística final.
 
-```bash
+## 2. Gere o pacote
+
+```powershell
 python tools/create-brand.py --name "Bella Napoli" --slug bella-napoli --preset pizzeria
 ```
 
-The command creates `brands/bella-napoli/` with `brand.json`, `content.json`, `brand-theme.css` and an assets checklist.
+O comando cria `brands/bella-napoli/` com configuração, conteúdo, tema e checklist de assets.
 
-## 3. Add brand assets
-Add the logo files declared by the generated `brand.json`. Keep filenames technical and in English.
+## 3. Adicione assets de marca
 
-## 4. Edit client configuration
-Update contacts, address, SEO, delivery rules, assistant identity and feature flags. See [Configuration](CONFIGURATION.md).
+Use nomes técnicos em inglês. Atualize os caminhos de logo declarados na configuração.
 
-## 5. Validate before applying
+## 4. Configure dados reais
 
-```bash
+Revise contatos, endereço, SEO, delivery, horários, recursos, copy e identidade. Veja [Configuração](CONFIGURATION.md).
+
+Não deixe dados demonstrativos da Dona Rosa em um cliente real.
+
+## 5. Valide o pacote
+
+```powershell
 python tools/project-doctor.py --brand brands/bella-napoli
 ```
 
-## 6. Apply to the static site
+## 6. Aplique ao storefront
 
-```bash
+```powershell
 python tools/apply-brand.py bella-napoli
 ```
 
-This copies the canonical client configuration and runs `tools/brand-sync.py`.
+A operação sincroniza a configuração canônica com o site estático.
 
-## 7. Replace catalog and media
-The current Forno Dona Rosa menu is reference content. Replace it deliberately for the client. Do not present demonstration prices or products as client facts.
+## 7. Substitua catálogo e mídia
 
-## 8. Run the complete gate
+Produtos, preços e imagens da referência são apenas demonstração. Cada cliente precisa de catálogo e assets próprios/licenciados.
 
-```bash
-npm run quality
+## 8. Rode o gate completo
+
+```powershell
+npm.cmd run quality
 ```
 
-## 9. Manual accessibility and responsive review
-At minimum, verify keyboard flow, dialogs, checkout recovery, zoom/reflow, narrow mobile layouts and the real assistive-technology combinations required by the target audience. Do not convert `NOT TESTED` into `PASS`.
+## 9. Revise em navegador e tecnologia assistiva
+
+No mínimo, valide fluxo por teclado, dialogs, checkout, narrow mobile, landscape, zoom/reflow e as combinações reais de tecnologia assistiva exigidas pelo cliente. Não transforme NOT TESTED em PASS.
+
+## 10. Opção Admin Studio
+
+Para ajustes operacionais sem editar arquivos diretamente, use `/admin/`, exporte um bundle validado e aplique com `tools/apply-admin-bundle.py`. Publicação remota exige backend/autenticação apropriados.

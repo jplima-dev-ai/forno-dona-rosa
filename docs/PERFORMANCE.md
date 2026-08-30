@@ -1,27 +1,41 @@
 # Performance
 
-## Strategy
+## Estratégia
 
-The project remains framework-free to keep JavaScript and runtime overhead controlled. Critical hero imagery is preloaded, below-the-fold images use lazy loading, and explicit dimensions reduce layout shift.
+O projeto permanece framework-free e static-first para reduzir JavaScript inicial, dependências e custo de runtime. Performance é tratada como orçamento de experiência, não como busca cega por nota 100.
 
-## PWA cache
+## Mídia
 
-The service worker separates core and runtime caches, restricts caching to same-origin resources, removes obsolete cache versions, and bounds runtime growth.
+- `tools/build-media.py` gera variantes AVIF/WebP de forma incremental;
+- páginas de produto usam `picture`, `srcset` e `sizes` quando aplicável;
+- imagens abaixo da dobra usam lazy loading;
+- dimensões/proporções estáveis reduzem layout shift;
+- Hero recebe prioridade compatível com seu papel de LCP candidate.
 
-## Release checks
+O build não deve regenerar derivados quando a fonte e todos os outputs já estão atuais.
 
-- Keep the hero asset optimized because it is an LCP candidate.
-- Avoid unnecessary font weights and scripts.
-- Preserve image dimensions/aspect ratios.
-- Re-run local audits after asset renames or cache changes.
+## CSS e JavaScript
 
+- sem framework obrigatório;
+- módulos são separados por domínio;
+- comportamento secundário não deve bloquear a compra principal;
+- novas dependências precisam justificar custo de bundle e manutenção.
 
-## v1.8 image delivery
-The four primary food photographs now include WebP alternatives. Static editorial images keep JPEG fallbacks through `<picture>`, while dynamic menu cards use the smaller WebP files directly. The hero WebP is preloaded and receives `fetchpriority="high"`.
+## PWA
 
+O Service Worker mantém caches versionados, same-origin e limitados. Rotas administrativas/de desenvolvimento ficam fora do cache público.
 
-## v2.2 responsive media
+## Browser evidence
 
-- Every product now has a 384 px WebP derivative for compact mobile cards and Rosa recommendation cards.
-- The hero has a dedicated 640 px WebP source for viewports up to 48rem.
-- Dynamic product cards expose `srcset` and `sizes` so mobile devices are not forced to fetch the larger source when a smaller candidate is sufficient.
+A linha 3.7 prepara Playwright para testes de fluxo e matriz mobile. Performance automatizada futura deve primeiro medir um baseline real antes de impor budgets arbitrários.
+
+## Checklist de release
+
+- Hero e mídia crítica otimizados;
+- ausência de imagens originais gigantes em superfícies pequenas;
+- dimensões/aspect ratio preservados;
+- sem regressão de overflow/reflow;
+- build de mídia incremental;
+- cache antigo eliminado corretamente;
+- scripts/fontes adicionais justificados;
+- Lighthouse/Core Web Vitals só declarados quando efetivamente medidos.

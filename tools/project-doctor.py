@@ -4,7 +4,7 @@ from __future__ import annotations
 import json,re,subprocess,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-VERSION="3.0.9"
+VERSION=json.loads((ROOT/"package.json").read_text(encoding="utf-8"))["version"]
 checks=[]
 def check(name, ok, detail=""):
     checks.append((name,bool(ok),detail))

@@ -15,6 +15,7 @@
     }
     text.textContent = `${summary.count} ${summary.count === 1 ? "item" : "itens"} · ${summary.totalLabel}.`;
     $("#order-page-open-checkout")?.removeAttribute("disabled");
+    const resume=$("#order-page-resume"); if(resume) resume.hidden=false;
   }
 
   document.addEventListener("DOMContentLoaded", () => {

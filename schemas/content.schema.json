@@ -3,14 +3,89 @@
   "$id": "schemas/content.schema.json",
   "title": "Brand content",
   "type": "object",
-  "required": ["hero"],
+  "required": [
+    "hero"
+  ],
   "properties": {
     "hero": {
       "type": "object",
-      "required": ["title", "lead"],
+      "required": [
+        "title",
+        "lead"
+      ],
       "properties": {
-        "title": {"type": "string", "minLength": 8, "maxLength": 180},
-        "lead": {"type": "string", "minLength": 16, "maxLength": 320}
+        "title": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 180
+        },
+        "lead": {
+          "type": "string",
+          "minLength": 16,
+          "maxLength": 320
+        }
+      },
+      "additionalProperties": true
+    },
+    "site": {
+      "type": "object",
+      "properties": {
+        "about": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "maxLength": 180
+            },
+            "lead": {
+              "type": "string",
+              "maxLength": 360
+            }
+          },
+          "additionalProperties": true
+        },
+        "experience": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "maxLength": 180
+            },
+            "lead": {
+              "type": "string",
+              "maxLength": 360
+            }
+          },
+          "additionalProperties": true
+        },
+        "location": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "maxLength": 180
+            },
+            "lead": {
+              "type": "string",
+              "maxLength": 360
+            }
+          },
+          "additionalProperties": true
+        },
+        "help": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "maxLength": 180
+            },
+            "lead": {
+              "type": "string",
+              "maxLength": 360
+            }
+          },
+          "additionalProperties": true
+        }
       },
       "additionalProperties": true
     }

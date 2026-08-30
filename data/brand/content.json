@@ -11,5 +11,23 @@
   "checkout": {
     "deliveryNotice": "Entrega disponível somente em Serra — ES.",
     "handoffNotice": "Nada é enviado automaticamente. O pedido final é confirmado no WhatsApp."
+  },
+  "site": {
+    "about": {
+      "title": "Nossa história nasceu ao redor do forno.",
+      "lead": "Uma pizzaria artesanal feita para transformar ingredientes simples em momentos que ficam na memória."
+    },
+    "experience": {
+      "title": "O sabor começa antes da primeira mordida.",
+      "lead": "Fermentação lenta, forno intenso e atenção aos detalhes constroem a experiência Dona Rosa."
+    },
+    "location": {
+      "title": "Venha buscar ou peça para receber.",
+      "lead": "Consulte horários, endereço e as opções de retirada e entrega antes de finalizar seu pedido."
+    },
+    "help": {
+      "title": "Respostas rápidas antes do pedido.",
+      "lead": "Entrega, retirada, pagamento, agendamento e outras dúvidas sem complicação."
+    }
   }
 }

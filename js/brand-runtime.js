@@ -6,6 +6,13 @@
   const location = cfg.location || {};
   const assistant = cfg.assistant || {};
   const content = window.BRAND_CONTENT || {};
+  const credits = cfg.credits || {};
+  document.querySelectorAll("[data-site-credit]").forEach((node) => {
+    const enabled = credits.enabled !== false;
+    node.hidden = !enabled;
+    if (enabled) node.textContent = `${credits.label || "Desenvolvido por"} ${credits.name || "KJ Productions"}`;
+  });
+
   const setText = (selector, value) => { if (!value) return; document.querySelectorAll(selector).forEach((node) => { node.textContent = value; }); };
   setText("[data-brand-name]", brand.name);
   setText("[data-brand-business-name]", brand.legalDisplayName || brand.name);

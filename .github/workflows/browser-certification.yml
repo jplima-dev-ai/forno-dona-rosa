@@ -1,0 +1,37 @@
+name: Browser Certification
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  browser-certification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install browser test dependencies
+        run: npm install --no-audit --no-fund
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Run repository quality gates
+        run: npm run quality
+      - name: Run Playwright and Axe browser certification
+        run: npm run test:browser
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-certification-${{ github.sha }}
+          path: |
+            artifacts/test-evidence/
+            test-results/
+            playwright-report/
+          if-no-files-found: ignore
+          retention-days: 14

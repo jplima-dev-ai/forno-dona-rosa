@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="x-project-version" content="3.9.9">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; frame-src 'none'; form-action 'self'">
+  <title>Admin Studio | Forno Dona Rosa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+<a class="skip-link" href="#admin-main">Pular para o conteúdo principal</a>
+<header class="admin-header">
+  <div class="admin-shell admin-header__inner">
+    <div class="admin-brand"><img src="../assets/images/brand/forno-dona-rosa-logo-720.webp" alt=""><span>Admin Studio</span></div>
+    <div class="admin-actions">
+      <button id="admin-search-open" type="button">Buscar ação</button>
+      <button id="import-button" type="button">Importar backup</button>
+      <button id="export-button" class="admin-button--primary" type="button">Exportar alterações</button>
+      <input class="sr-only" id="import-file" type="file" accept="application/json,.json">
+    </div>
+  </div>
+</header>
+<div class="admin-shell admin-layout">
+  <nav class="admin-nav" aria-label="Áreas do painel">
+    <a href="#overview">Visão geral</a><a href="#brand">Marca</a><a href="#operations">Operação</a><a href="#products">Produtos</a><a href="#media">Imagens</a><a href="#content">Conteúdo</a><a href="#articles">Artigos</a><a href="#newsletter">Newsletter</a><a href="#reviews">Avaliações</a><a href="#seo">Google e WhatsApp</a><a href="#extras">Molhos</a><a href="#history">Histórico</a><a href="#preview">Preview</a><a href="#backup">Backup</a>
+  </nav>
+  <main class="admin-main" id="admin-main">
+    <section class="admin-section" id="overview">
+      <p class="admin-lead">Painel local para alterar dados sem editar código. As mudanças ficam neste navegador até você exportar um bundle.</p>
+      <div class="notice notice--warn"><strong>Importante:</strong> esta versão não publica diretamente no GitHub Pages e não contém senha ou autenticação de servidor. Use o botão “Exportar alterações” para gerar um bundle validado.</div>
+      <div class="admin-mode-bar"><div><h2>Visão geral</h2><p class="field-hint">Modo simples mostra apenas o essencial. Modo avançado revela configurações menos frequentes.</p></div><label class="field admin-mode-field" for="admin-mode"><span>Modo do painel</span><select id="admin-mode"><option value="simple">Simples</option><option value="advanced">Avançado</option></select></label></div>
+      <div class="status-grid" aria-label="Resumo atual">
+        <div class="status-card"><strong id="summary-products">—</strong><span>produtos</span></div>
+        <div class="status-card"><strong id="summary-available">—</strong><span>disponíveis</span></div>
+        <div class="status-card"><strong id="summary-unavailable">—</strong><span>indisponíveis</span></div>
+        <div class="status-card"><strong id="summary-featured">—</strong><span>destaques</span></div>
+      </div>
+      <div class="quick-actions" aria-labelledby="quick-actions-title"><h3 id="quick-actions-title">Ações rápidas</h3><div><button type="button" data-admin-jump="products">Alterar produto</button><button type="button" data-admin-jump="operations">Alterar horário</button><button type="button" data-admin-jump="content">Editar texto principal</button><button type="button" data-admin-jump="preview">Visualizar mudanças</button></div></div>
+    </section>
+
+    <section class="admin-section" id="brand">
+      <h2>Marca e contato</h2><p class="admin-lead">Altere os dados que normalmente obrigariam uma pessoa a abrir arquivos do projeto.</p>
+      <div class="admin-grid">
+        <div class="field"><label for="brand-name">Nome da marca</label><input id="brand-name" maxlength="80" required></div>
+        <div class="field"><label for="brand-legal-name">Nome comercial</label><input id="brand-legal-name" maxlength="120" required></div>
+        <div class="field"><label for="brand-short-name">Nome curto</label><input id="brand-short-name" maxlength="40" required></div>
+        <div class="field admin-advanced"><label for="brand-namespace">Identificador interno</label><input id="brand-namespace" maxlength="32" pattern="[a-z0-9][a-z0-9-]{1,31}" required><span class="field-hint">Use letras minúsculas, números e hífen.</span></div>
+        <div class="field"><label for="contact-whatsapp">WhatsApp</label><input id="contact-whatsapp" inputmode="numeric" maxlength="13" required><span class="field-hint">Ex.: 5527992820798.</span></div>
+        <div class="field"><label for="contact-whatsapp-display">WhatsApp exibido</label><input id="contact-whatsapp-display" maxlength="32" required></div>
+        <div class="field"><label for="contact-email">E-mail</label><input id="contact-email" type="email" maxlength="160"></div>
+        <div class="field"><label for="contact-instagram">Instagram</label><input id="contact-instagram" maxlength="80"></div>
+        <div class="field field--wide"><label for="location-address">Endereço</label><input id="location-address" maxlength="180" required></div>
+        <div class="field"><label for="location-city">Cidade</label><input id="location-city" maxlength="80" required></div>
+        <div class="field"><label for="location-state">Estado</label><input id="location-state" maxlength="2" required></div>
+        <div class="field"><label for="location-postal">CEP</label><input id="location-postal" maxlength="9"></div>
+        <label class="check-row field--wide"><input id="credit-enabled" type="checkbox"><span><strong>Mostrar crédito KJ Productions</strong><br><span class="field-hint">Exibe “Desenvolvido por KJ Productions” no rodapé público. Pode ser desligado em projetos white-label.</span></span></label>
+        <div class="field admin-advanced"><label for="credit-label">Texto do crédito</label><input id="credit-label" maxlength="40"></div>
+        <div class="field admin-advanced"><label for="credit-name">Nome do estúdio</label><input id="credit-name" maxlength="80"></div>
+      </div>
+    </section>
+
+    <section class="admin-section" id="operations">
+      <h2>Operação da pizzaria</h2>
+      <div class="admin-grid">
+        <label class="check-row"><input id="op-delivery" type="checkbox"><span><strong>Entrega</strong><br><span class="field-hint">Permitir pedidos para entrega.</span></span></label>
+        <label class="check-row"><input id="op-pickup" type="checkbox"><span><strong>Retirada na pizzaria</strong><br><span class="field-hint">Permitir que o cliente retire o pedido.</span></span></label>
+        <label class="check-row"><input id="op-pix" type="checkbox"><span><strong>Pix</strong><br><span class="field-hint">Disponibilizar Pix no checkout.</span></span></label>
+        <label class="check-row"><input id="op-cash" type="checkbox"><span><strong>Dinheiro</strong><br><span class="field-hint">Disponibilizar dinheiro e troco.</span></span></label>
+        <label class="check-row"><input id="op-scheduling" type="checkbox"><span><strong>Agendamento</strong><br><span class="field-hint">Permitir escolha de horário futuro.</span></span></label>
+      </div>
+      <h3>Horários semanais</h3>
+      <div id="hours-editor"></div>
+    </section>
+
+    <section class="admin-section" id="products">
+      <h2>Produtos</h2><p class="admin-lead">Altere preço, descrição, disponibilidade e destaque sem tocar no catálogo JSON.</p>
+      <div class="product-toolbar"><div class="field"><label for="product-select">Escolha um produto</label><select id="product-select"></select></div><button id="product-save" type="button">Aplicar neste produto</button></div>
+      <div class="product-editor" id="product-editor">
+        <div class="product-preview"><img id="product-image" src="" alt=""><div><strong id="product-preview-name">—</strong><div id="product-preview-price">—</div></div></div>
+        <div class="admin-grid">
+          <div class="field"><label for="product-name">Nome</label><input id="product-name" maxlength="120"></div>
+          <div class="field"><label for="product-price">Preço base</label><input data-test="admin-product-price" id="product-price" inputmode="decimal" type="number" min="0.01" step="0.01"></div>
+          <div class="field admin-advanced"><label for="product-category">Categoria</label><input id="product-category" maxlength="64"></div>
+          <div class="field admin-advanced"><label for="product-badge">Selo</label><input id="product-badge" maxlength="60"></div>
+          <div class="field field--wide"><label for="product-description">Descrição</label><textarea id="product-description" maxlength="360"></textarea></div>
+          <label class="check-row"><input id="product-available" type="checkbox"><span><strong>Disponível</strong><br><span class="field-hint">Desmarque para mostrar “Indisponível hoje”.</span></span></label>
+          <label class="check-row"><input id="product-featured" type="checkbox"><span><strong>Destaque na Home</strong><br><span class="field-hint">Use apenas para produtos que deseja promover editorialmente.</span></span></label>
+          <div class="field admin-advanced"><label for="product-featured-label">Rótulo do destaque</label><input id="product-featured-label" maxlength="60" placeholder="Ex.: Favorita da casa"></div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="admin-section" id="media">
+      <h2>Imagens dos produtos</h2><p class="admin-lead">Troque uma foto sem precisar entender AVIF, WebP ou <code>srcset</code>. O painel valida a imagem e o build gera os formatos finais.</p>
+      <div class="media-admin-grid">
+        <div class="field"><label for="media-product-select">Produto</label><select id="media-product-select"></select></div>
+        <div class="field"><label for="media-file">Nova foto</label><input id="media-file" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-hint">JPEG, PNG ou WebP. Máximo 10 MB. Recomendado: pelo menos 1200 × 1200.</span></div>
+        <div class="media-workspace field--wide">
+          <div><h3>Preview do enquadramento</h3><div class="media-preview-frame"><img id="media-preview" alt="Prévia da foto do produto"></div><output id="media-quality" class="media-quality" aria-live="polite">Selecione um produto para revisar a imagem atual.</output></div>
+          <div class="focal-controls"><h3>Ponto focal</h3><p class="field-hint">Escolha onde o produto deve permanecer centralizado quando a imagem for recortada. Todos os controles funcionam por teclado.</p><label for="media-focal-x">Horizontal</label><input id="media-focal-x" type="range" min="0" max="100" value="50"><label for="media-focal-y">Vertical</label><input id="media-focal-y" type="range" min="0" max="100" value="50"><div class="focal-buttons" aria-label="Mover ponto focal"><button type="button" data-focal-dx="0" data-focal-dy="-5">Mover para cima</button><button type="button" data-focal-dx="-5" data-focal-dy="0">Mover para esquerda</button><button type="button" data-focal-reset>Centralizar</button><button type="button" data-focal-dx="5" data-focal-dy="0">Mover para direita</button><button type="button" data-focal-dx="0" data-focal-dy="5">Mover para baixo</button></div></div>
+        </div>
+        <div class="admin-actions field--wide"><button id="media-stage" type="button">Preparar imagem selecionada</button><button id="media-export" class="admin-button--primary" type="button">Exportar pacote de mídia e conteúdo</button></div>
+        <div id="media-staged-list" class="media-staged-list field--wide" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="admin-section" id="content">
+      <h2>Texto principal</h2>
+      <div class="admin-grid">
+        <div class="field field--wide"><label for="hero-title">Título principal</label><textarea id="hero-title" maxlength="180"></textarea></div>
+        <div class="field field--wide"><label for="hero-emphasis">Frase de destaque</label><input id="hero-emphasis" maxlength="160"></div>
+        <div class="field field--wide"><label for="hero-lead">Descrição</label><textarea id="hero-lead" maxlength="320"></textarea></div>
+        <div class="field"><label for="hero-primary">Botão principal</label><input id="hero-primary" maxlength="60"></div>
+        <div class="field"><label for="hero-assistant">Botão da Rosa</label><input id="hero-assistant" maxlength="80"></div>
+        <div class="field field--wide"><label for="about-title">Título de Nossa história</label><input id="about-title" maxlength="180"></div>
+        <div class="field field--wide"><label for="about-lead">Introdução de Nossa história</label><textarea id="about-lead" maxlength="360"></textarea></div>
+        <div class="field field--wide"><label for="experience-title">Título de Experiência</label><input id="experience-title" maxlength="180"></div>
+        <div class="field field--wide"><label for="experience-lead">Introdução de Experiência</label><textarea id="experience-lead" maxlength="360"></textarea></div>
+        <div class="field field--wide"><label for="location-title">Título de Localização</label><input id="location-title" maxlength="180"></div>
+        <div class="field field--wide"><label for="location-lead">Introdução de Localização</label><textarea id="location-lead" maxlength="360"></textarea></div>
+      </div>
+    </section>
+
+    <section class="admin-section" id="articles">
+      <h2>Artigos</h2><p class="admin-lead">Crie e atualize conteúdos editoriais sem editar HTML. O layout, breadcrumbs, SEO e sitemap continuam sendo gerados pelo projeto.</p>
+      <div class="admin-grid">
+        <div class="field field--wide"><label for="article-select">Artigo</label><select id="article-select"></select></div>
+        <div class="admin-actions field--wide"><button id="article-new" type="button">Novo artigo</button><button id="article-save" class="admin-button--primary" type="button">Salvar artigo</button></div>
+        <div class="field field--wide"><label for="article-title">Título</label><input id="article-title" maxlength="160"></div>
+        <div class="field"><label for="article-slug">Endereço técnico</label><input id="article-slug" maxlength="80" pattern="[a-z0-9][a-z0-9-]{1,79}"><span class="field-hint">Ex.: historia-do-forno. O arquivo gerado continua com nomes técnicos em inglês quando aplicável ao projeto; o slug público pode refletir a copy.</span></div>
+        <div class="field"><label for="article-category">Categoria</label><select id="article-category"></select></div>
+        <div class="field field--wide"><label for="article-summary">Resumo</label><textarea id="article-summary" maxlength="360"></textarea></div>
+        <div class="field field--wide"><label for="article-tags">Tags</label><input id="article-tags" maxlength="240" placeholder="Ex.: forno, massa, fermentação"></div>
+        <label class="check-row"><input id="article-published" type="checkbox"><span><strong>Publicado</strong><small>Artigos em rascunho não entram no site nem no sitemap.</small></span></label>
+        <label class="check-row"><input id="article-featured" type="checkbox"><span><strong>Destacar no hub de artigos</strong></span></label>
+        <div class="field field--wide"><label for="article-section-1-heading">Título da seção 1</label><input id="article-section-1-heading" maxlength="160"></div><div class="field field--wide"><label for="article-section-1-text">Texto da seção 1</label><textarea id="article-section-1-text" maxlength="3000"></textarea></div>
+        <div class="field field--wide"><label for="article-section-2-heading">Título da seção 2</label><input id="article-section-2-heading" maxlength="160"></div><div class="field field--wide"><label for="article-section-2-text">Texto da seção 2</label><textarea id="article-section-2-text" maxlength="3000"></textarea></div>
+        <div class="field field--wide"><label for="article-section-3-heading">Título da seção 3</label><input id="article-section-3-heading" maxlength="160"></div><div class="field field--wide"><label for="article-section-3-text">Texto da seção 3</label><textarea id="article-section-3-text" maxlength="3000"></textarea></div>
+        <div class="field field--wide admin-advanced"><label for="article-seo-title">Título SEO</label><input id="article-seo-title" maxlength="160"></div><div class="field field--wide admin-advanced"><label for="article-seo-description">Descrição SEO</label><textarea id="article-seo-description" maxlength="360"></textarea></div>
+      </div>
+      <p class="field-hint">O editor limita a três seções para manter o conteúdo consistente para operadores leigos. O modelo de dados continua aceitando até oito seções por artigo.</p>
+    </section>
+
+    <section class="admin-section" id="newsletter">
+      <h2>Newsletter</h2><p class="admin-lead">Prepare o formulário agora sem fingir que existe um backend. A newsletter só aparece quando um provedor HTTPS estiver realmente configurado.</p>
+      <div class="admin-grid">
+        <label class="check-row"><input id="newsletter-enabled" type="checkbox"><span><strong>Ativar newsletter</strong><small>Sem provedor seguro, mantenha desligado.</small></span></label>
+        <div class="field"><label for="newsletter-provider">Tipo de integração</label><select id="newsletter-provider"><option value="none">Nenhum</option><option value="external-form">Formulário externo</option><option value="future-api">API futura</option></select></div>
+        <div class="field field--wide"><label for="newsletter-endpoint">Endpoint HTTPS</label><input id="newsletter-endpoint" type="url" inputmode="url" placeholder="https://..."></div>
+        <div class="field field--wide"><label for="newsletter-heading">Título</label><input id="newsletter-heading" maxlength="160"></div>
+        <div class="field field--wide"><label for="newsletter-lead">Descrição</label><textarea id="newsletter-lead" maxlength="360"></textarea></div>
+        <div class="field field--wide"><label for="newsletter-privacy">Nota de privacidade</label><textarea id="newsletter-privacy" maxlength="360"></textarea></div>
+      </div>
+    </section>
+
+    <section class="admin-section" id="reviews">
+      <h2>Avaliações reais</h2><p class="admin-lead">Cadastre apenas depoimentos que você tenha autorização para publicar. Uma avaliação ativa sem autorização é bloqueada pela validação.</p>
+      <div class="admin-grid">
+        <div class="field"><label for="review-author">Nome exibido</label><input id="review-author" maxlength="80"></div><div class="field"><label for="review-rating">Nota</label><select id="review-rating"><option value="5">5 estrelas</option><option value="4">4 estrelas</option><option value="3">3 estrelas</option><option value="2">2 estrelas</option><option value="1">1 estrela</option></select></div>
+        <div class="field field--wide"><label for="review-quote">Depoimento</label><textarea id="review-quote" maxlength="420"></textarea></div><div class="field"><label for="review-source">Fonte</label><input id="review-source" maxlength="100" placeholder="Ex.: Google"></div><div class="field"><label for="review-date">Data</label><input id="review-date" type="date"></div>
+        <label class="check-row"><input id="review-authorized" type="checkbox"><span><strong>Tenho autorização para publicar</strong></span></label><label class="check-row"><input id="review-active" type="checkbox" checked><span><strong>Mostrar no site</strong></span></label>
+        <div class="admin-actions field--wide"><button id="review-add" type="button">Adicionar avaliação</button></div>
+      </div><div id="review-list" class="review-admin-list"></div>
+    </section>
+    <section class="admin-section" id="seo">
+      <h2>Google e compartilhamento</h2><p class="admin-lead">Edite como a marca aparece em resultados de busca e em compartilhamentos, sem precisar conhecer tags HTML.</p>
+      <div class="admin-grid"><div class="field field--wide"><label for="seo-title">Título no Google</label><input id="seo-title" maxlength="120"></div><div class="field field--wide"><label for="seo-description">Descrição</label><textarea id="seo-description" maxlength="240"></textarea></div><div class="field field--wide"><label for="seo-og-title">Título ao compartilhar</label><input id="seo-og-title" maxlength="120"></div><div class="field field--wide"><label for="seo-og-description">Descrição ao compartilhar</label><textarea id="seo-og-description" maxlength="240"></textarea></div></div>
+      <div class="seo-preview" aria-live="polite"><p class="seo-preview__url" id="seo-preview-url">fornodonarosa.example</p><h3 id="seo-preview-title">—</h3><p id="seo-preview-description">—</p></div>
+    </section>
+
+    <section class="admin-section" id="extras">
+      <h2>Molhos</h2><p class="admin-lead">Ative, desative e ajuste preço dos extras oferecidos no final do pedido.</p>
+      <div class="sauce-list" id="sauce-list"></div>
+    </section>
+
+
+    <section class="admin-section" id="history">
+      <h2>Histórico desta sessão</h2><p class="admin-lead">Cada alteração relevante fica registrada localmente enquanto o painel estiver aberto. Você pode desfazer a última mudança antes de exportar.</p>
+      <div class="admin-actions"><button data-test="admin-undo" id="undo-button" type="button" disabled>Desfazer última alteração</button><button id="clear-history-button" type="button">Limpar histórico</button></div>
+      <ol class="change-history" id="change-history"><li>Nenhuma alteração registrada nesta sessão.</li></ol>
+    </section>
+
+    <section class="admin-section" id="preview">
+      <h2>Preview antes de exportar</h2><p class="admin-lead">Confira os dados principais sem publicar nada. O preview é complementar e não substitui a validação do site completo.</p>
+      <div class="preview-card" id="admin-preview" aria-live="polite"><p class="kicker">Prévia da marca</p><h3 id="preview-brand">—</h3><p id="preview-hero">—</p><div class="preview-metrics"><span id="preview-products">— produtos</span><span id="preview-fulfillment">—</span><span id="preview-payments">—</span></div><p class="site-credit" id="preview-credit">Desenvolvido por KJ Productions</p></div>
+      <div class="admin-actions"><a class="admin-button" href="../" target="_blank" rel="noopener noreferrer">Abrir site atual em nova aba</a><button data-test="admin-preview-refresh" id="refresh-preview" type="button">Atualizar preview</button></div>
+    </section>
+
+    <section class="admin-section" id="backup">
+      <h2>Backup e aplicação</h2>
+      <p>O bundle exportado contém apenas dados de configuração e catálogo. Ele não contém senhas, tokens ou dados de clientes.</p>
+      <div class="admin-actions"><button id="save-draft" type="button">Salvar rascunho neste navegador</button><button id="reset-draft" type="button">Descartar rascunho</button></div>
+      <div class="notice"><strong>Para aplicar no repositório:</strong> coloque o arquivo exportado na pasta do projeto e execute <code>python tools/apply-admin-bundle.py arquivo.json</code>. O script cria backup, valida os dados e atualiza os arquivos canônicos.</div>
+    </section>
+  </main>
+</div>
+
+<dialog class="admin-dialog" id="admin-search-dialog" aria-labelledby="admin-search-title"><div class="admin-dialog__inner"><header><div><p class="kicker">Atalho administrativo</p><h2 id="admin-search-title">O que você quer alterar?</h2></div><button id="admin-search-close" type="button" aria-label="Fechar busca">Fechar</button></header><label for="admin-search-input">Buscar ação</label><input id="admin-search-input" type="search" autocomplete="off" placeholder="Ex.: preço, sábado, WhatsApp, molho"><div id="admin-search-results" class="admin-search-results" aria-live="polite"></div></div></dialog>
+<dialog class="admin-dialog" id="onboarding-dialog" aria-labelledby="onboarding-title"><form method="dialog" class="admin-dialog__inner"><p class="kicker">Primeiro acesso</p><h2 id="onboarding-title">Configure sua pizzaria sem tocar no código.</h2><p>Use o modo simples para começar por marca, contato, operação e produtos. Você pode voltar ao modo avançado quando quiser.</p><ol><li>Revise nome e WhatsApp.</li><li>Confira endereço e horários.</li><li>Atualize produtos e preços.</li><li>Valide.</li><li>Exporte o bundle.</li></ol><div class="admin-actions"><button id="onboarding-skip" value="cancel">Agora não</button><button id="onboarding-start" class="admin-button--primary" value="default">Começar no modo simples</button></div></form></dialog>
+<footer class="admin-footer"><div class="admin-shell">Admin Studio v3.9.9 • configuração local-first • sem publicação automática • Desenvolvido por KJ Productions</div></footer>
+<div class="admin-statusbar" role="region" aria-label="Estado das alterações"><div class="admin-statusbar__inner"><p id="draft-status" aria-live="polite">Carregando configuração…</p><button id="validate-button" type="button">Validar alterações</button></div></div>
+<script src="../js/admin-core.js"></script>
+<script src="../js/admin-history.js"></script>
+<script src="../js/admin-persistence.js"></script>
+<script src="../js/admin.js"></script>
+<script src="../js/admin-media-content.js"></script>
+<script src="../js/admin-editorial.js"></script>
+</body>
+</html>

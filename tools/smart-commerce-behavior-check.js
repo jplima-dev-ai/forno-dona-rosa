@@ -1,0 +1,14 @@
+"use strict";
+global.window={};
+require("../js/checkout-state.js");
+const flow=global.window.FORNO_CHECKOUT_STATE;
+const tests=[];
+const check=(name,ok)=>{tests.push([name,Boolean(ok)]);console.log(`${ok?"PASS":"FAIL"}  ${name}`);};
+check("states exposed",flow.STATES.REVIEW==="review"&&flow.STATES.HANDOFF==="handoff");
+check("fulfillment to schedule allowed",flow.canTransition("fulfillment","schedule"));
+check("extras to review allowed",flow.canTransition("extras","review"));
+check("review can return to fulfillment",flow.canTransition("review","fulfillment"));
+check("bag cannot jump to handoff",!flow.canTransition("bag","handoff"));
+check("asap form resolves to extras",flow.phaseForForm({fulfillment:"pickup",timing:"asap",payment:"pix"})==="extras");
+check("scheduled form waits for slot",flow.phaseForForm({fulfillment:"pickup",timing:"scheduled",scheduledAt:"",payment:"pix"})==="schedule");
+const failed=tests.filter(([,ok])=>!ok);console.log(`${tests.length-failed.length}/${tests.length} smart-commerce behavior checks passed`);process.exit(failed.length?1:0);

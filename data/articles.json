@@ -1,0 +1,500 @@
+{
+  "schemaVersion": 1,
+  "categories": [
+    {
+      "id": "culture",
+      "label": "Cultura da pizza",
+      "description": "Histórias, tradições e curiosidades que atravessam o universo da pizza."
+    },
+    {
+      "id": "ingredients",
+      "label": "Ingredientes",
+      "description": "Como ingredientes, fermentação e forno influenciam sabor, textura e aroma."
+    },
+    {
+      "id": "tips",
+      "label": "Dicas",
+      "description": "Orientações simples para escolher, combinar, conservar e aproveitar melhor cada pedido."
+    },
+    {
+      "id": "behind-the-scenes",
+      "label": "Bastidores",
+      "description": "O processo artesanal, o forno e as decisões que constroem a experiência Dona Rosa."
+    },
+    {
+      "id": "curiosities",
+      "label": "Curiosidades",
+      "description": "Fatos interessantes sobre pizza, técnicas, nomes e hábitos à mesa."
+    }
+  ],
+  "articles": [
+    {
+      "id": "wood-fired-pizza-flavor",
+      "slug": "wood-fired-pizza-flavor",
+      "title": "Como o forno a lenha muda o sabor da pizza",
+      "summary": "Temperatura, tempo e contato com o fogo ajudam a explicar por que uma pizza assada em forno intenso tem aroma, textura e borda tão marcantes.",
+      "category": "ingredients",
+      "tags": [
+        "forno a lenha",
+        "massa",
+        "crosta",
+        "aroma"
+      ],
+      "published": true,
+      "featured": true,
+      "publishedAt": "2026-08-30",
+      "updatedAt": "2026-08-30",
+      "heroImage": "assets/images/wood-fired-oven-pizza.webp",
+      "productIds": [
+        "dona-rosa",
+        "margherita",
+        "calabresa"
+      ],
+      "sections": [
+        {
+          "heading": "Calor intenso muda a experiência",
+          "paragraphs": [
+            "Um forno muito quente assa a pizza em pouco tempo. Esse choque térmico favorece uma borda que cresce rápido, com exterior tostado e interior ainda macio. O resultado não depende apenas do fogo: hidratação da massa, fermentação e técnica de abertura também participam.",
+            "Na prática, o forno funciona como parte da receita. Ele não serve apenas para aquecer; participa da textura, do aroma e da aparência final."
+          ]
+        },
+        {
+          "heading": "Tostado não é queimado",
+          "paragraphs": [
+            "As pequenas marcas mais escuras na borda podem surgir quando a massa encontra pontos de calor intenso. Quando o equilíbrio está correto, elas acrescentam contraste de sabor sem dominar a pizza.",
+            "Por isso uma pizza artesanal pode apresentar bordas menos uniformes que um produto industrial e, ainda assim, ter uma identidade visual muito mais interessante."
+          ]
+        },
+        {
+          "heading": "O aroma começa antes da mordida",
+          "paragraphs": [
+            "Madeira, calor e ingredientes aquecidos em alta temperatura criam uma experiência aromática forte. Queijo, molho e azeite liberam aromas diferentes quando passam rapidamente por calor intenso.",
+            "É justamente essa combinação de textura, perfume e contraste que faz o forno ter tanta importância na identidade de uma pizzaria artesanal."
+          ]
+        }
+      ],
+      "seo": {
+        "title": "Como o forno a lenha muda o sabor da pizza",
+        "description": "Temperatura, tempo e contato com o fogo ajudam a explicar por que uma pizza assada em forno intenso tem aroma, textura e borda tão marcantes."
+      }
+    },
+    {
+      "id": "long-fermentation-dough",
+      "slug": "long-fermentation-dough",
+      "title": "Fermentação longa: o que muda na massa?",
+      "summary": "Tempo não substitui técnica, mas uma fermentação bem conduzida pode transformar aroma, estrutura, extensibilidade e textura da massa.",
+      "category": "ingredients",
+      "tags": [
+        "fermentação",
+        "massa",
+        "tempo",
+        "textura"
+      ],
+      "published": true,
+      "featured": false,
+      "publishedAt": "2026-08-30",
+      "updatedAt": "2026-08-30",
+      "heroImage": "assets/images/dona-rosa-hero-pizza.webp",
+      "productIds": [
+        "dona-rosa",
+        "margherita"
+      ],
+      "sections": [
+        {
+          "heading": "Fermentar é dar tempo ao processo",
+          "paragraphs": [
+            "Durante a fermentação, leveduras e enzimas atuam sobre a massa. Temperatura, quantidade de fermento, farinha e hidratação alteram profundamente o resultado, então “mais tempo” não significa automaticamente “melhor”.",
+            "Quando o processo é controlado, a massa pode desenvolver aromas mais complexos e ficar mais fácil de abrir sem perder estrutura."
+          ]
+        },
+        {
+          "heading": "A textura nasce de várias decisões",
+          "paragraphs": [
+            "Borda aerada não depende apenas de fermentação. Mistura, descanso, dobra, temperatura e manuseio interferem na retenção de gases. O forno termina o trabalho ao expandir rapidamente a massa.",
+            "Por isso a textura de uma boa pizza é consequência de uma cadeia de decisões, e não de um único ingrediente secreto."
+          ]
+        },
+        {
+          "heading": "Por que isso importa para quem compra",
+          "paragraphs": [
+            "O cliente percebe a técnica sem precisar conhecer todos os detalhes: na mastigação, no aroma, na leveza e na maneira como a borda reage ao forno. Uma boa comunicação explica o processo sem transformar o cardápio em aula de química."
+          ]
+        }
+      ],
+      "seo": {
+        "title": "Fermentação longa: o que muda na massa?",
+        "description": "Tempo não substitui técnica, mas uma fermentação bem conduzida pode transformar aroma, estrutura, extensibilidade e textura da massa."
+      }
+    },
+    {
+      "id": "margherita-history",
+      "slug": "margherita-history",
+      "title": "A história por trás da pizza Margherita",
+      "summary": "A Margherita se tornou um dos símbolos mais conhecidos da pizza italiana e mostra como poucos ingredientes podem exigir muita precisão.",
+      "category": "culture",
+      "tags": [
+        "margherita",
+        "história",
+        "italia",
+        "pizza"
+      ],
+      "published": true,
+      "featured": true,
+      "publishedAt": "2026-08-30",
+      "updatedAt": "2026-08-30",
+      "heroImage": "assets/images/products/margherita-pizza.webp",
+      "productIds": [
+        "margherita",
+        "margherita-vegana"
+      ],
+      "sections": [
+        {
+          "heading": "Uma combinação reconhecida no mundo inteiro",
+          "paragraphs": [
+            "Tomate, queijo, manjericão e azeite formam uma composição visual e aromática imediatamente reconhecível. A simplicidade aparente exige equilíbrio: excesso de qualquer elemento muda completamente o conjunto."
+          ]
+        },
+        {
+          "heading": "Menos ingredientes, mais responsabilidade",
+          "paragraphs": [
+            "Quando a lista é curta, cada ingrediente fica mais exposto. O molho precisa ter presença sem encharcar a massa, o queijo precisa derreter sem esconder tudo e o manjericão deve contribuir com perfume e frescor."
+          ]
+        },
+        {
+          "heading": "Por que ela continua relevante",
+          "paragraphs": [
+            "A Margherita funciona como referência para comparar estilos de massa, forno e ingredientes. Também é uma excelente escolha para quem prefere sabores mais diretos e quer perceber melhor o trabalho da massa e do molho."
+          ]
+        }
+      ],
+      "seo": {
+        "title": "A história por trás da pizza Margherita",
+        "description": "A Margherita se tornou um dos símbolos mais conhecidos da pizza italiana e mostra como poucos ingredientes podem exigir muita precisão."
+      }
+    },
+    {
+      "id": "choose-pizza-size",
+      "slug": "choose-pizza-size",
+      "title": "Como escolher o tamanho ideal da pizza",
+      "summary": "Quantidade de pessoas ajuda, mas fome, acompanhamentos e variedade de sabores também devem entrar na decisão.",
+      "category": "tips",
+      "tags": [
+        "tamanho",
+        "pedido",
+        "pessoas",
+        "compartilhar"
+      ],
+      "published": true,
+      "featured": false,
+      "publishedAt": "2026-08-30",
+      "updatedAt": "2026-08-30",
+      "heroImage": "assets/images/products/dona-rosa-signature-pizza.webp",
+      "productIds": [
+        "dona-rosa",
+        "calabresa",
+        "quatro-formaggi"
+      ],
+      "sections": [
+        {
+          "heading": "Comece pelo contexto",
+          "paragraphs": [
+            "Uma refeição com entradas e sobremesa tende a exigir menos pizza do que uma noite em que a pizza é o único prato. Crianças, adultos, apetite e duração do encontro também mudam a conta."
+          ]
+        },
+        {
+          "heading": "Variedade pode ser mais importante que volume",
+          "paragraphs": [
+            "Em grupos, duas pizzas com sabores diferentes podem ser mais interessantes do que uma única opção maior. Meio a meio também ajuda quando o sistema e a operação da pizzaria permitem."
+          ]
+        },
+        {
+          "heading": "Quando estiver em dúvida",
+          "paragraphs": [
+            "Use o tamanho como ponto de partida e confirme com a pizzaria quando a quantidade de pessoas for crítica. O site pode ajudar na escolha do produto, mas não deve inventar uma promessa de quantas pessoas cada tamanho serve sem dado operacional real."
+          ]
+        }
+      ],
+      "seo": {
+        "title": "Como escolher o tamanho ideal da pizza",
+        "description": "Quantidade de pessoas ajuda, mas fome, acompanhamentos e variedade de sabores também devem entrar na decisão."
+      }
+    },
+    {
+      "id": "mozzarella-spelling",
+      "slug": "mozzarella-spelling",
+      "title": "Muçarela, mussarela ou mozzarella: por que existem tantas formas?",
+      "summary": "As grafias variam por idioma, uso e tradição. No cardápio, o mais importante é clareza para o cliente e consistência editorial.",
+      "category": "curiosities",
+      "tags": [
+        "mucarela",
+        "mozzarella",
+        "queijo",
+        "linguagem"
+      ],
+      "published": true,
+      "featured": false,
+      "publishedAt": "2026-08-30",
+      "updatedAt": "2026-08-30",
+      "heroImage": "assets/images/products/mozzarella-pizza.webp",
+      "productIds": [
+        "mucarela",
+        "margherita"
+      ],
+      "sections": [
+        {
+          "heading": "A palavra viajou junto com o alimento",
+          "paragraphs": [
+            "“Mozzarella” é a forma italiana. Em português brasileiro, diferentes grafias aparecem no uso cotidiano e em materiais comerciais. Isso faz com que clientes pesquisem o mesmo ingrediente de maneiras diferentes."
+          ]
+        },
+        {
+          "heading": "Busca precisa entender o cliente",
+          "paragraphs": [
+            "Um bom sistema de busca não deve exigir que a pessoa conheça a grafia escolhida pela pizzaria. Por isso aliases como muçarela, mussarela e mozzarella podem apontar para o mesmo resultado."
+          ]
+        },
+        {
+          "heading": "Consistência ainda importa",
+          "paragraphs": [
+            "Na copy pública, escolher uma forma e mantê-la reduz ruído. Na camada técnica de busca, aceitar variações melhora a experiência sem transformar a interface em uma discussão ortográfica."
+          ]
+        }
+      ],
+      "seo": {
+        "title": "Muçarela, mussarela ou mozzarella: por que existem tantas formas?",
+        "description": "As grafias variam por idioma, uso e tradição. No cardápio, o mais importante é clareza para o cliente e consistência editorial."
+      }
+    },
+    {
+      "id": "pizza-drink-pairing",
+      "slug": "pizza-drink-pairing",
+      "title": "Como combinar pizza e bebida sem complicar",
+      "summary": "Intensidade, doçura, gordura e refrescância ajudam a escolher uma bebida que acompanhe o sabor em vez de disputar atenção.",
+      "category": "tips",
+      "tags": [
+        "bebidas",
+        "combinacao",
+        "refrigerante",
+        "agua"
+      ],
+      "published": true,
+      "featured": false,
+      "publishedAt": "2026-08-30",
+      "updatedAt": "2026-08-30",
+      "heroImage": "assets/images/products/coca-cola-2l-bottle.webp",
+      "productIds": [
+        "coca-2l",
+        "agua-gas",
+        "dona-rosa"
+      ],
+      "sections": [
+        {
+          "heading": "Comece pela intensidade",
+          "paragraphs": [
+            "Pizzas mais intensas costumam combinar bem com bebidas refrescantes. Opções suaves permitem acompanhamentos menos marcantes, enquanto pizzas doces podem pedir uma bebida que limpe o paladar."
+          ]
+        },
+        {
+          "heading": "Água também é escolha",
+          "paragraphs": [
+            "Água com ou sem gás não é apenas uma alternativa neutra. Ela pode ajudar entre sabores diferentes e funciona especialmente bem quando o grupo pretende experimentar várias pizzas."
+          ]
+        },
+        {
+          "heading": "A melhor combinação continua sendo pessoal",
+          "paragraphs": [
+            "Combinação não precisa virar regra rígida. O objetivo é oferecer um ponto de partida, não dizer ao cliente que existe apenas uma resposta correta."
+          ]
+        }
+      ],
+      "seo": {
+        "title": "Como combinar pizza e bebida sem complicar",
+        "description": "Intensidade, doçura, gordura e refrescância ajudam a escolher uma bebida que acompanhe o sabor em vez de disputar atenção."
+      }
+    },
+    {
+      "id": "what-makes-artisan-pizza",
+      "slug": "what-makes-artisan-pizza",
+      "title": "O que faz uma pizza parecer realmente artesanal?",
+      "summary": "Artesanal não deveria ser apenas uma palavra de marketing: processo, consistência, ingredientes e identidade precisam sustentar essa percepção.",
+      "category": "behind-the-scenes",
+      "tags": [
+        "artesanal",
+        "processo",
+        "ingredientes",
+        "forno"
+      ],
+      "published": true,
+      "featured": true,
+      "publishedAt": "2026-08-30",
+      "updatedAt": "2026-08-30",
+      "heroImage": "assets/images/products/dona-rosa-signature-pizza.webp",
+      "productIds": [
+        "dona-rosa",
+        "toscana-forno"
+      ],
+      "sections": [
+        {
+          "heading": "Processo visível",
+          "paragraphs": [
+            "Quando a pizzaria consegue explicar fermentação, forno, montagem e escolha de ingredientes com clareza, o termo “artesanal” ganha conteúdo concreto."
+          ]
+        },
+        {
+          "heading": "Regularidade sem aparência industrial",
+          "paragraphs": [
+            "Um produto artesanal ainda precisa ser consistente. O desafio é repetir qualidade sem transformar cada pizza em uma peça visualmente idêntica e sem personalidade."
+          ]
+        },
+        {
+          "heading": "Identidade importa",
+          "paragraphs": [
+            "Receita, apresentação, atendimento e ambiente digital precisam contar a mesma história. O cliente percebe quando o discurso premium não combina com fotos, copy ou experiência de compra."
+          ]
+        }
+      ],
+      "seo": {
+        "title": "O que faz uma pizza parecer realmente artesanal?",
+        "description": "Artesanal não deveria ser apenas uma palavra de marketing: processo, consistência, ingredientes e identidade precisam sustentar essa percepção."
+      }
+    },
+    {
+      "id": "airy-pizza-crust",
+      "slug": "airy-pizza-crust",
+      "title": "Por que algumas bordas ficam mais aeradas?",
+      "summary": "Fermentação, hidratação, abertura e calor trabalham juntos para criar uma borda leve, com alvéolos e contraste entre crocância e maciez.",
+      "category": "ingredients",
+      "tags": [
+        "borda",
+        "massa",
+        "aeracao",
+        "forno"
+      ],
+      "published": true,
+      "featured": false,
+      "publishedAt": "2026-08-30",
+      "updatedAt": "2026-08-30",
+      "heroImage": "assets/images/cheese-pull-pizza.webp",
+      "productIds": [
+        "napolitana",
+        "margherita"
+      ],
+      "sections": [
+        {
+          "heading": "Gás precisa permanecer na massa",
+          "paragraphs": [
+            "Durante a fermentação, gases se acumulam na estrutura da massa. O modo como ela é manipulada pode preservar ou expulsar parte desse ar."
+          ]
+        },
+        {
+          "heading": "A abertura muda o resultado",
+          "paragraphs": [
+            "Pressionar excessivamente a borda tende a reduzir o volume disponível para expansão. Técnicas de abertura normalmente preservam uma faixa externa justamente para favorecer crescimento no forno."
+          ]
+        },
+        {
+          "heading": "O forno finaliza a estrutura",
+          "paragraphs": [
+            "O calor transforma rapidamente água em vapor e expande os gases existentes. A borda cresce, ganha cor e estabelece o contraste de textura que muitas pessoas associam à pizza artesanal."
+          ]
+        }
+      ],
+      "seo": {
+        "title": "Por que algumas bordas ficam mais aeradas?",
+        "description": "Fermentação, hidratação, abertura e calor trabalham juntos para criar uma borda leve, com alvéolos e contraste entre crocância e maciez."
+      }
+    },
+    {
+      "id": "store-leftover-pizza",
+      "slug": "store-leftover-pizza",
+      "title": "Como guardar pizza para comer depois",
+      "summary": "Resfriar e armazenar corretamente ajuda a preservar qualidade e reduz riscos. Na hora de reaquecer, calor controlado faz diferença.",
+      "category": "tips",
+      "tags": [
+        "conservar",
+        "reaquecer",
+        "seguranca alimentar",
+        "sobras"
+      ],
+      "published": true,
+      "featured": false,
+      "publishedAt": "2026-08-30",
+      "updatedAt": "2026-08-30",
+      "heroImage": "assets/images/products/calabrese-sausage-pizza.webp",
+      "productIds": [
+        "calabresa"
+      ],
+      "sections": [
+        {
+          "heading": "Não deixe a pizza esquecida por horas",
+          "paragraphs": [
+            "Sobras de alimentos perecíveis devem ser refrigeradas em tempo adequado. Quando houver dúvida sobre tempo, temperatura ou condição do alimento, a escolha mais segura é não consumir."
+          ]
+        },
+        {
+          "heading": "Evite excesso de umidade",
+          "paragraphs": [
+            "Guardar as fatias em recipiente fechado ajuda a proteger o alimento, mas condensação excessiva pode prejudicar a textura. Separar fatias e deixar o alimento esfriar de forma segura antes de armazenar pode ajudar."
+          ]
+        },
+        {
+          "heading": "Reaquecer é diferente de assar novamente",
+          "paragraphs": [
+            "Uma frigideira ou forno pode recuperar melhor a textura da base que aquecimento excessivamente úmido. O objetivo é aquecer por completo sem ressecar queijo e cobertura."
+          ]
+        }
+      ],
+      "seo": {
+        "title": "Como guardar pizza para comer depois",
+        "description": "Resfriar e armazenar corretamente ajuda a preservar qualidade e reduz riscos. Na hora de reaquecer, calor controlado faz diferença."
+      }
+    },
+    {
+      "id": "sweet-pizza-curiosity",
+      "slug": "sweet-pizza-curiosity",
+      "title": "Pizza doce: sobremesa, tradição ou invenção brasileira?",
+      "summary": "Pizzas doces ganharam enorme espaço no Brasil e mostram como o formato da pizza pode atravessar a refeição e chegar à sobremesa.",
+      "category": "curiosities",
+      "tags": [
+        "pizza doce",
+        "sobremesa",
+        "brasil",
+        "chocolate"
+      ],
+      "published": true,
+      "featured": false,
+      "publishedAt": "2026-08-30",
+      "updatedAt": "2026-08-30",
+      "heroImage": "assets/images/products/nutella-strawberry-dessert-pizza.webp",
+      "productIds": [
+        "nutella",
+        "romeu-julieta",
+        "banana-doce-leite"
+      ],
+      "sections": [
+        {
+          "heading": "O formato aceita muita experimentação",
+          "paragraphs": [
+            "Massa assada funciona como base para ingredientes doces, e pizzarias brasileiras exploraram combinações com chocolate, frutas, doce de leite e queijo."
+          ]
+        },
+        {
+          "heading": "Equilíbrio continua importante",
+          "paragraphs": [
+            "Doçura intensa pode cansar rapidamente. Frutas, queijos e elementos mais ácidos ajudam a criar contraste e deixam a experiência menos monótona."
+          ]
+        },
+        {
+          "heading": "Uma categoria própria no cardápio",
+          "paragraphs": [
+            "Para muita gente, pizza doce não substitui a salgada: encerra o pedido. Por isso ela funciona bem como sugestão contextual depois que a Sacola já contém o prato principal."
+          ]
+        }
+      ],
+      "seo": {
+        "title": "Pizza doce: sobremesa, tradição ou invenção brasileira?",
+        "description": "Pizzas doces ganharam enorme espaço no Brasil e mostram como o formato da pizza pode atravessar a refeição e chegar à sobremesa."
+      }
+    }
+  ]
+}

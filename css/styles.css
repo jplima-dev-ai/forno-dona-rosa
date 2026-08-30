@@ -497,3 +497,19 @@ html[data-feature-assistant="off"] .rosa-dialog{display:none!important}
   .mobile-bag-bar:not([hidden]),.menu-card .small-action--primary,.choice-card{border:2px solid ButtonText;background:Canvas;color:CanvasText}
   .main-nav>a::after{background:Highlight}
 }
+
+/* v3.2 Smart Commerce */
+.bag-smart{margin:1rem 0;padding:1rem;border:1px solid var(--line,rgba(0,0,0,.14));border-radius:1rem;background:color-mix(in srgb,var(--paper,#fff) 92%,var(--accent,#9c2f25) 8%)}
+.bag-smart[hidden]{display:none}.bag-smart h3{margin:.15rem 0 .35rem}.bag-smart p{margin:0}.bag-smart__actions{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:.8rem}.checkout-review__edit-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;margin:1rem 0}.checkout-review__edit-grid .text-button{min-height:44px;border:1px solid currentColor;border-radius:.75rem;padding:.65rem}.checkout-field select{min-height:48px;width:100%;font:inherit}.order-page__resume{font-weight:650}
+@media(max-width:30rem){.checkout-review__edit-grid{grid-template-columns:1fr}.bag-smart__actions>*{width:100%}}
+@media(forced-colors:active){.bag-smart,.checkout-review__edit-grid .text-button{border:1px solid CanvasText}}
+@media(prefers-reduced-motion:reduce){.bag-smart *{scroll-behavior:auto!important;transition:none!important}}
+
+/* v3.5 creator credit */
+.footer-bottom .site-credit{font-weight:800}.footer-bottom .site-credit[hidden]{display:none!important}
+
+/* v3.9 — Home editorial discovery */
+.home-editorial{padding:clamp(3rem,7vw,6rem) 0;background:#1b120e}.home-editorial__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.home-article-card{border:1px solid rgba(255,255,255,.12);border-radius:1.15rem;overflow:hidden;background:#211610}.home-article-card>a{display:grid;height:100%;color:inherit;text-decoration:none}.home-article-card img{width:100%;aspect-ratio:1.45;object-fit:cover}.home-article-card>a>div{display:grid;gap:.5rem;padding:1rem}.home-article-card h3{font-size:1.35rem;margin:0}.home-article-card p:not(.kicker){color:#cbb9a7;margin:0}.home-article-card span{color:#f1b64b;font-weight:800;margin-top:auto}.home-editorial .section-actions{margin-top:1.25rem}
+@media(max-width:64rem){.home-editorial__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-article-card:last-child{grid-column:1/-1}}
+@media(max-width:48rem){.home-editorial__grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(var(--mobile-edge,1rem) * -1);padding-inline:var(--mobile-edge,1rem)}.home-article-card{min-width:min(82vw,21rem);scroll-snap-align:start}.home-article-card:last-child{grid-column:auto}}
+@media(forced-colors:active){.home-article-card{border:1px solid CanvasText}}

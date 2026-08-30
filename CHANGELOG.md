@@ -1,5 +1,271 @@
 # Changelog
 
+## 3.9.9 — Editorial & Audience Growth Release Gate
+- Consolida hub de artigos, páginas editoriais, categorias, SEO, busca, Admin Studio e contrato de newsletter.
+- Integra quality gates editoriais e documenta limites honestos da newsletter sem backend.
+- Fecha a linha com polish gastronômico idempotente das imagens-fonte existentes e derivados responsivos atualizados.
+
+## 3.9.8 — Accessible Reading & Mobile Editorial Polish
+- Refina leitura longa com largura controlada, hierarquia semântica, mobile, forced colors e reduced motion.
+- Artigos relacionados e produtos contextuais mantêm o leitor orientado sem criar becos sem saída.
+
+## 3.9.7 — Newsletter Provider Abstraction
+- Adiciona contrato `none`, `external-form` e `future-api`, exigindo endpoint HTTPS quando a newsletter estiver ativa.
+- Nenhum e-mail é persistido localmente pelo storefront.
+
+## 3.9.6 — Newsletter Experience
+- Cria componente editorial de newsletter renderizado somente quando um provedor legítimo estiver configurado.
+- Mantém a newsletter desativada por padrão nesta referência GitHub Pages.
+
+## 3.9.5 — Admin Editorial Management
+- Admin Studio passa a criar e editar artigos estruturados, rascunho/publicação, categorias, tags e SEO.
+- Newsletter ganha configuração explícita sem simular backend.
+
+## 3.9.4 — Categories, Tags & Related Content
+- Adiciona cinco categorias editoriais, tags controladas, conteúdo relacionado e vínculos com produtos.
+
+## 3.9.3 — Editorial SEO & Structured Data
+- Gera canonical, meta description, Article JSON-LD, breadcrumbs, sitemap e índice pesquisável para conteúdo publicado.
+
+## 3.9.2 — Article Detail Experience
+- Cria páginas individuais de leitura com imagem, tempo estimado, seções, produtos relacionados e continuidade editorial.
+
+## 3.9.1 — Articles Hub
+- Cria `/articles/` com conteúdo em destaque, categorias e grade de leituras recentes.
+- Home ganha descoberta editorial sem competir com o caminho principal de compra.
+
+## 3.9.0 — Editorial Architecture Forensics
+- Mapeia conteúdo, SEO, busca, newsletter e limites do modelo static-first antes da implementação.
+- Define dados editoriais canônicos e separa publicação de conteúdo de coleta de e-mails.
+
+## 3.8.9 — Media & Content Operations Release Gate
+- Integra quality gates de mídia, conteúdo, reviews e pacote portátil.
+- Consolida a operação editorial da pizzaria sem exigir edição de código.
+
+## 3.8.8 — Content Safety, Preview & Portable Package
+- Adiciona pacote portátil validado com configuração e mídia preparada.
+- O aplicador Python cria backup e rollback antes de substituir mídia canônica.
+
+## 3.8.7 — SEO & Social Preview Management
+- Admin Studio passa a editar título, descrição e preview de compartilhamento.
+
+## 3.8.6 — Reviews & Trust Management
+- Avaliações reais passam a ser administráveis com nota, fonte, data e autorização de uso.
+- Avaliação ativa sem autorização é rejeitada.
+
+## 3.8.5 — Structured Content Editing
+- Conteúdo institucional ganha campos estruturados; operador edita texto, não HTML.
+
+## 3.8.4 — Responsive Media Pipeline
+- Pipeline responsivo usa ponto focal no recorte social e mantém AVIF/WebP derivados.
+
+## 3.8.3 — Accessible Crop & Focal Point
+- Ponto focal pode ser ajustado por sliders e botões acessíveis por teclado.
+
+## 3.8.2 — Safe Image Upload & Validation
+- Upload administrativo valida tipo, tamanho e dimensões antes de preparar mídia.
+
+## 3.8.1 — Administrative Media Library
+- Admin Studio ganha área de mídia por produto com preview, estado e staging local.
+
+## 3.8.0 — Media & Content Forensics
+- Mapeia operações editoriais que ainda exigiam intervenção técnica e define fronteiras seguras para GitHub Pages.
+
+> O histórico preserva a linguagem usada em cada release; documentação operacional atual fica em `docs/`.
+
+## 3.7.9 — Browser Certification Release Gate
+### Maintenance
+- Consolidada a documentação canônica da 3.7.9, removendo duplicações e guias substituídos.
+- Reforçado o docs checker para impedir retorno de arquivos obsoletos e detectar links Markdown quebrados.
+### Added
+- Added the browser-certification release gate, GitHub evidence workflow and explicit evidence ledger for browser, mobile and accessibility automation.
+### Verified
+- The release distinguishes configured browser automation from actually executed browser evidence; blocked local Chromium is recorded as blocked, not passed.
+
+## 3.7.8 — Production Evidence & Performance Baseline
+### Added
+- Added browser evidence artifact paths, reproducible CI commands and documentation for interpreting automated versus manual evidence.
+
+## 3.7.7 — Offline & Service Worker E2E
+### Added
+- Added browser contracts for offline fallback and the security rule that the Admin Studio is not part of the public service-worker shell.
+
+## 3.7.6 — Mobile Browser Matrix
+### Added
+- Added 320, 390, 430, tablet and low-height landscape browser projects with horizontal-overflow and practical touch-target checks.
+### Accessibility
+- Mobile checks protect zoom/reflow-oriented layout contracts without claiming physical-device or screen-reader validation.
+
+## 3.7.5 — Automated Accessibility Testing
+### Added
+- Added Axe serious/critical browser gates for high-value public/admin routes and dialog keyboard lifecycle coverage.
+### Accessibility
+- Automated accessibility evidence is explicitly separated from NVDA, TalkBack and VoiceOver manual validation.
+
+## 3.7.4 — Admin Studio E2E
+### Added
+- Added browser coverage for Simple/Advanced modes, product editing, preview and Undo.
+
+## 3.7.3 — Bag & Checkout E2E
+### Added
+- Added browser regression for Pickup hiding and disabling every delivery-address field, plus cash-change validation.
+
+## 3.7.2 — Menu & Product E2E
+### Added
+- Added product deep-link, tolerant search, canonical add-to-Bag and direct product journey browser contracts.
+
+## 3.7.1 — Route & Navigation E2E
+### Added
+- Added browser checks for primary routes, deep links, headings, main landmarks, skip links, console errors and horizontal overflow.
+
+## 3.7.0 — Browser Test Architecture
+### Added
+- Added Playwright architecture, Axe integration contract, stable test hooks and a dedicated GitHub Actions browser-certification workflow.
+### Reviewed
+- Defined the critical acceptance journey as understanding the primary CTA, finding a product, adding it, reviewing the Bag and reaching checkout across narrow and wide viewports.
+
+
+## 3.6.9 — Security & Reliability Release Gate
+- Consolidada a linha 3.6 com correções de bugs, hardening do Admin Studio, Service Worker e aplicação de bundles.
+- Adicionados gates específicos de segurança estrutural e comportamental.
+- Crédito público atualizado para “Desenvolvido por KJ Productions” em configuração, painel e storefront.
+
+## 3.6.8 — Security Documentation & Evidence
+- SECURITY.md passou a documentar explicitamente limites, fronteiras e controles da linha 3.6.
+- Quality gates distinguem segurança automatizada de testes manuais ainda não executados.
+
+## 3.6.7 — Service Worker Security Boundary
+- Rotas `/admin/` e `/dev/` deixaram de ser pré-cacheadas e interceptadas pelo Service Worker público.
+- Reduzida a persistência offline de superfícies administrativas e de desenvolvimento.
+
+## 3.6.6 — Safe Credit URL Policy
+- Links configuráveis do crédito do desenvolvedor passam a aceitar somente HTTPS.
+- Admin Studio e aplicador CLI validam o mesmo contrato antes de renderizar/publicar.
+
+## 3.6.5 — Administrative Storage Recovery
+- Rascunhos locais corrompidos ou excessivos deixam de impedir a inicialização do painel.
+- Falhas de quota/storage passam a ser reportadas sem prometer salvamento inexistente.
+
+## 3.6.4 — Bundle Import Hardening
+- Import do Admin Studio limitado a JSON de até 2 MB.
+- Formato versionado incompatível é recusado antes de substituir o rascunho atual.
+
+## 3.6.3 — Bundle Application Hardening
+- Aplicador Python ganhou limites de tamanho, quantidade de produtos, texto e preço.
+- Preços booleanos/inválidos são rejeitados e backups usam identificador temporal de alta resolução.
+
+## 3.6.2 — Untrusted Asset Path Hardening
+- Preview administrativo passa a aceitar somente caminhos relativos allowlisted de `assets/` e `data/`.
+- Caminhos com traversal ou esquemas externos são recusados.
+
+## 3.6.1 — Creator Credit & Consistency Fix
+- Crédito padrão alterado para “Desenvolvido por KJ Productions”.
+- Defaults do Admin Studio, runtime e build foram sincronizados com a fonte canônica.
+
+## 3.6.0 — Security & Bug Forensics Audit
+- Auditadas superfícies públicas, administrativas, storage, imports, exports, Service Worker e handoff do WhatsApp.
+- Priorizadas correções de causa-raiz sem introduzir autenticação ou backend fictícios.
+
+## 3.5.9 — Operator Experience & White-Label Handoff Release Gate
+- Consolidado o Admin Studio para operadores não técnicos com modo simples, busca por ação, histórico, desfazer, preview e onboarding.
+- Adicionado quality gate dedicado da linha 3.5 e suíte comportamental dos novos contratos administrativos.
+- Crédito público “Feito por KJProductions” tornou-se configurável e integrado ao build white-label.
+- Publicação remota continua explicitamente separada até existir autenticação e backend apropriados.
+
+## 3.5.8 — Backend-Ready Persistence Boundary
+- Criado `js/admin-persistence.js` para isolar persistência de rascunho da interface.
+- Contrato declara modo atual `bundle`, sem publicação automática ou autenticação fictícia.
+- A futura substituição por API pode ocorrer sem reescrever o fluxo principal do painel.
+
+## 3.5.7 — Accessible Adaptive Admin Hardening
+- Diálogos administrativos, busca por ação, modo simples e preview receberam comportamento adaptativo para smartphone e desktop.
+- Forced colors, reduced motion, foco e controles HTML nativos permanecem protegidos.
+- Nenhum recurso administrativo depende apenas de cor, hover ou posição visual.
+
+## 3.5.6 — First-Run Onboarding
+- Primeiro acesso ganhou orientação curta para marca, operação, produtos, validação e exportação.
+- Onboarding pode ser ignorado e não bloqueia o uso do painel.
+- Preferência fica apenas no navegador do operador.
+
+## 3.5.5 — Draft Preview Experience
+- Criado preview local dos dados principais antes da exportação.
+- Preview resume marca, Hero, quantidade de produtos, recebimento, pagamentos e crédito do desenvolvedor.
+- A interface deixa explícito que preview não substitui validação do site completo.
+
+## 3.5.4 — Change History & Undo
+- Alterações da sessão passam a gerar histórico local limitado.
+- Operador pode desfazer a última alteração antes de exportar.
+- Limpeza do histórico preserva o rascunho atual e evita confundir histórico com backup persistente.
+
+## 3.5.3 — Administrative Action Search
+- Adicionada busca por intenção operacional, com termos como preço, sábado, WhatsApp, pagamento, molho e backup.
+- Resultados levam diretamente à seção correspondente e preservam navegação por teclado.
+
+## 3.5.2 — Simple & Advanced Operator Modes
+- Modo simples oculta configurações técnicas ou menos frequentes sem remover capacidades do painel.
+- Modo avançado mantém acesso a namespace, categoria, selo e rótulos editoriais.
+- A escolha é armazenada somente no navegador.
+
+## 3.5.1 — Configurable Creator Credit
+- Adicionado crédito público padrão `Feito por KJProductions` no rodapé do storefront.
+- Crédito passou a viver em `data/brand/brand.json`, podendo ser desativado ou alterado em projetos white-label.
+- Admin Studio permite controlar a exibição sem editar HTML.
+
+## 3.5.0 — Operator Experience Forensics
+- Auditada a versão 3.4.9 sob a ótica de empreendedor leigo, separando tarefas frequentes de opções técnicas.
+- Definidos critérios de aceite para simplicidade, reversibilidade, preview, busca administrativa e limites de publicação estática.
+- Mantido o princípio de não simular backend, autenticação ou persistência remota inexistentes.
+
+## 3.4.9 — Business Configuration Studio Release Gate
+- Consolidado o Admin Studio local-first para configuração comercial sem edição manual de código.
+- Adicionados quality gates específicos do painel e teste comportamental do núcleo administrativo.
+- Publicação automática permanece explicitamente fora do escopo do GitHub Pages sem backend/autenticação.
+- Build de mídia tornou-se incremental para não recomprimir 31 produtos quando apenas dados administrativos mudam.
+
+## 3.4.8 — Accessible & Adaptive Admin Hardening
+- Painel adaptado para smartphone, tablet e desktop sem DOM administrativo duplicado.
+- Estados de foco, forced colors, reduced motion, skip link e anúncios de validação foram protegidos.
+- Controles mantêm alvos de toque adequados e linguagem operacional em português.
+
+## 3.4.7 — Backup, Import & Safe Application
+- Admin Studio passou a exportar e importar bundles versionados em JSON.
+- Criado `tools/apply-admin-bundle.py` com backup automático, escrita atômica, validação, brand sync e rebuild.
+- Falha durante aplicação restaura os arquivos canônicos a partir do backup.
+
+## 3.4.6 — Draft, Validation & Change Safety
+- Rascunhos podem ser persistidos localmente sem publicar alterações.
+- Navegação com mudanças não salvas recebe proteção de saída.
+- Validação cobre marca, contato, formas de recebimento, pagamento, catálogo, preços e referências de disponibilidade.
+
+## 3.4.5 — Content & Order Extras Management
+- Copy principal do Hero tornou-se editável pelo painel.
+- Molhos podem ser ativados, desativados, renomeados e precificados sem editar JavaScript.
+- Configuração preserva o contrato canônico do checkout.
+
+## 3.4.4 — Store Operations Management
+- Entrega, retirada, Pix, dinheiro e agendamento passaram a ter controles administrativos amigáveis.
+- Horários semanais ganharam editor por dia.
+- Dados derivados de localização são reconciliados antes da exportação.
+
+## 3.4.3 — Product & Availability Management
+- Editor de produto permite alterar nome, descrição, preço, categoria e selo.
+- Disponibilidade e destaque da Home podem ser administrados sem abrir `catalog.json`.
+- Produto continua identificado por ID técnico estável para proteger Sacola e deep links.
+
+## 3.4.2 — Brand & Business Configuration
+- Marca, nome comercial, WhatsApp, e-mail, Instagram e localização passaram a ser editáveis por formulário.
+- Identificador interno recebe normalização e validação antes de exportar.
+
+## 3.4.1 — Accessible Admin Shell
+- Criada a rota técnica `/admin/`, excluída de indexação e da navegação comercial.
+- Interface administrativa usa HTML nativo, landmarks, labels, skip link e status acessível.
+- Dashboard evita métricas fictícias e mostra apenas estado operacional derivado da configuração real.
+
+## 3.4.0 — Admin Readiness & Configuration Forensics
+- Auditada a arquitetura 3.3.9 para separar dados que um empreendedor pode alterar com segurança de contratos que devem permanecer técnicos.
+- Definido o Admin Studio como editor local-first e backend-ready, sem fingir persistência server-side no GitHub Pages.
+- Escopo inicial prioriza configuração de negócio, catálogo e operação; autenticação e publicação remota permanecem para uma camada backend futura.
+
 All notable changes to **Forno Dona Rosa** are recorded in this file. The project uses a structured, SemVer-style release history in which every planned release line is documented continuously from `.0` through `.9`.
 
 ## Release-history policy
@@ -13,6 +279,101 @@ All notable changes to **Forno Dona Rosa** are recorded in this file. The projec
 
 ---
 
+
+
+## 3.3.9 — Real Storefront Release Gate
+- Consolida status comercial vivo, disponibilidade com recuperação, merchandising honesto, Product Detail 2.0, mídia responsiva e prova social verificável em um gate dedicado.
+
+## 3.3.8 — Adaptive Mobile Storefront Hardening
+- Reforça scrollers editoriais, small-phone, forced-colors, reduced-motion e densidade das novas superfícies sem duplicar DOM por viewport.
+
+## 3.3.7 — Trust & Social Proof Infrastructure
+- Adiciona `data/reviews.json` vazio por padrão; a Home só exibe avaliações quando existirem entradas reais configuradas.
+
+## 3.3.6 — Responsive Food Media Architecture
+- Gera variantes AVIF/WebP em 480, 800 e 1200 px, além de recortes sociais por produto, mantendo o asset original como fallback.
+
+## 3.3.5 — Product Detail Experience 2.0
+- Páginas de produto ganham disponibilidade explícita, razões editoriais de escolha, alternativas semelhantes e mídia responsiva de maior hierarquia.
+
+## 3.3.4 — Premium Home Experience
+- Home ganha curadoria enxuta de três produtos e contexto operacional, sem reintroduzir o catálogo completo na página inicial.
+
+## 3.3.3 — Featured & Seasonal Merchandising
+- Merchandising passa a ser configurável com rótulos editoriais honestos; `seasonalProductIds` nasce vazio e não cria falsa sazonalidade.
+
+## 3.3.2 — Menu Availability Intelligence
+- Produtos indisponíveis continuam visíveis, não podem ser adicionados e oferecem até duas alternativas coerentes do catálogo atual.
+
+## 3.3.1 — Live Business Status
+- Novo módulo centraliza aberto/fechado, próxima abertura, horário especial e timezone para superfícies operacionais compartilhadas.
+
+## 3.3.0 — Storefront Experience Forensics
+- Auditoria da 3.2.9 mapeia estados que ainda pareciam demonstração e define contratos para operação, disponibilidade, confiança, mídia e recuperação.
+
+## 3.2.9 — Smart Commerce Experience Release Gate
+- Consolida state machine de checkout, Sacola contextual, slots válidos de agendamento, recompra e observabilidade local em um gate dedicado.
+
+## 3.2.8 — Commerce Observability & QA
+- Adiciona barramento local `forno:commerce` para testes e debugging; o buffer só existe com opt-in `?commerceDebug=1` e não envia dados pela rede.
+
+## 3.2.7 — Accessibility & Mobile Interaction Hardening
+- Revisão final recebe ações de edição nomeadas, `select` nativo para horários válidos e superfícies responsivas com forced-colors/reduced-motion.
+
+## 3.2.6 — Order Review 2.0
+- Revisão ganha atalhos contextuais para recebimento, horário, pagamento e molhos sem exigir reiniciar o pedido.
+
+## 3.2.5 — Delivery & Pickup Intelligence
+- Mantém Entrega e Retirada como experiências condicionais distintas; campos ocultos continuam desabilitados e fora da validação.
+
+## 3.2.4 — Smart Scheduling Experience
+- Agendamento passa a listar somente slots válidos de acordo com funcionamento, antecedência, intervalo e horários especiais configuráveis.
+
+## 3.2.3 — Fast Reorder & Returning Customer
+- Recompra continua reconstruindo itens com preços e disponibilidade atuais; página de Pedido evidencia retomada de Sacola existente.
+
+## 3.2.2 — Contextual Upsell Engine
+- Sacola sugere no máximo um próximo passo coerente: bebida para pizza, pizza para bebida ou molhos no checkout; nada é adicionado automaticamente.
+
+## 3.2.1 — Smart Bag Experience
+- Sacola ganha superfície contextual de conclusão de pedido mantendo subtotal, itens e CTA principal prioritários.
+
+## 3.2.0 — Commerce UX Forensics
+- Auditoria da jornada Home → Cardápio → Produto → Sacola → Checkout → WhatsApp e definição de estados explícitos para reduzir transições inválidas.
+
+## 3.1.9 — Premium Product Experience Release Gate
+- Gate dedicado de experiência de produto, busca global e superfícies premium.
+
+## 3.1.8 — Accessible Adaptive Product Polish
+- Busca global com diálogo acessível, teclado, foco e modo tela cheia no mobile.
+- Forced colors e reduced motion cobrem as novas superfícies.
+
+## 3.1.7 — Responsive Media Delivery
+- Páginas de produto reforçam `picture`, tamanhos responsivos e hierarquia visual sem duplicação de DOM.
+- Arquitetura preparada para fotografia gastronômica superior sem alterar componentes.
+
+## 3.1.6 — Ordering Confidence Layer
+- Páginas de produto deixam explícitos revisão de valor, entrega/retirada e formas de pagamento antes da Sacola.
+
+## 3.1.5 — Menu Curation & Fast Discovery
+- Cardápio recebe curadoria inicial com três escolhas representativas para acelerar decisão.
+- No mobile, destaques usam scroller horizontal com `scroll-snap`.
+
+## 3.1.4 — Contextual Navigation Refinement
+- Busca global localiza produtos, pedido, história, localização e ajuda a partir do shell compartilhado.
+
+## 3.1.3 — Global Search Experience
+- Nova busca global por produto, ingrediente, categoria e assuntos operacionais.
+- Navegação por teclado e estado sem resultados claro.
+
+## 3.1.2 — Product Pairing Intelligence
+- Páginas individuais sugerem combinação complementar determinística sem alterar a Sacola automaticamente.
+
+## 3.1.1 — Editorial Product Hierarchy
+- Página de produto ganha badge, bloco de confiança, fotografia dominante e ação de compra mais clara.
+
+## 3.1.0 — Product Experience Forensics
+- Auditoria da arquitetura 3.0 com foco em consistência visual, descoberta e desejo de produto.
 
 ## 3.0.9 — Production Website Release Gate
 ### Changed

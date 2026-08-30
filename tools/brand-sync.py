@@ -29,6 +29,7 @@ def replace_once(text, pattern, repl, label):
 def main():
     brand = load(BRAND_PATH)
     content = load(CONTENT_PATH)
+    version = load(ROOT / "package.json")["version"]
     b = brand["brand"]; c = brand["contacts"]; loc = brand["location"]; seo = brand["seo"]
     require(b.get("name"), "brand.name"); require(b.get("storageNamespace"), "brand.storageNamespace")
     require(c.get("whatsappNumber"), "contacts.whatsappNumber"); require(seo.get("siteUrl"), "seo.siteUrl")
@@ -40,6 +41,7 @@ def main():
     html_path = ROOT / "index.html"
     html = html_path.read_text(encoding="utf-8")
     html = replace_once(html, r'<meta content="[^"]*" name="application-name"/>', f'<meta content="{b["legalDisplayName"]}" name="application-name"/>', "application-name")
+    html = replace_once(html, r'<meta content="[^"]*" name="x-project-version"/>', f'<meta content="{version}" name="x-project-version"/>', "project-version")
     html = replace_once(html, r'<title>.*?</title>', f'<title>{seo["title"]}</title>', "title")
     html = replace_once(html, r'<meta content="[^"]*" name="description"/>', f'<meta content="{seo["description"]}" name="description"/>', "description")
     html = replace_once(html, r'<link href="[^"]*" rel="canonical"/>', f'<link href="{seo["siteUrl"]}" rel="canonical"/>', "canonical")
@@ -68,6 +70,7 @@ def main():
         raise ValueError("Brand logo is missing a src attribute")
     synced_logo_tag = re.sub(r'\bsrc="[^"]*"', f'src="{b["logo"]["header"]}"', logo_tag, count=1)
     html = html[:logo_match.start()] + synced_logo_tag + html[logo_match.end():]
+    html = re.sub(r'(<span>[^<]*?• v)\d+\.\d+\.\d+(</span>)', rf'\g<1>{version}\2', html, count=1)
     html_path.write_text(html, encoding="utf-8")
 
     manifest = {"name":b["legalDisplayName"],"short_name":b["shortName"],"description":seo["description"],"start_url":"./","display":"standalone","background_color":"#17100c","theme_color":"#17100c","lang":b.get("locale","pt-BR"),"icons":[{"src":"assets/icons/icon-192.png","sizes":"192x192","type":"image/png"},{"src":"assets/icons/icon-512.png","sizes":"512x512","type":"image/png"}]}

@@ -4,7 +4,7 @@ from pathlib import Path
 import base64, hashlib, json, re, subprocess, sys
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "3.0.9"
+VERSION = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))["version"]
 failures = []
 passes = []
 
@@ -54,7 +54,8 @@ for name in ["dona-rosa-hero-pizza", "cheese-pull-pizza", "wood-fired-oven-pizza
 check("Hero fetch priority", 'fetchpriority="high"' in html)
 check("Menu uses modern images", '.webp"' in menu_text and '.jpg"' not in menu_text)
 check("All catalog products have images", menu_text.count('image:"assets/images/products/') == 31)
-check("All product image files exist", len([p for p in (ROOT / "assets/images/products").glob("*.webp") if not p.stem.endswith("-384")]) == 31)
+derived_suffixes=("-384","-480","-800","-1200","-social")
+check("All product image files exist", len([p for p in (ROOT / "assets/images/products").glob("*.webp") if not p.stem.endswith(derived_suffixes)]) == 31)
 
 # Business hours remain canonical in brand source.
 for day in range(7):
@@ -91,7 +92,7 @@ check("Mobile gallery deprioritized", '@media(max-width:48rem)' in css and '.gal
 # Repository hygiene regressions.
 for obsolete in ['assets/images/signature-pizza.svg','assets/images/og-cover.png','tools/generate.py']:
     check(f'Obsolete removed {obsolete}', not (ROOT / obsolete).exists())
-product_names=[p.name for p in (ROOT/'assets/images/products').glob('*.webp') if not p.stem.endswith('-384')]
+product_names=[p.name for p in (ROOT/'assets/images/products').glob('*.webp')]
 pt_tokens=['agua','gas','lata','suco','laranja','mucarela','calabresa','portuguesa','frango','toscana','forno','casa','trufa','picante','vegana','chocolate-belga','banana-doce-leite','romeu-julieta']
 check('English product image filenames', all(not any(t in name.lower() for t in pt_tokens) for name in product_names))
 check('Hero primary CTA opens visual menu', 'href="menu/"' in html and '>Pedir agora</a>' in html)
@@ -104,7 +105,8 @@ check("Product detail dialog semantics", '<dialog' in html and 'id="product-dial
 check("Beverage detail hides pizza customization", 'customize.hidden = product.type === "bebida"' in main)
 check("Quick add exposes price", 'Adicionar média · ${money(quickPrice)}' in main)
 check("Bag confirmation surface", 'id="bag-feedback"' in html and 'showBagFeedback' in main)
-check("Last order only saved at WhatsApp handoff", 'function handoffToWhatsApp' in main and 'saveLastOrder();\n    const opened = window.open' in main and main.count('saveLastOrder();') == 1)
+handoff_block = main.split("function handoffToWhatsApp",1)[1].split("window.FORNO_APP",1)[0] if "function handoffToWhatsApp" in main else ""
+check("Last order only saved at WhatsApp handoff", main.count("saveLastOrder();") == 1 and "saveLastOrder();" in handoff_block and "window.open" in handoff_block and handoff_block.index("saveLastOrder();") < handoff_block.index("window.open"))
 check("Last order canonical sanitation", 'const restored = sanitizeBag(stored.items)' in main)
 check("Rosa actionable recommendation cards", 'data-rosa-add' in rosa and 'productIds' in rosa)
 check("Mobile navigation yields to Bag", '.has-mobile-bag .mobile-nav{display:none}' in css)
@@ -140,7 +142,7 @@ check('Rosa executable behavior suite', behavior_result.returncode == 0, behavio
 # v2.4 local checkout regressions.
 for patch in range(10):
     check(f"Changelog 2.4.{patch}", f"## 2.4.{patch} " in changelog)
-check("Checkout replaces direct Bag WhatsApp", 'id="send-cart"' in html and 'Informar endereço e continuar' in html and 'FORNO_CHECKOUT?.open' in main)
+check("Checkout replaces direct Bag WhatsApp", 'id="send-cart"' in html and 'Escolher entrega ou retirada' in html and 'FORNO_CHECKOUT?.open' in main)
 check("Checkout dialog semantics", '<dialog' in html and 'id="checkout-dialog"' in html and 'aria-labelledby="checkout-dialog-title"' in html)
 check("Explicit Serra delivery copy", 'Entrega disponível somente em Serra — ES' in html)
 check("ViaCEP primary lookup", 'https://viacep.com.br/ws/${cep}/json/' in postal)

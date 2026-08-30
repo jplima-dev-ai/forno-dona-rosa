@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "enabled": false,
+  "provider": "none",
+  "endpoint": null,
+  "method": "POST",
+  "emailField": "email",
+  "heading": "Histórias do forno, novidades e sabores novos.",
+  "lead": "Receba conteúdos e novidades da Dona Rosa quando a newsletter estiver ativada.",
+  "buttonLabel": "Quero receber",
+  "privacyNote": "Sem cadastro ativo enquanto nenhum provedor de newsletter estiver configurado.",
+  "successMessage": "Cadastro recebido.",
+  "errorMessage": "Não foi possível cadastrar agora."
+}

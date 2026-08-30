@@ -6,3 +6,5 @@ __pycache__/
 .DS_Store
 Thumbs.db
 .vscode/
+artifacts/test-evidence/browser-report/
+artifacts/test-evidence/playwright-output/

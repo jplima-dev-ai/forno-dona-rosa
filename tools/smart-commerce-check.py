@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+from pathlib import Path
+import json
+ROOT=Path(__file__).resolve().parents[1]; checks=[]
+def check(name,ok): checks.append((name,bool(ok))); print(('PASS' if ok else 'FAIL'),name)
+pkg=json.loads((ROOT/'package.json').read_text(encoding='utf-8')); ch=(ROOT/'CHANGELOG.md').read_text(encoding='utf-8'); co=(ROOT/'js/checkout.js').read_text(encoding='utf-8'); main=(ROOT/'js/main.js').read_text(encoding='utf-8'); frag=(ROOT/'templates/runtime-fragments.html').read_text(encoding='utf-8'); cfg=(ROOT/'data/commerce-config.js').read_text(encoding='utf-8'); brand=json.loads((ROOT/'data/brand/brand.json').read_text(encoding='utf-8')); css=(ROOT/'css/styles.css').read_text(encoding='utf-8')
+VERSION=pkg.get('version'); check(f'version {VERSION}',bool(VERSION))
+for patch in range(10): check(f'changelog 3.2.{patch}',f'## 3.2.{patch} ' in ch)
+check('explicit checkout state machine',(ROOT/'js/checkout-state.js').exists() and 'HANDOFF:"handoff"' in (ROOT/'js/checkout-state.js').read_text(encoding='utf-8'))
+check('local commerce event bus',(ROOT/'js/commerce-events.js').exists() and 'commerceDebug' in (ROOT/'js/commerce-events.js').read_text(encoding='utf-8'))
+check('repository contracts',(ROOT/'js/repositories.js').exists())
+check('smart bag surface','bag-smart' in frag and 'smartBagRecommendation' in main)
+check('no automatic upsell','data-smart-add' in main and 'smartBagRecommendation' in main)
+check('schedule slots generated','buildScheduleSlots' in co and 'slotIntervalMinutes' in cfg)
+check('special hours contract','specialHours' in cfg and 'specialHours' in brand['commerce']['scheduling'])
+check('native schedule select','id="checkout-scheduled-at"' in frag and '<select' in frag)
+check('contextual review edits','data-review-edit="fulfillment"' in frag and 'data-review-edit="extras"' in frag)
+check('pickup delivery isolation','control.disabled = hidden' in co and 'fulfillment === "pickup"' in co)
+check('cash change validation','igual ou maior' in co)
+check('resume order notice','order-page-resume' in (ROOT/'tools/build-site.py').read_text(encoding='utf-8'))
+check('smart commerce responsive css','@media(max-width:30rem)' in css and '.bag-smart' in css)
+check('forced colors smart commerce','@media(forced-colors:active)' in css)
+check('reduced motion smart commerce','@media(prefers-reduced-motion:reduce)' in css)
+check('saved schedule restored after options', 'const scheduled = clean(data.scheduledAt, 30)' in co and '.options].some' in co)
+check('home uses current runtime fragment','bag-smart' in (ROOT/'index.html').read_text(encoding='utf-8') and '<select aria-describedby="checkout-scheduled-at-help' in (ROOT/'index.html').read_text(encoding='utf-8'))
+check('smart commerce behavior suite','smart-commerce-behavior-check.js' in pkg['scripts']['quality'])
+check('gate wired to quality','smart-commerce-check.py' in pkg['scripts']['quality'])
+failed=[n for n,o in checks if not o]; print(f'{len(checks)-len(failed)}/{len(checks)} smart-commerce checks passed'); raise SystemExit(1 if failed else 0)
