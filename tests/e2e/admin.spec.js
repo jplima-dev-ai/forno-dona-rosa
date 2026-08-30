@@ -16,10 +16,14 @@ test('admin change can be previewed and undone', async ({ page }) => {
   const price = page.locator('[data-test="admin-product-price"]');
   const original = await price.inputValue();
   await price.fill(String(Number(original || '1') + 1));
-  await page.locator('#product-save').click();
+  const saveProduct = page.locator('#product-save');
+  await saveProduct.evaluate((el) => el.scrollIntoView({ block: 'center', inline: 'nearest' }));
+  await saveProduct.focus();
+  await page.keyboard.press('Enter');
   const refreshPreview = page.locator('[data-test="admin-preview-refresh"]');
   await refreshPreview.evaluate((el) => el.scrollIntoView({ block: 'center', inline: 'nearest' }));
-  await refreshPreview.click();
+  await refreshPreview.focus();
+  await page.keyboard.press('Enter');
   await expect(page.locator('[data-test="admin-undo"]')).toBeEnabled();
   await page.locator('[data-test="admin-undo"]').click();
 });

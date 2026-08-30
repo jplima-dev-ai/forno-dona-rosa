@@ -514,3 +514,11 @@ html[data-feature-assistant="off"] .rosa-dialog{display:none!important}
 @media(max-width:64rem){.home-editorial__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-article-card:last-child{grid-column:1/-1}}
 @media(max-width:48rem){.home-editorial__grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(var(--mobile-edge,1rem) * -1);padding-inline:var(--mobile-edge,1rem)}.home-article-card{min-width:min(82vw,21rem);scroll-snap-align:start}.home-article-card:last-child{grid-column:auto}}
 @media(forced-colors:active){.home-article-card{border:1px solid CanvasText}}
+
+/* Browser certification hotfix: keep edge-to-edge mobile surfaces inside the visual viewport. */
+@media(max-width:48rem){
+  .site-header{width:100%;max-width:100%;min-width:0}
+  .site-header>*{min-width:0}
+  .hero__grid,.hero__copy,.hero__visual,.fast-order__inner,.home-editorial__grid,.filter-bar,.desire-strip,.menu-help,.returning-order{max-width:100vw}
+  .hero__visual,.home-editorial__grid,.filter-bar,.desire-strip,.menu-help,.returning-order{box-sizing:border-box}
+}

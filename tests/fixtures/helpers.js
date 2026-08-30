@@ -1,10 +1,22 @@
 const { expect } = require('@playwright/test');
 
 async function expectNoHorizontalOverflow(page) {
-  const overflow = await page.evaluate(() => ({
-    scrollWidth: document.documentElement.scrollWidth,
-    clientWidth: document.documentElement.clientWidth,
-  }));
+  const overflow = await page.evaluate(() => {
+    const root = document.documentElement;
+    const clientWidth = root.clientWidth;
+    const offenders = Array.from(document.querySelectorAll('body *')).map((element) => {
+      const rect = element.getBoundingClientRect();
+      return {
+        tag: element.tagName.toLowerCase(),
+        id: element.id || '',
+        className: typeof element.className === 'string' ? element.className : '',
+        left: Math.round(rect.left * 100) / 100,
+        right: Math.round(rect.right * 100) / 100,
+        width: Math.round(rect.width * 100) / 100,
+      };
+    }).filter((item) => item.right > clientWidth + 1 || item.left < -1).slice(0, 12);
+    return { scrollWidth: root.scrollWidth, clientWidth, offenders };
+  });
   expect(overflow.scrollWidth, `horizontal overflow: ${JSON.stringify(overflow)}`).toBeLessThanOrEqual(overflow.clientWidth + 1);
 }
 

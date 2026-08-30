@@ -21,3 +21,10 @@
 
 /* Browser hotfix: keep preview actions clear of sticky UI on narrow screens. */
 #refresh-preview{scroll-margin-block:8rem}#preview .admin-actions{position:relative;z-index:1}
+
+/* Small-screen operator safety: a multi-row sticky header must never cover editor controls. */
+@media(max-width:36rem){
+  .admin-header{position:static}
+  .admin-section{scroll-margin-top:1rem}
+  #product-save,#refresh-preview{scroll-margin-block:1rem}
+}
