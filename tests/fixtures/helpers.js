@@ -4,9 +4,21 @@ async function expectNoHorizontalOverflow(page) {
   const overflow = await page.evaluate(() => {
     const root = document.documentElement;
     const clientWidth = root.clientWidth;
+    const isInsideIntentionalHorizontalScroller = (element) => {
+      let current = element.parentElement;
+      while (current && current !== document.body) {
+        const style = getComputedStyle(current);
+        const overflowX = style.overflowX;
+        const canScrollHorizontally = (overflowX === 'auto' || overflowX === 'scroll') && current.scrollWidth > current.clientWidth + 1;
+        if (canScrollHorizontally) return true;
+        current = current.parentElement;
+      }
+      return false;
+    };
     const offenders = Array.from(document.querySelectorAll('body *')).map((element) => {
       const rect = element.getBoundingClientRect();
       return {
+        element,
         tag: element.tagName.toLowerCase(),
         id: element.id || '',
         className: typeof element.className === 'string' ? element.className : '',
@@ -14,10 +26,20 @@ async function expectNoHorizontalOverflow(page) {
         right: Math.round(rect.right * 100) / 100,
         width: Math.round(rect.width * 100) / 100,
       };
-    }).filter((item) => item.right > clientWidth + 1 || item.left < -1).slice(0, 12);
-    return { scrollWidth: root.scrollWidth, clientWidth, offenders };
+    }).filter((item) => {
+      const escapesViewport = item.right > clientWidth + 1 || item.left < -1;
+      return escapesViewport && !isInsideIntentionalHorizontalScroller(item.element);
+    }).slice(0, 12).map(({ element, ...item }) => item);
+    return {
+      scrollWidth: root.scrollWidth,
+      clientWidth,
+      offenders,
+      rootOverflowX: getComputedStyle(root).overflowX,
+      bodyOverflowX: getComputedStyle(document.body).overflowX,
+    };
   });
-  expect(overflow.scrollWidth, `horizontal overflow: ${JSON.stringify(overflow)}`).toBeLessThanOrEqual(overflow.clientWidth + 1);
+  expect(overflow.offenders, `uncontained horizontal overflow: ${JSON.stringify(overflow)}`).toEqual([]);
+  expect(overflow.scrollWidth, `root horizontal overflow: ${JSON.stringify(overflow)}`).toBeLessThanOrEqual(overflow.clientWidth + 1);
 }
 
 async function collectConsoleErrors(page) {
