@@ -523,9 +523,20 @@ html[data-feature-assistant="off"] .rosa-dialog{display:none!important}
   .hero__visual,.home-editorial__grid,.filter-bar,.desire-strip,.menu-help,.returning-order{box-sizing:border-box}
 }
 
-/* Browser certification hotfix 4: contain intentional horizontal scrollers without widening the page. */
+/* Browser certification hotfix 5: mobile rails scroll inside their own bounds, never the page. */
 @media(max-width:48rem){
-  .menu,.home-editorial{overflow-x:clip}
-  .desire-scroll,.home-editorial__grid{width:100%;max-width:100%;min-width:0;box-sizing:border-box;overscroll-behavior-inline:contain}
-  .home-editorial__grid{margin-inline:0;padding-inline:0;scroll-padding-inline:0}
+  .menu,.home-editorial{overflow-x:hidden}
+  .desire-strip,.home-editorial .section-shell{min-width:0;max-width:100%;overflow-x:hidden}
+  .desire-scroll,.home-editorial__grid{
+    width:100%;max-width:100%;min-width:0;box-sizing:border-box;
+    overflow-x:auto;overflow-y:hidden;
+    overscroll-behavior-inline:contain;
+    scroll-snap-type:x proximity;
+    scrollbar-width:thin;
+    -webkit-overflow-scrolling:touch;
+    contain:layout paint;
+  }
+  .desire-scroll{scroll-padding-inline:.05rem}
+  .home-editorial__grid{margin-inline:0;padding:0 0 .45rem;scroll-padding-inline:0}
+  .desire-chip,.home-article-card{scroll-snap-align:start}
 }

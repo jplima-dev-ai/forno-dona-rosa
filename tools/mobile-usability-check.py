@@ -33,7 +33,7 @@ check('very small phone rule exists', '@media(max-width:23rem)' in css or '@medi
 check('low-height landscape rule exists', 'orientation:landscape' in css)
 check('reduced motion supported', 'prefers-reduced-motion:reduce' in css)
 check('forced colors supported', 'forced-colors:active' in css)
-check('intentional horizontal scrollers are section-contained', '.menu,.home-editorial{overflow-x:clip}' in css and '.desire-scroll,.home-editorial__grid{width:100%;max-width:100%' in css)
+check('intentional horizontal scrollers are internally scrollable and contained', '.menu,.home-editorial{overflow-x:hidden}' in css and 'overflow-x:auto;overflow-y:hidden' in css and 'contain:layout paint' in css and '.desire-strip,.home-editorial .section-shell{min-width:0;max-width:100%;overflow-x:hidden}' in css)
 failed=[x for x in checks if not x[1]]
 for name,ok in checks: print(('PASS' if ok else 'FAIL').ljust(5),name)
 print(f'{len(checks)-len(failed)}/{len(checks)} mobile-usability checks passed')
