@@ -24,7 +24,8 @@ test('customer can search, add and reach Bag with one-handed mobile controls', a
   if (await bagBar.isVisible()) await bagBar.click();
   else await page.locator('#open-cart').click();
   await expect(page.locator('#cart-dialog')).toBeVisible();
-  await expect(page.locator('#cart-dialog button, #cart-dialog a').filter({ hasText: /endereço|continuar|pedido/i }).first()).toBeVisible();
+  await expect(page.locator('#send-cart')).toBeVisible();
+  await expect(page.locator('#send-cart')).toHaveText(/entrega|retirada/i);
   await expectNoHorizontalOverflow(page);
 });
 
