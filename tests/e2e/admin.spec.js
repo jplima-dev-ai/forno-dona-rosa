@@ -3,9 +3,9 @@ const { test, expect } = require('@playwright/test');
 test('admin simple mode protects non-technical operator from advanced fields', async ({ page }) => {
   await page.goto('/admin/');
   await page.locator('#onboarding-dialog').evaluate(el => { if (el.open) el.close(); });
-  await page.locator('[data-test="admin-mode-simple"]').click();
+  await page.locator('#admin-mode').selectOption('simple');
   await expect(page.locator('.admin-advanced').first()).toBeHidden();
-  await page.locator('[data-test="admin-mode-advanced"]').click();
+  await page.locator('#admin-mode').selectOption('advanced');
   await expect(page.locator('.admin-advanced').first()).toBeVisible();
 });
 

@@ -167,7 +167,9 @@
 
   function updateNumberState() {
     const noNumber = field("checkout-no-number")?.checked; const number = field("checkout-number"); if (!number) return;
-    number.disabled = Boolean(noNumber); number.required = selected("fulfillment", "delivery") === "delivery" && !noNumber;
+    const isDelivery = selected("fulfillment", "delivery") === "delivery";
+    number.disabled = !isDelivery || Boolean(noNumber);
+    number.required = isDelivery && !noNumber;
     if (noNumber) { number.value = ""; setError("checkout-number", ""); }
   }
 

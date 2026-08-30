@@ -36,7 +36,7 @@
     featuredProducts().forEach((product) => {
       const card = document.createElement("article"); card.className = "storefront-featured-card";
       const link = document.createElement("a"); link.href = resolve(`products/${product.id}/`);
-      const img = document.createElement("img"); img.src = resolve(media480(product.image)); img.alt = ""; img.loading = "lazy"; img.decoding = "async"; img.width = 480; img.height = 480; const focal = product.media?.focalPoint; if (focal) img.style.objectPosition = `${Number(focal.x) || 50}% ${Number(focal.y) || 50}%`;
+      const img = document.createElement("img"); img.src = resolve(media480(product.image)); img.alt = ""; img.loading = "lazy"; img.decoding = "async"; img.width = 480; img.height = 480; const focal = product.media?.focalPoint || { x:50, y:50 }; const fx = Math.max(0, Math.min(100, Math.round(Number(focal.x) || 50))); const fy = Math.max(0, Math.min(100, Math.round(Number(focal.y) || 50))); img.classList.add("focal-media", `focal-x-${fx}`, `focal-y-${fy}`);
       const body = document.createElement("div"); body.className = "storefront-featured-card__body";
       const kicker = document.createElement("p"); kicker.className = "kicker"; kicker.textContent = labels[product.id] || product.badge || "Seleção da casa";
       const title = document.createElement("h3"); title.textContent = product.name;
