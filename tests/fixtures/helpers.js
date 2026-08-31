@@ -15,6 +15,18 @@ async function expectNoHorizontalOverflow(page) {
       }
       return false;
     };
+    const isInsideVisuallyClippedAccessibleRegion = (element) => {
+      let current = element;
+      while (current && current !== document.body) {
+        const style = getComputedStyle(current);
+        const rect = current.getBoundingClientRect();
+        const clipped = style.clip !== 'auto' || style.clipPath !== 'none';
+        const tinyHiddenBox = rect.width <= 2 && rect.height <= 2 && (style.overflow === 'hidden' || style.overflowX === 'hidden');
+        if (clipped && tinyHiddenBox) return true;
+        current = current.parentElement;
+      }
+      return false;
+    };
     const offenders = Array.from(document.querySelectorAll('body *')).map((element) => {
       const rect = element.getBoundingClientRect();
       return {
@@ -28,7 +40,7 @@ async function expectNoHorizontalOverflow(page) {
       };
     }).filter((item) => {
       const escapesViewport = item.right > clientWidth + 1 || item.left < -1;
-      return escapesViewport && !isInsideIntentionalHorizontalScroller(item.element);
+      return escapesViewport && !isInsideIntentionalHorizontalScroller(item.element) && !isInsideVisuallyClippedAccessibleRegion(item.element);
     }).slice(0, 12).map(({ element, ...item }) => item);
     return {
       scrollWidth: root.scrollWidth,

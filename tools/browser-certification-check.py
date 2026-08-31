@@ -17,6 +17,7 @@ checkout=text('tests/e2e/checkout.spec.js') if (ROOT/'tests/e2e/checkout.spec.js
 a11y=text('tests/accessibility/axe.spec.js') if (ROOT/'tests/accessibility/axe.spec.js').exists() else ''
 admin=text('tests/e2e/admin.spec.js') if (ROOT/'tests/e2e/admin.spec.js').exists() else ''
 routes=text('tests/e2e/routes.spec.js') if (ROOT/'tests/e2e/routes.spec.js').exists() else ''
+helpers=text('tests/fixtures/helpers.js') if (ROOT/'tests/fixtures/helpers.js').exists() else ''
 offline=text('tests/e2e/offline.spec.js') if (ROOT/'tests/e2e/offline.spec.js').exists() else ''
 fragments=text('templates/runtime-fragments.html')
 css=text('css/styles.css')
@@ -34,6 +35,7 @@ check('GitHub evidence artifact', 'upload-artifact' in workflow and 'artifacts/t
 check('route E2E', '/products/calabresa/' in routes and 'expectNoHorizontalOverflow' in routes)
 check('mobile primary path E2E', 'Pedir agora' in mobile and '#menu-search' in mobile)
 check('mobile horizontal overflow E2E', 'expectNoHorizontalOverflow' in mobile)
+check('visually clipped accessible content excluded from overflow false positives', 'isInsideVisuallyClippedAccessibleRegion' in helpers)
 check('mobile practical tap targets E2E', 'tooSmall' in mobile and '< 40' in mobile)
 check('pickup regression E2E', 'fulfillment-pickup' in checkout and 'data-delivery-fields' in checkout and 'toBeDisabled' in checkout)
 check('cash validation E2E', 'checkout-change-for-error' in checkout)
