@@ -1,0 +1,41 @@
+{
+  "version": "4.0.9",
+  "name": "Premium Release",
+  "productLine": "Commerce Experience Intelligence + Visual Desire System",
+  "skills": [
+    "premium-experience",
+    "universal-responsive-engineering",
+    "accessibility-nexus",
+    "aegis-quality-guardian",
+    "conversion-white-label-readiness"
+  ],
+  "releasePolicy": {
+    "standaloneBaselineIncluded": true,
+    "requiredBaseline": "3.9.9",
+    "backupBeforeMutation": true,
+    "manualATRequiredForClaim": true,
+    "cwvTargetsAreMeasured": false
+  },
+  "qualityGates": [
+    "v4:gate",
+    "visual-desire:gate",
+    "smart-menu:gate",
+    "rosa-context:gate",
+    "adaptive-commerce:gate",
+    "conversion-v4:gate",
+    "admin-v4:gate",
+    "accessibility-v4:gate",
+    "resilience-v4:gate",
+    "release-v4:gate"
+  ],
+  "status": {
+    "structuralPackage": "PASS",
+    "runtimeOnOriginalBaseline": "AUTOMATED_PASS",
+    "nvda": "MANUAL_REQUIRED",
+    "browserMatrix": "AUTOMATED_PASS",
+    "coreWebVitals": "REQUIRES_PUBLISHED_MEASUREMENT",
+    "qualityOnOriginalBaseline": "AUTOMATED_PASS",
+    "browserAccessibility": "AUTOMATED_PASS",
+    "playwrightResult": "249_PASS_3_SKIPPED_0_FAILED"
+  }
+}

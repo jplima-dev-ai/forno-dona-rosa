@@ -1,0 +1,16 @@
+{
+  "version": "4.0.8",
+  "budgets": {
+    "javascriptTotalKb": 420,
+    "cssTotalKb": 260,
+    "singleImageKb": 650,
+    "heroImageKb": 900,
+    "initialRequests": 75
+  },
+  "targets": {
+    "lcpMs": 2500,
+    "inpMs": 200,
+    "cls": 0.1
+  },
+  "policy": "Targets are release goals, not measured PASS values until browser tooling records evidence."
+}

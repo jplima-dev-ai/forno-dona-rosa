@@ -54,4 +54,6 @@ Registre:
 - esperado/observado;
 - PASS/FAIL/PARTIAL.
 
-NVDA, JAWS, Narrator, TalkBack e VoiceOver permanecem NOT TESTED até execução real registrada.
+A automação Playwright/Axe foi executada em 2026-09-04 e terminou com **249 passed, 3 skipped e 0 failed**. Isso valida os contratos automatizáveis cobertos pela suíte, incluindo serious/critical Axe, reflow 320 px, forced colors, reduced motion e dialogs críticos.
+
+NVDA, JAWS, Narrator, TalkBack e VoiceOver permanecem `MANUAL_REQUIRED`/`NOT_TESTED` até execução humana registrada.

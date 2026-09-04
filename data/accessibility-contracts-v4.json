@@ -1,0 +1,20 @@
+{
+  "version": "4.0.7",
+  "baseline": "WCAG 2.2 AA",
+  "statusLegend": ["AUTOMATED_PASS", "MANUAL_REQUIRED", "NOT_TESTED", "NOT_APPLICABLE"],
+  "flows": [
+    {"id":"home","name":"Home e navegação","route":"/","contracts":["landmarks","heading-order","skip-link","keyboard","visible-focus"]},
+    {"id":"menu","name":"Cardápio e busca","route":"/menu/","contracts":["search-name","results-context","keyboard","reflow"]},
+    {"id":"product","name":"Produto","route":"/products/dona-rosa/","contracts":["product-heading","image-alt","primary-action-name","keyboard"]},
+    {"id":"rosa","name":"Rosa","route":"/","contracts":["dialog-name","focus-entry","escape-close","focus-return","non-spam-announcements"]},
+    {"id":"bag","name":"Sacola","route":"/","contracts":["open-control-name","focus-entry","quantity-controls","close-path","focus-return"]},
+    {"id":"checkout","name":"Checkout","route":"/order/","contracts":["labels","required-state","error-association","error-recovery","review-before-handoff"]},
+    {"id":"admin","name":"Admin Studio","route":"/admin/","contracts":["landmarks","keyboard","focus","forms","health-navigation"]}
+  ],
+  "manualMatrix": [
+    {"platform":"Windows","browser":"Chrome/Edge","assistiveTechnology":"NVDA","flows":["home","menu","product","rosa","bag","checkout"],"status":"MANUAL_REQUIRED"},
+    {"platform":"Windows","browser":"Firefox","assistiveTechnology":"NVDA","flows":["home","menu","product","checkout"],"status":"MANUAL_REQUIRED"},
+    {"platform":"Windows","browser":"Edge","assistiveTechnology":"Narrator","flows":["home","menu","checkout"],"status":"MANUAL_REQUIRED"},
+    {"platform":"macOS","browser":"Safari","assistiveTechnology":"VoiceOver","flows":["home","menu","product","checkout"],"status":"NOT_TESTED"}
+  ]
+}

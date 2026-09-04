@@ -43,3 +43,11 @@ This ledger records high-value defects that changed architecture or regression c
 - Root cause: a rigid regular expression assumed one exact attribute order.
 - Fix: locate the image by `data-brand-logo` and replace only its `src` attribute.
 - Prevention: conversion-flow regression check.
+
+## A11Y-409-001 — Adaptive Commerce herdava paleta de texto incompatível
+- Found: v4.0.9 release validation, 2026-09-03.
+- Symptom: quatro violações de contraste WCAG AA na home, repetidas em seis viewports, totalizando 12 failures Playwright.
+- Root cause: card com superfície clara herdava a paleta light-on-dark do storefront.
+- Fix: foreground explícito escuro para título/copy/kicker e ghost action em `css/adaptive-commerce-v4.css`.
+- Prevention: Axe serious/critical + contratos v4 em desktop, 320, 390, 430, tablet e landscape.
+- Verification: reexecução real em 2026-09-04 terminou com **249 passed, 3 skipped, 0 failed**.

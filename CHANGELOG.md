@@ -1,3 +1,89 @@
+## 4.0.9 — Premium Release
+
+- Corrige contraste WCAG AA do Adaptive Commerce em todos os viewports após validação Playwright local.
+
+- Fecha o Visual Desire System com 23 fotografias-base únicas para as 23 pizzas do catálogo, incluindo a Nordestina da Dona Rosa e as quatro pizzas doces.
+- Gera variantes responsivas 384/480/800/1200 em WebP/AVIF e crop social, com alt text específico por sabor.
+- Adiciona gate de unicidade visual que bloqueia regressões quando duas pizzas reutilizam a mesma imagem-base.
+
+- Consolida a linha 4.x como Commerce Experience Intelligence + Visual Desire System.
+- Fecha polish responsivo/acessível sem substituir a identidade do produto.
+- Adiciona release manifest, evidence ledger e gate final.
+- Registra execução real Playwright/Chromium no Windows: **249 passed, 3 skipped, 0 failed**.
+- Browser matrix e Axe serious/critical passam a `AUTOMATED_PASS`; NVDA humano e CWV publicado permanecem pendências manuais/ambientais.
+- Entrega instalador cumulativo 3.9.9 → 4.0.9 com backups por release.
+
+- **Forensic release hardening:** corrige contrato do Experience Router, estado fechado do Adaptive Commerce, versão do Resilience/SW, quarentena seletiva de storage, reconciliação real da Sacola, telemetria da Rosa, override bebida→pizza e dimensões intrínsecas de mídia.
+- Adiciona `release-forensic-check.py` e behavior checks para impedir regressão desses contratos.
+
+## 4.0.8 — Performance & Resilience
+
+- Adiciona budgets declarativos e runtime de resiliência para storage, rede, mídia e Sacola obsoleta.
+- Implementa handshake de versão com Service Worker e fallback de imagem sem apagar conteúdo.
+- Budgets permanecem metas até medição real de CWV.
+
+## 4.0.7 — Accessibility Certification Layer
+
+- Formaliza contratos de autonomia dos fluxos críticos.
+- Adiciona gate Playwright/axe, foco da Rosa, reflow 320 px, reduced motion e forced colors.
+- Mantém matriz manual explícita para NVDA/Narrator/VoiceOver sem transformar não testado em PASS.
+
+## 4.0.6 — Admin Studio 4
+
+- Adiciona Saúde do conteúdo com readiness operacional.
+- Separa bloqueadores, revisões e observações sem esconder validações existentes.
+- Audita catálogo, mídia 4.x, SEO editorial e prova social autorizada.
+- Permite navegar de cada achado à área correspondente do painel.
+- Mantém o fluxo local-first: rascunho → validar → exportar → quality gate.
+
+## 4.0.5 — Conversion Intelligence
+
+- Adiciona taxonomia privacy-first de eventos de jornada.
+- Mede produto, Rosa, Sacola, checkout e handoff sem persistir texto livre.
+- Mantém apenas resumo de sessão sem identificador de usuário.
+- Integra opcionalmente ao analytics adapter existente.
+- Adiciona quality gate específico de privacidade e instrumentação.
+
+## 4.0.4 — Adaptive Commerce
+
+- Adiciona máquina de estados contextual para priorizar a próxima ação útil.
+- Diferencia Sacola ativa, casa fechada, último pedido, escolha guiada, descoberta e nova visita.
+- Integra CTAs contextuais com Sacola, Rosa, cardápio e repetição de pedido.
+- Atualiza sem polling contínuo, preservando privacidade e acessibilidade.
+- Adiciona quality gate específico da experiência adaptativa.
+
+## 4.0.3 — Rosa Context Engine 2.0
+
+- Separa recomendação de conversa com um Context Engine compartilhado.
+- Rosa passa a delegar ranking ao Smart Menu quando disponível, mantendo fallback local.
+- Adiciona intenção regional, carne e cremosidade à memória temporária de preferências.
+- Contexto reúne intenção da jornada, Sacola e status comercial sem persistir endereço ou texto fora da sessão.
+- Adiciona quality gate específico da integração Rosa + Smart Menu.
+
+## 4.0.2 — Smart Menu + Nordestina da Dona Rosa
+
+- Adiciona Nordestina da Dona Rosa como assinatura regional com traits e aliases próprios.
+- Introduz engine local de ranking e explicação de recomendações.
+- Adiciona desejo “Sabor nordestino” à descoberta da home.
+- Mantém asset visual temporário compatível e registra `plannedSource` para a fotografia definitiva.
+- Integra quality gate do Smart Menu.
+
+## 4.0.1 — Visual Desire System
+
+- Introduz contrato de mídia catalog/hero/detail com fallback para a imagem canônica.
+- Adiciona picture responsivo AVIF/WebP e art direction por papel visual.
+- Preserva focalPoint legado e adiciona temperature/visualTraits por produto.
+- Integra storefront featured cards ao novo renderer sem perder fallback.
+- Adiciona quality gate específico do Visual Desire System.
+
+# 4.0.0 — Experience Architecture Foundation
+
+- adiciona Experience Router com três jornadas: pedido rápido, escolha guiada e descoberta da casa;
+- introduz contrato de intenção sem persistência e sem coleta de dados pessoais;
+- adiciona CSS aditivo com foco visível, forced colors e reduced motion;
+- estabelece roadmap 4.0.0–4.0.9 e Visual Desire System;
+- adiciona quality gate estrutural `v4:gate`.
+
 # Changelog
 
 ## 3.9.9 — Editorial & Audience Growth Release Gate

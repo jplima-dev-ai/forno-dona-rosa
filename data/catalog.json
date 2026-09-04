@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "products": [
     {
       "id": "margherita",
@@ -26,7 +26,32 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/margherita-pizza.webp",
+          "alt": "Pizza Margherita Clássica com muçarela de búfala, tomate, manjericão e borda tostada no forno a lenha.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/margherita-pizza.webp",
+          "alt": "Pizza Margherita Clássica com muçarela de búfala, tomate, manjericão e borda tostada no forno a lenha.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "classica",
+          "suave",
+          "queijo",
+          "vegetariana",
+          "artesanal"
+        ]
       }
     },
     {
@@ -49,7 +74,32 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/mozzarella-pizza.webp",
+          "alt": "Pizza Muçarela do Forno com queijo derretido, tomate, orégano e borda artesanal tostada.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/mozzarella-pizza.webp",
+          "alt": "Pizza Muçarela do Forno com queijo derretido, tomate, orégano e borda artesanal tostada.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "classica",
+          "suave",
+          "queijo",
+          "vegetariana",
+          "artesanal"
+        ]
       }
     },
     {
@@ -75,7 +125,31 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/calabrese-sausage-pizza.webp",
+          "alt": "Pizza Calabresa Artesanal com calabresa, cebola roxa, muçarela e borda tostada no forno a lenha.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/calabrese-sausage-pizza.webp",
+          "alt": "Pizza Calabresa Artesanal com calabresa, cebola roxa, muçarela e borda tostada no forno a lenha.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "classica",
+          "intensa",
+          "carne",
+          "artesanal"
+        ]
       }
     },
     {
@@ -97,7 +171,31 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/portuguese-style-pizza.webp",
+          "alt": "Pizza Portuguesa com presunto, ovos, cebola, azeitonas, muçarela e borda artesanal.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/portuguese-style-pizza.webp",
+          "alt": "Pizza Portuguesa com presunto, ovos, cebola, azeitonas, muçarela e borda artesanal.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "classica",
+          "intensa",
+          "carne",
+          "artesanal"
+        ]
       }
     },
     {
@@ -120,7 +218,32 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/chicken-catupiry-pizza.webp",
+          "alt": "Pizza Frango com Catupiry com frango desfiado, creme de Catupiry e borda tostada.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/chicken-catupiry-pizza.webp",
+          "alt": "Pizza Frango com Catupiry com frango desfiado, creme de Catupiry e borda tostada.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "classica",
+          "suave",
+          "carne",
+          "cremosa",
+          "artesanal"
+        ]
       }
     },
     {
@@ -143,7 +266,32 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/neapolitan-pizza.webp",
+          "alt": "Pizza Napolitana com muçarela, tomate, parmesão, alho assado, manjericão e borda artesanal.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/neapolitan-pizza.webp",
+          "alt": "Pizza Napolitana com muçarela, tomate, parmesão, alho assado, manjericão e borda artesanal.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "classica",
+          "suave",
+          "queijo",
+          "vegetariana",
+          "artesanal"
+        ]
       }
     },
     {
@@ -166,7 +314,32 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/pepperoni-pizza.webp",
+          "alt": "Pizza Pepperoni do Forno com pepperoni, muçarela derretida e borda tostada no forno a lenha.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/pepperoni-pizza.webp",
+          "alt": "Pizza Pepperoni do Forno com pepperoni, muçarela derretida e borda tostada no forno a lenha.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "classica",
+          "intensa",
+          "carne",
+          "picante",
+          "artesanal"
+        ]
       }
     },
     {
@@ -189,7 +362,92 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/dona-rosa-signature-pizza.webp",
+          "alt": "Pizza Dona Rosa com presunto cru, muçarela de búfala, tomate confit, rúcula e parmesão.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/dona-rosa-signature-pizza.webp",
+          "alt": "Pizza Dona Rosa com presunto cru, muçarela de búfala, tomate confit, rúcula e parmesão.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "autoral",
+          "intensa",
+          "carne",
+          "aventura",
+          "artesanal"
+        ]
+      }
+    },
+    {
+      "id": "nordestina-dona-rosa",
+      "aliases": [
+        "nordestina",
+        "carne de sol",
+        "pizza de carne de sol",
+        "carne do sol",
+        "nordestina da dona rosa"
+      ],
+      "type": "pizza",
+      "name": "Nordestina da Dona Rosa",
+      "category": "especiais",
+      "categoryLabel": "Especial da Casa",
+      "badge": "Assinatura nordestina",
+      "description": "Molho da casa, muçarela, carne de sol desfiada, cebola roxa, requeijão cremoso e toque de manteiga de garrafa. Marcante, cremosa e profundamente brasileira.",
+      "basePrice": 64.9,
+      "image": "assets/images/products/nordestina-dona-rosa-pizza.webp",
+      "traits": [
+        "autoral",
+        "intensa",
+        "carne",
+        "cremosa",
+        "regional",
+        "nordestina",
+        "assinatura",
+        "compartilhar"
+      ],
+      "media": {
+        "focalPoint": {
+          "x": 50,
+          "y": 50
+        },
+        "catalog": {
+          "src": "assets/images/products/nordestina-dona-rosa-pizza.webp",
+          "alt": "Pizza Nordestina da Dona Rosa com carne de sol desfiada, cebola roxa, requeijão cremoso e borda dourada.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/nordestina-dona-rosa-pizza.webp",
+          "alt": "Pizza Nordestina da Dona Rosa com carne de sol desfiada, cebola roxa, requeijão cremoso e borda dourada.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "regional",
+          "carne",
+          "cremosa",
+          "intensa",
+          "artesanal",
+          "dourada"
+        ]
       }
     },
     {
@@ -211,7 +469,31 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/four-cheese-pizza.webp",
+          "alt": "Pizza Quatro Formaggi com mistura cremosa de quatro queijos e borda tostada.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/four-cheese-pizza.webp",
+          "alt": "Pizza Quatro Formaggi com mistura cremosa de quatro queijos e borda tostada.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "autoral",
+          "intensa",
+          "queijo",
+          "artesanal"
+        ]
       }
     },
     {
@@ -234,7 +516,32 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/burrata-parma-pizza.webp",
+          "alt": "Pizza Burrata & Parma com burrata cremosa, presunto Parma, tomate, rúcula e borda artesanal.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/burrata-parma-pizza.webp",
+          "alt": "Pizza Burrata & Parma com burrata cremosa, presunto Parma, tomate, rúcula e borda artesanal.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "autoral",
+          "suave",
+          "carne",
+          "queijo",
+          "artesanal"
+        ]
       }
     },
     {
@@ -256,7 +563,31 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/tuscan-wood-fired-pizza.webp",
+          "alt": "Pizza Toscana do Forno com linguiça artesanal, cebola caramelizada, queijo e borda tostada.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/tuscan-wood-fired-pizza.webp",
+          "alt": "Pizza Toscana do Forno com linguiça artesanal, cebola caramelizada, queijo e borda tostada.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "autoral",
+          "intensa",
+          "carne",
+          "artesanal"
+        ]
       }
     },
     {
@@ -279,7 +610,32 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/house-carbonara-pizza.webp",
+          "alt": "Pizza Carbonara da Casa com pancetta, queijo, creme de gema, parmesão e pimenta-do-reino.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/house-carbonara-pizza.webp",
+          "alt": "Pizza Carbonara da Casa com pancetta, queijo, creme de gema, parmesão e pimenta-do-reino.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "autoral",
+          "intensa",
+          "carne",
+          "queijo",
+          "artesanal"
+        ]
       }
     },
     {
@@ -302,7 +658,32 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/mushroom-truffle-pizza.webp",
+          "alt": "Pizza Funghi & Trufa com cogumelos salteados, queijo, parmesão e acabamento de azeite trufado.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/mushroom-truffle-pizza.webp",
+          "alt": "Pizza Funghi & Trufa com cogumelos salteados, queijo, parmesão e acabamento de azeite trufado.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "autoral",
+          "intensa",
+          "vegetais",
+          "vegetariana",
+          "artesanal"
+        ]
       }
     },
     {
@@ -325,7 +706,32 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/rosa-spicy-pizza.webp",
+          "alt": "Pizza Picante da Rosa com pepperoni, nduja, pimenta, muçarela e toque de mel.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/rosa-spicy-pizza.webp",
+          "alt": "Pizza Picante da Rosa com pepperoni, nduja, pimenta, muçarela e toque de mel.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "autoral",
+          "intensa",
+          "carne",
+          "picante",
+          "artesanal"
+        ]
       }
     },
     {
@@ -349,7 +755,33 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/garden-vegetable-pizza.webp",
+          "alt": "Pizza Orto no Fogo com abobrinha, cogumelos, tomate confit, cebola roxa e pesto de manjericão.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/garden-vegetable-pizza.webp",
+          "alt": "Pizza Orto no Fogo com abobrinha, cogumelos, tomate confit, cebola roxa e pesto de manjericão.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "autoral",
+          "suave",
+          "vegetais",
+          "vegetariana",
+          "vegana",
+          "artesanal"
+        ]
       }
     },
     {
@@ -373,7 +805,33 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/vegan-margherita-pizza.webp",
+          "alt": "Pizza Margherita Vegana com molho de tomate, queijo vegetal, tomate, manjericão e borda tostada.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/vegan-margherita-pizza.webp",
+          "alt": "Pizza Margherita Vegana com molho de tomate, queijo vegetal, tomate, manjericão e borda tostada.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "classica",
+          "suave",
+          "vegetais",
+          "vegetariana",
+          "vegana",
+          "artesanal"
+        ]
       }
     },
     {
@@ -397,7 +855,33 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/mediterranean-pizza.webp",
+          "alt": "Pizza Mediterrânea com berinjela, abobrinha, tomate, azeitona, cebola roxa e ervas frescas.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/mediterranean-pizza.webp",
+          "alt": "Pizza Mediterrânea com berinjela, abobrinha, tomate, azeitona, cebola roxa e ervas frescas.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "autoral",
+          "suave",
+          "vegetais",
+          "vegetariana",
+          "vegana",
+          "artesanal"
+        ]
       }
     },
     {
@@ -421,7 +905,33 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/vegan-mushroom-pizza.webp",
+          "alt": "Pizza Funghi Vegana com cogumelos, creme vegetal, alho assado, rúcula e azeite trufado.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/vegan-mushroom-pizza.webp",
+          "alt": "Pizza Funghi Vegana com cogumelos, creme vegetal, alho assado, rúcula e azeite trufado.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "autoral",
+          "intensa",
+          "vegetais",
+          "vegetariana",
+          "vegana",
+          "artesanal"
+        ]
       }
     },
     {
@@ -442,7 +952,30 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/nutella-strawberry-dessert-pizza.webp",
+          "alt": "Pizza doce Nutella com Morango, coberta com creme de avelã, morangos frescos e açúcar de confeiteiro.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/nutella-strawberry-dessert-pizza.webp",
+          "alt": "Pizza doce Nutella com Morango, coberta com creme de avelã, morangos frescos e açúcar de confeiteiro.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "doce",
+          "aventura",
+          "artesanal"
+        ]
       }
     },
     {
@@ -463,7 +996,30 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/belgian-chocolate-pizza.webp",
+          "alt": "Pizza doce Chocolate Belga com creme de chocolate, raspas e pedaços de chocolate sobre massa tostada.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/belgian-chocolate-pizza.webp",
+          "alt": "Pizza doce Chocolate Belga com creme de chocolate, raspas e pedaços de chocolate sobre massa tostada.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "doce",
+          "chocolate",
+          "artesanal"
+        ]
       }
     },
     {
@@ -484,7 +1040,30 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/banana-cinnamon-caramel-pizza.webp",
+          "alt": "Pizza doce Banana, Canela & Doce de Leite com banana fatiada, doce de leite e canela.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/banana-cinnamon-caramel-pizza.webp",
+          "alt": "Pizza doce Banana, Canela & Doce de Leite com banana fatiada, doce de leite e canela.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "doce",
+          "suave",
+          "artesanal"
+        ]
       }
     },
     {
@@ -505,7 +1084,30 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/guava-cheese-dessert-pizza.webp",
+          "alt": "Pizza doce Romeu e Julieta com queijo cremoso e pedaços de goiabada sobre massa tostada.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/guava-cheese-dessert-pizza.webp",
+          "alt": "Pizza doce Romeu e Julieta com queijo cremoso e pedaços de goiabada sobre massa tostada.",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "hot",
+        "visualTraits": [
+          "doce",
+          "queijo",
+          "artesanal"
+        ]
       }
     },
     {
@@ -532,7 +1134,31 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/coca-cola-can.webp",
+          "alt": "Coca-Cola 350 ml",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/coca-cola-can.webp",
+          "alt": "Coca-Cola 350 ml",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "cold",
+        "visualTraits": [
+          "bebida",
+          "refrigerante",
+          "cola",
+          "refrescante"
+        ]
       }
     },
     {
@@ -560,7 +1186,32 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/coca-cola-zero-can.webp",
+          "alt": "Coca-Cola Zero 350 ml",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/coca-cola-zero-can.webp",
+          "alt": "Coca-Cola Zero 350 ml",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "cold",
+        "visualTraits": [
+          "bebida",
+          "refrigerante",
+          "zero",
+          "cola",
+          "refrescante"
+        ]
       }
     },
     {
@@ -582,7 +1233,31 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/guarana-can.webp",
+          "alt": "Guaraná Antarctica 350 ml",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/guarana-can.webp",
+          "alt": "Guaraná Antarctica 350 ml",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "cold",
+        "visualTraits": [
+          "bebida",
+          "refrigerante",
+          "guarana",
+          "refrescante"
+        ]
       }
     },
     {
@@ -604,7 +1279,31 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/sprite-can.webp",
+          "alt": "Sprite 350 ml",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/sprite-can.webp",
+          "alt": "Sprite 350 ml",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "cold",
+        "visualTraits": [
+          "bebida",
+          "refrigerante",
+          "citrica",
+          "refrescante"
+        ]
       }
     },
     {
@@ -632,7 +1331,32 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/coca-cola-2l-bottle.webp",
+          "alt": "Coca-Cola 2 L",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/coca-cola-2l-bottle.webp",
+          "alt": "Coca-Cola 2 L",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "cold",
+        "visualTraits": [
+          "bebida",
+          "refrigerante",
+          "cola",
+          "familia",
+          "refrescante"
+        ]
       }
     },
     {
@@ -659,7 +1383,32 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/guarana-2l-bottle.webp",
+          "alt": "Guaraná Antarctica 2 L",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/guarana-2l-bottle.webp",
+          "alt": "Guaraná Antarctica 2 L",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "cold",
+        "visualTraits": [
+          "bebida",
+          "refrigerante",
+          "guarana",
+          "familia",
+          "refrescante"
+        ]
       }
     },
     {
@@ -685,7 +1434,31 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/still-water-bottle.webp",
+          "alt": "Água Mineral 500 ml",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/still-water-bottle.webp",
+          "alt": "Água Mineral 500 ml",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "cold",
+        "visualTraits": [
+          "bebida",
+          "agua",
+          "leve",
+          "refrescante"
+        ]
       }
     },
     {
@@ -711,7 +1484,31 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/sparkling-water-bottle.webp",
+          "alt": "Água com Gás 500 ml",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/sparkling-water-bottle.webp",
+          "alt": "Água com Gás 500 ml",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "cold",
+        "visualTraits": [
+          "bebida",
+          "agua",
+          "gas",
+          "refrescante"
+        ]
       }
     },
     {
@@ -733,7 +1530,31 @@
         "focalPoint": {
           "x": 50,
           "y": 50
-        }
+        },
+        "catalog": {
+          "src": "assets/images/products/orange-juice.webp",
+          "alt": "Suco de Laranja 500 ml",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "hero": {
+          "src": "assets/images/products/orange-juice.webp",
+          "alt": "Suco de Laranja 500 ml",
+          "focalPoint": {
+            "x": 50,
+            "y": 50
+          }
+        },
+        "detail": [],
+        "temperature": "cold",
+        "visualTraits": [
+          "bebida",
+          "suco",
+          "laranja",
+          "refrescante"
+        ]
       }
     }
   ],

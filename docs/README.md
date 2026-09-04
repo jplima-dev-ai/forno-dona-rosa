@@ -64,3 +64,10 @@ Releases documentadas atualmente: v2.6.9 a v3.9.9.
 - [ADR 009 — editorial estático e newsletter](decisions/009-static-editorial-and-newsletter-boundary.md)
 - [Release v3.8.9](releases/v3.8.9.md)
 - [Release v3.9.9](releases/v3.9.9.md)
+
+## Evidência final 4.0.9
+
+- [Evidence ledger v4.0.9](releases/evidence/v4.0.9/summary.md)
+- [Browser validation v4.0.9 — 2026-09-04](releases/evidence/v4.0.9/browser-validation-2026-09-04.md)
+- [Forensic release audit](releases/evidence/v4.0.9/forensic-release-audit.md)
+- [Visual media final](releases/evidence/v4.0.9/visual-media-final.md)

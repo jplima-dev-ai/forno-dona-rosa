@@ -1,6 +1,6 @@
 "use strict";
 
-const VERSION = "3.9.9";
+const VERSION = "4.0.9";
 const CORE_CACHE = `forno-core-${VERSION}`;
 const RUNTIME_CACHE = `forno-runtime-${VERSION}`;
 const RUNTIME_LIMIT = 24;
@@ -9,7 +9,9 @@ const CORE_ASSETS = [
   "./data/menu.js", "./data/rosa-knowledge-base.js", "./data/delivery-config.js", "./data/commerce-config.js", "./js/analytics-adapter.js", "./js/commerce-events.js", "./js/checkout-state.js", "./js/repositories.js", "./js/postal-code-service.js", "./js/checkout.js", "./manifest.webmanifest", "./offline.html",
   "./assets/images/dona-rosa-hero-pizza.webp", "./assets/images/dona-rosa-hero-pizza-640.webp", "./assets/images/rosa-avatar.jpg", "./assets/images/brand/forno-dona-rosa-logo-720.webp",
   "./assets/icons/icon-192.png", "./assets/icons/icon-512.png",
-  "./menu/", "./order/", "./about/", "./experience/", "./location/", "./help/", "./privacy/", "./articles/", "./css/site-pages.css", "./js/business-status.js", "./js/storefront.js", "./js/site-pages.js", "./js/newsletter.js", "./js/global-search.js", "./data/reviews.json", "./data/articles-index.js"
+  "./menu/", "./order/", "./about/", "./experience/", "./location/", "./help/", "./privacy/", "./articles/", "./css/site-pages.css", "./js/business-status.js", "./js/storefront.js", "./js/site-pages.js", "./js/newsletter.js", "./js/global-search.js", "./data/reviews.json", "./data/articles-index.js",
+  "./css/experience-v4.css", "./css/visual-desire-v4.css", "./css/adaptive-commerce-v4.css", "./css/resilience-v4.css", "./css/premium-release-v4.css",
+  "./js/experience-router-v4.js", "./js/visual-media-v4.js", "./js/smart-menu-v4.js", "./js/rosa-context-v4.js", "./js/adaptive-commerce-v4.js", "./js/conversion-intelligence-v4.js", "./js/resilience-v4.js", "./js/premium-release-v4.js"
 ];
 const WARM_ASSETS = [
   "assets/images/products/margherita-pizza.webp",
@@ -129,4 +131,12 @@ self.addEventListener("fetch", (event) => {
   if (request.mode === "navigate") { event.respondWith(networkFirstNavigation(request)); return; }
   if (request.destination === "image") { event.respondWith(cacheFirstImage(request)); return; }
   if (["style", "script", "font", "manifest"].includes(request.destination)) event.respondWith(staleWhileRevalidate(request));
+});
+
+
+self.addEventListener("message", (event) => {
+  const data = event.data || {};
+  if (data.type === "FORNO_GET_VERSION") {
+    event.source?.postMessage?.({ type: "FORNO_SW_VERSION", version: VERSION });
+  }
 });

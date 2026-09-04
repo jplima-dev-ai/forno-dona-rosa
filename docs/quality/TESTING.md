@@ -107,3 +107,15 @@ NVDA, JAWS, Narrator, TalkBack e VoiceOver permanecem NOT TESTED até execução
 ## Release evidence
 
 A linha 3.7 introduziu ledger de evidência em `docs/releases/evidence/`. Ele deve registrar explicitamente ambientes bloqueados e testes não executados em vez de converter ausência de evidência em aprovação.
+
+## Evidência final v4.0.9 — 2026-09-04
+
+Execução real no Windows/Chromium:
+
+```text
+3 skipped
+249 passed (6.0m)
+0 failed
+```
+
+A execução confirmou a correção do contraste do Adaptive Commerce e fechou sem failures a matriz automatizada coberta pela configuração. Testes humanos com leitores de tela e CWV publicado continuam fora desse resultado.

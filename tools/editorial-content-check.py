@@ -16,7 +16,7 @@ checks=[]
 def add(label, ok, detail=''): checks.append((label,bool(ok),detail))
 items=articles.get('articles',[]); cats={c.get('id') for c in articles.get('categories',[]) if isinstance(c,dict)}
 slugs=[a.get('slug') for a in items]
-add('version 3.9.9',pkg.get('version')=='3.9.9')
+add('version 4.0.9',pkg.get('version')=='4.0.9')
 add('articles schema',articles.get('schemaVersion')==1)
 add('at least 10 articles',len(items)>=10,str(len(items)))
 add('published editorial set',sum(a.get('published') is True for a in items)>=8)
@@ -43,7 +43,8 @@ add('newsletter provider contract',provider in {'none','external-form','future-a
 add('disabled newsletter safe',newsletter.get('enabled') is False and provider=='none' and newsletter.get('endpoint') is None)
 add('food polish manifest',(ROOT/'data/media-polish.json').exists())
 polish=json.loads((ROOT/'data/media-polish.json').read_text(encoding='utf-8')) if (ROOT/'data/media-polish.json').exists() else {}
-add('pizza source polish coverage',len(polish.get('files',{}))>=22,str(len(polish.get('files',{}))))
+pizza_count=sum(1 for p in json.loads((ROOT/'data/catalog.json').read_text(encoding='utf-8'))['products'] if p.get('type')=='pizza')
+add('pizza source polish coverage',len(polish.get('files',{}))>=pizza_count,str(len(polish.get('files',{}))))
 for v in [f'3.9.{i}' for i in range(10)]: add(f'changelog {v}', re.search(rf'^## \[{re.escape(v)}\]|^## {re.escape(v)}\b', (ROOT/'CHANGELOG.md').read_text(encoding='utf-8'), re.M) is not None)
 failed=[x for x in checks if not x[1]]
 for label,ok,detail in checks: print(('PASS' if ok else 'FAIL'),label,('— '+detail if detail else ''))

@@ -674,6 +674,7 @@
 
   function openProductDialog(productId, trigger) {
     const product = menuById.get(productId);
+    window.FORNO_CONVERSION?.track?.("product_view", { productId, productType: product?.type || "" });
     const dialog = $("#product-dialog");
     if (!product || !dialog?.showModal) return;
     const available = isAvailable(product.id);
@@ -892,6 +893,7 @@
       return false;
     }
     bag.push(item);
+    window.FORNO_CONVERSION?.track?.("bag_add", { productId: item.pizzaId, productType: item.productType || "" });
     saveCart();
     announceCart("Item adicionado à sacola.");
     return true;
@@ -1112,6 +1114,7 @@
         return;
       }
       const trigger = event.currentTarget;
+      window.FORNO_CONVERSION?.track?.("checkout_started", { source: "bag", bagCount: getBagSummary().count });
       closeCart();
       const opened = window.FORNO_CHECKOUT?.open?.(trigger);
       if (!opened) {
@@ -1397,6 +1400,10 @@
     return { count, total, totalLabel: money(total), pizzas, drinks };
   }
 
+  function getBagProductIds() {
+    return Object.freeze(bag.flatMap((item) => [item.pizzaId, item.secondPizzaId].filter(Boolean)));
+  }
+
 
   function getCheckoutSnapshot() {
     const reviewGroups = { Pizzas: [], Bebidas: [], Sobremesas: [] };
@@ -1452,6 +1459,7 @@
     const opened = window.open(whatsappUrl(safeMessage), "_blank", "noopener,noreferrer");
     if (!opened) return { ok: false, reason: "popup-blocked" };
     opened.opener = null;
+    window.FORNO_CONVERSION?.track?.("whatsapp_handoff", { source: "checkout", bagCount: getBagSummary().count });
     return { ok: true };
   }
 
@@ -1461,6 +1469,7 @@
     openBag() { openCart(document.activeElement); },
     openCart() { openCart(document.activeElement); },
     getBagSummary,
+    getBagProductIds,
     getCartSummary: getBagSummary,
     getCheckoutSnapshot,
     handoffToWhatsApp,

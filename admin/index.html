@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <meta name="x-project-version" content="3.9.9">
+  <meta name="x-project-version" content="4.0.9">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; frame-src 'none'; form-action 'self'">
   <title>Admin Studio | Forno Dona Rosa</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/admin.css">
   <link rel="stylesheet" href="../css/focal-position.css">
+  <link rel="stylesheet" href="../css/admin-health-v4.css">
 </head>
 <body>
 <a class="skip-link" href="#admin-main">Pular para o conteúdo principal</a>
@@ -28,7 +29,7 @@
 </header>
 <div class="admin-shell admin-layout">
   <nav class="admin-nav" aria-label="Áreas do painel">
-    <a href="#overview">Visão geral</a><a href="#brand">Marca</a><a href="#operations">Operação</a><a href="#products">Produtos</a><a href="#media">Imagens</a><a href="#content">Conteúdo</a><a href="#articles">Artigos</a><a href="#newsletter">Newsletter</a><a href="#reviews">Avaliações</a><a href="#seo">Google e WhatsApp</a><a href="#extras">Molhos</a><a href="#history">Histórico</a><a href="#preview">Preview</a><a href="#backup">Backup</a>
+    <a href="#overview">Visão geral</a><a href="#content-health">Saúde</a><a href="#brand">Marca</a><a href="#operations">Operação</a><a href="#products">Produtos</a><a href="#media">Imagens</a><a href="#content">Conteúdo</a><a href="#articles">Artigos</a><a href="#newsletter">Newsletter</a><a href="#reviews">Avaliações</a><a href="#seo">Google e WhatsApp</a><a href="#extras">Molhos</a><a href="#history">Histórico</a><a href="#preview">Preview</a><a href="#backup">Backup</a>
   </nav>
   <main class="admin-main" id="admin-main">
     <section class="admin-section" id="overview">
@@ -44,6 +45,11 @@
       <div class="quick-actions" aria-labelledby="quick-actions-title"><h3 id="quick-actions-title">Ações rápidas</h3><div><button type="button" data-admin-jump="products">Alterar produto</button><button type="button" data-admin-jump="operations">Alterar horário</button><button type="button" data-admin-jump="content">Editar texto principal</button><button type="button" data-admin-jump="preview">Visualizar mudanças</button></div></div>
     </section>
 
+    <section class="admin-section" id="content-health">
+      <h2>Saúde do conteúdo</h2><p class="admin-lead">Revise bloqueadores e oportunidades antes de exportar. Este diagnóstico complementa, mas não substitui, o quality gate completo.</p>
+      <div class="admin-health-summary" aria-label="Resumo de saúde"><div class="admin-health-card"><strong id="health-score">—</strong><span>pontuação</span></div><div class="admin-health-card"><strong id="health-critical">—</strong><span>bloqueadores</span></div><div class="admin-health-card"><strong id="health-warnings">—</strong><span>revisões</span></div><div class="admin-health-card"><strong id="health-readiness">—</strong><span>readiness</span></div></div>
+      <button id="health-refresh" type="button">Atualizar diagnóstico</button><div id="admin-health-findings" aria-live="polite"></div>
+    </section>
     <section class="admin-section" id="brand">
       <h2>Marca e contato</h2><p class="admin-lead">Altere os dados que normalmente obrigariam uma pessoa a abrir arquivos do projeto.</p>
       <div class="admin-grid">
@@ -204,7 +210,7 @@
 
 <dialog class="admin-dialog" id="admin-search-dialog" aria-labelledby="admin-search-title"><div class="admin-dialog__inner"><header><div><p class="kicker">Atalho administrativo</p><h2 id="admin-search-title">O que você quer alterar?</h2></div><button id="admin-search-close" type="button" aria-label="Fechar busca">Fechar</button></header><label for="admin-search-input">Buscar ação</label><input id="admin-search-input" type="search" autocomplete="off" placeholder="Ex.: preço, sábado, WhatsApp, molho"><div id="admin-search-results" class="admin-search-results" aria-live="polite"></div></div></dialog>
 <dialog class="admin-dialog" id="onboarding-dialog" aria-labelledby="onboarding-title"><form method="dialog" class="admin-dialog__inner"><p class="kicker">Primeiro acesso</p><h2 id="onboarding-title">Configure sua pizzaria sem tocar no código.</h2><p>Use o modo simples para começar por marca, contato, operação e produtos. Você pode voltar ao modo avançado quando quiser.</p><ol><li>Revise nome e WhatsApp.</li><li>Confira endereço e horários.</li><li>Atualize produtos e preços.</li><li>Valide.</li><li>Exporte o bundle.</li></ol><div class="admin-actions"><button id="onboarding-skip" value="cancel">Agora não</button><button id="onboarding-start" class="admin-button--primary" value="default">Começar no modo simples</button></div></form></dialog>
-<footer class="admin-footer"><div class="admin-shell">Admin Studio v3.9.9 • configuração local-first • sem publicação automática • Desenvolvido por KJ Productions</div></footer>
+<footer class="admin-footer"><div class="admin-shell">Admin Studio v4.0.9 • configuração local-first • sem publicação automática • Desenvolvido por KJ Productions</div></footer>
 <div class="admin-statusbar" role="region" aria-label="Estado das alterações"><div class="admin-statusbar__inner"><p id="draft-status" aria-live="polite">Carregando configuração…</p><button id="validate-button" type="button">Validar alterações</button></div></div>
 <script src="../js/admin-core.js"></script>
 <script src="../js/admin-history.js"></script>
@@ -212,5 +218,6 @@
 <script src="../js/admin.js"></script>
 <script src="../js/admin-media-content.js"></script>
 <script src="../js/admin-editorial.js"></script>
+<script src="../js/admin-health-v4.js"></script>
 </body>
 </html>

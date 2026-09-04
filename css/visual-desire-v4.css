@@ -1,0 +1,17 @@
+:root{
+  --desire-radius: clamp(1rem,2vw,1.6rem);
+  --desire-shadow: 0 1.4rem 3rem rgba(30,16,9,.18);
+}
+.desire-media{display:block;position:relative;overflow:hidden;border-radius:var(--desire-radius);background:#211610;isolation:isolate}
+.desire-media img{display:block;width:100%;height:100%;object-fit:cover;object-position:var(--focal-x,50%) var(--focal-y,50%);transition:transform .45s cubic-bezier(.2,.7,.2,1),filter .45s ease}
+.desire-media--catalog{aspect-ratio:1/1}
+.desire-media--hero{aspect-ratio:4/3;box-shadow:var(--desire-shadow)}
+.desire-media--detail{aspect-ratio:5/4}
+.desire-media[data-temperature="hot"]::after,.desire-media[data-temperature="cold"]::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.16;mix-blend-mode:soft-light}
+.desire-media[data-temperature="hot"]::after{background:radial-gradient(circle at 52% 70%,rgba(255,180,80,.5),transparent 58%)}
+.desire-media[data-temperature="cold"]::after{background:linear-gradient(135deg,rgba(255,255,255,.36),transparent 48%)}
+.desire-card{container-type:inline-size}
+@container (min-width:36rem){.desire-card .desire-media--catalog{aspect-ratio:6/5}}
+@media (hover:hover) and (pointer:fine){a:hover>.desire-media img,.desire-card:hover .desire-media img{transform:scale(1.025);filter:saturate(1.03) contrast(1.02)}}
+@media (prefers-reduced-motion:reduce){.desire-media img{transition:none!important}.desire-media img{transform:none!important}}
+@media (forced-colors:active){.desire-media{border:1px solid CanvasText;box-shadow:none}.desire-media::after{display:none}}

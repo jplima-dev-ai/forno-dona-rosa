@@ -15,7 +15,7 @@ VERSION=json.loads((ROOT/'package.json').read_text(encoding='utf-8'))['version']
 for patch in range(10): check(f'Changelog 3.0.{patch}',f'## 3.0.{patch} ' in changelog)
 for slug in ['menu','order','about','experience','location','help','privacy']:
     check(f'Page {slug}',(ROOT/slug/'index.html').exists())
-check('31 product pages',all((ROOT/'products'/p['id']/'index.html').exists() for p in catalog['products']),str(len(catalog['products'])))
+check('all catalog product pages',all((ROOT/'products'/p['id']/'index.html').exists() for p in catalog['products']),str(len(catalog['products'])))
 check('Canonical catalog JSON',(ROOT/'data/catalog.json').exists())
 check('Static build tool',(ROOT/'tools/build-site.py').exists())
 check('Shared runtime fragments',(ROOT/'templates/runtime-fragments.html').exists())

@@ -53,9 +53,10 @@ for name in ["dona-rosa-hero-pizza", "cheese-pull-pizza", "wood-fired-oven-pizza
     check(f"WebP asset {name}", (ROOT / f"assets/images/{name}.webp").exists())
 check("Hero fetch priority", 'fetchpriority="high"' in html)
 check("Menu uses modern images", '.webp"' in menu_text and '.jpg"' not in menu_text)
-check("All catalog products have images", menu_text.count('image:"assets/images/products/') == 31)
+check("All catalog products have images", menu_text.count('image:"assets/images/products/') == len(re.findall(r'id:"([^"]+)"', menu_text)))
 derived_suffixes=("-384","-480","-800","-1200","-social")
-check("All product image files exist", len([p for p in (ROOT / "assets/images/products").glob("*.webp") if not p.stem.endswith(derived_suffixes)]) == 31)
+referenced_images=re.findall(r'image:"([^"]+)', menu_text)
+check("All product image files exist", all((ROOT / img).exists() for img in referenced_images), f'{len(referenced_images)} refs')
 
 # Business hours remain canonical in brand source.
 for day in range(7):
@@ -111,7 +112,7 @@ check("Last order canonical sanitation", 'const restored = sanitizeBag(stored.it
 check("Rosa actionable recommendation cards", 'data-rosa-add' in rosa and 'productIds' in rosa)
 check("Mobile navigation yields to Bag", '.has-mobile-bag .mobile-nav{display:none}' in css)
 check("Offline blocks WhatsApp send", 'send.disabled = true' in main and 'WhatsApp exige conexão' in main)
-check("31 small product variants", len(list((ROOT / 'assets/images/products').glob('*-384.webp'))) == 31)
+check("small product variants match catalog", len(list((ROOT / 'assets/images/products').glob('*-384.webp'))) == len(json.loads((ROOT/'data/catalog.json').read_text(encoding='utf-8'))['products']))
 check("Mobile hero source", (ROOT / 'assets/images/dona-rosa-hero-pizza-640.webp').exists() and 'media="(max-width: 48rem)" srcset="assets/images/dona-rosa-hero-pizza-640.webp"' in html)
 check("Favorite control available in product detail", 'id="product-dialog-favorite"' in html and 'product-dialog-favorite' in main)
 check("Nothing sent automatically disclosure", 'Nada é enviado automaticamente.' in html)
@@ -120,7 +121,7 @@ check("Nothing sent automatically disclosure", 'Nada é enviado automaticamente.
 # v2.3 Rosa finalization regressions.
 for patch in range(10):
     check(f"Changelog 2.3.{patch}", f"## 2.3.{patch} " in changelog)
-check("Rosa session v4", "assistant-session-v4" in rosa and "SESSION_SCHEMA = 4" in rosa)
+check("Rosa session v5", "assistant-session-v5" in rosa and "SESSION_SCHEMA = 5" in rosa)
 check("Rosa temporary preference memory", "extractPreferences" in rosa and "state.preferences" in rosa)
 check("Rosa ordinal multi-turn references", "resolveOrdinalReference" in rosa and "state.lastProductIds" in rosa)
 check("Rosa product comparison", "findComparisonProducts" in rosa and "compareProducts" in rosa)
@@ -172,7 +173,7 @@ for patch in range(10):
 check("Canonical brand source", (ROOT/'data/brand/brand.json').exists() and (ROOT/'data/brand/content.json').exists())
 check("Premium logo in brand folder", (ROOT/'assets/images/brand/forno-dona-rosa-logo.png').exists() and 'data-brand-logo' in html)
 check("Runtime brand adapter", 'BRAND_CONFIG' in (ROOT/'js/app-config.js').read_text(encoding='utf-8'))
-check("Brand storage namespace", 'storageNamespace' in main and 'assistant-session-v4' in rosa)
+check("Brand storage namespace", 'storageNamespace' in main and 'assistant-session-v5' in rosa)
 check("Feature capability flags", 'APP_FEATURES' in (ROOT/'js/feature-flags.js').read_text(encoding='utf-8'))
 check("Catalog schema", (ROOT/'data/catalog-schema.js').exists())
 check("White-label tooling", all((ROOT/p).exists() for p in ['tools/brand-sync.py','tools/config-check.py','tools/brand-leak-check.py']))

@@ -7,12 +7,14 @@ const vm = require("vm");
 
 const ROOT = path.resolve(__dirname, "..");
 const store = new Map();
+const dispatchedEvents = [];
 const noop = () => {};
 const documentMock = {
   addEventListener: noop,
   querySelector: () => null,
   querySelectorAll: () => [],
   activeElement: null,
+  dispatchEvent(event) { dispatchedEvents.push(event); return true; },
 };
 const context = {
   console,
@@ -28,6 +30,7 @@ const context = {
   Math,
   JSON,
   RegExp,
+  CustomEvent: class CustomEvent { constructor(type, init = {}) { this.type = type; this.detail = init.detail; } },
   document: documentMock,
   HTMLElement: function HTMLElement() {},
   sessionStorage: {
@@ -114,6 +117,22 @@ const setB = rosa.__testRespond("Qual dessas é mais leve?");
 check("Relative recommendation stays inside last set", (setB.productIds || []).length > 0 && (setB.productIds || []).every((id) => setA.productIds.includes(id)), (setB.productIds || []).join(","));
 rosa.__testRespond("Pode ter carne");
 check("Preference override can re-allow meat", !rosa.getSessionSnapshot().preferences.vegetarian && !rosa.getSessionSnapshot().preferences.vegan, JSON.stringify(rosa.getSessionSnapshot().preferences));
+
+dispatchedEvents.length = 0;
+const drinksTurn = rosa.__testRespond("Me mostre as bebidas");
+check("Drinks response does not throw and returns products", drinksTurn.intent === "drinks" && drinksTurn.productIds.length > 0, drinksTurn.productIds.join(","));
+check("Drinks recommendation emits conversion event", dispatchedEvents.some((event) => event.type === "forno:rosa-recommendation" && event.detail?.productId === drinksTurn.productIds[0]));
+
+dispatchedEvents.length = 0;
+const nightTurn = rosa.__testRespond("Monte uma noite para mim");
+check("Night bundle response does not throw", nightTurn.intent === "night" && nightTurn.productIds.length >= 3, nightTurn.productIds.join(","));
+check("Night bundle emits recommendation event", dispatchedEvents.some((event) => event.type === "forno:rosa-recommendation" && event.detail?.productId === nightTurn.productIds[0]));
+
+dispatchedEvents.length = 0;
+const recommendationTurn = rosa.__testRespond("Me indique uma pizza");
+check("Explicit pizza request clears prior drink preference", recommendationTurn.intent === "recommend" && recommendationTurn.productIds.length > 0 && recommendationTurn.productIds.every((id) => context.FORNO_MENU.find((p) => p.id === id)?.type === "pizza"), recommendationTurn.productIds.join(","));
+check("Recommendation emits conversion event", recommendationTurn.intent === "recommend" && dispatchedEvents.some((event) => event.type === "forno:rosa-recommendation" && event.detail?.productId === recommendationTurn.productIds[0]), recommendationTurn.productIds.join(","));
+
 
 let passed = 0;
 for (const item of checks) {

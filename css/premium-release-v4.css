@@ -1,0 +1,120 @@
+/* Forno Dona Rosa 4.0.9 — Premium Release polish
+   Additive only: no client identity is hardcoded here. */
+
+:root {
+  --v4-content-max: 76rem;
+  --v4-reading-max: 68ch;
+  --v4-space-fluid: clamp(1rem, 2vw, 1.75rem);
+  --v4-section-space: clamp(3rem, 7vw, 7rem);
+  --v4-radius-soft: clamp(.9rem, 1.5vw, 1.35rem);
+  --v4-motion-fast: 160ms;
+  --v4-motion-medium: 260ms;
+}
+
+.v4-shell,
+.experience-router-v4,
+.adaptive-commerce-v4,
+.visual-desire-region {
+  width: min(calc(100% - 2rem), var(--v4-content-max));
+  margin-inline: auto;
+}
+
+.v4-prose {
+  max-width: var(--v4-reading-max);
+}
+
+.visual-desire-media,
+.product-media-v4 {
+  position: relative;
+  overflow: clip;
+  border-radius: var(--v4-radius-soft);
+  background: color-mix(in srgb, Canvas 94%, currentColor 6%);
+  isolation: isolate;
+}
+
+.visual-desire-media img,
+.product-media-v4 img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition:
+    transform var(--v4-motion-medium) ease,
+    filter var(--v4-motion-medium) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .visual-desire-media[data-temperature="hot"]:hover img,
+  .product-media-v4[data-temperature="hot"]:hover img {
+    transform: scale(1.018);
+    filter: saturate(1.035) contrast(1.015);
+  }
+
+  .visual-desire-media[data-temperature="cold"]:hover img,
+  .product-media-v4[data-temperature="cold"]:hover img {
+    transform: scale(1.012);
+    filter: saturate(1.025) contrast(1.02);
+  }
+}
+
+.v4-sensory-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-block: .75rem 0;
+}
+
+.v4-sensory-labels > * {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+:where(
+  .experience-router-v4,
+  .adaptive-commerce-v4,
+  .visual-desire-region,
+  .admin-health-v4
+) :where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+@container (min-width: 38rem) {
+  .product-media-v4[data-layout="split"] {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(14rem, .8fr);
+    gap: var(--v4-space-fluid);
+    align-items: center;
+  }
+}
+
+@media (max-width: 30rem) {
+  .v4-shell,
+  .experience-router-v4,
+  .adaptive-commerce-v4,
+  .visual-desire-region {
+    width: min(calc(100% - 1.25rem), var(--v4-content-max));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .visual-desire-media img,
+  .product-media-v4 img {
+    transition: none;
+    transform: none !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .visual-desire-media,
+  .product-media-v4 {
+    border: 1px solid CanvasText;
+    forced-color-adjust: auto;
+  }
+}
+
+@media print {
+  .v4-noprint {
+    display: none !important;
+  }
+}

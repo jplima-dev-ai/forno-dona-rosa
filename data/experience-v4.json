@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "releaseLine": "4.0",
+  "intentRoutes": [
+    {
+      "id": "quick-order",
+      "label": "Quero pedir rápido",
+      "description": "Ir direto ao cardápio e montar o pedido.",
+      "href": "menu/",
+      "priority": "primary"
+    },
+    {
+      "id": "guided-choice",
+      "label": "Quero ajuda para escolher",
+      "description": "Usar preferências e a Rosa para encontrar sabores.",
+      "href": "#rosa",
+      "priority": "secondary"
+    },
+    {
+      "id": "discover-house",
+      "label": "Quero conhecer a casa",
+      "description": "Conhecer processo, assinatura e história da Forno Dona Rosa.",
+      "href": "about/",
+      "priority": "discovery"
+    }
+  ],
+  "visualDesire": {
+    "roles": ["catalog", "hero", "detail"],
+    "pizzaDefaultAspectRatio": "4 / 3",
+    "beverageDefaultAspectRatio": "4 / 3",
+    "allowDecorativeAutoplay": false
+  },
+  "privacy": {
+    "persistIntentContext": false,
+    "collectConversationText": false,
+    "collectAddress": false
+  }
+}

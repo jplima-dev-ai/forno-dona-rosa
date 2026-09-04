@@ -1,0 +1,66 @@
+.adaptive-commerce {
+  padding-block: clamp(1rem, 2.5vw, 2rem);
+}
+.adaptive-commerce__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  align-items: center;
+  padding: clamp(1.1rem, 3vw, 1.8rem);
+  border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  border-radius: clamp(1rem, 2vw, 1.5rem);
+  background: color-mix(in srgb, var(--surface, #fffaf5) 94%, transparent);
+  box-shadow: 0 .9rem 2.5rem rgba(23, 16, 12, .08);
+}
+.adaptive-commerce__copy { min-width: 0; max-width: 68ch; }
+/* 4.0.9 release fix: the adaptive card uses a light surface, so it must not inherit the storefront's light-on-dark text palette. */
+.adaptive-commerce__inner {
+  color: #321b0c;
+}
+.adaptive-commerce__copy .kicker {
+  color: #8a460b;
+}
+.adaptive-commerce__copy h2,
+.adaptive-commerce__copy p {
+  color: #321b0c;
+}
+.adaptive-commerce__action.btn--ghost {
+  color: #321b0c;
+  border-color: #6b3a17;
+  background: transparent;
+}
+.adaptive-commerce__action.btn--ghost:hover {
+  color: #24150d;
+  border-color: #24150d;
+  background: rgba(36, 21, 13, .06);
+}
+.adaptive-commerce__copy h2 { margin-block: .25rem .55rem; text-wrap: balance; }
+.adaptive-commerce__copy p:last-child { margin: 0; }
+.adaptive-commerce__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: .7rem;
+  max-width: 28rem;
+}
+.adaptive-commerce__action { min-height: 2.75rem; }
+.adaptive-commerce[data-adaptive-state="active-order"] .adaptive-commerce__inner {
+  border-color: color-mix(in srgb, var(--accent, #b84f27) 38%, transparent);
+}
+@container (max-width: 44rem) {
+  .adaptive-commerce__inner { grid-template-columns: 1fr; }
+  .adaptive-commerce__actions { justify-content: stretch; max-width: none; }
+  .adaptive-commerce__actions > * { flex: 1 1 13rem; }
+}
+@media (max-width: 48rem) {
+  .adaptive-commerce__inner { grid-template-columns: 1fr; }
+  .adaptive-commerce__actions { justify-content: stretch; max-width: none; }
+  .adaptive-commerce__actions > * { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .adaptive-commerce *, .adaptive-commerce *::before, .adaptive-commerce *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
+@media (forced-colors: active) {
+  .adaptive-commerce__inner { border: 2px solid CanvasText; box-shadow: none; }
+  .adaptive-commerce__action:focus-visible { outline: 2px solid Highlight; outline-offset: 3px; }
+}

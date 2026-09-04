@@ -27,7 +27,7 @@ O Service Worker mantém caches versionados, same-origin e limitados. Rotas admi
 
 ## Browser evidence
 
-A linha 3.7 prepara Playwright para testes de fluxo e matriz mobile. Performance automatizada futura deve primeiro medir um baseline real antes de impor budgets arbitrários.
+A matriz Playwright foi executada de forma real no Windows em 2026-09-04 e terminou com **249 passed, 3 skipped, 0 failed**. Os budgets físicos de JS/CSS/mídia continuam protegidos pelo gate forense. Isso não equivale a Core Web Vitals de produção.
 
 ## Checklist de release
 

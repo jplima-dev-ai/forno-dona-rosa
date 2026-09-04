@@ -10,8 +10,8 @@
   const editorialArticles = Array.isArray(window.EDITORIAL_ARTICLES_INDEX) ? window.EDITORIAL_ARTICLES_INDEX : [];
   const menuById = new Map(menu.map((item) => [item.id, item]));
   const storageNamespace = String(cfg.storageNamespace || "forno").replace(/[^a-z0-9-]/gi, "-").toLowerCase();
-  const SESSION_KEY = `${storageNamespace}-assistant-session-v4`;
-  const SESSION_SCHEMA = 4;
+  const SESSION_KEY = `${storageNamespace}-assistant-session-v5`;
+  const SESSION_SCHEMA = 5;
   const MAX_INPUT = 240;
   const MAX_HISTORY = 18;
   const MAX_REPLY = 900;
@@ -71,7 +71,7 @@
   function sanitizePreferences(raw) {
     if (!raw || typeof raw !== "object") return {};
     const out = {};
-    for (const key of ["vegetarian", "vegan", "avoidSpicy", "cheese", "sweet", "drink"]) {
+    for (const key of ["vegetarian", "vegan", "avoidSpicy", "cheese", "sweet", "drink", "regional", "meat", "creamy"]) {
       if (raw[key] === true) out[key] = true;
     }
     if (["suave", "intensa"].includes(raw.intensity)) out.intensity = raw.intensity;
@@ -220,6 +220,9 @@
     if (containsAny(normalized, ["bebida", "refrigerante", "suco", "agua"])) prefs.drink = true;
     if (containsAny(normalized, ["leve", "suave"])) prefs.intensity = "suave";
     if (containsAny(normalized, ["intensa", "intenso", "forte", "marcante"])) prefs.intensity = "intensa";
+    if (containsAny(normalized, ["nordestina", "nordestino", "regional", "carne de sol", "sertão", "sertao"])) prefs.regional = true;
+    if (containsAny(normalized, ["quero carne", "com carne", "carne de sol", "calabresa", "parma"])) prefs.meat = true;
+    if (containsAny(normalized, ["cremosa", "cremoso", "requeijao", "requeijão", "catupiry"])) prefs.creamy = true;
     return prefs;
   }
 
@@ -243,7 +246,8 @@
       delete state.preferences.sweet;
       changed = true;
     }
-    if (containsAny(normalized, ["quero pizza", "so pizza", "só pizza"])) {
+    const explicitlyAsksPizza = /\bpizzas?\b/.test(normalized) && !containsAny(normalized, ["bebida", "refrigerante", "suco", "agua"]);
+    if (explicitlyAsksPizza || containsAny(normalized, ["quero pizza", "so pizza", "só pizza"])) {
       delete state.preferences.drink;
       changed = true;
     }
@@ -286,25 +290,19 @@
 
   function recommendations(text) {
     const current = { ...state.preferences, ...extractPreferences(text) };
+    const contextual = window.FORNO_ROSA_CONTEXT?.recommend?.(text, current, 3);
+    if (Array.isArray(contextual) && contextual.length) {
+      return contextual.map((entry) => entry.product).filter(Boolean).slice(0, 3);
+    }
     const normalized = normalize(text);
     const relativeSet = containsAny(normalized, ["dessas", "desses", "entre elas", "entre eles", "qual delas", "qual deles", "essas opcoes", "essas opções"]);
-    const source = relativeSet && state.lastProductIds.length
-      ? state.lastProductIds.map(safeProduct).filter(Boolean)
-      : menu;
+    const source = relativeSet && state.lastProductIds.length ? state.lastProductIds.map(safeProduct).filter(Boolean) : menu;
     let candidates = source.filter((item) => productMatchesPreferences(item, current));
-    if (!candidates.length && current.intensity) {
-      const relaxed = { ...current };
-      delete relaxed.intensity;
-      candidates = source.filter((item) => productMatchesPreferences(item, relaxed));
-    }
+    if (!candidates.length && current.intensity) { const relaxed = { ...current }; delete relaxed.intensity; candidates = source.filter((item) => productMatchesPreferences(item, relaxed)); }
     if (!candidates.length) candidates = relativeSet ? source : menu.filter((item) => item.type !== "bebida");
-    return candidates
-      .map((product) => ({ product, score: recommendationScore(product, current) }))
-      .sort((a, b) => b.score - a.score || a.product.basePrice - b.product.basePrice)
-      .slice(0, 3)
-      .map((entry) => entry.product);
+    return candidates.map((product) => ({ product, score: recommendationScore(product, current) }))
+      .sort((a, b) => b.score - a.score || a.product.basePrice - b.product.basePrice).slice(0, 3).map((entry) => entry.product);
   }
-
   function productAliases(product) {
     const aliases = [product.name, product.id];
     if (product.id === "dona-rosa") aliases.push("rosa");
@@ -390,6 +388,8 @@
   }
 
   function explainRecommendation(product) {
+    const shared = window.FORNO_ROSA_CONTEXT?.explain?.(product, state.preferences);
+    if (shared && product) return shared;
     if (!product) return "Eu priorizo o que você me diz sobre intensidade, queijo, restrições e tipo de produto.";
     const reasons = [];
     const traits = product.traits || [];
@@ -454,7 +454,7 @@
     { id: "crust", score: 4, words: ["borda", "catupiry", "cheddar"] },
     { id: "bag", score: 4, words: ["sacola", "meu pedido", "revisar", "o que pedi"] },
     { id: "ingredients", score: 3, words: ["ingrediente", "leva", "tem na", "composicao"] },
-    { id: "recommend", score: 4, words: ["recomenda", "indique", "sugere", "qual pizza", "quero algo", "melhor pizza", "pizza doce", "vegetar", "mais leve", "mais intensa", "mais forte"] },
+    { id: "recommend", score: 4, words: ["recomenda", "indique", "sugere", "qual pizza", "quero algo", "melhor pizza", "pizza doce", "vegetar", "mais leve", "mais intensa", "mais forte", "nordestina", "nordestino", "regional", "carne de sol", "cremosa"] },
     { id: "drinks", score: 3, words: ["bebida", "refrigerante", "coca", "guarana", "sprite", "agua", "suco"] },
     { id: "menu", score: 3, words: ["cardapio", "sabores", "pizzas"] },
     { id: "order", score: 3, words: ["pedido", "pedir", "montar"] },
@@ -519,6 +519,13 @@
     return { text: "Antes de continuar: você confirma que quer esvaziar toda a sacola? Responda “sim” ou “não”.", intent: "pending", confidence: 1 };
   }
 
+  function emitRecommendation(product) {
+    if (!product?.id || typeof CustomEvent !== "function" || typeof document?.dispatchEvent !== "function") return;
+    document.dispatchEvent(new CustomEvent("forno:rosa-recommendation", {
+      detail: { productId: product.id, context: currentContext || "rosa" }
+    }));
+  }
+
   function respond(rawText) {
     const text = clean(rawText);
     const normalized = normalize(text);
@@ -580,12 +587,14 @@
         const picks = menu.filter((item) => item.type === "bebida").slice(0, 4);
         reply = "Posso te mostrar algumas bebidas. Se disser exatamente qual quer, eu adiciono; se houver ambiguidade, eu pergunto antes de agir.";
         productIds = picks.map((p) => p.id);
+        emitRecommendation(picks[0]);
         break;
       }
       case "night": {
         const picks = ["dona-rosa", "margherita", "coca-2l", "nutella"].map(safeProduct).filter(Boolean);
         reply = "Para uma noite equilibrada, eu montaria Dona Rosa + Margherita Clássica + Coca-Cola 2 L + Nutella com Morango. É uma sugestão demonstrativa e você pode trocar qualquer item.";
         productIds = picks.map((p) => p.id);
+        emitRecommendation(picks[0]);
         break;
       }
       case "compare": {
@@ -651,6 +660,7 @@
           ? `Eu começaria pela ${first.name}. ${explainRecommendation(first)} Também deixei outras opções compatíveis abaixo.`
           : "Não encontrei uma combinação segura com esses critérios. Posso relaxar uma preferência e tentar de novo.";
         productIds = picks.map((p) => p.id);
+        emitRecommendation(first);
         break;
       }
       case "menu": reply = `O cardápio demonstrativo tem ${menu.filter((i) => i.type !== "bebida").length} pizzas e ${menu.filter((i) => i.type === "bebida").length} bebidas. Você pode me dizer o perfil de sabor que procura.`; break;

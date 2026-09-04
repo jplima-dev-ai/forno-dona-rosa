@@ -36,13 +36,13 @@
     featuredProducts().forEach((product) => {
       const card = document.createElement("article"); card.className = "storefront-featured-card";
       const link = document.createElement("a"); link.href = resolve(`products/${product.id}/`);
-      const img = document.createElement("img"); img.src = resolve(media480(product.image)); img.alt = ""; img.loading = "lazy"; img.decoding = "async"; img.width = 480; img.height = 480; const focal = product.media?.focalPoint || { x:50, y:50 }; const fx = Math.max(0, Math.min(100, Math.round(Number(focal.x) || 50))); const fy = Math.max(0, Math.min(100, Math.round(Number(focal.y) || 50))); img.classList.add("focal-media", `focal-x-${fx}`, `focal-y-${fy}`);
+      const media = window.FORNO_VISUAL_MEDIA?.picture?.(product, "catalog", { resolve, decorative:true, width:480, height:480 }) || (() => { const fallback=document.createElement("img"); fallback.src=resolve(media480(product.image)); fallback.alt=""; fallback.loading="lazy"; fallback.width=480; fallback.height=480; return fallback; })();
       const body = document.createElement("div"); body.className = "storefront-featured-card__body";
       const kicker = document.createElement("p"); kicker.className = "kicker"; kicker.textContent = labels[product.id] || product.badge || "Seleção da casa";
       const title = document.createElement("h3"); title.textContent = product.name;
       const desc = document.createElement("p"); desc.textContent = product.description;
       const price = document.createElement("strong"); price.textContent = available(product.id) ? `A partir de ${money(product.basePrice)}` : "Indisponível hoje — ver alternativas";
-      body.append(kicker,title,desc,price); link.append(img,body); card.append(link); root.append(card);
+      body.append(kicker,title,desc,price); link.append(media,body); card.append(link); root.append(card);
     });
   }
 

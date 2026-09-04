@@ -1,0 +1,34 @@
+/* Forno Dona Rosa 4.0.8 — resilience layer */
+.media-fallback {
+  min-height: 10rem;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, currentColor 8%, transparent), transparent),
+    var(--surface, #fffaf4);
+  object-fit: contain;
+}
+.media-fallback-shell {
+  position: relative;
+  overflow: hidden;
+}
+.media-fallback-shell::after {
+  content: "Imagem temporariamente indisponível";
+  position: absolute;
+  inset: auto 0 0;
+  padding: .65rem .8rem;
+  background: color-mix(in srgb, Canvas 88%, transparent);
+  color: CanvasText;
+  font-size: .875rem;
+  text-align: center;
+}
+html[data-network="offline"] [data-requires-network="true"] {
+  opacity: .72;
+}
+@media (forced-colors: active) {
+  .media-fallback,
+  .media-fallback-shell::after {
+    forced-color-adjust: auto;
+    border: 1px solid CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+}

@@ -10,7 +10,7 @@ A interface pública e a documentação são escritas em **português brasileiro
 
 ## Versão atual
 
-**v3.9.9 — Editorial & Audience Growth**
+**v4.0.9 — Commerce Experience Intelligence + Visual Desire System**
 
 A linha 3.9 adiciona uma camada editorial completa: hub de artigos, páginas individuais, categorias, SEO estruturado, busca integrada, gestão editorial no Admin Studio e abstração de newsletter compatível com a arquitetura static-first. A newsletter permanece desligada até existir um provedor HTTPS real; o site não finge coleta de e-mails sem backend ou serviço externo.
 
@@ -115,6 +115,8 @@ npm.cmd run test:a11y
 ```
 
 Consulte [Testes e quality gates](docs/quality/TESTING.md) e [Browser Testing](docs/testing/BROWSER-TESTING.md).
+
+**Última validação real de browser (2026-09-04): 249 passed, 3 skipped, 0 failed em Playwright/Chromium no Windows.** O gate Axe serious/critical passou na matriz executada. NVDA humano e Core Web Vitals publicados continuam separados da automação.
 
 ## Comandos úteis
 

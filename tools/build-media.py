@@ -6,7 +6,7 @@ import argparse, json
 
 ROOT=Path(__file__).resolve().parents[1]
 CATALOG=json.loads((ROOT/'data/catalog.json').read_text(encoding='utf-8'))['products']
-WIDTHS=(480,800,1200)
+WIDTHS=(384,480,800,1200)
 
 def outputs_for(path:Path):
     stem=path.with_suffix('')

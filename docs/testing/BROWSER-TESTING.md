@@ -75,3 +75,15 @@ No GitHub, `.github/workflows/browser-certification.yml` instala as dependência
 ## Evidência e honestidade
 
 Um teste só deve ser marcado como executado quando o runner realmente terminou. Falha de infraestrutura, browser bloqueado ou dependência ausente é `NOT RUN`/`BLOCKED`, nunca `PASS`.
+
+## Evidência final v4.0.9 — 2026-09-04
+
+Execução real no Windows/Chromium:
+
+```text
+3 skipped
+249 passed (6.0m)
+0 failed
+```
+
+A execução confirmou a correção do contraste do Adaptive Commerce e fechou sem failures a matriz automatizada coberta pela configuração. Testes humanos com leitores de tela e CWV publicado continuam fora desse resultado.

@@ -72,7 +72,7 @@ main_text=(ROOT/'js/main.js').read_text(encoding='utf-8')
 rosa_text=(ROOT/'js/rosa.js').read_text(encoding='utf-8')
 meta_text=(ROOT/'js/app-meta.js').read_text(encoding='utf-8')
 if not all(x in main_text for x in ['bag-v3','bag-v2','cart','schemaVersion: BAG_SCHEMA_VERSION','storageNamespace']): errors.append('Bag schema/migration coverage is incomplete')
-if 'assistant-session-v4' not in rosa_text or 'SESSION_SCHEMA = 4' not in rosa_text or 'classify' not in rosa_text or 'confidence' not in rosa_text: errors.append('Rosa session v4/confidence flow is incomplete')
+if 'assistant-session-v5' not in rosa_text or 'SESSION_SCHEMA = 5' not in rosa_text or 'classify' not in rosa_text or 'confidence' not in rosa_text: errors.append('Rosa session v5/confidence flow is incomplete')
 if 'findProducts' not in rosa_text or 'resolveOrdinalReference' not in rosa_text or 'ambiguousChoice' not in rosa_text: errors.append('Rosa product resolution/disambiguation flow is incomplete')
 if 'window.ROSA?.open' not in main_text: errors.append('Delegated dynamic Rosa launcher is missing')
 if 'RUNTIME_LIMIT = 24' not in sw_text or 'trimRuntimeCache' not in sw_text: errors.append('Runtime cache limit is missing')
@@ -159,7 +159,8 @@ for patch in range(10):
 
 # v2.2 conversion and mobile experience gates.
 responsive_variants=list((ROOT/'assets/images/products').glob('*-384.webp'))
-if len(responsive_variants)!=31: errors.append(f'Expected 31 responsive product variants, found {len(responsive_variants)}')
+expected_products=len(json.loads((ROOT/'data/catalog.json').read_text(encoding='utf-8'))['products'])
+if len(responsive_variants)!=expected_products: errors.append(f'Expected {expected_products} responsive product variants, found {len(responsive_variants)}')
 if not (ROOT/'assets/images/dona-rosa-hero-pizza-640.webp').exists(): errors.append('Mobile hero image variant is missing')
 for token in ['sensory-tags','product-dialog','returning-order','mobile-nav','bag-feedback','review-cart-with-rosa']:
     if token not in html: errors.append(f'v2.2 UI element missing: {token}')
@@ -175,7 +176,7 @@ for patch in range(10):
         errors.append(f"Changelog missing {version}")
 
 # v2.3 Rosa finalization gates.
-for token in ['assistant-session-v4','SESSION_SCHEMA = 4','extractPreferences','applyPreferenceOverrides','resolveOrdinalReference','findComparisonProducts','ambiguousChoice','pendingAction','renderQuickActions','data-rosa-details']:
+for token in ['assistant-session-v5','SESSION_SCHEMA = 5','extractPreferences','applyPreferenceOverrides','resolveOrdinalReference','findComparisonProducts','ambiguousChoice','pendingAction','renderQuickActions','data-rosa-details']:
     if token not in rosa_text: errors.append(f'Rosa v2.3 capability missing: {token}')
 if 'clearBag()' not in main_text: errors.append('Rosa destructive-action bridge is missing')
 if 'id="rosa-input-count"' not in html or 'rosa-privacy-note' not in html: errors.append('Rosa v2.3 accessible input/disclosure UI is missing')
