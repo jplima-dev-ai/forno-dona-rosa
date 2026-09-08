@@ -1,0 +1,2 @@
+GitHub Release trigger for immutable tag v3.4.0.
+Workflow: .github/workflows/publish-release-v3-4-0.yml
