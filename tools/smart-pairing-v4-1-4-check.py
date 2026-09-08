@@ -1,0 +1,16 @@
+from pathlib import Path
+checks=[]
+def c(name,ok): checks.append((name,ok)); print(('PASS' if ok else 'FAIL'),name)
+idx=Path('index.html').read_text(encoding='utf-8'); js=Path('js/smart-pairing-v4-1-4.js').read_text(encoding='utf-8'); css=Path('css/smart-pairing-v4-1-4.css').read_text(encoding='utf-8'); sw=Path('service-worker.js').read_text(encoding='utf-8')
+c('pairing section', 'id="harmonizacoes"' in idx)
+c('native pizza select', 'id="pairing-pizza"' in idx and '<select' in idx)
+c('explicit submit', 'Ver harmonizações' in idx)
+c('status live region', 'id="pairing-status"' in idx and 'role="status"' in idx)
+c('no automatic add copy', 'nada entra na sacola sem sua ação' in idx.lower())
+c('pairing runtime loaded', 'smart-pairing-v4-1-4.js' in idx)
+c('responsive css', '@media(max-width:48rem)' in css)
+c('forced colors', 'forced-colors:active' in css)
+c('offline shell runtime', 'smart-pairing-v4-1-4.js' in sw and 'smart-pairing-v4-1-4.css' in sw)
+c('recommend api', 'FORNO_PAIRING' in js and 'recommend' in js)
+if not all(ok for _,ok in checks): raise SystemExit(1)
+print(f'{len(checks)}/{len(checks)} smart-pairing checks passed')

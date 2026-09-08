@@ -1,0 +1,2 @@
+const {test,expect}=require('@playwright/test');
+test('Smart Pairing suggests without automatic Bag mutation',async({page})=>{await page.goto('/');await page.locator('#pairing-pizza').selectOption('dona-rosa');await page.getByRole('button',{name:'Ver harmonizações'}).click();await expect(page.locator('#pairing-result')).toBeVisible();await expect(page.locator('#pairing-list li')).toHaveCount(2);});

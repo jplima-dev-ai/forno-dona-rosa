@@ -1,5 +1,8 @@
+- [Release 3.4.0 — Stabilization](RELEASE-3.4.0.md)
 # Mapa da documentação
 
+- [Rosa Order Concierge 3.0 — 4.1.6](ROSA-ORDER-CONCIERGE-4.1.6.md)
+- [Release 4.1.6](RELEASE-4.1.6.md)
 A documentação é organizada por tarefa. Histórico de release e ADRs são preservados separadamente para não misturar orientação atual com decisões antigas.
 
 ## Comece aqui
@@ -71,3 +74,32 @@ Releases documentadas atualmente: v2.6.9 a v3.9.9.
 - [Browser validation v4.0.9 — 2026-09-04](releases/evidence/v4.0.9/browser-validation-2026-09-04.md)
 - [Forensic release audit](releases/evidence/v4.0.9/forensic-release-audit.md)
 - [Visual media final](releases/evidence/v4.0.9/visual-media-final.md)
+
+## Linha 4.1
+
+- [Roadmap 4.1](ROADMAP-4.1.md)
+- [Variant Commerce Engine 4.1.0](VARIANT-COMMERCE-4.1.0.md)
+- [Release 4.1.0](RELEASE-4.1.0.md)
+- [Evidence ledger 4.1.0](releases/evidence/v4.1.0/summary.md)
+
+- [Pizza Configurator 4.1.1](PIZZA-CONFIGURATOR-4.1.1.md)
+- [Release 4.1.1](RELEASE-4.1.1.md)
+
+- [Smart Portion 4.1.2](SMART-PORTION-4.1.2.md)
+- [Release 4.1.2](RELEASE-4.1.2.md)
+- [Evidence ledger 4.1.2](releases/evidence/v4.1.2/summary.md)
+
+- [Mesa da Dona Rosa 4.1.3](MESA-DONA-ROSA-4.1.3.md)
+- [Release 4.1.3](RELEASE-4.1.3.md)
+- [Evidence ledger 4.1.3](releases/evidence/v4.1.3/summary.md)
+
+- [Admin Variant & Pricing Studio 4.1.8](ADMIN-VARIANT-PRICING-STUDIO-4.1.7.md)
+- [Release 4.1.8](RELEASE-4.1.8.md)
+
+- [Adaptive Ordering & Accessibility Fortress 4.1.8](ACCESSIBILITY-FORTRESS-4.1.8.md)
+- [Release 4.1.8](RELEASE-4.1.8.md)
+
+- [Release 4.1.9 — Signature Commerce](RELEASE-4.1.9.md)
+- [Signature Commerce 4.1.9](SIGNATURE-COMMERCE-4.1.9.md)
+
+- [Evidence 3.4.0 — Stabilization](releases/evidence/v3.4.0/summary.md)

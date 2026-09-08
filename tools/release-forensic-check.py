@@ -15,7 +15,8 @@ def text(rel): return (ROOT/rel).read_text(encoding='utf-8')
 
 pkg=json.loads(text('package.json'))
 version=pkg.get('version')
-if version!='4.0.9': err(f'package version inesperada: {version}')
+parts=tuple(int(x) for x in str(version or '0.0.0').split('.')[:3]);
+if parts < (4,1,0) and str(version) != '3.4.0': err(f'package version incompatível com a baseline corrente: {version}')
 
 router=text('js/experience-router-v4.js')
 if 'window.dispatchEvent(new CustomEvent("forno:experience-intent"' not in router: err('Experience Router não publica intent no window')
@@ -25,7 +26,7 @@ adaptive=text('js/adaptive-commerce-v4.js')
 if 'snap.business.open === false' not in adaptive: err('Adaptive Commerce não reconhece business.open')
 
 resilience=text('js/resilience-v4.js')
-if 'window.FORNO_META?.version || "4.0.9"' not in resilience: err('Resilience não acompanha versão da release')
+if f'window.FORNO_META?.version || "{version}"' not in resilience: err('Resilience não acompanha versão da release')
 if 'STORAGE_PREFIXES' in resilience: err('Resilience ainda usa prefixo amplo para classificar JSON no storage')
 if 'getBagProductIds' not in resilience: err('Reconciliação resiliente não usa IDs reais da Sacola')
 

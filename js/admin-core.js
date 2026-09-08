@@ -58,6 +58,21 @@
       seen.add(product.id);
       if (text(product.name, 120).length < 2) errors.push(`Produto ${product.id || "sem ID"} está sem nome.`);
       if (!(Number(product.basePrice) > 0)) errors.push(`Produto ${product.name || product.id} precisa de preço maior que zero.`);
+      if (product.type === "pizza") {
+        if (!Array.isArray(product.variants) || product.variants.length === 0) errors.push(`Pizza ${product.name || product.id} precisa de variantes de tamanho.`);
+        else {
+          const allowed = new Set(["media","grande","familia"]); const variantIds = new Set(); let availableCount = 0;
+          for (const variant of product.variants) {
+            if (!allowed.has(String(variant?.id || ""))) errors.push(`Variante inválida em ${product.name || product.id}.`);
+            if (variantIds.has(variant?.id)) errors.push(`Variante duplicada em ${product.name || product.id}: ${variant?.id}.`); variantIds.add(variant?.id);
+            if (!(Number(variant?.price) > 0)) errors.push(`${product.name || product.id}: preço da variante ${variant?.label || variant?.id} deve ser maior que zero.`);
+            if (!(Number(variant?.diameterCm) >= 20 && Number(variant?.diameterCm) <= 60)) errors.push(`${product.name || product.id}: diâmetro inválido em ${variant?.label || variant?.id}.`);
+            if (!(Number(variant?.serves?.min) >= 1 && Number(variant?.serves?.max) >= Number(variant?.serves?.min))) errors.push(`${product.name || product.id}: rendimento inválido em ${variant?.label || variant?.id}.`);
+            if (variant?.available !== false) availableCount++;
+          }
+          if (availableCount === 0) errors.push(`Pizza ${product.name || product.id} precisa ter ao menos um tamanho disponível.`);
+        }
+      }
     }
     for (const review of data.reviews.reviews) {
       if (!review || typeof review !== "object") { errors.push("Existe uma avaliação inválida."); continue; }

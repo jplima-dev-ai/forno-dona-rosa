@@ -1,0 +1,76 @@
+/* Forno Dona Rosa 4.1.8 — Adaptive Ordering & Accessibility Fortress */
+:root{
+  --fortress-focus-width:3px;
+  --fortress-focus-offset:3px;
+  --fortress-reading-measure:72ch;
+}
+
+html{scroll-padding-top:6rem}
+:where(#portion-title,#portion-result-title,#mesa-title,#mesa-result-title,#pairing-title,#pairing-result-title,#configurator-review-title,#bag-smart-title,#checkout-dialog-title,#rosa-dialog-title){scroll-margin-top:6rem}
+
+:where(.portion-form,.mesa-form,.pairing-form,.pizza-configurator,.intelligent-bag-editor,.checkout-form,.rosa-form,.admin-variant-studio){min-width:0}
+:where(.portion-form,.mesa-form,.pairing-form,.pizza-configurator,.checkout-form,.rosa-form) :where(input,select,textarea,button){min-width:0;max-width:100%}
+:where(.portion-form,.mesa-form,.pairing-form,.pizza-configurator,.checkout-form,.rosa-form) :where(label,legend,p,span,strong,dd,dt){overflow-wrap:anywhere}
+
+:where(button,a,input,select,textarea,summary,[tabindex]):focus-visible{
+  outline:var(--fortress-focus-width) solid #f1b64b;
+  outline-offset:var(--fortress-focus-offset);
+}
+
+:where(.cart-dialog,.checkout-dialog,.product-dialog,.rosa-dialog){
+  max-inline-size:min(100% - 1rem,52rem);
+  max-block-size:calc(100dvh - 1rem);
+  overscroll-behavior:contain;
+}
+:where(.cart-dialog,.checkout-dialog,.product-dialog,.rosa-dialog) :where(input,select,textarea,button){scroll-margin-block:1rem}
+
+:where(.configurator-review__list,.pairing-list,.mesa-items,.cart-items){min-width:0}
+:where(.configurator-review__list>*,.pairing-list>*,.mesa-items>*,.cart-items>*){min-width:0}
+
+@media (max-width:40rem){
+  html{scroll-padding-top:4.75rem}
+  :where(#portion-title,#portion-result-title,#mesa-title,#mesa-result-title,#pairing-title,#pairing-result-title,#configurator-review-title,#bag-smart-title,#checkout-dialog-title,#rosa-dialog-title){scroll-margin-top:4.75rem}
+  :where(.portion-form,.mesa-form,.pairing-form,.pizza-configurator,.checkout-form){padding-inline:max(.85rem,env(safe-area-inset-left));padding-right:max(.85rem,env(safe-area-inset-right))}
+  :where(.portion-result__actions,.mesa-result__actions,.pairing-result__actions,.configurator-submit,.bag-smart__actions){grid-template-columns:1fr!important}
+  :where(.portion-result__actions,.mesa-result__actions,.pairing-result__actions,.configurator-submit,.bag-smart__actions) :where(.btn,button){width:100%}
+}
+
+@media (max-width:22rem){
+  :where(.portion-appetite,.field-row,.configurator-review__list){grid-template-columns:1fr!important}
+  :where(.btn,button,input,select,textarea){font-size:1rem}
+}
+
+@media (max-height:32rem) and (orientation:landscape){
+  :where(.cart-head,.checkout-head,.rosa-dialog__header){position:static}
+  :where(.cart-dialog,.checkout-dialog,.rosa-dialog){max-block-size:100dvh;block-size:100dvh}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto!important}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+
+@media (forced-colors:active){
+  :where(button,a,input,select,textarea,summary,[tabindex]):focus-visible{outline:3px solid Highlight!important;outline-offset:3px}
+  :where(.portion-form,.portion-result,.mesa-form,.mesa-result,.pairing-form,.pairing-result,.configurator-panel,.cart-item,.checkout-field,.admin-variant-card){border-color:CanvasText!important}
+  :where([aria-pressed="true"],[aria-selected="true"],input:checked+label){forced-color-adjust:auto}
+}
+
+@media (min-resolution:2dppx){
+  :where(button,a,input,select,textarea,summary,[tabindex]):focus-visible{outline-width:max(3px,.15rem)}
+}
+
+
+/* 4.1.9 RC1 — WCAG 2.2 target-size hardening */
+:where(.skip-link,#main-nav>a,.site-search-button,.cart-button,.nav-toggle,.site-footer a,summary,.text-button){
+  min-block-size:2rem;
+}
+:where(#main-nav>a,.site-footer a,summary,.text-button){
+  display:inline-flex;
+  align-items:center;
+  padding-block:.25rem;
+}
+#main-nav{row-gap:.35rem}
+.site-footer :where(nav,.footer-contact){gap:.75rem}
+.nav-toggle{min-inline-size:2.9rem;min-block-size:2.9rem}
+@media(max-width:64rem){#main-nav>a{min-block-size:3rem;padding-block:.65rem}}

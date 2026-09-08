@@ -5,7 +5,7 @@ module.exports = defineConfig({
   timeout: 30_000,
   expect: { timeout: 5_000 },
   retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 2 : undefined,
+  workers: 2,
   forbidOnly: !!process.env.CI,
   reporter: process.env.CI
     ? [['list'], ['html', { outputFolder: 'artifacts/test-evidence/browser-report', open: 'never' }]]
@@ -19,7 +19,7 @@ module.exports = defineConfig({
     timezoneId: 'America/Sao_Paulo',
   },
   webServer: process.env.E2E_BASE_URL ? undefined : {
-    command: 'python -m http.server 4173 --bind 127.0.0.1',
+    command: 'python -u tools/e2e-server.py',
     url: 'http://127.0.0.1:4173',
     reuseExistingServer: !process.env.CI,
     timeout: 30_000,

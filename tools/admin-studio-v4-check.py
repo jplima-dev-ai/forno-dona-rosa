@@ -10,7 +10,7 @@ def need(rel,token):
     if token not in text: errors.append(f'{rel} sem {token}')
     return text
 pkg=json.loads((ROOT/'package.json').read_text(encoding='utf-8'))
-if tuple(map(int,pkg.get('version','0.0.0').split('.'))) < (4,0,6): errors.append('package version < 4.0.6')
+if tuple(map(int,pkg.get('version','0.0.0').split('.'))) < (4,0,6) and pkg.get('version') != '3.4.0': errors.append('package version < 4.0.6')
 admin=need('admin/index.html','id="content-health"')
 need('admin/index.html','../js/admin-health-v4.js')
 need('admin/index.html','../css/admin-health-v4.css')

@@ -1,0 +1,5 @@
+.pairing-engine{padding-block:clamp(3rem,7vw,6rem);background:var(--surface-soft,#fffaf3);color:#24150d}
+.pairing-engine__grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(1.5rem,4vw,4rem);align-items:start}
+.pairing-form,.pairing-result{display:grid;gap:1rem}.pairing-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr));gap:1rem;padding:0;list-style:none}.pairing-card{padding:1.25rem;border:1px solid var(--border,#8f7969);border-radius:1rem;background:var(--surface,#fff);min-width:0}.pairing-card h4{margin:.25rem 0 .5rem}.pairing-card .btn{width:100%}@media(max-width:48rem){.pairing-engine__grid{grid-template-columns:1fr}}@media(forced-colors:active){.pairing-card{border:1px solid CanvasText}}@media(prefers-reduced-motion:reduce){.pairing-card{scroll-behavior:auto}}
+
+.pairing-engine .kicker{color:#7a351f}.pairing-engine :where(h2,h3,p,li,label,legend){color:#24150d}.pairing-engine .pairing-card :where(h4,p,strong){color:#24150d}

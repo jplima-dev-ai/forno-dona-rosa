@@ -1,11 +1,12 @@
 "use strict";
 
-const VERSION = "4.0.9";
-const CORE_CACHE = `forno-core-${VERSION}`;
-const RUNTIME_CACHE = `forno-runtime-${VERSION}`;
+const VERSION = "3.4.0";
+const CACHE_REVISION = "3.4.0-stabilization-r3";
+const CORE_CACHE = `forno-core-${VERSION}-${CACHE_REVISION}`;
+const RUNTIME_CACHE = `forno-runtime-${VERSION}-${CACHE_REVISION}`;
 const RUNTIME_LIMIT = 24;
 const CORE_ASSETS = [
-  "./", "./index.html", "./css/styles.css", "./css/brand-theme.css", "./js/app-meta.js", "./data/brand/brand-config.js", "./data/brand/content-config.js", "./js/app-config.js", "./js/feature-flags.js", "./data/catalog-schema.js", "./js/brand-runtime.js", "./js/main.js", "./js/rosa.js",
+  "./", "./index.html", "./css/styles.css", "./css/brand-theme.css", "./css/smart-pairing-v4-1-4.css", "./css/intelligent-bag-v4-1-5.css", "./css/accessibility-fortress-v4-1-8.css", "./js/app-meta.js", "./data/brand/brand-config.js", "./data/brand/content-config.js", "./js/app-config.js", "./js/feature-flags.js", "./data/catalog-schema.js", "./js/brand-runtime.js", "./js/variant-commerce-v4-1.js", "./js/pizza-configurator-v4-1-1.js", "./js/smart-portion-v4-1-2.js", "./js/mesa-dona-rosa-v4-1-3.js", "./js/smart-pairing-v4-1-4.js", "./js/intelligent-bag-v4-1-5.js", "./js/rosa-order-concierge-v4-1-6.js", "./js/main.js", "./js/rosa.js",
   "./data/menu.js", "./data/rosa-knowledge-base.js", "./data/delivery-config.js", "./data/commerce-config.js", "./js/analytics-adapter.js", "./js/commerce-events.js", "./js/checkout-state.js", "./js/repositories.js", "./js/postal-code-service.js", "./js/checkout.js", "./manifest.webmanifest", "./offline.html",
   "./assets/images/dona-rosa-hero-pizza.webp", "./assets/images/dona-rosa-hero-pizza-640.webp", "./assets/images/rosa-avatar.jpg", "./assets/images/brand/forno-dona-rosa-logo-720.webp",
   "./assets/icons/icon-192.png", "./assets/icons/icon-512.png",

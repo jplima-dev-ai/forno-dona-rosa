@@ -1,7 +1,7 @@
 "use strict";
 
 (() => {
-  const VERSION = "4.0.9";
+  const VERSION = "4.1.0";
 
   function emit(type, detail = {}) {
     window.dispatchEvent(new CustomEvent(`forno:release:${type}`, { detail }));

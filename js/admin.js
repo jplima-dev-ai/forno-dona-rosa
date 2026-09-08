@@ -68,18 +68,40 @@
   }
 
   function currentProduct() { return state.catalog.products.find((p) => p.id === $("product-select").value); }
+  function renderVariantStudio(product) {
+    const host = $("variant-editor-list"); const studio = $("variant-studio"); if (!host || !studio) return;
+    host.replaceChildren(); const isPizza = product?.type === "pizza"; studio.hidden = !isPizza; if (!isPizza) return;
+    (product.variants || []).forEach((variant, index) => {
+      const row=document.createElement("div"); row.className="variant-row"; row.dataset.variantId=variant.id;
+      const availableLabel=document.createElement("label"); availableLabel.className="check-row"; const available=document.createElement("input"); available.type="checkbox"; available.checked=variant.available!==false; available.dataset.variantField="available"; const atext=document.createElement("span"); atext.textContent=`${variant.label} disponível`; availableLabel.append(available,atext);
+      const field=(label,key,type="number",attrs={})=>{const wrap=document.createElement("div");wrap.className="field";const l=document.createElement("label");const id=`variant-${variant.id}-${key}`;l.htmlFor=id;l.textContent=label;const input=document.createElement("input");input.id=id;input.type=type;input.dataset.variantField=key;Object.entries(attrs).forEach(([k,v])=>input.setAttribute(k,v));wrap.append(l,input);return [wrap,input];};
+      const [priceWrap,price]=field("Preço (R$)","price","number",{min:"0.01",step:"0.01"}); price.value=Number(variant.price||0).toFixed(2);
+      const [diamWrap,diam]=field("Diâmetro (cm)","diameterCm","number",{min:"20",max:"60",step:"1"}); diam.value=variant.diameterCm||"";
+      const [minWrap,min]=field("Serve no mínimo","servesMin","number",{min:"1",max:"20",step:"1"}); min.value=variant.serves?.min||"";
+      const [maxWrap,max]=field("Serve no máximo","servesMax","number",{min:"1",max:"20",step:"1"}); max.value=variant.serves?.max||"";
+      row.append(availableLabel,priceWrap,diamWrap,minWrap,maxWrap); host.append(row);
+    });
+  }
+  function applyVariantStudio(product) {
+    if (!product || product.type !== "pizza") return true;
+    const rows=[...document.querySelectorAll("#variant-editor-list .variant-row")]; if (!rows.length) return false;
+    const next=rows.map((row)=>{const existing=(product.variants||[]).find(v=>v.id===row.dataset.variantId)||{}; const get=k=>row.querySelector(`[data-variant-field="${k}"]`); return {...existing, available:get("available").checked, price:core.money(get("price").value), diameterCm:Number(get("diameterCm").value), serves:{min:Number(get("servesMin").value),max:Number(get("servesMax").value)}};});
+    if (!next.some(v=>v.available!==false)) { setStatus("Mantenha ao menos um tamanho disponível para esta pizza."); return false; }
+    if (next.some(v=>!(v.price>0)||!(v.diameterCm>=20&&v.diameterCm<=60)||!(v.serves.min>=1&&v.serves.max>=v.serves.min))) { setStatus("Revise preço, diâmetro e rendimento dos tamanhos antes de aplicar."); return false; }
+    product.variants=next; product.basePrice=next.find(v=>v.id==="media")?.price || next[0].price; return true;
+  }
   function loadProduct() {
     const product = currentProduct(); if (!product) return;
     const unavailable = new Set(state.brand.commerce.availability?.unavailableProductIds || []);
     const featured = new Set(state.brand.commerce.merchandising?.featuredProductIds || []);
-    $("product-name").value = product.name || ""; $("product-price").value = Number(product.basePrice || 0).toFixed(2); $("product-category").value = product.category || ""; $("product-badge").value = product.badge || ""; $("product-description").value = product.description || ""; $("product-available").checked = !unavailable.has(product.id); $("product-featured").checked = featured.has(product.id); $("product-featured-label").value = state.brand.commerce.merchandising?.labels?.[product.id] || "";
-    $("product-image").src = safeAsset(product.image); $("product-image").alt = `Prévia de ${product.name}`; $("product-preview-name").textContent = product.name; $("product-preview-price").textContent = new Intl.NumberFormat("pt-BR", { style:"currency", currency:"BRL" }).format(product.basePrice);
+    $("product-name").value = product.name || ""; $("product-price").value = Number(product.basePrice || 0).toFixed(2); $("product-price").readOnly = product.type === "pizza"; $("product-price").title = product.type === "pizza" ? "Para pizzas, o preço base é derivado da variante Média. Edite a variante Média abaixo." : ""; $("product-category").value = product.category || ""; $("product-badge").value = product.badge || ""; $("product-description").value = product.description || ""; $("product-available").checked = !unavailable.has(product.id); $("product-featured").checked = featured.has(product.id); $("product-featured-label").value = state.brand.commerce.merchandising?.labels?.[product.id] || "";
+    renderVariantStudio(product); $("product-image").src = safeAsset(product.image); $("product-image").alt = `Prévia de ${product.name}`; $("product-preview-name").textContent = product.name; $("product-preview-price").textContent = new Intl.NumberFormat("pt-BR", { style:"currency", currency:"BRL" }).format(product.basePrice);
   }
 
   function applyProduct() {
     const product = currentProduct(); if (!product) return;
     const price = core.money($("product-price").value);
-    product.name = core.text($("product-name").value, 120); product.basePrice = price; product.category = core.text($("product-category").value, 64); product.badge = core.text($("product-badge").value, 60); product.description = core.text($("product-description").value, 360);
+    product.name = core.text($("product-name").value, 120); product.basePrice = price; if (!applyVariantStudio(product)) return; product.category = core.text($("product-category").value, 64); product.badge = core.text($("product-badge").value, 60); product.description = core.text($("product-description").value, 360);
     state = core.setProductAvailability(state, product.id, $("product-available").checked);
     state = core.setFeatured(state, product.id, $("product-featured").checked, $("product-featured-label").value);
     dirty = true; history.capture(state, `Produto atualizado: ${product.name}`); buildProductSelect(); $("product-select").value = product.id; loadProduct(); setStatus(`Alterações de ${product.name} aplicadas ao rascunho.`); updateSummary(); renderHistory(); updatePreview();
@@ -175,7 +197,7 @@
   }
 
   const searchActions = [
-    ["preço produto cardápio", "Alterar preço de um produto", "products"],
+    ["preço produto cardápio tamanho média grande família variante", "Alterar preço e tamanhos de um produto", "products"],
     ["disponível esgotado indisponível", "Marcar produto disponível ou indisponível", "products"],
     ["horário sábado domingo abrir fechar", "Alterar horários da pizzaria", "operations"],
     ["whatsapp telefone contato", "Alterar WhatsApp", "brand"],

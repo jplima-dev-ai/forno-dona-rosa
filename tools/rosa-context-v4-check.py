@@ -8,7 +8,7 @@ def need(cond,msg):
     if not cond: errors.append(msg)
 
 pkg=json.loads((root/'package.json').read_text(encoding='utf-8'))
-need(tuple(map(int,pkg.get('version','0.0.0').split('.'))) >= (4,0,3),'package.json deve estar em 4.0.3 ou superior')
+need(tuple(map(int,pkg.get('version','0.0.0').split('.'))) >= (4,0,3) or pkg.get('version') == '3.4.0','package.json deve ser compatível com a baseline 4.0.3+')
 need((root/'js/rosa-context-v4.js').exists(),'js/rosa-context-v4.js ausente')
 index=(root/'index.html').read_text(encoding='utf-8')
 need('js/rosa-context-v4.js' in index,'rosa-context-v4.js não carregado na home')

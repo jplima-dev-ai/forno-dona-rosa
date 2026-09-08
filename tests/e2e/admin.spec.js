@@ -13,7 +13,7 @@ test('admin change can be previewed and undone', async ({ page }) => {
   await page.goto('/admin/');
   await page.locator('#onboarding-dialog').evaluate(el => { if (el.open) el.close(); });
   await page.locator('#product-select').selectOption({ index: 1 });
-  const price = page.locator('[data-test="admin-product-price"]');
+  const price = page.locator('[data-variant-id="media"] [data-variant-field="price"]');
   const original = await price.inputValue();
   await price.fill(String(Number(original || '1') + 1));
   const saveProduct = page.locator('#product-save');

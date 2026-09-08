@@ -7,6 +7,8 @@
   const storageNamespace = String(cfg.storageNamespace || "forno").replace(/[^a-z0-9-]/gi, "-").toLowerCase();
   const pricing = window.FORNO_PRICING || {};
   const commerce = window.FORNO_COMMERCE || {};
+  const variantEngine = window.FORNO_VARIANTS || null;
+  const intelligentBag = window.FORNO_INTELLIGENT_BAG || null;
   const unavailableProductIds = commerce.unavailableProductIds instanceof Set ? commerce.unavailableProductIds : new Set();
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -16,8 +18,9 @@
   const MAX_BAG_LINES = 40;
   const MAX_BAG_QTY = 80;
   const MAX_WHATSAPP_MESSAGE = 6000;
-  const BAG_SCHEMA_VERSION = Number(window.FORNO_META?.bagSchemaVersion) || 3;
-  const BAG_KEY = `${storageNamespace}-bag-v3`;
+  const BAG_SCHEMA_VERSION = Number(window.FORNO_META?.bagSchemaVersion) || 4;
+  const BAG_KEY = `${storageNamespace}-bag-v4`;
+  const LEGACY_BAG_V3_KEY = `${storageNamespace}-bag-v3`;
   const LEGACY_BAG_KEY = `${storageNamespace}-bag-v2`;
   const LEGACY_CART_KEY = `${storageNamespace}-cart`;
   const FAVORITES_KEY = `${storageNamespace}-favorites`;
@@ -111,6 +114,10 @@
 
   const safeSize = (key) =>
     pricing.sizes?.[key] ? key : Object.keys(pricing.sizes || {})[0] || "media";
+  const safeSizeFor = (product, product2, key) =>
+    variantEngine?.resolveForPair?.(product, product2, key)?.id || safeSize(key);
+  const variantFor = (product, key) => variantEngine?.resolve?.(product, key) || null;
+  const variantDescription = (product, key) => variantEngine?.describe?.(variantFor(product, key)) || (pricing.sizes?.[key]?.label || key);
   const safeCrust = (key) =>
     pricing.crusts?.[key] ? key : Object.keys(pricing.crusts || {})[0] || "tradicional";
 
@@ -119,12 +126,17 @@
     if (!product) return 0;
     if (product.type === "bebida") return Math.max(0, product.basePrice);
     const product2 = product2Id ? menuById.get(product2Id) : null;
-    const size = pricing.sizes?.[safeSize(sizeKey)] || { multiplier: 1 };
+    const resolvedSize = safeSizeFor(product, product2, sizeKey);
     const crust = pricing.crusts?.[safeCrust(crustKey)] || { add: 0 };
-    const base = product2 && product2.type === "pizza" ? Math.max(product.basePrice, product2.basePrice) : product.basePrice;
-    const multiplier = Number.isFinite(size.multiplier) ? size.multiplier : 1;
+    const primaryPrice = variantEngine?.priceFor?.(product, resolvedSize);
+    const fallbackSize = pricing.sizes?.[resolvedSize] || { multiplier: 1 };
+    const fallbackPrimary = product.basePrice * (Number.isFinite(fallbackSize.multiplier) ? fallbackSize.multiplier : 1);
+    const firstPrice = Number.isFinite(primaryPrice) ? primaryPrice : fallbackPrimary;
+    const secondaryPrice = product2 && product2.type === "pizza" ? variantEngine?.priceFor?.(product2, resolvedSize) : null;
+    const fallbackSecondary = product2 && product2.type === "pizza" ? product2.basePrice * (Number.isFinite(fallbackSize.multiplier) ? fallbackSize.multiplier : 1) : null;
+    const base = product2 && product2.type === "pizza" ? Math.max(firstPrice, Number.isFinite(secondaryPrice) ? secondaryPrice : fallbackSecondary) : firstPrice;
     const add = Number.isFinite(crust.add) ? crust.add : 0;
-    return Math.max(0, base * multiplier + add);
+    return Math.max(0, base + add);
   };
 
   const normalizeCartItem = (raw) => {
@@ -134,7 +146,7 @@
     const isDrink = pizza.type === "bebida";
     const candidate2 = !isDrink && raw.pizza2Id && raw.pizza2Id !== raw.pizzaId && isAvailable(raw.pizza2Id) ? menuById.get(raw.pizza2Id) : null;
     const pizza2 = candidate2?.type === "pizza" ? candidate2 : null;
-    const size = isDrink ? null : safeSize(raw.size);
+    const size = isDrink ? null : safeSizeFor(pizza, pizza2, raw.size);
     const crust = isDrink ? null : safeCrust(raw.crust);
     const qty = clampInt(raw.qty, 1, MAX_QTY);
     const unitPrice = unitPriceFor(pizza.id, pizza2?.id || null, size, crust);
@@ -161,14 +173,17 @@
     `item-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 
   const storedEnvelope = storage.get(BAG_KEY, null);
-  const storedV2 = storedEnvelope === null ? storage.get(LEGACY_BAG_KEY, null) : null;
-  const legacyCart = storedEnvelope === null && storedV2 === null ? storage.get(LEGACY_CART_KEY, null) : null;
+  const storedV3 = storedEnvelope === null ? storage.get(LEGACY_BAG_V3_KEY, null) : null;
+  const storedV2 = storedEnvelope === null && storedV3 === null ? storage.get(LEGACY_BAG_KEY, null) : null;
+  const legacyCart = storedEnvelope === null && storedV3 === null && storedV2 === null ? storage.get(LEGACY_CART_KEY, null) : null;
 
   function readStoredBag() {
     if (storedEnvelope && typeof storedEnvelope === "object" && !Array.isArray(storedEnvelope)) {
       const items = Array.isArray(storedEnvelope.items) ? storedEnvelope.items : [];
       return items;
     }
+    if (storedV3 && typeof storedV3 === "object" && !Array.isArray(storedV3)) return Array.isArray(storedV3.items) ? storedV3.items : [];
+    if (Array.isArray(storedV3)) return storedV3;
     if (Array.isArray(storedV2)) return storedV2;
     if (Array.isArray(legacyCart)) return legacyCart;
     return [];
@@ -244,6 +259,7 @@
     storage.set(BAG_KEY, bagEnvelope());
     storage.set(FAVORITES_KEY, [...favorites]);
     try {
+      localStorage.removeItem(LEGACY_BAG_V3_KEY);
       localStorage.removeItem(LEGACY_BAG_KEY);
       localStorage.removeItem(LEGACY_CART_KEY);
     } catch {}
@@ -765,14 +781,42 @@
     });
   }
 
+  function populateSizeOptions() {
+    const select = $("#size-select");
+    const help = $("#size-help");
+    if (!select) return;
+    const first = menuById.get($("#pizza-select")?.value || "");
+    const half = Boolean($("#half-half")?.checked);
+    const second = half ? menuById.get($("#pizza-select-2")?.value || "") : null;
+    const previous = select.value || "media";
+    const variants = first && variantEngine?.commonFor ? variantEngine.commonFor([first, second].filter(Boolean)) : [];
+    empty(select);
+    if (!first || !variants.length) {
+      Object.entries(pricing.sizes || {}).forEach(([id, size]) => select.append(el("option", { text: size.label || id, attrs: { value: id } })));
+      select.value = pricing.sizes?.[previous] ? previous : (select.options[0]?.value || "media");
+      if (help) help.textContent = first ? "Não há um tamanho em comum disponível para esta combinação." : "Escolha um sabor para ver diâmetro, rendimento e preço de cada tamanho.";
+      return;
+    }
+    for (const variant of variants) {
+      const price = unitPriceFor(first.id, second?.id || null, variant.id, $("#crust-select")?.value || "tradicional");
+      const detail = variantEngine.describe(variant);
+      select.append(el("option", { text: `${detail} · ${money(price)}`, attrs: { value: variant.id } }));
+    }
+    select.value = variants.some((variant) => variant.id === previous) ? previous : variants[0].id;
+    const selected = variants.find((variant) => variant.id === select.value) || variants[0];
+    if (help) help.textContent = `${variantEngine.describe(selected)}. Preço atualizado conforme sabor e borda escolhidos.`;
+  }
+
   function currentOrderSelection() {
     const pizzaId = $("#pizza-select")?.value || "";
     const half = Boolean($("#half-half")?.checked);
     const secondId = half ? $("#pizza-select-2")?.value || "" : "";
-    const size = safeSize($("#size-select")?.value);
+    const pizza = menuById.get(pizzaId);
+    const pizza2 = half && secondId !== pizzaId ? menuById.get(secondId) : null;
+    const size = safeSizeFor(pizza, pizza2, $("#size-select")?.value);
     const crust = safeCrust($("#crust-select")?.value);
     const qty = clampInt($("#quantity")?.value, 1, MAX_QTY);
-    return { pizzaId, pizza2Id: half && secondId !== pizzaId ? secondId : null, half, size, crust, qty };
+    return { pizzaId, pizza2Id: pizza2?.id || null, half, size, crust, qty };
   }
 
   function calcCurrent() {
@@ -781,9 +825,49 @@
     return unitPriceFor(current.pizzaId, current.pizza2Id, current.size, current.crust) * current.qty;
   }
 
+  function updateConfiguratorReview(selection, product, product2, total) {
+    const engine = window.FORNO_CONFIGURATOR;
+    if (!engine || !selection || !product) return;
+    const sizeLabel = variantDescription(product, selection.size);
+    const crustLabel = pricing.crusts?.[selection.crust]?.label || selection.crust;
+    const review = engine.buildReview({
+      first: product.name,
+      second: product2?.name || "",
+      half: selection.half,
+      sizeLabel,
+      crustLabel,
+      qty: selection.qty,
+      remove: $("#remove-ingredients")?.value || "",
+      notes: $("#notes")?.value || "",
+      total,
+    });
+    const write = (selector, value) => { const node = $(selector); if (node) node.textContent = value; };
+    write("#config-review-flavor", review.flavor);
+    write("#config-review-size", review.size);
+    write("#config-review-crust", review.crust);
+    write("#config-review-qty", String(review.qty));
+    write("#config-review-remove", review.remove);
+    write("#config-review-notes", review.notes);
+    write("#config-review-sentence", engine.summaryText(review));
+    const removeRow = $("#config-review-remove-row");
+    const notesRow = $("#config-review-notes-row");
+    if (removeRow) removeRow.hidden = !review.remove;
+    if (notesRow) notesRow.hidden = !review.notes;
+  }
+
   function updatePreview() {
+    const total = calcCurrent();
     const preview = $("#price-preview");
-    if (preview) preview.textContent = money(calcCurrent());
+    if (preview) preview.textContent = money(total);
+    const selection = currentOrderSelection();
+    const product = menuById.get(selection.pizzaId);
+    const product2 = selection.pizza2Id ? menuById.get(selection.pizza2Id) : null;
+    const help = $("#size-help");
+    if (help && product) {
+      const detail = variantDescription(product, selection.size);
+      help.textContent = `${detail}. Preço atualizado conforme sabor e borda escolhidos.`;
+    }
+    updateConfiguratorReview(selection, product, product2, total);
   }
 
   function createCartItem(data) {
@@ -824,18 +908,19 @@
     half?.addEventListener("change", () => {
       if (secondField) secondField.hidden = !half.checked;
       if (secondSelect) secondSelect.required = half.checked;
+      populateSizeOptions();
       updatePreview();
     });
 
-    ["pizza-select", "pizza-select-2", "size-select", "crust-select", "quantity"].forEach((id) =>
-      $("#" + id)?.addEventListener("input", updatePreview),
-    );
+    ["pizza-select", "pizza-select-2"].forEach((id) => $("#" + id)?.addEventListener("input", () => { populateSizeOptions(); updatePreview(); }));
+    ["size-select", "crust-select", "quantity", "remove-ingredients", "notes"].forEach((id) => $("#" + id)?.addEventListener("input", updatePreview));
 
     quantity?.addEventListener("change", () => {
       quantity.value = String(clampInt(quantity.value, 1, MAX_QTY));
       updatePreview();
     });
 
+    populateSizeOptions();
     updatePreview();
 
     form?.addEventListener("submit", (event) => {
@@ -881,6 +966,7 @@
       if (secondField) secondField.hidden = true;
       if (secondSelect) secondSelect.required = false;
       if (quantity) quantity.value = "1";
+      populateSizeOptions();
       updatePreview();
       $("#open-cart")?.focus();
     });
@@ -928,6 +1014,105 @@
     const first = menuById.get(item.pizzaId);
     const second = item.pizza2Id ? menuById.get(item.pizza2Id) : null;
     return { first: first?.name || "Pizza indisponível", second: second?.name || "" };
+  }
+
+  function buildBagItemEditor(item) {
+    const primary = menuById.get(item.pizzaId);
+    const secondary = item.pizza2Id ? menuById.get(item.pizza2Id) : null;
+    const model = intelligentBag?.editModel?.(item, primary, secondary);
+    if (!model) return null;
+
+    const safeId = item.id.replace(/[^A-Za-z0-9_-]/g, "-");
+    const form = el("form", {
+      className: "bag-item-editor",
+      attrs: { id: `bag-editor-${safeId}`, "data-bag-editor": item.id, hidden: "", novalidate: "" },
+    });
+    form.append(el("h4", { className: "bag-item-editor__title", text: "Editar esta pizza" }));
+
+    const grid = el("div", { className: "bag-item-editor__grid" });
+    const sizeField = el("div", { className: "field" });
+    const sizeId = `bag-size-${safeId}`;
+    sizeField.append(el("label", { text: "Tamanho", attrs: { for: sizeId } }));
+    const sizeSelect = el("select", { attrs: { id: sizeId, name: "size", required: "", "data-bag-edit-size": item.id } });
+    model.sizes.forEach((variant) => {
+      const option = el("option", { text: `${variantEngine?.describe?.(variant) || variant.label} — ${money(variant.price)}`, attrs: { value: variant.id } });
+      if (variant.id === model.size) option.selected = true;
+      sizeSelect.append(option);
+    });
+    sizeField.append(sizeSelect);
+
+    const crustField = el("div", { className: "field" });
+    const crustId = `bag-crust-${safeId}`;
+    crustField.append(el("label", { text: "Borda", attrs: { for: crustId } }));
+    const crustSelect = el("select", { attrs: { id: crustId, name: "crust", required: "" } });
+    model.crusts.forEach((crust) => {
+      const price = crust.add > 0 ? ` + ${money(crust.add)}` : "";
+      const option = el("option", { text: `${crust.label}${price}`, attrs: { value: crust.id } });
+      if (crust.id === model.crust) option.selected = true;
+      crustSelect.append(option);
+    });
+    crustField.append(crustSelect);
+
+    const removeField = el("div", { className: "field" });
+    const removeId = `bag-remove-${safeId}`;
+    removeField.append(el("label", { text: "Remover ingredientes", attrs: { for: removeId } }));
+    removeField.append(el("input", { attrs: { id: removeId, name: "remove", maxlength: String(MAX_REMOVE), value: model.remove, autocomplete: "off" } }));
+
+    const notesField = el("div", { className: "field" });
+    const notesId = `bag-notes-${safeId}`;
+    notesField.append(el("label", { text: "Observações", attrs: { for: notesId } }));
+    const notes = el("textarea", { attrs: { id: notesId, name: "notes", maxlength: String(MAX_NOTES), rows: "3" } });
+    notes.value = model.notes;
+    notesField.append(notes);
+
+    grid.append(sizeField, crustField, removeField, notesField);
+    form.append(grid);
+
+    const preview = el("div", { className: "bag-item-editor__preview", attrs: { "data-bag-edit-preview": item.id, "aria-live": "polite" } });
+    preview.append(el("span", { text: "Novo subtotal" }), el("strong", { text: money(item.total) }));
+    form.append(preview);
+
+    const actions = el("div", { className: "bag-item-editor__actions" });
+    actions.append(
+      el("button", { className: "small-action small-action--primary", text: "Salvar alterações", attrs: { type: "submit" } }),
+      el("button", { className: "small-action", text: "Cancelar", attrs: { type: "button", "data-bag-edit-cancel": item.id } }),
+    );
+    form.append(actions);
+    return form;
+  }
+
+  function previewBagItemEdit(itemId, form) {
+    const item = bag.find((candidate) => candidate.id === itemId);
+    if (!item || !form) return;
+    const data = new FormData(form);
+    const candidate = normalizeCartItem({
+      ...item,
+      size: data.get("size"),
+      crust: data.get("crust"),
+      remove: cleanText(data.get("remove"), MAX_REMOVE),
+      notes: cleanText(data.get("notes"), MAX_NOTES),
+    });
+    const strong = $("[data-bag-edit-preview] strong", form);
+    if (strong && candidate) strong.textContent = money(candidate.total);
+  }
+
+  function updateBagItem(itemId, patch) {
+    const index = bag.findIndex((item) => item.id === itemId);
+    if (index < 0 || bag[index].productType === "bebida" || !patch || typeof patch !== "object") return false;
+    const current = bag[index];
+    const candidate = normalizeCartItem({
+      ...current,
+      size: patch.size ?? current.size,
+      crust: patch.crust ?? current.crust,
+      remove: patch.remove ?? current.remove,
+      notes: patch.notes ?? current.notes,
+      id: current.id,
+    });
+    if (!candidate) return false;
+    bag[index] = candidate;
+    window.FORNO_COMMERCE_EVENTS?.emit?.("bag:item-updated", { itemId: current.id, productId: current.pizzaId, size: candidate.size });
+    saveCart();
+    return true;
   }
 
   function smartBagRecommendation() {
@@ -983,7 +1168,7 @@
         lastGroup = group;
       }
       const names = productNames(item);
-      const size = pricing.sizes?.[item.size]?.label || item.size;
+      const size = variantDescription(menuById.get(item.pizzaId), item.size);
       const crust = pricing.crusts?.[item.crust]?.label || item.crust;
       const article = el("article", { className: "cart-item" });
       const top = el("div", { className: "cart-item__top" });
@@ -992,7 +1177,7 @@
       }
       const details = el("div");
       details.append(el("strong", { text: names.second ? `${names.first} + ${names.second}` : names.first }));
-      details.append(el("p", { text: item.productType === "bebida" ? `${item.qty}x bebida` : `${size} • borda ${crust} • ${item.qty}x` }));
+      details.append(el("p", { text: item.productType === "bebida" ? `${item.qty}x bebida` : `${size} • borda ${crust} • ${item.qty}x`, attrs: { "data-bag-item-summary": item.id } }));
       if (item.remove) details.append(el("p", { text: `Remover: ${item.remove}` }));
       if (item.notes) details.append(el("p", { text: `Obs.: ${item.notes}` }));
       top.append(details, el("strong", { text: money(item.total) }));
@@ -1001,9 +1186,15 @@
       actions.append(
         el("button", { className: "small-action", text: "− 1", attrs: { type: "button", "data-dec": item.id, "aria-label": `Diminuir quantidade de ${names.first}` } }),
         el("button", { className: "small-action", text: "+ 1", attrs: { type: "button", "data-inc": item.id, "aria-label": `Aumentar quantidade de ${names.first}` } }),
-        el("button", { className: "small-action", text: "Remover", attrs: { type: "button", "data-remove": item.id, "aria-label": `Remover ${names.first} da sacola` } }),
       );
+      if (intelligentBag?.canEdit?.(item)) {
+        const safeId = item.id.replace(/[^A-Za-z0-9_-]/g, "-");
+        actions.append(el("button", { className: "small-action cart-item__edit-trigger", text: "Editar pizza", attrs: { type: "button", "data-edit-bag": item.id, "aria-expanded": "false", "aria-controls": `bag-editor-${safeId}` } }));
+      }
+      actions.append(el("button", { className: "small-action", text: "Remover", attrs: { type: "button", "data-remove": item.id, "aria-label": `Remover ${names.first} da sacola` } }));
       article.append(top, actions);
+      const editor = buildBagItemEditor(item);
+      if (editor) article.append(editor);
       box.append(article);
     });
     const summary = getBagSummary();
@@ -1065,6 +1256,35 @@
     $("#bag-smart-actions")?.addEventListener("click",(event)=>{ const add=event.target.closest("[data-smart-add]"); if(add&&addDefaultProduct(add.dataset.smartAdd)){ window.FORNO_COMMERCE_EVENTS?.emit?.("bag:smart-add",{productId:add.dataset.smartAdd}); renderCart(); announceCart("Complemento adicionado à Sacola."); return; } if(event.target.closest("[data-smart-checkout]")){ closeCart(); requestAnimationFrame(()=>window.FORNO_CHECKOUT?.open?.($("#open-cart")||document.activeElement)); }});
 
     $("#cart-items")?.addEventListener("click", (event) => {
+      const edit = event.target.closest("[data-edit-bag]");
+      if (edit) {
+        const id = edit.dataset.editBag;
+        const safeId = id.replace(/[^A-Za-z0-9_-]/g, "-");
+        const form = $("#bag-editor-" + CSS.escape(safeId));
+        if (!form) return;
+        const opening = form.hidden;
+        $$("[data-bag-editor]", $("#cart-items")).forEach((candidate) => {
+          candidate.hidden = true;
+          const trigger = $(`[data-edit-bag="${CSS.escape(candidate.dataset.bagEditor)}"]`, $("#cart-items"));
+          trigger?.setAttribute("aria-expanded", "false");
+        });
+        form.hidden = !opening;
+        edit.setAttribute("aria-expanded", opening ? "true" : "false");
+        if (opening) $("select", form)?.focus();
+        else edit.focus();
+        return;
+      }
+      const cancel = event.target.closest("[data-bag-edit-cancel]");
+      if (cancel) {
+        const id = cancel.dataset.bagEditCancel;
+        const form = cancel.closest("[data-bag-editor]");
+        if (form) form.hidden = true;
+        const trigger = $(`[data-edit-bag="${CSS.escape(id)}"]`, $("#cart-items"));
+        trigger?.setAttribute("aria-expanded", "false");
+        trigger?.focus();
+        announceCart("Edição cancelada. A pizza não foi alterada.");
+        return;
+      }
       const inc = event.target.closest("[data-inc]");
       const dec = event.target.closest("[data-dec]");
       const remove = event.target.closest("[data-remove]");
@@ -1094,6 +1314,35 @@
       }
       saveCart();
       restoreCartActionFocus(remove ? null : id, action);
+    });
+
+    $("#cart-items")?.addEventListener("input", (event) => {
+      const form = event.target.closest("[data-bag-editor]");
+      if (form) previewBagItemEdit(form.dataset.bagEditor, form);
+    });
+
+    $("#cart-items")?.addEventListener("submit", (event) => {
+      const form = event.target.closest("[data-bag-editor]");
+      if (!form) return;
+      event.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      const id = form.dataset.bagEditor;
+      const item = bag.find((candidate) => candidate.id === id);
+      if (!item) return;
+      const data = new FormData(form);
+      const updated = updateBagItem(id, {
+        size: data.get("size"),
+        crust: data.get("crust"),
+        remove: cleanText(data.get("remove"), MAX_REMOVE),
+        notes: cleanText(data.get("notes"), MAX_NOTES),
+      });
+      if (!updated) {
+        announceCart("Não consegui atualizar esta pizza. Sua configuração anterior foi preservada.");
+        return;
+      }
+      const fresh = bag.find((candidate) => candidate.id === id);
+      announceCart(`Pizza atualizada. Novo subtotal: ${money(fresh?.total || 0)}.`);
+      requestAnimationFrame(() => $(`[data-edit-bag="${CSS.escape(id)}"]`, $("#cart-items"))?.focus());
     });
 
     $("#clear-cart")?.addEventListener("click", () => {
@@ -1411,7 +1660,7 @@
     bag.forEach((item) => {
       const names = productNames(item);
       const first = menuById.get(item.pizzaId);
-      const size = pricing.sizes?.[item.size]?.label || item.size;
+      const size = variantDescription(menuById.get(item.pizzaId), item.size);
       const crust = pricing.crusts?.[item.crust]?.label || item.crust;
       const name = names.second ? `${names.first} + ${names.second}` : names.first;
       const group = item.productType === "bebida" ? "Bebidas" : first?.category === "doces" ? "Sobremesas" : "Pizzas";
@@ -1463,13 +1712,44 @@
     return { ok: true };
   }
 
+  function addConfiguredProduct(raw) {
+    const item = createCartItem(raw);
+    if (!item) return false;
+    const added = addCart(item);
+    if (added) {
+      const product = menuById.get(item.pizzaId);
+      if (product) showBagFeedback(product);
+    }
+    return added;
+  }
+
+  function addConfiguredBundle(rawItems) {
+    const candidates = (Array.isArray(rawItems) ? rawItems : []).map((raw) => createCartItem(raw)).filter(Boolean);
+    if (!candidates.length || candidates.length !== rawItems.length) return false;
+    const currentQty = bag.reduce((sum, current) => sum + current.qty, 0);
+    const incomingQty = candidates.reduce((sum, current) => sum + current.qty, 0);
+    if (bag.length + candidates.length > MAX_BAG_LINES || currentQty + incomingQty > MAX_BAG_QTY) {
+      announceCart("A sacola não tem espaço para adicionar esta Mesa inteira. Revise os itens antes de continuar.");
+      return false;
+    }
+    bag.push(...candidates);
+    candidates.forEach((item) => window.FORNO_CONVERSION?.track?.("bag_add", { productId: item.pizzaId, productType: item.productType || "" }));
+    saveCart();
+    announceCart(`${candidates.length} itens da Mesa da Dona Rosa adicionados à sacola.`);
+    return true;
+  }
+
   window.FORNO_APP = Object.freeze({
     addProduct(id) { return isAvailable(id) ? addDefaultProduct(id) : false; },
+    addConfiguredProduct(item) { return addConfiguredProduct(item); },
+    addConfiguredBundle(items) { return addConfiguredBundle(items); },
     isProductAvailable(id) { return isAvailable(id); },
     openBag() { openCart(document.activeElement); },
     openCart() { openCart(document.activeElement); },
     getBagSummary,
     getBagProductIds,
+    getBagItems() { return Object.freeze(bag.map((item) => Object.freeze({ ...item }))); },
+    updateBagItem(itemId, patch) { return updateBagItem(itemId, patch); },
     getCartSummary: getBagSummary,
     getCheckoutSnapshot,
     handoffToWhatsApp,

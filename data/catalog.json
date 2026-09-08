@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "products": [
     {
       "id": "margherita",
@@ -52,7 +52,42 @@
           "vegetariana",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 54.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 64.78,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 77.96,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "mucarela",
@@ -100,7 +135,42 @@
           "vegetariana",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 49.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 58.88,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 70.86,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "calabresa",
@@ -150,7 +220,42 @@
           "carne",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 52.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 62.42,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 75.12,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "portuguesa",
@@ -196,7 +301,42 @@
           "carne",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 57.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 68.32,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 82.22,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "frango-catupiry",
@@ -244,7 +384,42 @@
           "cremosa",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 58.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 69.5,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 83.64,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "napolitana",
@@ -292,7 +467,42 @@
           "vegetariana",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 53.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 63.6,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 76.54,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "pepperoni",
@@ -340,7 +550,42 @@
           "picante",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 59.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 70.68,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 85.06,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "dona-rosa",
@@ -388,7 +633,42 @@
           "aventura",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 63.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 75.4,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 90.74,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "nordestina-dona-rosa",
@@ -448,7 +728,42 @@
           "artesanal",
           "dourada"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 64.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 76.58,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 92.16,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "quatro-formaggi",
@@ -494,7 +809,42 @@
           "queijo",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 61.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 73.04,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 87.9,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "burrata-parma",
@@ -542,7 +892,42 @@
           "queijo",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 69.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 82.48,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 99.26,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "toscana-forno",
@@ -588,7 +973,42 @@
           "carne",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 64.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 76.58,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 92.16,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "carbonara-casa",
@@ -636,7 +1056,42 @@
           "queijo",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 66.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 78.94,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 95.0,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "funghi-trufa",
@@ -684,7 +1139,42 @@
           "vegetariana",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 68.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 81.3,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 97.84,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "picante-rosa",
@@ -732,7 +1222,42 @@
           "picante",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 67.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 80.12,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 96.42,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "orto",
@@ -782,7 +1307,42 @@
           "vegana",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 58.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 69.5,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 83.64,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "margherita-vegana",
@@ -832,7 +1392,42 @@
           "vegana",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 57.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 68.32,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 82.22,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "mediterranea",
@@ -882,7 +1477,42 @@
           "vegana",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 60.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 71.86,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 86.48,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "funghi-vegana",
@@ -932,7 +1562,42 @@
           "vegana",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 62.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 74.22,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 89.32,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "nutella",
@@ -976,7 +1641,42 @@
           "aventura",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 49.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 58.88,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 70.86,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "chocolate-belga",
@@ -1020,7 +1720,42 @@
           "chocolate",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 51.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 61.24,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 73.7,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "banana-doce-leite",
@@ -1064,7 +1799,42 @@
           "suave",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 48.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 57.7,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 69.44,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "romeu-julieta",
@@ -1108,7 +1878,42 @@
           "queijo",
           "artesanal"
         ]
-      }
+      },
+      "variants": [
+        {
+          "id": "media",
+          "label": "Média",
+          "price": 47.9,
+          "diameterCm": 30,
+          "serves": {
+            "min": 1,
+            "max": 2
+          },
+          "available": true
+        },
+        {
+          "id": "grande",
+          "label": "Grande",
+          "price": 56.52,
+          "diameterCm": 35,
+          "serves": {
+            "min": 2,
+            "max": 3
+          },
+          "available": true
+        },
+        {
+          "id": "familia",
+          "label": "Família",
+          "price": 68.02,
+          "diameterCm": 40,
+          "serves": {
+            "min": 3,
+            "max": 5
+          },
+          "available": true
+        }
+      ]
     },
     {
       "id": "coca-lata",
@@ -1562,15 +2367,33 @@
     "sizes": {
       "media": {
         "label": "Média",
-        "multiplier": 1
+        "multiplier": 1.0,
+        "diameterCm": 30,
+        "serves": {
+          "min": 1,
+          "max": 2
+        },
+        "description": "Boa para 1 a 2 pessoas."
       },
       "grande": {
         "label": "Grande",
-        "multiplier": 1.18
+        "multiplier": 1.18,
+        "diameterCm": 35,
+        "serves": {
+          "min": 2,
+          "max": 3
+        },
+        "description": "Boa para 2 a 3 pessoas."
       },
       "familia": {
         "label": "Família",
-        "multiplier": 1.42
+        "multiplier": 1.42,
+        "diameterCm": 40,
+        "serves": {
+          "min": 3,
+          "max": 5
+        },
+        "description": "Boa para 3 a 5 pessoas."
       }
     },
     "crusts": {

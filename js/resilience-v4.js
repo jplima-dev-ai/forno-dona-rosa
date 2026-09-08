@@ -1,7 +1,7 @@
 "use strict";
 
 (() => {
-  const VERSION = window.FORNO_META?.version || "4.0.9";
+  const VERSION = window.FORNO_META?.version || "3.4.0";
   const storageNamespace = window.BRAND_CONFIG?.brand?.storageNamespace || window.PIZZARIA_CONFIG?.storageNamespace || "forno";
 
   function jsonStorageKeys() {

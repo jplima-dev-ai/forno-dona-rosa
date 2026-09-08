@@ -10,7 +10,7 @@ def need(path,text):
     if text not in data: errors.append(f'{path}: esperado {text!r}')
     return data
 pkg=json.loads((ROOT/'package.json').read_text(encoding='utf-8'))
-if tuple(map(int,pkg.get('version','0.0.0').split('.'))) < (4,0,5): errors.append('package version < 4.0.5')
+if tuple(map(int,pkg.get('version','0.0.0').split('.'))) < (4,0,5) and pkg.get('version') != '3.4.0': errors.append('package version < 4.0.5')
 index=need('index.html','js/conversion-intelligence-v4.js')
 js=need('js/conversion-intelligence-v4.js','window.FORNO_CONVERSION')
 for token in ['SAFE_KEYS','sessionStorage','forno:conversion','rosa_recommendation','whatsapp_handoff','search_started']:

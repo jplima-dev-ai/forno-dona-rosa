@@ -28,3 +28,5 @@
   .admin-section{scroll-margin-top:1rem}
   #product-save,#refresh-preview{scroll-margin-block:1rem}
 }
+
+.variant-studio{border:1px solid var(--admin-border,#b9a58f);border-radius:1rem;padding:1rem;margin:0}.variant-studio legend{font-weight:700;padding-inline:.35rem}.variant-row{display:grid;grid-template-columns:minmax(7rem,.8fr) repeat(4,minmax(7rem,1fr));gap:.75rem;align-items:end;padding:.85rem 0;border-top:1px solid var(--admin-border,#b9a58f)}.variant-row:first-child{border-top:0}.variant-row .check-row{align-self:center;margin-block-end:.35rem}@media(max-width:56rem){.variant-row{grid-template-columns:1fr 1fr}}@media(max-width:36rem){.variant-row{grid-template-columns:1fr}}@media(forced-colors:active){.variant-studio,.variant-row{border-color:CanvasText}}

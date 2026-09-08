@@ -19,12 +19,13 @@ def validate_brand(base:Path):
     return b
 
 def parse_catalog():
-    text=(ROOT/"data/menu.js").read_text(encoding="utf-8")
-    ids=re.findall(r'\bid:\s*"([^"]+)"',text)
-    imgs=re.findall(r'\bimage:\s*"([^"]+)"',text)
-    prices=[float(x) for x in re.findall(r'\bbasePrice:\s*([0-9]+(?:\.[0-9]+)?)',text)]
+    catalog=load(ROOT/"data/catalog.json")
+    products=[item for item in catalog.get("products",[]) if isinstance(item,dict)]
+    ids=[item.get("id") for item in products]
+    imgs=[item.get("image") for item in products if isinstance(item.get("image"),str)]
+    prices=[float(item.get("basePrice")) for item in products if isinstance(item.get("basePrice"),(int,float))]
     check("catalog IDs unique", len(ids)>0 and len(ids)==len(set(ids)), f"{len(ids)} ids")
-    check("catalog prices positive", bool(prices) and all(x>0 for x in prices), f"{len(prices)} prices")
+    check("catalog prices positive", bool(prices) and len(prices)==len(products) and all(x>0 for x in prices), f"{len(prices)} prices")
     missing=[img for img in imgs if not (ROOT/img).exists()]
     check("catalog image files", not missing, ", ".join(missing[:3]))
 

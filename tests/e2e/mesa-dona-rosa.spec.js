@@ -1,0 +1,2 @@
+const { test, expect } = require('@playwright/test');
+test('Mesa da Dona Rosa builds and adds a group bundle', async ({ page }) => { await page.goto('/'); await page.locator('#mesa-people').fill('4'); await page.locator('#mesa-form button[type=submit]').click(); await expect(page.locator('#mesa-result')).toBeVisible(); await expect(page.locator('#mesa-items li')).toHaveCount(2); await page.locator('#mesa-add').click(); await expect(page.locator('#open-cart')).toContainText(/sacola/i); });

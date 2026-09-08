@@ -18,7 +18,11 @@ a11y=text('tests/accessibility/axe.spec.js') if (ROOT/'tests/accessibility/axe.s
 admin=text('tests/e2e/admin.spec.js') if (ROOT/'tests/e2e/admin.spec.js').exists() else ''
 routes=text('tests/e2e/routes.spec.js') if (ROOT/'tests/e2e/routes.spec.js').exists() else ''
 helpers=text('tests/fixtures/helpers.js') if (ROOT/'tests/fixtures/helpers.js').exists() else ''
-offline=text('tests/e2e/offline.spec.js') if (ROOT/'tests/e2e/offline.spec.js').exists() else ''
+offline=text('tests/e2e/offline.spec.js')
+variants=text('tests/e2e/variant-commerce.spec.js') if (ROOT/'tests/e2e/variant-commerce.spec.js').exists() else ''
+concierge=text('tests/e2e/rosa-order-concierge.spec.js') if (ROOT/'tests/e2e/rosa-order-concierge.spec.js').exists() else ''
+fortress=text('tests/e2e/accessibility-fortress-v4-1-8.spec.js') if (ROOT/'tests/e2e/accessibility-fortress-v4-1-8.spec.js').exists() else ''
+signature=text('tests/e2e/signature-commerce-v4-1-9.spec.js') if (ROOT/'tests/e2e/signature-commerce-v4-1-9.spec.js').exists() else ''
 fragments=text('templates/runtime-fragments.html')
 css=text('css/styles.css')
 
@@ -43,6 +47,10 @@ check('admin E2E', '#admin-mode' in admin and 'admin-undo' in admin)
 check('axe serious/critical gate', '@axe-core/playwright' in a11y and "['serious','critical']" in a11y)
 check('dialog keyboard accessibility E2E', "keyboard.press('Escape')" in a11y)
 check('offline boundary E2E', 'service-worker.js' in offline and 'offline.html' in offline)
+check('variant commerce E2E', '#size-select' in variants and 'familia' in variants and '#cart-items' in variants)
+check('Rosa concierge E2E', 'troque a primeira pizza para família' in concierge and 'quanto fica a calabresa família' in concierge and 'getBagItems' in concierge)
+check('4.1.8 accessibility fortress E2E', 'ordering reflow' in fortress and 'reduced motion' in fortress and '#checkout-dialog' in fortress)
+check('3.4.0 Stabilization Commerce E2E', 'critical configured commerce path survives reload' in signature and 'pickup isolated from address fields' in signature and 'fortress is active on nested static page' in signature)
 check('stable fulfillment test hooks', 'data-test="fulfillment-pickup"' in fragments and 'data-test="fulfillment-delivery"' in fragments)
 check('mobile fixed navigation reserves content space', 'body:not(.has-mobile-bag){padding-bottom:' in css and 'body.has-mobile-bag{padding-bottom:' in css)
 check('minimum core tap token', '--tap-target' in css and 'min-height:var(--tap-target)' in css)

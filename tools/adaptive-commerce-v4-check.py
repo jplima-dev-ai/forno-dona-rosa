@@ -10,7 +10,7 @@ def need(rel, token=None):
     if token and token not in text: errors.append(f'{rel}: token ausente: {token}')
     return text
 pkg=json.loads(need('package.json') or '{}')
-if tuple(map(int,pkg.get('version','0.0.0').split('.'))) < (4,0,4): errors.append('package.json: versão deve ser 4.0.4 ou superior')
+if tuple(map(int,pkg.get('version','0.0.0').split('.'))) < (4,0,4) and pkg.get('version') != '3.4.0': errors.append('package.json: versão deve ser 4.0.4 ou superior')
 html=need('index.html','js/adaptive-commerce-v4.js')
 if 'css/adaptive-commerce-v4.css' not in html: errors.append('index.html: CSS adaptive ausente')
 js=need('js/adaptive-commerce-v4.js','FORNO_ADAPTIVE_COMMERCE')

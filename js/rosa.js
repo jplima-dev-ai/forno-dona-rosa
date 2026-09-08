@@ -81,6 +81,13 @@
   function sanitizePending(raw) {
     if (!raw || typeof raw !== "object") return null;
     if (raw.type === "clear-bag") return { type: "clear-bag" };
+    if (raw.type === "concierge-update-size") {
+      const itemId = clean(raw.itemId, 80);
+      const productId = clean(raw.productId, 80);
+      const size = ["media", "grande", "familia"].includes(raw.size) ? raw.size : "";
+      const label = clean(raw.label, 40);
+      if (/^[A-Za-z0-9_-]{1,80}$/.test(itemId) && menuById.has(productId) && size) return { type: raw.type, itemId, productId, size, label };
+    }
     return null;
   }
 
@@ -515,7 +522,20 @@
         persistState();
         return { text: cleared ? "Pronto. Sua sacola foi esvaziada." : "Sua sacola já está vazia ou não consegui concluir a ação.", intent: "confirm", confidence: 1 };
       }
+      if (state.pendingAction.type === "concierge-update-size") {
+        const action = state.pendingAction;
+        const product = safeProduct(action.productId);
+        const updated = window.FORNO_APP?.updateBagItem?.(action.itemId, { size: action.size });
+        state.pendingAction = null;
+        persistState();
+        const current = window.FORNO_APP?.getBagItems?.()?.find?.((item) => item.id === action.itemId);
+        return {
+          text: updated ? `Pronto. ${product?.name || "A pizza"} agora está no tamanho ${action.label || action.size}${current ? `, por ${money(current.unitPrice)} a unidade` : ""}.` : "Não consegui aplicar a alteração. A sacola pode ter mudado; revise o item e tente novamente.",
+          intent: "confirm", confidence: 1, productIds: product ? [product.id] : []
+        };
+      }
     }
+    if (state.pendingAction.type === "concierge-update-size") return { text: "A alteração de tamanho ainda está pendente. Responda “sim” para confirmar ou “não” para cancelar.", intent: "pending", confidence: 1 };
     return { text: "Antes de continuar: você confirma que quer esvaziar toda a sacola? Responda “sim” ou “não”.", intent: "pending", confidence: 1 };
   }
 
@@ -533,6 +553,14 @@
 
     const pending = handlePendingAction(normalized);
     if (pending) return pending;
+
+    const concierge = window.FORNO_ROSA_CONCIERGE?.interpret?.(normalized);
+    if (concierge?.handled) {
+      if (concierge.pendingAction) state.pendingAction = concierge.pendingAction;
+      if (Array.isArray(concierge.productIds) && concierge.productIds.length) state.lastProductIds = concierge.productIds.slice(0, MAX_PRODUCTS);
+      persistState();
+      return { text: clean(concierge.text, MAX_REPLY), confidence: 0.99, intent: concierge.intent || "concierge", productIds: concierge.productIds || [] };
+    }
 
     applyPreferenceOverrides(normalized);
     const nextPrefs = extractPreferences(normalized);
@@ -680,6 +708,7 @@
     if (currentContext === "sacola" || summary?.count) {
       return [
         ["Revise minha sacola", "Revisar sacola"],
+        ["Troque a primeira pizza para família", "Alterar tamanho"],
         ["Me sugira uma bebida", "Adicionar bebida"],
         ["Me mostre uma sobremesa", "Ver sobremesas"],
         ["Quero preencher os dados de entrega", "Preencher entrega"],
@@ -745,14 +774,16 @@
   }
 
   function submitPrompt(raw) {
+    const text = clean(raw);
+    if (!text) return;
+    const normalized = normalize(text);
+    const isPendingDecision = Boolean(state.pendingAction) && containsAny(normalized, ["sim", "confirmo", "pode", "confirmar", "nao", "cancelar", "cancela", "deixa"]);
     const now = Date.now();
-    if (now - lastSendAt < MIN_SEND_INTERVAL) {
+    if (!isPendingDecision && now - lastSendAt < MIN_SEND_INTERVAL) {
       announce("Envie uma mensagem por vez. Rosa já está processando sua última pergunta.");
       return;
     }
     lastSendAt = now;
-    const text = clean(raw);
-    if (!text) return;
     addMessage("user", text, true, false);
     const response = respond(text);
     window.setTimeout(() => {
@@ -829,7 +860,8 @@
     updateInputCount();
   }
 
-  document.addEventListener("DOMContentLoaded", init);
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true });
+  else init();
   const publicApi = {
     open: openRosa,
     classify,

@@ -1,0 +1,14 @@
+const fs=require('fs'),vm=require('vm');
+const sandbox={window:{FORNO_META:{version:'4.1.7'}},URL,console}; vm.createContext(sandbox); vm.runInContext(fs.readFileSync('js/admin-core.js','utf8'),sandbox);
+const core=sandbox.window.ADMIN_CORE;
+const load=p=>JSON.parse(fs.readFileSync(p,'utf8'));
+const bundle={brand:load('data/brand/brand.json'),content:load('data/brand/content.json'),catalog:load('data/catalog.json'),reviews:load('data/reviews.json'),articles:load('data/articles.json'),newsletter:load('data/newsletter.json')};
+let pass=0,total=0; const check=(n,ok)=>{total++;console.log(`${ok?'PASS':'FAIL'}  ${n}`);if(ok)pass++;};
+check('baseline bundle valid',core.validate(bundle).ok);
+const pizza=bundle.catalog.products.find(p=>p.type==='pizza');
+let x=core.clone(bundle); x.catalog.products.find(p=>p.id===pizza.id).variants.forEach(v=>v.available=false); check('rejects pizza with no available size',!core.validate(x).ok);
+x=core.clone(bundle); x.catalog.products.find(p=>p.id===pizza.id).variants[0].price=0; check('rejects zero variant price',!core.validate(x).ok);
+x=core.clone(bundle); x.catalog.products.find(p=>p.id===pizza.id).variants[0].diameterCm=10; check('rejects invalid diameter',!core.validate(x).ok);
+x=core.clone(bundle); x.catalog.products.find(p=>p.id===pizza.id).variants[0].serves={min:5,max:2}; check('rejects inverted serves range',!core.validate(x).ok);
+x=core.clone(bundle); x.catalog.products.find(p=>p.id===pizza.id).variants.push({...x.catalog.products.find(p=>p.id===pizza.id).variants[0]}); check('rejects duplicate variant id',!core.validate(x).ok);
+console.log(`${pass}/${total} admin variant behavior checks passed`); process.exit(pass===total?0:1);

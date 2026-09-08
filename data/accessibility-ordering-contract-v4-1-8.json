@@ -1,0 +1,28 @@
+{
+  "version": "4.1.8",
+  "baseline": "WCAG 2.2 AA-oriented structural contract",
+  "criticalFlows": [
+    {"id":"pizza-configurator","keyboard":true,"focus":true,"reflow":true,"reader":"MANUAL_REQUIRED"},
+    {"id":"smart-portion","keyboard":true,"focus":true,"reflow":true,"reader":"MANUAL_REQUIRED"},
+    {"id":"mesa-dona-rosa","keyboard":true,"focus":true,"reflow":true,"reader":"MANUAL_REQUIRED"},
+    {"id":"smart-pairing","keyboard":true,"focus":true,"reflow":true,"reader":"MANUAL_REQUIRED"},
+    {"id":"intelligent-bag","keyboard":true,"focus":true,"reflow":true,"reader":"MANUAL_REQUIRED"},
+    {"id":"checkout","keyboard":true,"focus":true,"reflow":true,"reader":"MANUAL_REQUIRED"},
+    {"id":"rosa-concierge","keyboard":true,"focus":true,"reflow":true,"reader":"MANUAL_REQUIRED"},
+    {"id":"admin-variant-pricing","keyboard":true,"focus":true,"reflow":true,"reader":"MANUAL_REQUIRED"}
+  ],
+  "testViewports": [
+    {"width":320,"height":568},
+    {"width":390,"height":844},
+    {"width":430,"height":932},
+    {"width":768,"height":1024},
+    {"width":1024,"height":768},
+    {"width":1366,"height":768},
+    {"width":1920,"height":1080}
+  ],
+  "manualAssistiveTechnology": {
+    "NVDA":"MANUAL_REQUIRED",
+    "Narrator":"NOT_TESTED",
+    "VoiceOver":"NOT_TESTED"
+  }
+}

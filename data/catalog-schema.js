@@ -1,5 +1,5 @@
 window.CATALOG_SCHEMA = Object.freeze({
-  schemaVersion: 1,
+  schemaVersion: 2,
   defaultType: "pizza",
   simpleTypes: Object.freeze(["bebida"]),
   productGroups: Object.freeze([
@@ -8,7 +8,7 @@ window.CATALOG_SCHEMA = Object.freeze({
     Object.freeze({ id: "sobremesas", label: "Sobremesas", messageLabel: "SOBREMESAS", match: Object.freeze({ category: "doces" }) })
   ]),
   modifiers: Object.freeze({
-    pizza: Object.freeze(["size", "crust", "halfAndHalf", "remove", "notes"]),
+    pizza: Object.freeze(["variant", "size", "crust", "halfAndHalf", "remove", "notes"]),
     bebida: Object.freeze([])
   })
 });

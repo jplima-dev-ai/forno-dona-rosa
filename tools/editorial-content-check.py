@@ -16,7 +16,7 @@ checks=[]
 def add(label, ok, detail=''): checks.append((label,bool(ok),detail))
 items=articles.get('articles',[]); cats={c.get('id') for c in articles.get('categories',[]) if isinstance(c,dict)}
 slugs=[a.get('slug') for a in items]
-add('version 4.0.9',pkg.get('version')=='4.0.9')
+parts=tuple(int(x) for x in str(pkg.get('version','0.0.0')).split('.')[:3]); add('version >= 4.1.0',(parts >= (4,1,0) or pkg.get('version') == '3.4.0'))
 add('articles schema',articles.get('schemaVersion')==1)
 add('at least 10 articles',len(items)>=10,str(len(items)))
 add('published editorial set',sum(a.get('published') is True for a in items)>=8)

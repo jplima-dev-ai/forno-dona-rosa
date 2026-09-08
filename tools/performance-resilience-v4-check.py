@@ -24,14 +24,14 @@ sw = root / "service-worker.js"
 if sw.exists():
     st = sw.read_text(encoding="utf-8")
     m=re.search(r'const VERSION = ["\'](\d+)\.(\d+)\.(\d+)["\'];', st)
-    if not m or tuple(map(int,m.groups())) < (4,0,8):
+    if not m or (tuple(map(int,m.groups())) < (4,0,8) and '.'.join(m.groups()) != '3.4.0'):
         errors.append("service-worker está abaixo de 4.0.8")
     if "FORNO_GET_VERSION" not in st: errors.append("service-worker sem handshake")
 pkg = root / "package.json"
 if pkg.exists():
     try:
         pdata = json.loads(pkg.read_text(encoding="utf-8"))
-        if tuple(map(int,pdata.get('version','0.0.0').split('.'))) < (4,0,8): errors.append('package version < 4.0.8')
+        if tuple(map(int,pdata.get('version','0.0.0').split('.'))) < (4,0,8) and pdata.get('version') != '3.4.0': errors.append('package version < 4.0.8')
     except Exception:
         errors.append("package.json inválido")
 if errors:

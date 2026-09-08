@@ -1,3 +1,136 @@
+## 4.1.4 — Mesa da Dona Rosa
+
+## 3.4.0 — Stabilization Release
+
+- Rebase da versão corrente para 3.4.0 por decisão do projeto.
+- Corrige confirmação imediata da Rosa: respostas pendentes como “sim” e “não” não são mais bloqueadas pelo intervalo anti-spam.
+- Corrige E2E do Concierge para respeitar a modalidade do `<dialog>` antes de abrir a sacola.
+- Mantém nomes históricos `v4-1-x` como proveniência técnica das features.
+- Release permanece pendente de reteste Playwright Windows e validação manual NVDA.
+
+
+
+
+## 4.1.9 — Signature Commerce Release
+
+### 4.1.9 RC2 — Browser test contract hardening
+- Corrige os últimos falsos negativos do Playwright da RC1: acionador explícito da Rosa e verificação de múltiplos campos de entrega ocultos.
+- Teste do Admin passa a editar o preço canônico da variante Média.
+- Campo "Preço base" do Admin fica somente leitura para pizzas, deixando claro que `basePrice` deriva da variante Média.
+
+### RC1 — Windows Playwright hardening
+- Stabilized the local E2E server with a larger connection queue and bounded Playwright workers after real Windows execution exposed intermittent `ERR_CONNECTION_REFUSED`.
+- Fixed Smart Pairing foreground/background contrast on the light pairing surface.
+- Hardened WCAG 2.2 target sizes for primary navigation, summaries, footer links and compact controls.
+- Constrained resilience image fallbacks to their containers to prevent mobile overflow.
+- Made Rosa initialization resilient to late script execution and strengthened dialog lifecycle assertions.
+- Corrected brittle E2E assertions for Bag cancel state, Smart Portion appetite scoping and pickup selector identity.
+- Added a service-worker cache revision so RC1 assets replace the earlier 4.1.9 cache without changing the public release version.
+
+### Added
+- Final Signature Commerce structural and adversarial release gates.
+- Cross-feature Playwright release sweep covering configurable commerce, Bag editing, Rosa, checkout and accessibility hardening.
+- Final 4.1.9 evidence ledger and release manifest with explicit pending manual/browser evidence.
+
+### Changed
+- Accessibility Fortress stylesheet is now part of every generated static page, not only the home/Admin surfaces.
+- Release manifest promoted from the stale 4.0.9 snapshot to the active 4.1.9 source of release truth.
+- Historical 4.1 npm release aliases were normalized so gate names match the release they execute.
+
+### Quality
+- Final release gate requires every 4.1 capability contract, security/a11y/resilience evidence and honest pending-state markers for browser/NVDA/CWV.
+
+## 4.1.7 — Admin Variant & Pricing Studio
+
+### Added
+- Admin Studio para editar Média, Grande e Família por pizza: preço, disponibilidade, diâmetro e rendimento estimado.
+- Validação que impede pizza sem nenhum tamanho disponível ou com variante inválida.
+- Busca administrativa atualizada para localizar edição de tamanhos e preços.
+
+### Changed
+- O preço base da pizza passa a acompanhar a variante Média ao salvar no Admin, preservando compatibilidade com consumidores legados.
+- Admin Studio e metadados sincronizados com 4.1.7.
+
+## [4.1.8] - 2026-09-07
+### Added
+- Adaptive Ordering & Accessibility Fortress para os fluxos comerciais 4.1.
+- Contrato de acessibilidade/reflow e suíte E2E dedicada.
+### Changed
+- Hardening de foco, zoom/reflow, forced colors, reduced motion e dialogs em telas estreitas/landscape.
+
+## [4.1.7] - Rosa Order Concierge 3.0
+
+### Added
+- Added `js/rosa-order-concierge-v4-1-6.js` to interpret size-aware ordering and bag-edit intents over the existing commerce APIs.
+- Added explicit natural-language flows for sized pizza add, price comparison, serving guidance and ordinal bag-item size edits.
+- Added structural, behavior and Playwright regression coverage for the concierge contract.
+
+### Changed
+- Rosa now requires confirmation before a natural-language size edit that can change the order value.
+- Service-worker and generated-page runtime lists now include the concierge module.
+
+### Safety
+- Price questions are read-only. Ambiguous bag-item mutations are refused until the user identifies the item.
+- The concierge does not bypass bag normalization, pricing or public mutation APIs.
+
+## [4.1.5] - Intelligent Bag 2.0
+
+### Added
+- Edição de tamanho, borda, remoções e observações diretamente na sacola.
+- Prévia de subtotal e API segura de atualização de item.
+- Gates estrutural, comportamental e E2E da sacola inteligente.
+
+### Changed
+- A sacola passa a permitir revisão de configuração sem remover e reconstruir a pizza.
+
+### Added
+- montagem de pedidos coletivos por número de pessoas, estilo e apetite;
+- composição editável de sabores antes da sacola;
+- adição atômica de bundles configurados à sacola;
+- integração com Smart Portion e Variant Commerce;
+- shell offline para o novo módulo;
+- gates estrutural, comportamental, release e E2E dedicado.
+
+## 4.1.2 — Smart Portion & Group Ordering
+
+### Added
+- estimativa local de porções por adultos, crianças e apetite;
+- sugestão de combinação entre Média, Grande e Família;
+- handoff do tamanho recomendado para o configurador;
+- gates estrutural, comportamental e E2E dedicados.
+
+### Changed
+- service worker inclui o módulo Smart Portion no shell offline;
+- documentação e release gates sincronizados com a linha 4.1.2.
+
+## 4.1.1 — Dona Rosa Pizza Configurator
+
+- personalização reorganizada em quatro etapas visíveis e semanticamente agrupadas;
+- revisão textual dinâmica antes de adicionar à sacola;
+- atualização responsiva específica para o configurador;
+- módulo, gate estrutural, behavior checks e Playwright dedicados;
+- documentação e evidência de release sincronizadas.
+
+## 4.1.0 — Variant Commerce Engine
+
+### Added
+- variantes explícitas por pizza para Média, Grande e Família;
+- preço, diâmetro, rendimento estimado e disponibilidade por variante;
+- motor `FORNO_VARIANTS` com fallback compatível com o catálogo 4.0;
+- descrição contextual do tamanho no pedido e na sacola;
+- gate estrutural e suíte comportamental próprios da 4.1.0.
+
+### Changed
+- sacola passa ao schema v4, com migração automática do `bag-v3`;
+- cálculo de preço passa a preferir o preço explícito da variante e preserva a regra de maior preço no meio a meio;
+- seletor de tamanho informa diâmetro, faixa estimada de pessoas e preço para o sabor atual;
+- catálogo passa ao schema v4.
+
+### Accessibility
+- o seletor permanece nativo e associado a instrução programática por `aria-describedby`;
+- mudanças de preço e tamanho não dependem de cor, ícone ou hover;
+- a experiência preserva teclado, zoom/reflow e leitores de tela sem criar widget ARIA customizado.
+
 ## 4.0.9 — Premium Release
 
 - Corrige contraste WCAG AA do Adaptive Commerce em todos os viewports após validação Playwright local.

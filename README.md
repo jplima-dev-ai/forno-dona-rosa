@@ -1,3 +1,5 @@
+> **Versão corrente: 3.4.0 — Stabilization Release.** Esta linha permanece ativa até correção integral dos bugs ou nova ordem.
+
 # Forno Dona Rosa
 
 **Plataforma web premium, acessível, mobile-first e static-first para pizzarias de pequeno e médio porte.**
@@ -8,9 +10,31 @@ O Forno Dona Rosa evoluiu de uma landing page para um produto front-end completo
 
 A interface pública e a documentação são escritas em **português brasileiro**. Nomes técnicos de arquivos, pastas, módulos, scripts, assets e identificadores permanecem em **inglês**.
 
+## Rosa Order Concierge 3.0 — 4.1.9
+
+A 4.1.9 conecta a Rosa ao estado real da sacola por APIs públicas. Ela pode adicionar uma pizza com tamanho explícito, responder comparações de preço sem mutar o pedido e preparar alterações de tamanho em itens existentes. Toda alteração que muda preço exige confirmação explícita antes de chamar `updateBagItem()`.
+
+Exemplos: `quero uma calabresa grande`, `quanto fica a calabresa família?` e `troque a primeira pizza para família`.
+
+## Intelligent Bag 2.0 — 4.1.5
+
+A 4.1.5 permite editar tamanho, borda, remoções e observações diretamente na sacola, preservando o item e recalculando o preço pela mesma fonte de verdade do configurador.
+
+## Smart Portion & Group Ordering 4.1.2
+
+A 4.1.2 adiciona uma estimativa local de porções por adultos, crianças e apetite. O sistema sugere uma combinação inicial entre Média, Grande e Família, deixa explícito que se trata de referência e permite aplicar o tamanho predominante ao configurador 4.1.1.
+
+## Dona Rosa Pizza Configurator 4.1.1
+
+A 4.1.1 organiza a personalização em quatro etapas lineares e adiciona uma revisão acessível da pizza antes da sacola, preservando o Variant Commerce Engine da 4.1.0.
+
+## Variant Commerce Engine 4.1.0
+
+A 4.1.0 promove Média, Grande e Família de simples multiplicadores globais para variantes explícitas por pizza, com preço, diâmetro, rendimento, disponibilidade, migração da sacola v3→v4 e fallback compatível com catálogos legados.
+
 ## Versão atual
 
-**v4.0.9 — Commerce Experience Intelligence + Visual Desire System**
+**v4.1.9 — Rosa Order Concierge 3.0**
 
 A linha 3.9 adiciona uma camada editorial completa: hub de artigos, páginas individuais, categorias, SEO estruturado, busca integrada, gestão editorial no Admin Studio e abstração de newsletter compatível com a arquitetura static-first. A newsletter permanece desligada até existir um provedor HTTPS real; o site não finge coleta de e-mails sem backend ou serviço externo.
 
@@ -177,3 +201,8 @@ Essa distinção é parte do contrato de qualidade do projeto.
 ## Licença
 
 Consulte [LICENSE](LICENSE).
+
+
+## 4.1.9 Signature Commerce Release
+
+A linha 4.1 fecha com variantes de pizza, configurador progressivo, Smart Portion, Mesa da Dona Rosa, Smart Pairing, Intelligent Bag, Rosa Order Concierge, Admin Variant Studio e Accessibility Fortress. A aprovação final exige execução real de navegador, NVDA e medição publicada quando a alegação depender desses dados.

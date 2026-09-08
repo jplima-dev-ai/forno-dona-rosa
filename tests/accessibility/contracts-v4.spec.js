@@ -20,10 +20,12 @@ test('Rosa dialog has an accessible focus lifecycle', async ({ page }) => {
   await opener.focus();
   await opener.click();
   const dialog = page.locator('#rosa-dialog');
-  await expect(dialog).toHaveAttribute('open', '');
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toHaveJSProperty('open', true);
   await expect(page.locator('#rosa-dialog-title')).toBeVisible();
   await page.keyboard.press('Escape');
-  await expect(dialog).not.toHaveAttribute('open', '');
+  await expect(dialog).toBeHidden();
+  await expect(dialog).toHaveJSProperty('open', false);
   await expect(opener).toBeFocused();
 });
 

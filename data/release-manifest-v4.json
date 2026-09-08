@@ -1,41 +1,55 @@
 {
-  "version": "4.0.9",
-  "name": "Premium Release",
-  "productLine": "Commerce Experience Intelligence + Visual Desire System",
+  "version": "3.4.0",
+  "name": "3.4.0 Stabilization Release",
+  "productLine": "Configurable Local Commerce + Accessible Ordering Intelligence",
   "skills": [
-    "premium-experience",
+    "adaptive-digital-experience",
     "universal-responsive-engineering",
     "accessibility-nexus",
     "aegis-quality-guardian",
-    "conversion-white-label-readiness"
+    "master-docs-architect"
   ],
   "releasePolicy": {
     "standaloneBaselineIncluded": true,
-    "requiredBaseline": "3.9.9",
+    "requiredBaseline": "3.4.0 current stabilization line",
     "backupBeforeMutation": true,
     "manualATRequiredForClaim": true,
-    "cwvTargetsAreMeasured": false
+    "publishedCWVRequiredForClaim": true,
+    "browserRunRequiredBeforeFinalApproval": true
   },
   "qualityGates": [
-    "v4:gate",
-    "visual-desire:gate",
-    "smart-menu:gate",
-    "rosa-context:gate",
-    "adaptive-commerce:gate",
-    "conversion-v4:gate",
-    "admin-v4:gate",
-    "accessibility-v4:gate",
-    "resilience-v4:gate",
-    "release-v4:gate"
+    "quality",
+    "security",
+    "browser:gate",
+    "test:browser",
+    "test:a11y:v4",
+    "accessibility-fortress:gate",
+    "signature-commerce:gate",
+    "release:3.4.0",
+    "forensic:gate"
   ],
   "status": {
-    "structuralPackage": "PASS",
-    "runtimeOnOriginalBaseline": "AUTOMATED_PASS",
+    "structuralPackage": "LOCAL_PASS",
+    "runtimeStaticBuild": "LOCAL_PASS",
+    "browserMatrix": "WINDOWS_CHROMIUM_PASS_403",
+    "browserAccessibility": "AUTOMATED_AXE_E2E_PASS",
     "nvda": "MANUAL_REQUIRED",
-    "browserMatrix": "AUTOMATED_PASS",
     "coreWebVitals": "REQUIRES_PUBLISHED_MEASUREMENT",
-    "qualityOnOriginalBaseline": "AUTOMATED_PASS",
-    "browserAccessibility": "AUTOMATED_PASS",
-    "playwrightResult": "249_PASS_3_SKIPPED_0_FAILED"
+    "releaseApproval": "PENDING_NVDA_AND_PUBLISHED_CWV_EVIDENCE",
+    "lastWindowsBrowserRun": {
+      "date": "2026-09-08",
+      "passed": 403,
+      "failed": 0,
+      "skipped": 17,
+      "duration": "8.4m",
+      "matrix": [
+        "chromium-desktop",
+        "chromium-phone-320",
+        "chromium-phone-390",
+        "chromium-phone-430",
+        "chromium-tablet",
+        "chromium-landscape"
+      ]
+    }
   }
 }

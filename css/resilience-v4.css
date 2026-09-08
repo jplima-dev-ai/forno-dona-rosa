@@ -5,10 +5,16 @@
     linear-gradient(135deg, color-mix(in srgb, currentColor 8%, transparent), transparent),
     var(--surface, #fffaf4);
   object-fit: contain;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  min-inline-size: 0;
+  display: block;
 }
 .media-fallback-shell {
   position: relative;
   overflow: hidden;
+  max-inline-size: 100%;
+  min-inline-size: 0;
 }
 .media-fallback-shell::after {
   content: "Imagem temporariamente indisponível";
@@ -32,3 +38,7 @@ html[data-network="offline"] [data-requires-network="true"] {
     color: CanvasText;
   }
 }
+
+.media-fallback-shell > img,
+.media-fallback-shell > picture,
+.media-fallback-shell picture > img { inline-size:100%; max-inline-size:100%; min-inline-size:0; }

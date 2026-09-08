@@ -53,7 +53,7 @@ function check(name, condition, detail = "") {
     HTMLImageElement: function () {},
     navigator: { onLine: true },
     window: {
-      FORNO_META: { version: "4.0.9" },
+      FORNO_META: { version: "4.1.0" },
       BRAND_CONFIG: { brand: { storageNamespace: "forno" } },
       FORNO_DELIVERY: {},
       addEventListener() {},
@@ -86,7 +86,7 @@ function check(name, condition, detail = "") {
     ["forno-bag-v3", "{broken json"]
   ]);
   const report = context.window.FORNO_RESILIENCE.inspectStorage(store);
-  check("resilience version follows release", context.window.FORNO_RESILIENCE.VERSION === "4.0.9");
+  check("resilience version follows release", context.window.FORNO_RESILIENCE.VERSION === "4.1.0");
   check("plain admin preferences are not treated as corrupt JSON", !report.some(x => x.key === "forno-admin-mode-v1" || x.key === "forno-admin-onboarding-v1"));
   check("corrupt JSON storage still detected", report.some(x => x.key === "forno-bag-v3"));
 }

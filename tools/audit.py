@@ -52,7 +52,7 @@ sw_text=(ROOT/'service-worker.js').read_text(encoding='utf-8')
 if 'url.origin !== self.location.origin' not in sw_text: errors.append('Service worker lacks an explicit same-origin restriction')
 if 'Content-Security-Policy' not in html: errors.append('Content Security Policy meta tag is missing')
 
-js_files=['js/app-meta.js','data/brand/brand-config.js','data/brand/content-config.js','js/app-config.js','js/feature-flags.js','data/catalog-schema.js','js/brand-runtime.js','data/delivery-config.js','data/menu.js','data/rosa-knowledge-base.js','js/postal-code-service.js','js/main.js','js/checkout.js','js/rosa.js','service-worker.js']
+js_files=['js/variant-commerce-v4-1.js','js/app-meta.js','data/brand/brand-config.js','data/brand/content-config.js','js/app-config.js','js/feature-flags.js','data/catalog-schema.js','js/brand-runtime.js','data/delivery-config.js','data/menu.js','data/rosa-knowledge-base.js','js/postal-code-service.js','js/main.js','js/checkout.js','js/rosa.js','service-worker.js']
 for jsfile in js_files:
     r=subprocess.run(['node','--check',str(ROOT/jsfile)],capture_output=True,text=True,encoding="utf-8",errors="replace")
     if r.returncode: errors.append(f'JavaScript syntax error in {jsfile}: {r.stderr.strip()}')
@@ -61,7 +61,8 @@ manifest=json.loads((ROOT/'manifest.webmanifest').read_text(encoding='utf-8'))
 if not manifest.get('name') or not manifest.get('icons'): errors.append('Manifest is incomplete')
 
 menu_text=(ROOT/'data/menu.js').read_text(encoding='utf-8')
-ids=re.findall(r'id:"([^"]+)"', menu_text)
+catalog_data=json.loads((ROOT/'data/catalog.json').read_text(encoding='utf-8'))
+ids=[item.get('id') for item in catalog_data.get('products',[]) if isinstance(item,dict)]
 if len(ids)!=len(set(ids)): errors.append('Duplicate catalog IDs found')
 if len(ids)<30: errors.append(f'Catalog unexpectedly shrank to {len(ids)} items')
 if menu_text.count('type:"bebida"')<8: errors.append('Drink catalog is incomplete')
@@ -71,7 +72,7 @@ if 'id="menu-search"' not in html: errors.append('Menu search control is missing
 main_text=(ROOT/'js/main.js').read_text(encoding='utf-8')
 rosa_text=(ROOT/'js/rosa.js').read_text(encoding='utf-8')
 meta_text=(ROOT/'js/app-meta.js').read_text(encoding='utf-8')
-if not all(x in main_text for x in ['bag-v3','bag-v2','cart','schemaVersion: BAG_SCHEMA_VERSION','storageNamespace']): errors.append('Bag schema/migration coverage is incomplete')
+if not all(x in main_text for x in ['bag-v4','bag-v3','bag-v2','cart','schemaVersion: BAG_SCHEMA_VERSION','storageNamespace']): errors.append('Bag schema/migration coverage is incomplete')
 if 'assistant-session-v5' not in rosa_text or 'SESSION_SCHEMA = 5' not in rosa_text or 'classify' not in rosa_text or 'confidence' not in rosa_text: errors.append('Rosa session v5/confidence flow is incomplete')
 if 'findProducts' not in rosa_text or 'resolveOrdinalReference' not in rosa_text or 'ambiguousChoice' not in rosa_text: errors.append('Rosa product resolution/disambiguation flow is incomplete')
 if 'window.ROSA?.open' not in main_text: errors.append('Delegated dynamic Rosa launcher is missing')
