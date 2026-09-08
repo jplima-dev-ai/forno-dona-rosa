@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   publish-release:
-    if: github.event.head_commit.message == 'chore(release): publish GitHub Release v3.4.0'
+    if: "${{ github.event.head_commit.message == 'chore(release): publish GitHub Release v3.4.0' }}"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
