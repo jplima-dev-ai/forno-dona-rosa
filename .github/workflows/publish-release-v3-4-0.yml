@@ -1,0 +1,33 @@
+name: Publish 3.4.0 Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  publish-release:
+    if: github.event.head_commit.message == 'chore(release): publish GitHub Release v3.4.0'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Publish immutable v3.4.0 GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view v3.4.0 >/dev/null 2>&1; then
+            echo "GitHub Release v3.4.0 already exists; leaving it unchanged."
+            exit 0
+          fi
+          gh release create v3.4.0 \
+            --verify-tag \
+            --title "Forno Dona Rosa 3.4.0 — Stabilization Release" \
+            --notes-file docs/RELEASE-3.4.0.md \
+            --latest
