@@ -1,0 +1,64 @@
+name: Relatar bug
+description: Reporte um comportamento incorreto ou regressão reproduzível.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por ajudar a melhorar o Forno Dona Rosa 3.4.0.
+        Não use este formulário para vulnerabilidades de segurança; consulte SECURITY.md.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Resumo do problema
+      description: Descreva objetivamente o que aconteceu.
+      placeholder: O que está errado?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Passos para reproduzir
+      description: Liste os passos exatos, incluindo rota e ação realizada.
+      placeholder: |
+        1. Acesse ...
+        2. Ative ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamento esperado
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Navegador e versão
+      placeholder: Ex. Microsoft Edge 152
+  - type: input
+    id: os
+    attributes:
+      label: Sistema operacional
+      placeholder: Ex. Windows 11
+  - type: input
+    id: assistive
+    attributes:
+      label: Tecnologia assistiva, se aplicável
+      placeholder: Ex. NVDA 2026.2
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs, mensagens ou evidências
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Confirmações
+      options:
+        - label: Verifiquei que o problema ainda existe na versão 3.4.0.
+          required: true
+        - label: Este relato não contém senhas, tokens ou dados privados.
+          required: true

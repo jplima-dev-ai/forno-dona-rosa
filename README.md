@@ -1,46 +1,53 @@
-> **Versão corrente: 3.4.0 — Stabilization Release.** Esta linha permanece ativa até correção integral dos bugs ou nova ordem.
+> **Versão corrente: 3.4.0 — Stabilization Release.** Esta é a versão publicada e suportada até nova ordem explícita.
 
 # Forno Dona Rosa
 
-**Plataforma web premium, acessível, mobile-first e static-first para pizzarias de pequeno e médio porte.**
+[![Quality](https://github.com/jplima-dev-ai/forno-dona-rosa/actions/workflows/quality.yml/badge.svg)](https://github.com/jplima-dev-ai/forno-dona-rosa/actions/workflows/quality.yml)
+[![Browser Certification](https://github.com/jplima-dev-ai/forno-dona-rosa/actions/workflows/browser-certification.yml/badge.svg)](https://github.com/jplima-dev-ai/forno-dona-rosa/actions/workflows/browser-certification.yml)
 
-[Documentação](docs/README.md) · [Changelog](CHANGELOG.md) · [Segurança](SECURITY.md) · [Admin Studio](docs/admin/ADMIN-STUDIO.md)
+**Plataforma web premium, acessível, mobile-first, static-first e white-label para pizzarias de pequeno e médio porte.**
 
-O Forno Dona Rosa evoluiu de uma landing page para um produto front-end completo: site multipágina, catálogo orientado por dados, páginas individuais de produto, Sacola persistente, checkout acessível, entrega ou retirada, agendamento, Pix ou dinheiro, molhos opcionais, busca global, Rosa como anfitriã digital, PWA, arquitetura white-label, Admin Studio e quality gates executáveis.
+[Release 3.4.0](https://github.com/jplima-dev-ai/forno-dona-rosa/releases/tag/v3.4.0) · [Documentação](docs/README.md) · [Changelog](CHANGELOG.md) · [Segurança](SECURITY.md) · [Admin Studio](docs/admin/ADMIN-STUDIO.md)
 
-A interface pública e a documentação são escritas em **português brasileiro**. Nomes técnicos de arquivos, pastas, módulos, scripts, assets e identificadores permanecem em **inglês**.
+O Forno Dona Rosa combina catálogo orientado a dados, páginas de produto, variantes Média/Grande/Família, configurador acessível, Sacola persistente, checkout, entrega ou retirada, agendamento, Pix ou dinheiro, busca global, PWA, Rosa Order Concierge, arquitetura white-label, Admin Studio e quality gates automatizados.
 
-## Rosa Order Concierge 3.0 — 4.1.9
+A interface pública e a documentação são escritas em **português brasileiro**. Nomes técnicos de arquivos, módulos, scripts e checkers permanecem em inglês quando isso melhora manutenção e rastreabilidade.
 
-A 4.1.9 conecta a Rosa ao estado real da sacola por APIs públicas. Ela pode adicionar uma pizza com tamanho explícito, responder comparações de preço sem mutar o pedido e preparar alterações de tamanho em itens existentes. Toda alteração que muda preço exige confirmação explícita antes de chamar `updateBagItem()`.
+## Estado oficial da 3.4.0
 
-Exemplos: `quero uma calabresa grande`, `quanto fica a calabresa família?` e `troque a primeira pizza para família`.
+A release 3.4.0 é a linha atual e oficial do produto.
 
-## Intelligent Bag 2.0 — 4.1.5
+Evidência consolidada:
 
-A 4.1.5 permite editar tamanho, borda, remoções e observações diretamente na sacola, preservando o item e recalculando o preço pela mesma fonte de verdade do configurador.
+- Windows Playwright: **403 passed, 0 failed, 17 skipped (8.4m)**;
+- matriz: desktop, 320 px, 390 px, 430 px, tablet e landscape;
+- Axe serious/critical: PASS na matriz automatizada executada;
+- reflow, rotas, checkout, Sacola, Rosa, Admin e fluxos críticos de comércio: PASS;
+- GitHub Actions `Quality`: PASS;
+- GitHub Actions `Browser Certification`: PASS;
+- GitHub Pages build/deployment: PASS;
+- NVDA manual: **MANUAL_REQUIRED**;
+- Core Web Vitals em ambiente publicado: medição pendente.
 
-## Smart Portion & Group Ordering 4.1.2
+Automação não substitui validação humana com tecnologia assistiva. O projeto não declara certificação NVDA enquanto o teste manual não estiver registrado.
 
-A 4.1.2 adiciona uma estimativa local de porções por adultos, crianças e apetite. O sistema sugere uma combinação inicial entre Média, Grande e Família, deixa explícito que se trata de referência e permite aplicar o tamanho predominante ao configurador 4.1.1.
+## Funcionalidades principais
 
-## Dona Rosa Pizza Configurator 4.1.1
-
-A 4.1.1 organiza a personalização em quatro etapas lineares e adiciona uma revisão acessível da pizza antes da sacola, preservando o Variant Commerce Engine da 4.1.0.
-
-## Variant Commerce Engine 4.1.0
-
-A 4.1.0 promove Média, Grande e Família de simples multiplicadores globais para variantes explícitas por pizza, com preço, diâmetro, rendimento, disponibilidade, migração da sacola v3→v4 e fallback compatível com catálogos legados.
-
-## Versão atual
-
-**v4.1.9 — Rosa Order Concierge 3.0**
-
-A linha 3.9 adiciona uma camada editorial completa: hub de artigos, páginas individuais, categorias, SEO estruturado, busca integrada, gestão editorial no Admin Studio e abstração de newsletter compatível com a arquitetura static-first. A newsletter permanece desligada até existir um provedor HTTPS real; o site não finge coleta de e-mails sem backend ou serviço externo.
-
-### Editorial, mídia e audiência
-
-O Admin Studio agora permite preparar imagens de produto, ajustar ponto focal, editar conteúdo institucional, administrar avaliações reais, criar artigos estruturados e configurar SEO/social preview. Para GitHub Pages, dados e mídia continuam exportáveis em pacotes validados. O pipeline também aplica um polish gastronômico conservador às imagens-fonte existentes e regenera derivados responsivos sem afirmar que fotos duplicadas se tornaram sessões fotográficas únicas.
+- catálogo configurável e páginas de produto;
+- variantes explícitas de pizza: Média, Grande e Família;
+- configurador progressivo com revisão antes da Sacola;
+- Smart Portion para estimativa de porções;
+- Mesa da Dona Rosa para pedidos em grupo;
+- Smart Pairing para sugestões contextuais;
+- Intelligent Bag para edição de tamanho, borda, quantidade, observações e remoção;
+- Rosa Order Concierge conectada ao estado real do pedido;
+- checkout com entrega ou retirada, agendamento, Pix ou dinheiro;
+- busca global;
+- PWA e service worker;
+- Admin Studio local-first;
+- arquitetura white-label;
+- pipeline de mídia e geração estática;
+- quality gates estruturais, comportamentais, de segurança, responsividade e acessibilidade.
 
 ## Jornada principal
 
@@ -59,9 +66,9 @@ Home
 
 Nada é enviado automaticamente.
 
-## Arquitetura em uma frase
+## Arquitetura
 
-O storefront é gerado estaticamente a partir de dados canônicos, enquanto Sacola, checkout, Rosa, disponibilidade, status comercial e Admin Studio compartilham contratos de domínio no navegador.
+O storefront é gerado estaticamente a partir de dados canônicos. Sacola, checkout, Rosa, disponibilidade, status comercial e Admin Studio compartilham contratos de domínio no navegador.
 
 ```text
 data/catalog.json
@@ -71,14 +78,14 @@ tools/build-site.py
 Home + páginas institucionais + menu + order + products/<id>/ + articles/<slug>/ + categories/<id>/
 ```
 
-Principais fontes da verdade:
+Principais fontes de verdade:
 
 - `data/brand/brand.json` — identidade, contatos, operação e recursos da marca;
 - `data/brand/content.json` — copy configurável;
 - `data/catalog.json` — produtos, preços, imagens e capacidades;
 - `data/reviews.json` — avaliações reais quando disponíveis;
 - `data/articles.json` — artigos, categorias, tags, publicação e SEO editorial;
-- `data/newsletter.json` — contrato de newsletter e provedor, desativado por padrão;
+- `data/newsletter.json` — contrato de newsletter, desativado por padrão;
 - `data/commerce-config.js` — contrato comercial derivado para o runtime.
 
 Veja [Arquitetura](docs/ARCHITECTURE.md) para os limites completos.
@@ -87,15 +94,7 @@ Veja [Arquitetura](docs/ARCHITECTURE.md) para os limites completos.
 
 A rota técnica `/admin/` permite editar dados operacionais sem alterar código. O painel possui modo Simples/Avançado, busca por ação, histórico com desfazer, preview, onboarding, import/export de bundle e validações de segurança.
 
-A publicação remota automática **não é simulada**: GitHub Pages não é backend autenticado. O fluxo atual continua local-first e pode evoluir para uma API real sem reescrever a experiência administrativa.
-
-## Crédito
-
-O storefront exibe por padrão:
-
-> **Desenvolvido por KJ Productions**
-
-O crédito vive na configuração canônica da marca e pode ser desativado em projetos white-label quando necessário.
+A publicação remota automática não é simulada: GitHub Pages não é backend autenticado. O fluxo atual permanece local-first.
 
 ## Acessibilidade
 
@@ -105,42 +104,40 @@ A arquitetura considera desde a origem:
 - navegação por teclado e foco visível;
 - dialogs nativos e retorno de foco;
 - labels, `fieldset`/`legend` e mensagens de erro associadas;
-- `aria-live` apenas para mudanças relevantes;
+- `aria-live` somente para mudanças relevantes;
 - zoom/reflow e conteúdo longo;
 - `prefers-reduced-motion`;
 - forced colors;
 - touch targets adequados;
 - uma única árvore DOM sem duplicação mobile/desktop.
 
-Automação não equivale a teste humano. NVDA, JAWS, Narrator, TalkBack, VoiceOver e dispositivos físicos só podem ser marcados como aprovados quando realmente executados e registrados.
+NVDA, JAWS, Narrator, TalkBack, VoiceOver e dispositivos físicos só podem ser marcados como aprovados quando realmente executados e registrados.
 
-## Qualidade e testes
-
-Requisitos de referência:
+## Requisitos
 
 ```text
 Node.js >= 20
 Python >= 3.11
 ```
 
-No Windows/PowerShell, o comando mais compatível é:
+## Executar localmente no Windows
+
+Na raiz do projeto:
 
 ```powershell
+npm.cmd install
+python -m pip install -r requirements-dev.txt
+npm.cmd run build
 npm.cmd run quality
 ```
 
-O quality gate executa build, sintaxe, configuração, brand leak, naming, audit, health/regression, comportamento de Rosa/checkout, Template Factory, documentação, conversão, comércio, responsividade, arquitetura multipágina, experiência de produto, Smart Commerce, Real Storefront, Admin Studio, segurança, Browser Certification estrutural, Mobile Usability e Project Doctor.
-
-Para navegador real, após instalar as dependências de desenvolvimento:
+Para navegador real:
 
 ```powershell
+npx playwright install chromium
 npm.cmd run test:browser
 npm.cmd run test:a11y
 ```
-
-Consulte [Testes e quality gates](docs/quality/TESTING.md) e [Browser Testing](docs/testing/BROWSER-TESTING.md).
-
-**Última validação real de browser (2026-09-04): 249 passed, 3 skipped, 0 failed em Playwright/Chromium no Windows.** O gate Axe serious/critical passou na matriz executada. NVDA humano e Core Web Vitals publicados continuam separados da automação.
 
 ## Comandos úteis
 
@@ -151,6 +148,8 @@ npm.cmd run audit
 npm.cmd run docs
 npm.cmd run doctor
 npm.cmd run security
+npm.cmd run browser:gate
+npm.cmd run release:3.4.0
 npm.cmd run quality
 ```
 
@@ -181,28 +180,50 @@ manifest.webmanifest
 
 ## White-label
 
-A implementação de referência é Dona Rosa, mas os contratos de marca, catálogo, comércio e conteúdo foram separados para reutilização. Veja:
+A implementação de referência é Dona Rosa, mas os contratos de marca, catálogo, comércio e conteúdo foram separados para reutilização.
 
-- [White-label](docs/WHITE-LABEL.md);
-- [Configuração](docs/customization/CONFIGURATION.md);
-- [Criar um cliente](docs/customization/CREATE-A-CLIENT.md).
+- [White-label](docs/WHITE-LABEL.md)
+- [Configuração](docs/customization/CONFIGURATION.md)
+- [Criar um cliente](docs/customization/CREATE-A-CLIENT.md)
 
-## Evidência e limites
+## Proveniência dos nomes `v4.x`
 
-Os gates automatizados comprovam apenas aquilo que executam. A versão 3.7 mantém um ledger em `docs/releases/evidence/v3.7.9/summary.md` para distinguir claramente:
+Alguns arquivos, módulos e checkers mantêm nomes históricos como `variant-commerce-v4-1.js`, `rosa-order-concierge-v4-1-6.js` e `release-v4-1-9-check.py`. Esses identificadores representam a **linhagem técnica de desenvolvimento** e foram preservados para compatibilidade, auditoria e rastreabilidade.
+
+Eles **não representam a versão pública atual**. A versão corrente do produto, do `package.json`, dos metadados, da release e da documentação oficial é **3.4.0**.
+
+## Qualidade e evidências
+
+A release 3.4.0 possui evidência automatizada de browser e CI registrada em:
+
+- `docs/RELEASE-3.4.0.md`;
+- `docs/releases/evidence/v3.4.0/summary.md`;
+- GitHub Actions;
+- GitHub Release `v3.4.0`.
+
+Os gates distinguem claramente:
 
 - executado e aprovado;
 - configurado, mas não executado;
 - bloqueado pelo ambiente;
-- ainda não testado.
+- validação manual ainda necessária.
 
-Essa distinção é parte do contrato de qualidade do projeto.
+## Segurança
+
+Consulte [SECURITY.md](SECURITY.md) para política de reporte e limites de segurança.
+
+## Contribuição
+
+Contribuições devem preservar acessibilidade, estabilidade, rastreabilidade de versão e o comportamento local-first do projeto. Consulte [CONTRIBUTING.md](CONTRIBUTING.md) e o [Código de Conduta](CODE_OF_CONDUCT.md).
 
 ## Licença
 
-Consulte [LICENSE](LICENSE).
+MIT. Consulte [LICENSE](LICENSE).
 
+## Crédito
 
-## 4.1.9 Signature Commerce Release
+O storefront exibe por padrão:
 
-A linha 4.1 fecha com variantes de pizza, configurador progressivo, Smart Portion, Mesa da Dona Rosa, Smart Pairing, Intelligent Bag, Rosa Order Concierge, Admin Variant Studio e Accessibility Fortress. A aprovação final exige execução real de navegador, NVDA e medição publicada quando a alegação depender desses dados.
+> **Desenvolvido por KJ Productions**
+
+O crédito vive na configuração canônica da marca e pode ser desativado em projetos white-label quando necessário.

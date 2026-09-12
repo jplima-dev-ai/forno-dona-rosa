@@ -1,0 +1,44 @@
+name: Sugerir melhoria
+description: Proponha uma melhoria de produto, UX, acessibilidade ou engenharia.
+title: "[Melhoria]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A versão pública corrente é 3.4.0. Sugestões são bem-vindas, mas não devem presumir mudança de versão.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema ou oportunidade
+      description: Qual necessidade real esta melhoria resolve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposta
+      description: Descreva a solução desejada sem depender apenas de aparência.
+    validations:
+      required: true
+  - type: textarea
+    id: accessibility
+    attributes:
+      label: Impacto em acessibilidade
+      description: Considere teclado, leitor de tela, foco, contraste, zoom/reflow, reduced motion e forced colors quando aplicável.
+    validations:
+      required: true
+  - type: textarea
+    id: value
+    attributes:
+      label: Valor para usuário ou negócio
+      description: Explique por que vale adicionar esta complexidade.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Confirmação
+      options:
+        - label: A proposta preserva a linha 3.4.0 e não pressupõe mudança de versão.
+          required: true
