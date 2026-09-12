@@ -21,4 +21,4 @@ for cmd in steps:
     res=subprocess.run(cmd,cwd=r)
     if res.returncode: sys.exit(res.returncode)
 print('FORNO DONA ROSA 3.4.0 STABILIZATION RELEASE GATE: PASS')
-print('Nota: este gate preserva a cadeia histórica. Na 3.4.0, Playwright Windows está registrado como PASS; NVDA manual e CWV publicado permanecem pendentes.')
+print('Nota: este gate preserva a cadeia histórica. Na 3.4.0, Playwright Windows está registrado como PASS; NVDA no Windows e TalkBack no Android possuem evidência manual registrada; outros leitores permanecem não testados por falta de acesso; CWV publicado permanece pendente.')
