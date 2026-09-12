@@ -29,7 +29,6 @@ jobs:
         shell: bash
         run: |
           python -m http.server 4173 --bind 127.0.0.1 > /tmp/forno-http.log 2>&1 &
-          echo $! > /tmp/forno-http.pid
           for i in {1..20}; do curl -fsS http://127.0.0.1:4173/ >/dev/null && break; sleep 1; done
       - name: Measure mobile Lighthouse
         shell: bash
@@ -38,9 +37,11 @@ jobs:
           node - <<'NODE'
           const fs=require('fs'); const r=JSON.parse(fs.readFileSync('lh-mobile.json','utf8')); const a=r.audits;
           const out={performance:Math.round(r.categories.performance.score*100),fcpMs:a['first-contentful-paint'].numericValue,lcpMs:a['largest-contentful-paint'].numericValue,tbtMs:a['total-blocking-time'].numericValue,cls:a['cumulative-layout-shift'].numericValue,speedIndexMs:a['speed-index'].numericValue};
+          const compact=v=>JSON.stringify(v??null).slice(0,16000);
           console.log('LIGHTHOUSE_3_4_1_MOBILE='+JSON.stringify(out));
-          if(out.cls>0.10) throw new Error(`CLS ${out.cls} exceeds 0.10 target`);
-          if(out.lcpMs>2500) throw new Error(`LCP ${out.lcpMs}ms exceeds 2500ms target`);
+          console.log('LIGHTHOUSE_3_4_1_LCP_BREAKDOWN='+compact(a['lcp-breakdown-insight']?.details));
+          console.log('LIGHTHOUSE_3_4_1_RENDER_BLOCKING='+compact(a['render-blocking-insight']?.details));
+          console.log('LIGHTHOUSE_3_4_1_CLS_CULPRITS='+compact(a['cls-culprits-insight']?.details));
           NODE
       - name: Measure desktop Lighthouse
         shell: bash
@@ -50,5 +51,17 @@ jobs:
           const fs=require('fs'); const r=JSON.parse(fs.readFileSync('lh-desktop.json','utf8')); const a=r.audits;
           const out={performance:Math.round(r.categories.performance.score*100),fcpMs:a['first-contentful-paint'].numericValue,lcpMs:a['largest-contentful-paint'].numericValue,tbtMs:a['total-blocking-time'].numericValue,cls:a['cumulative-layout-shift'].numericValue,speedIndexMs:a['speed-index'].numericValue};
           console.log('LIGHTHOUSE_3_4_1_DESKTOP='+JSON.stringify(out));
-          if(out.cls>0.10) throw new Error(`Desktop CLS ${out.cls} exceeds 0.10 target`);
+          NODE
+      - name: Enforce 3.4.1 performance targets
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const m=JSON.parse(fs.readFileSync('lh-mobile.json','utf8')); const d=JSON.parse(fs.readFileSync('lh-desktop.json','utf8'));
+          const ma=m.audits, da=d.audits;
+          const mobile={lcp:ma['largest-contentful-paint'].numericValue,cls:ma['cumulative-layout-shift'].numericValue};
+          const desktop={cls:da['cumulative-layout-shift'].numericValue};
+          if(mobile.cls>0.10) throw new Error(`Mobile CLS ${mobile.cls} exceeds 0.10 target`);
+          if(mobile.lcp>2500) throw new Error(`Mobile LCP ${mobile.lcp}ms exceeds 2500ms target`);
+          if(desktop.cls>0.10) throw new Error(`Desktop CLS ${desktop.cls} exceeds 0.10 target`);
           NODE
