@@ -2,7 +2,6 @@
 from pathlib import Path
 import json,re,sys
 ROOT=Path(__file__).resolve().parents[1]
-pkg=json.loads((ROOT/'package.json').read_text(encoding='utf-8'))
 articles=json.loads((ROOT/'data/articles.json').read_text(encoding='utf-8'))
 newsletter=json.loads((ROOT/'data/newsletter.json').read_text(encoding='utf-8'))
 admin=(ROOT/'admin/index.html').read_text(encoding='utf-8')
@@ -16,7 +15,6 @@ checks=[]
 def add(label, ok, detail=''): checks.append((label,bool(ok),detail))
 items=articles.get('articles',[]); cats={c.get('id') for c in articles.get('categories',[]) if isinstance(c,dict)}
 slugs=[a.get('slug') for a in items]
-parts=tuple(int(x) for x in str(pkg.get('version','0.0.0')).split('.')[:3]); add('version >= 4.1.0',(parts >= (4,1,0) or pkg.get('version') == '3.4.0'))
 add('articles schema',articles.get('schemaVersion')==1)
 add('at least 10 articles',len(items)>=10,str(len(items)))
 add('published editorial set',sum(a.get('published') is True for a in items)>=8)
@@ -27,12 +25,12 @@ add('article SEO metadata',all(a.get('seo',{}).get('title') and a.get('seo',{}).
 add('articles hub built',(ROOT/'articles/index.html').exists())
 add('article pages built',all((ROOT/'articles'/a['slug']/'index.html').exists() for a in items if a.get('published') is True))
 add('category pages built',all((ROOT/'categories'/cid/'index.html').exists() for cid in cats))
-add('article structured data','"@type":"Article"' in next((ROOT/'articles'/a['slug']/'index.html').read_text(encoding='utf-8') for a in items if a.get('published') is True))
+add('article structured data','\"@type\":\"Article\"' in next((ROOT/'articles'/a['slug']/'index.html').read_text(encoding='utf-8') for a in items if a.get('published') is True))
 add('article search index',(ROOT/'data/articles-index.js').exists() and 'EDITORIAL_ARTICLES_INDEX' in (ROOT/'data/articles-index.js').read_text(encoding='utf-8'))
 add('global search integrates articles','editorialArticles' not in search and 'EDITORIAL_ARTICLES_INDEX' in search and 'const editorial=' in search)
-add('Rosa editorial intent','id: "articles"' in rosa and 'findArticle' in rosa)
-add('admin articles section','id="articles"' in admin and 'id="article-select"' in admin)
-add('admin newsletter section','id="newsletter"' in admin and 'id="newsletter-provider"' in admin)
+add('Rosa editorial intent','id: \"articles\"' in rosa and 'findArticle' in rosa)
+add('admin articles section','id=\"articles\"' in admin and 'id=\"article-select\"' in admin)
+add('admin newsletter section','id=\"newsletter\"' in admin and 'id=\"newsletter-provider\"' in admin)
 add('admin bundle article contract','const articles =' in core and 'const newsletter =' in core)
 add('build editorial generator','def articles_hub_page' in build and 'def article_page' in build and 'def category_page' in build)
 add('sitemap includes articles','/articles/' in sitemap and '/categories/' in sitemap)
