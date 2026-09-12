@@ -29,6 +29,7 @@ jobs:
           const fs = require('fs');
           const r = JSON.parse(fs.readFileSync('lighthouse-mobile.json','utf8'));
           const a = r.audits;
+          const compact = (value) => JSON.stringify(value ?? null).slice(0, 12000);
           const out = {
             mode: 'mobile-default',
             url: r.finalDisplayedUrl,
@@ -40,6 +41,12 @@ jobs:
             speedIndexMs: a['speed-index'].numericValue
           };
           console.log('LIGHTHOUSE_PUBLISHED_MOBILE=' + JSON.stringify(out));
+          console.log('LIGHTHOUSE_LCP_ELEMENT=' + compact(a['largest-contentful-paint-element']?.details));
+          console.log('LIGHTHOUSE_LCP_BREAKDOWN=' + compact(a['lcp-breakdown-insight']?.details));
+          console.log('LIGHTHOUSE_CLS_CULPRITS=' + compact(a['cls-culprits-insight']?.details));
+          console.log('LIGHTHOUSE_LAYOUT_SHIFTS=' + compact(a['layout-shifts']?.details));
+          console.log('LIGHTHOUSE_IMAGE_DELIVERY=' + compact(a['image-delivery-insight']?.details));
+          console.log('LIGHTHOUSE_RENDER_BLOCKING=' + compact(a['render-blocking-insight']?.details));
           NODE
       - name: Run published desktop Lighthouse
         shell: bash
