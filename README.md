@@ -26,10 +26,12 @@ Evidência consolidada:
 - GitHub Actions `Quality`: PASS;
 - GitHub Actions `Browser Certification`: PASS;
 - GitHub Pages build/deployment: PASS;
-- NVDA manual: **MANUAL_REQUIRED**;
+- **NVDA no Windows: teste manual PASS**;
+- **TalkBack no Android: teste manual PASS**;
+- **JAWS, Narrator e VoiceOver: não testados**, pois o responsável pelo projeto não possui acesso aos ambientes/dispositivos necessários para validá-los com evidência real;
 - Core Web Vitals em ambiente publicado: medição pendente.
 
-Automação não substitui validação humana com tecnologia assistiva. O projeto não declara certificação NVDA enquanto o teste manual não estiver registrado.
+Automação não substitui validação humana com tecnologia assistiva. O projeto registra como aprovados apenas os leitores de tela realmente testados: **NVDA no Windows** e **TalkBack no Android**. Outros leitores permanecem explicitamente sem claim de aprovação.
 
 ## Funcionalidades principais
 
@@ -111,7 +113,15 @@ A arquitetura considera desde a origem:
 - touch targets adequados;
 - uma única árvore DOM sem duplicação mobile/desktop.
 
-NVDA, JAWS, Narrator, TalkBack, VoiceOver e dispositivos físicos só podem ser marcados como aprovados quando realmente executados e registrados.
+### Evidência manual com leitores de tela
+
+- **NVDA no Windows:** testado manualmente e aprovado pelo responsável pelo projeto.
+- **TalkBack no Android:** testado manualmente e aprovado pelo responsável pelo projeto.
+- **JAWS:** não testado por falta de acesso ao leitor/ambiente necessário.
+- **Narrator:** não testado nesta evidência.
+- **VoiceOver:** não testado por falta de acesso ao ecossistema/dispositivo necessário.
+
+A ausência de teste em outros leitores de tela não é tratada como falha nem como aprovação. O projeto evita declarar compatibilidade certificada sem execução real.
 
 ## Requisitos
 
@@ -194,7 +204,7 @@ Eles **não representam a versão pública atual**. A versão corrente do produt
 
 ## Qualidade e evidências
 
-A release 3.4.0 possui evidência automatizada de browser e CI registrada em:
+A release 3.4.0 possui evidência automatizada de browser e CI, além de validação manual com NVDA e TalkBack, registrada em:
 
 - `docs/RELEASE-3.4.0.md`;
 - `docs/releases/evidence/v3.4.0/summary.md`;
@@ -206,7 +216,7 @@ Os gates distinguem claramente:
 - executado e aprovado;
 - configurado, mas não executado;
 - bloqueado pelo ambiente;
-- validação manual ainda necessária.
+- não testado por falta de acesso.
 
 ## Segurança
 

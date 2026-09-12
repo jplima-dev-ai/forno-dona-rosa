@@ -4,7 +4,7 @@ A versão 3.4.0 é a linha corrente de estabilização. Nenhuma versão posterio
 
 ## Objetivo
 
-Consolidar a experiência comercial existente, corrigir regressões reais e falsos negativos de testes, e fechar evidência de navegador e NVDA sem adicionar nova superfície funcional.
+Consolidar a experiência comercial existente, corrigir regressões reais e falsos negativos de testes, e fechar evidência de navegador e tecnologia assistiva sem adicionar nova superfície funcional.
 
 ## Estado atual
 
@@ -15,7 +15,9 @@ Consolidar a experiência comercial existente, corrigir regressões reais e fals
 - GitHub Actions **Quality**: PASS na `main`.
 - GitHub Actions **Browser Certification**: PASS na `main`.
 - GitHub Pages build/deployment: PASS.
-- NVDA manual: **MANUAL_REQUIRED**.
+- Teste manual com **NVDA no Windows**: **PASS**, conforme validação humana do responsável pelo projeto.
+- Teste manual com **TalkBack no Android**: **PASS**, conforme validação humana do responsável pelo projeto.
+- **JAWS, Narrator e VoiceOver**: não testados, pois o responsável pelo projeto não possui acesso aos ambientes/dispositivos necessários para validar esses leitores de tela com evidência real.
 - Core Web Vitals em ambiente publicado: medição pendente.
 
 ## Correções de estabilização consolidadas
@@ -25,7 +27,7 @@ Consolidar a experiência comercial existente, corrigir regressões reais e fals
 - testes frágeis de estado de sacola, checkout e Admin foram ajustados para medir o contrato real;
 - contraste, alvos touch e overflow detectados nas primeiras rodadas foram corrigidos na camada comum;
 - servidor E2E local foi estabilizado para reduzir recusas de conexão;
-- manifesto e evidence ledger registram o estado real da matriz Windows sem confundir automação com NVDA;
+- manifesto e evidence ledger registram separadamente automação, NVDA/TalkBack manuais e leitores ainda não testados;
 - hotfix pós-tag de CI adicionou a dependência Python `packaging==26.3`, necessária pelos release gates no GitHub Actions.
 
 ## Proveniência Git
@@ -37,4 +39,4 @@ Consolidar a experiência comercial existente, corrigir regressões reais e fals
 
 ## Decisão
 
-A matriz automatizada de navegador da 3.4.0 está **PASS**, e a validação remota no GitHub também está **PASS** para Quality, Browser Certification e Pages. A release ainda não deve ser descrita como manualmente certificada para leitores de tela até a conclusão da validação humana com NVDA. A evidência consolidada está em `docs/releases/evidence/v3.4.0/summary.md`.
+A matriz automatizada de navegador da 3.4.0 está **PASS**, e a validação remota no GitHub também está **PASS** para Quality, Browser Certification e Pages. A validação humana de tecnologia assistiva foi executada com **NVDA no Windows** e **TalkBack no Android**, ambos registrados como **PASS**. Nenhuma aprovação é declarada para **JAWS, Narrator ou VoiceOver**, pois esses leitores não foram testados por falta de acesso aos respectivos ambientes. A evidência consolidada está em `docs/releases/evidence/v3.4.0/summary.md`.

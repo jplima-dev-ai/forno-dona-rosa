@@ -33,9 +33,11 @@
     "runtimeStaticBuild": "LOCAL_PASS",
     "browserMatrix": "WINDOWS_CHROMIUM_PASS_403",
     "browserAccessibility": "AUTOMATED_AXE_E2E_PASS",
-    "nvda": "MANUAL_REQUIRED",
+    "nvda": "MANUAL_PASS",
+    "talkback": "MANUAL_PASS",
+    "otherScreenReaders": "NOT_TESTED_NO_ACCESS",
     "coreWebVitals": "REQUIRES_PUBLISHED_MEASUREMENT",
-    "releaseApproval": "PENDING_NVDA_AND_PUBLISHED_CWV_EVIDENCE",
+    "releaseApproval": "PENDING_PUBLISHED_CWV_EVIDENCE",
     "lastWindowsBrowserRun": {
       "date": "2026-09-08",
       "passed": 403,
