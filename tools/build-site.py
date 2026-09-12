@@ -90,7 +90,7 @@ def scripts(depth: int) -> str:
         'js/analytics-adapter.js','js/commerce-events.js','js/checkout-state.js','js/repositories.js','js/feature-flags.js','data/catalog-schema.js','data/menu.js','data/articles-index.js','data/rosa-knowledge-base.js',
         'data/delivery-config.js','js/postal-code-service.js','js/variant-commerce-v4-1.js','js/pizza-configurator-v4-1-1.js','js/intelligent-bag-v4-1-5.js','js/rosa-order-concierge-v4-1-6.js','js/main.js','js/checkout.js','js/rosa.js','js/brand-runtime.js','js/business-status.js','js/storefront.js','js/site-pages.js','js/newsletter.js','js/global-search.js','js/visual-media-v4.js','js/smart-menu-v4.js','js/rosa-context-v4.js','js/conversion-intelligence-v4.js','js/resilience-v4.js','js/premium-release-v4.js'
     ]
-    return '\n'.join(f'<script src="{p}{path}"></script>' for path in ordered)
+    return '\n'.join(f'<script defer src="{p}{path}"></script>' for path in ordered)
 
 
 def json_ld(payload: dict) -> tuple[str,str]:
