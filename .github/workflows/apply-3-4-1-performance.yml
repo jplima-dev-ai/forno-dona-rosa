@@ -1,0 +1,127 @@
+name: Apply 3.4.1 Performance Patch
+
+on:
+  push:
+    branches:
+      - release/3.4.1-performance
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.event.head_commit.message == 'ci: prepare 3.4.1 performance patch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: release/3.4.1-performance
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Apply evidence-driven performance changes
+        shell: bash
+        run: |
+          python -m pip install Pillow
+          python - <<'PY'
+          from pathlib import Path
+          import json, re
+          from PIL import Image
+
+          root = Path('.')
+
+          # Determine actual hero dimensions so intrinsic geometry matches the asset.
+          with Image.open(root / 'assets/images/dona-rosa-hero-pizza.webp') as im:
+              hero_w, hero_h = im.size
+          with Image.open(root / 'assets/images/dona-rosa-hero-pizza-640.webp') as im:
+              mobile_w, mobile_h = im.size
+          print(f'Hero dimensions: desktop={hero_w}x{hero_h}; mobile={mobile_w}x{mobile_h}')
+
+          # Remove Google Fonts from the critical path on generated HTML and move to stable local font stacks.
+          html_files = [p for p in root.rglob('*.html') if '.git' not in p.parts and 'node_modules' not in p.parts]
+          google_font_link = re.compile(r'<link[^>]+href="https://fonts\.googleapis\.com/css2\?[^\"]+"[^>]*/?>\s*', re.I)
+          google_preconnect = re.compile(r'<link[^>]+href="https://fonts\.(?:googleapis|gstatic)\.com"[^>]*/?>\s*', re.I)
+          for path in html_files:
+              text = path.read_text(encoding='utf-8')
+              original = text
+              text = google_font_link.sub('', text)
+              text = google_preconnect.sub('', text)
+              text = text.replace('content="3.4.0" name="x-project-version"', 'content="3.4.1" name="x-project-version"')
+              if path.name == 'index.html' and '<picture>' in text:
+                  text = re.sub(
+                      r'(<img alt="Pizza artesanal da casa[^>]+?)height="1254"([^>]+?)width="1254"',
+                      rf'\1height="{hero_h}"\2width="{hero_w}"',
+                      text,
+                      count=1,
+                      flags=re.I,
+                  )
+              if text != original:
+                  path.write_text(text, encoding='utf-8')
+
+          brand = root / 'css/brand-theme.css'
+          brand_text = brand.read_text(encoding='utf-8')
+          marker = '/* 3.4.1 — metric-stable local typography: prevents webfont layout shifts */'
+          if marker not in brand_text:
+              brand_text += f'''\n\n{marker}\n:root{{\n  --font-ui:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;\n  --font-display:Georgia,"Times New Roman",serif;\n  --font-mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;\n}}\nbody,button,input,select,textarea{{font-family:var(--font-ui)}}\nh1,h2,h3,.brand,.hero__seal strong{{font-family:var(--font-display)}}\n.kicker,.process-strip strong,.menu-card__visual,.menu-card__category,.journey li>span{{font-family:var(--font-mono)}}\n'''
+              brand.write_text(brand_text, encoding='utf-8')
+
+          pkg_path = root / 'package.json'
+          pkg = json.loads(pkg_path.read_text(encoding='utf-8'))
+          pkg['version'] = '3.4.1'
+          pkg['description'] = 'Static-first accessible pizzeria storefront — 3.4.1 performance stabilization with accessible ordering, mobile layout stability and published Lighthouse evidence.'
+          pkg.setdefault('scripts', {})['release:3.4.1'] = 'python tools/release-3-4-1-check.py'
+          pkg_path.write_text(json.dumps(pkg, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+          lock_path = root / 'package-lock.json'
+          lock = json.loads(lock_path.read_text(encoding='utf-8'))
+          lock['version'] = '3.4.1'
+          if isinstance(lock.get('packages'), dict) and '' in lock['packages']:
+              lock['packages']['']['version'] = '3.4.1'
+          lock_path.write_text(json.dumps(lock, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+          sw_path = root / 'service-worker.js'
+          sw = sw_path.read_text(encoding='utf-8')
+          sw = sw.replace('const VERSION = "3.4.0";', 'const VERSION = "3.4.1";')
+          sw = sw.replace('const CACHE_REVISION = "3.4.0-stabilization-r3";', 'const CACHE_REVISION = "3.4.1-performance-r1";')
+          sw_path.write_text(sw, encoding='utf-8')
+
+          manifest_path = root / 'data/release-manifest-v4.json'
+          manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+          manifest['version'] = '3.4.1'
+          manifest['name'] = '3.4.1 Performance Stabilization Release'
+          manifest['releasePolicy']['requiredBaseline'] = '3.4.1 current performance stabilization line'
+          qg = manifest.get('qualityGates', [])
+          if 'release:3.4.1' not in qg:
+              qg.append('release:3.4.1')
+          status = manifest.setdefault('status', {})
+          status['coreWebVitals'] = 'PUBLISHED_LIGHTHOUSE_BASELINE_CAPTURED_OPTIMIZATION_IN_PROGRESS'
+          status['releaseApproval'] = 'PENDING_3_4_1_CI_AND_PUBLISHED_LIGHTHOUSE_RETEST'
+          status['publishedLighthouseBaseline'] = {
+              'date': '2026-09-12',
+              'url': 'https://jplima-dev-ai.github.io/forno-dona-rosa/',
+              'mobile': {'performance': 70, 'fcpMs': 3160.192, 'lcpMs': 3310.192, 'tbtMs': 144, 'cls': 0.2819025027590169},
+              'desktop': {'performance': 96, 'fcpMs': 858.1815, 'lcpMs': 878.1815, 'tbtMs': 0, 'cls': 0.09069422274795164},
+              'note': 'Lab baseline on published 3.4.0; 3.4.1 retest required after deployment.'
+          }
+          manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+          gate = root / 'tools/release-3-4-1-check.py'
+          gate.write_text('''#!/usr/bin/env python3\nfrom pathlib import Path\nimport json, subprocess, sys\nr=Path(__file__).resolve().parents[1]\npkg=json.loads((r/'package.json').read_text(encoding='utf-8'))\nmanifest=json.loads((r/'data/release-manifest-v4.json').read_text(encoding='utf-8'))\nfail=[]\nif pkg.get('version')!='3.4.1': fail.append('package version must be 3.4.1')\nif manifest.get('version')!='3.4.1': fail.append('release manifest version must be 3.4.1')\nstatus=manifest.get('status',{})\nrun=status.get('lastWindowsBrowserRun',{})\nif status.get('browserMatrix')!='WINDOWS_CHROMIUM_PASS_403': fail.append('accepted Windows Chromium baseline is missing')\nif status.get('browserAccessibility')!='AUTOMATED_AXE_E2E_PASS': fail.append('automated accessibility baseline is missing')\nif run.get('passed')!=403 or run.get('failed')!=0 or run.get('skipped')!=17: fail.append('accepted Windows Playwright baseline counts changed unexpectedly')\nif status.get('nvda')!='MANUAL_PASS': fail.append('NVDA evidence must remain MANUAL_PASS')\nif status.get('talkback')!='MANUAL_PASS': fail.append('TalkBack evidence must remain MANUAL_PASS')\nif status.get('otherScreenReaders')!='NOT_TESTED_NO_ACCESS': fail.append('untested screen readers must remain explicitly unclaimed')\nif status.get('coreWebVitals') not in {'PUBLISHED_LIGHTHOUSE_BASELINE_CAPTURED_OPTIMIZATION_IN_PROGRESS','PUBLISHED_LIGHTHOUSE_RETEST_PASS'}: fail.append('3.4.1 Lighthouse evidence state is invalid')\nif fail:\n    for x in fail: print('FAIL',x)\n    sys.exit(1)\nres=subprocess.run([sys.executable,str(r/'tools/release-v4-1-9-check.py')],cwd=r)\nif res.returncode: sys.exit(res.returncode)\nprint('FORNO DONA ROSA 3.4.1 PERFORMANCE STABILIZATION GATE: PASS')\nprint('Manual AT evidence preserved. Published Lighthouse baseline recorded; post-deploy retest required before final performance approval.')\n''', encoding='utf-8')
+
+          build_path = root / 'STABILIZATION-BUILD.txt'
+          build = build_path.read_text(encoding='utf-8')
+          build = build.replace('3.4.0', '3.4.1')
+          build = re.sub(r'Build\s+\d+', 'Build 1', build)
+          build = build.replace('stabilization-r3', 'performance-r1')
+          build_path.write_text(build, encoding='utf-8')
+
+          # Remove this one-shot workflow before commit so it cannot recurse.
+          (root / '.github/workflows/apply-3-4-1-performance.yml').unlink()
+          PY
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "perf: stabilize mobile layout for 3.4.1"
+          git push origin release/3.4.1-performance
