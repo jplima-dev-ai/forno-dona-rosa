@@ -29,3 +29,10 @@
 @media(max-width:48rem){.article-feature{grid-template-columns:1fr}.article-feature img{min-height:0;aspect-ratio:1.35}.article-categories{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(var(--mobile-edge,1rem) * -1);padding-inline:var(--mobile-edge,1rem)}.article-category-link{min-width:min(78vw,19rem);scroll-snap-align:start}.article-grid{grid-template-columns:1fr}.article-detail__header{padding-top:5rem}.article-detail__hero{margin-inline:auto}.article-detail__hero img{border-radius:1rem}.newsletter-card__form{display:grid}.newsletter-card__form .btn{width:100%}}
 @media(forced-colors:active){.article-feature,.article-category-link,.article-card,.article-aside,.article-product-link,.newsletter-card,.newsletter-card input{border:1px solid CanvasText}}
 @media(prefers-reduced-motion:reduce){.article-categories{scroll-behavior:auto}}
+
+/* 3.4.1 - 320px location reflow: shrink cards and wrap long contact links. */
+@media(max-width:48rem){
+  .location-page__grid{grid-template-columns:minmax(0,1fr)}
+  .location-page__grid>*{min-width:0}
+  .location-page__grid a{overflow-wrap:anywhere}
+}

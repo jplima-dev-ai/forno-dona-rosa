@@ -27,10 +27,8 @@
   const LAST_ORDER_KEY = `${storageNamespace}-last-order-v1`;
   const LAST_ORDER_MAX_AGE_MS = 1000 * 60 * 60 * 24 * 45;
 
-  const money = (value) =>
-    new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
-      Number.isFinite(value) ? value : 0,
-    );
+  const currencyFormatter = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+  const money = (value) => currencyFormatter.format(Number.isFinite(value) ? value : 0);
 
   const menu = rawMenu.filter(
     (item) =>
@@ -243,6 +241,7 @@
   let deferredInstall = null;
   let lastMenuFilter = "todas";
   let menuSearch = "";
+  let menuRenderVersion = 0;
   let navPreviousFocus = null;
   let bagPreviousFocus = null;
   let productPreviousFocus = null;
@@ -499,10 +498,12 @@
     return query.split(" ").filter(Boolean).every((token) => words.some((word) => editDistanceAtMostOne(token, word)));
   };
 
-  function renderMenu(filter = lastMenuFilter) {
+  function renderMenu(filter = lastMenuFilter, { progressive = false } = {}) {
     const grid = $("#menu-grid");
     const status = $("#filter-status");
     if (!grid) return;
+
+    const renderVersion = ++menuRenderVersion;
     const validFilters = new Set(["todas", "favoritos", "bebidas", ...menu.map((p) => p.category)]);
     lastMenuFilter = validFilters.has(filter) ? filter : "todas";
     const query = normalizeSearch(menuSearch);
@@ -518,9 +519,14 @@
     });
 
     empty(grid);
-    if (items.length) {
-      items.forEach((product, index) => grid.append(buildMenuCard(product, index)));
-    } else {
+
+    const finishRender = () => {
+      if (renderVersion !== menuRenderVersion) return;
+      if (status) status.textContent = `${items.length} ${items.length === 1 ? "item exibido" : "itens exibidos"}.`;
+      renderFavoriteList();
+    };
+
+    if (!items.length) {
       const emptyState = el("div", { className: "menu-empty" });
       emptyState.append(
         el("strong", { text: "Não encontrei esse sabor." }),
@@ -529,9 +535,33 @@
         el("button", { className: "small-action", text: "Pedir ajuda à Rosa", attrs: { type: "button", "data-rosa-open": "", "data-rosa-context": "cardapio", "data-rosa-prompt": "Me indique uma pizza" } }),
       );
       grid.append(emptyState);
+      finishRender();
+      return;
     }
-    if (status) status.textContent = `${items.length} ${items.length === 1 ? "item exibido" : "itens exibidos"}.`;
-    renderFavoriteList();
+
+    if (!progressive || typeof requestAnimationFrame !== "function") {
+      const fragment = document.createDocumentFragment();
+      items.forEach((product, index) => fragment.append(buildMenuCard(product, index)));
+      grid.append(fragment);
+      finishRender();
+      return;
+    }
+
+    const CHUNK_SIZE = 4;
+    let index = 0;
+    const appendChunk = () => {
+      if (renderVersion !== menuRenderVersion) return;
+      const fragment = document.createDocumentFragment();
+      const end = Math.min(index + CHUNK_SIZE, items.length);
+      for (; index < end; index += 1) fragment.append(buildMenuCard(items[index], index));
+      grid.append(fragment);
+      if (index < items.length) {
+        requestAnimationFrame(appendChunk);
+        return;
+      }
+      finishRender();
+    };
+    requestAnimationFrame(appendChunk);
   }
 
   function initFilters() {
@@ -1790,7 +1820,7 @@
     initFilters();
     initFavoriteList();
     initReturningOrder();
-    renderMenu();
+    renderMenu(lastMenuFilter, { progressive: true });
     initProductDialog();
     initOrder();
     initCart();

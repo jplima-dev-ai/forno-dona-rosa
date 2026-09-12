@@ -1,8 +1,14 @@
 const { test, expect } = require('@playwright/test');
 
+async function waitForHomeRuntime(page) {
+  await page.waitForFunction(() => document.documentElement.dataset.fornoRuntime === 'hydrated');
+  await page.waitForFunction(() => window.FORNO_APP && window.ROSA);
+}
+
 test.describe('3.4.0 Rosa Order Concierge stabilization', () => {
   test('adds an explicitly sized pizza through natural language', async ({ page }) => {
     await page.goto('/');
+    await waitForHomeRuntime(page);
     await page.locator('button[data-rosa-open]').first().click();
     const input=page.locator('#rosa-input');
     await input.fill('quero uma calabresa grande');
@@ -17,6 +23,7 @@ test.describe('3.4.0 Rosa Order Concierge stabilization', () => {
 
   test('size change requires confirmation and then updates the bag', async ({ page }) => {
     await page.goto('/');
+    await waitForHomeRuntime(page);
     await page.evaluate(() => window.FORNO_APP.addConfiguredBundle([{pizzaId:'calabresa',pizza2Id:null,size:'grande',crust:'tradicional',qty:1,remove:'',notes:''}]));
     await page.locator('button[data-rosa-open]').first().click();
     const input=page.locator('#rosa-input');
@@ -32,6 +39,7 @@ test.describe('3.4.0 Rosa Order Concierge stabilization', () => {
 
   test('price question never mutates the bag', async ({ page }) => {
     await page.goto('/');
+    await waitForHomeRuntime(page);
     await page.evaluate(() => window.FORNO_APP.addConfiguredBundle([{pizzaId:'calabresa',pizza2Id:null,size:'grande',crust:'tradicional',qty:1,remove:'',notes:''}]));
     const before=await page.evaluate(() => JSON.stringify(window.FORNO_APP.getBagItems()));
     await page.locator('button[data-rosa-open]').first().click();

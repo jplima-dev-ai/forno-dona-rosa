@@ -15,3 +15,6 @@
 @media (hover:hover) and (pointer:fine){a:hover>.desire-media img,.desire-card:hover .desire-media img{transform:scale(1.025);filter:saturate(1.03) contrast(1.02)}}
 @media (prefers-reduced-motion:reduce){.desire-media img{transition:none!important}.desire-media img{transform:none!important}}
 @media (forced-colors:active){.desire-media{border:1px solid CanvasText;box-shadow:none}.desire-media::after{display:none}}
+
+/* 3.4.1 - runtime focal-point contract without the numbered utility table. */
+.focal-media{object-position:var(--focal-x,50%) var(--focal-y,50%)}

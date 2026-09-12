@@ -6,7 +6,7 @@ test('3.4.1 post-paint hydration keeps critical home flows operable', async ({ p
   await page.goto('/');
 
   await page.waitForFunction(() => document.documentElement.dataset.fornoRuntime === 'hydrated');
-  await page.waitForFunction(() => window.FORNO_APP && window.FORNO_CHECKOUT && window.FORNO_ROSA);
+  await page.waitForFunction(() => window.FORNO_APP && window.FORNO_CHECKOUT && window.ROSA);
 
   await expect(page.locator('.menu-card').first()).toBeVisible();
   const add = page.locator('[data-quick-add]').first();
