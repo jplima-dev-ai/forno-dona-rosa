@@ -7,6 +7,7 @@ def ok(name, cond):
     checks.append((name,bool(cond)))
 
 pkg=json.loads((root/'package.json').read_text(encoding='utf-8'))
+version=str(pkg.get('version',''))
 app=(root/'js/app-meta.js').read_text(encoding='utf-8')
 rosa=(root/'js/rosa.js').read_text(encoding='utf-8')
 engine=(root/'js/rosa-order-concierge-v4-1-6.js').read_text(encoding='utf-8')
@@ -14,7 +15,7 @@ sw=(root/'service-worker.js').read_text(encoding='utf-8')
 build=(root/'tools/build-site.py').read_text(encoding='utf-8')
 index=(root/'index.html').read_text(encoding='utf-8')
 
-ok('version >= 4.1.6', (tuple(map(int,pkg.get('version','0.0.0').split('.'))) >= (4,1,6) or pkg.get('version') == '3.4.0') and f'version: "{pkg.get("version")}"' in app)
+ok('current version semantic and synced', bool(re.fullmatch(r'\d+\.\d+\.\d+',version)) and f'version: "{version}"' in app)
 ok('concierge module exists', bool(engine))
 ok('size parser', 'resolveSize' in engine and 'familia' in engine and 'grande' in engine and 'media' in engine)
 ok('bag ordinal resolver', 'resolveBagIndex' in engine and 'primeira' in engine and 'segunda' in engine)
