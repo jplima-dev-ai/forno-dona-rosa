@@ -58,7 +58,7 @@ Prefira mensagens curtas e descritivas, por exemplo:
 ```text
 fix(checkout): restore focus after closing dialog
 feat(admin): validate variant availability
- docs(repo): clarify 3.4.0 release status
+docs(repo): clarify 3.4.0 release status
 ```
 
 ## Pull Requests
