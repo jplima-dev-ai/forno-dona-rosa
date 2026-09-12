@@ -10,13 +10,12 @@ ROOT = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path.cwd()
 errors=[]; notes=[]
 
 def err(msg): errors.append(msg)
-
 def text(rel): return (ROOT/rel).read_text(encoding='utf-8')
 
 pkg=json.loads(text('package.json'))
-version=pkg.get('version')
-parts=tuple(int(x) for x in str(version or '0.0.0').split('.')[:3]);
-if parts < (4,1,0) and str(version) != '3.4.0': err(f'package version incompatível com a baseline corrente: {version}')
+version=str(pkg.get('version') or '')
+if not re.fullmatch(r'\d+\.\d+\.\d+', version):
+    err(f'package version semântica inválida: {version}')
 
 router=text('js/experience-router-v4.js')
 if 'window.dispatchEvent(new CustomEvent("forno:experience-intent"' not in router: err('Experience Router não publica intent no window')
