@@ -1,0 +1,54 @@
+name: Lighthouse 3.4.1 PR
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse-3-4-1:
+    if: github.head_ref == 'release/3.4.1-performance'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install build dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Build 3.4.1
+        run: npm run build
+      - name: Start local production server
+        shell: bash
+        run: |
+          python -m http.server 4173 --bind 127.0.0.1 > /tmp/forno-http.log 2>&1 &
+          echo $! > /tmp/forno-http.pid
+          for i in {1..20}; do curl -fsS http://127.0.0.1:4173/ >/dev/null && break; sleep 1; done
+      - name: Measure mobile Lighthouse
+        shell: bash
+        run: |
+          npx --yes lighthouse@latest http://127.0.0.1:4173/ --only-categories=performance --output=json --output-path=./lh-mobile.json --chrome-flags="--headless --no-sandbox"
+          node - <<'NODE'
+          const fs=require('fs'); const r=JSON.parse(fs.readFileSync('lh-mobile.json','utf8')); const a=r.audits;
+          const out={performance:Math.round(r.categories.performance.score*100),fcpMs:a['first-contentful-paint'].numericValue,lcpMs:a['largest-contentful-paint'].numericValue,tbtMs:a['total-blocking-time'].numericValue,cls:a['cumulative-layout-shift'].numericValue,speedIndexMs:a['speed-index'].numericValue};
+          console.log('LIGHTHOUSE_3_4_1_MOBILE='+JSON.stringify(out));
+          if(out.cls>0.10) throw new Error(`CLS ${out.cls} exceeds 0.10 target`);
+          if(out.lcpMs>2500) throw new Error(`LCP ${out.lcpMs}ms exceeds 2500ms target`);
+          NODE
+      - name: Measure desktop Lighthouse
+        shell: bash
+        run: |
+          npx --yes lighthouse@latest http://127.0.0.1:4173/ --preset=desktop --only-categories=performance --output=json --output-path=./lh-desktop.json --chrome-flags="--headless --no-sandbox"
+          node - <<'NODE'
+          const fs=require('fs'); const r=JSON.parse(fs.readFileSync('lh-desktop.json','utf8')); const a=r.audits;
+          const out={performance:Math.round(r.categories.performance.score*100),fcpMs:a['first-contentful-paint'].numericValue,lcpMs:a['largest-contentful-paint'].numericValue,tbtMs:a['total-blocking-time'].numericValue,cls:a['cumulative-layout-shift'].numericValue,speedIndexMs:a['speed-index'].numericValue};
+          console.log('LIGHTHOUSE_3_4_1_DESKTOP='+JSON.stringify(out));
+          if(out.cls>0.10) throw new Error(`Desktop CLS ${out.cls} exceeds 0.10 target`);
+          NODE
