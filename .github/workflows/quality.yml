@@ -3,7 +3,8 @@ on:
   push:
   pull_request:
 jobs:
-  quality:
+  quality-matrix:
+    name: quality (${{ matrix.os }})
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
@@ -20,3 +21,11 @@ jobs:
         run: python -m pip install -r requirements-dev.txt
       - name: Run reproducible quality gate
         run: npm run quality
+
+  quality:
+    name: quality
+    needs: quality-matrix
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirm quality matrix passed
+        run: echo "Ubuntu and Windows quality gates passed."
