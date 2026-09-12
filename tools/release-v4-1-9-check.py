@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import subprocess,sys,json
+import subprocess,sys,json,re
+
 r=Path(__file__).resolve().parents[1]
 pkg=json.loads((r/'package.json').read_text(encoding='utf-8'))
-if pkg.get('version')!='3.4.0': print('FAIL release version 3.4.0'); sys.exit(1)
+version=str(pkg.get('version',''))
+if not re.fullmatch(r'\d+\.\d+\.\d+',version):
+    print('FAIL current package version is not semantic')
+    sys.exit(1)
+
 steps=[
  [sys.executable,str(r/'tools/variant-commerce-v4-1-check.py')],
  [sys.executable,str(r/'tools/pizza-configurator-v4-1-1-check.py')],
@@ -19,6 +24,7 @@ steps=[
 ]
 for cmd in steps:
     res=subprocess.run(cmd,cwd=r)
-    if res.returncode: sys.exit(res.returncode)
-print('FORNO DONA ROSA 3.4.0 STABILIZATION RELEASE GATE: PASS')
-print('Nota: este gate preserva a cadeia histórica. Na 3.4.0, Playwright Windows está registrado como PASS; NVDA no Windows e TalkBack no Android possuem evidência manual registrada; outros leitores permanecem não testados por falta de acesso; CWV publicado permanece pendente.')
+    if res.returncode:
+        sys.exit(res.returncode)
+print(f'FORNO DONA ROSA {version} HISTORICAL CAPABILITY CHAIN: PASS')
+print('Nota: este gate preserva a cadeia técnica 4.1.x. Evidência manual de NVDA no Windows e TalkBack no Android continua registrada na release 3.4.0; uma patch release não recebe novo claim manual sem execução humana correspondente.')
