@@ -27,17 +27,24 @@ A execução incluiu rotas, deep links de produto, Axe serious/critical, contrat
 - Audit: PASS.
 - Release Forensic: PASS.
 
+## Evidência manual de tecnologia assistiva
+- **NVDA no Windows:** **MANUAL PASS**, validado pelo responsável pelo projeto em uso real.
+- **TalkBack no Android:** **MANUAL PASS**, validado pelo responsável pelo projeto em uso real.
+- **JAWS:** não testado; sem acesso ao leitor/ambiente necessário.
+- **Narrator:** não testado nesta evidência.
+- **VoiceOver:** não testado; sem acesso ao ecossistema/dispositivo necessário.
+
+A ausência de teste em JAWS, Narrator e VoiceOver não é convertida em falha nem em aprovação. O repositório registra apenas evidência realmente executada.
+
 ## Ainda pendente
-- NVDA humano: **MANUAL_REQUIRED**.
-- Narrator/JAWS/VoiceOver: não executados nesta evidência.
 - Core Web Vitals no ambiente publicado: medição pendente.
 
 ## Decisão
-A matriz automatizada de navegador da 3.4.0 está **PASS**. Acessibilidade automatizada está **PASS**, mas isso não substitui leitor de tela real. A aprovação de acessibilidade assistiva continua pendente do teste manual com NVDA.
+A matriz automatizada de navegador da 3.4.0 está **PASS**. A acessibilidade automatizada está **PASS** e há evidência manual registrada para **NVDA no Windows** e **TalkBack no Android**. Outros leitores de tela permanecem explicitamente não testados por falta de acesso, sem alegação de compatibilidade certificada.
 
 ## Última revisão pelas habilidades do projeto
 - Responsive Engineering: nenhum novo defeito encontrado; `outline:none` inspecionado possui substituto `:focus-visible`, e os `overflow-x:hidden` observados apenas contêm trilhos horizontalmente roláveis já validados pela matriz de reflow.
-- Accessibility Nexus: automação permanece distinta de NVDA humano; nenhum claim manual foi promovido.
+- Accessibility Nexus: automação permanece distinta de teste humano; NVDA e TalkBack foram promovidos somente após validação manual informada pelo responsável pelo projeto.
 - Aegis Forensics: corrigidos drifts de gate/documentação, sem patch cosmético no runtime.
 - Premium Adaptive Architecture: nenhuma nova feature foi adicionada; hierarquia e fluxos comerciais foram preservados.
 - `npm run quality` foi executado novamente e avançou por grande parte da cadeia até ser interrompido pelo limite de tempo do ambiente, sem falha reportada antes do timeout. Os gates diretamente afetados por esta revisão foram executados individualmente e passaram.
