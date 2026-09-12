@@ -18,6 +18,7 @@ Principais mudanças:
 - redução da home para um único stylesheet bloqueante;
 - hidratação pós-paint dos scripts da home, preservando a ordem original;
 - sincronização de versão em package, app meta, service worker, HTML e manifesto;
+- sincronização reprodutível da versão do Admin Studio via `tools/sync-admin-version.py`, executada pelo `npm run build`;
 - modernização de gates históricos para validar capacidades reais, sem exigir artificialmente numeração 4.x.
 
 ## Baseline publicada — 3.4.0
