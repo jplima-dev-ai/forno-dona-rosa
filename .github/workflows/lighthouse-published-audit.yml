@@ -1,0 +1,68 @@
+name: Published Lighthouse Audit
+
+on:
+  push:
+    branches:
+      - audit/published-cwv-3.4.0
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse-published:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run published mobile Lighthouse
+        shell: bash
+        run: |
+          npx --yes lighthouse@latest https://jplima-dev-ai.github.io/forno-dona-rosa/ \
+            --only-categories=performance \
+            --output=json \
+            --output-path=./lighthouse-mobile.json \
+            --chrome-flags="--headless --no-sandbox"
+          node - <<'NODE'
+          const fs = require('fs');
+          const r = JSON.parse(fs.readFileSync('lighthouse-mobile.json','utf8'));
+          const a = r.audits;
+          const out = {
+            mode: 'mobile-default',
+            url: r.finalDisplayedUrl,
+            performanceScore: Math.round((r.categories.performance.score || 0) * 100),
+            fcpMs: a['first-contentful-paint'].numericValue,
+            lcpMs: a['largest-contentful-paint'].numericValue,
+            tbtMs: a['total-blocking-time'].numericValue,
+            cls: a['cumulative-layout-shift'].numericValue,
+            speedIndexMs: a['speed-index'].numericValue
+          };
+          console.log('LIGHTHOUSE_PUBLISHED_MOBILE=' + JSON.stringify(out));
+          NODE
+      - name: Run published desktop Lighthouse
+        shell: bash
+        run: |
+          npx --yes lighthouse@latest https://jplima-dev-ai.github.io/forno-dona-rosa/ \
+            --preset=desktop \
+            --only-categories=performance \
+            --output=json \
+            --output-path=./lighthouse-desktop.json \
+            --chrome-flags="--headless --no-sandbox"
+          node - <<'NODE'
+          const fs = require('fs');
+          const r = JSON.parse(fs.readFileSync('lighthouse-desktop.json','utf8'));
+          const a = r.audits;
+          const out = {
+            mode: 'desktop',
+            url: r.finalDisplayedUrl,
+            performanceScore: Math.round((r.categories.performance.score || 0) * 100),
+            fcpMs: a['first-contentful-paint'].numericValue,
+            lcpMs: a['largest-contentful-paint'].numericValue,
+            tbtMs: a['total-blocking-time'].numericValue,
+            cls: a['cumulative-layout-shift'].numericValue,
+            speedIndexMs: a['speed-index'].numericValue
+          };
+          console.log('LIGHTHOUSE_PUBLISHED_DESKTOP=' + JSON.stringify(out));
+          NODE
