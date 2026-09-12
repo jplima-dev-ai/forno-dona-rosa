@@ -1,7 +1,7 @@
 "use strict";
 
-const VERSION = "3.4.0";
-const CACHE_REVISION = "3.4.0-stabilization-r3";
+const VERSION = "3.4.1";
+const CACHE_REVISION = "3.4.1-performance-r1";
 const CORE_CACHE = `forno-core-${VERSION}-${CACHE_REVISION}`;
 const RUNTIME_CACHE = `forno-runtime-${VERSION}-${CACHE_REVISION}`;
 const RUNTIME_LIMIT = 24;

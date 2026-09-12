@@ -1,6 +1,6 @@
 {
-  "version": "3.4.0",
-  "name": "3.4.0 Stabilization Release",
+  "version": "3.4.1",
+  "name": "3.4.1 Performance Stabilization Release",
   "productLine": "Configurable Local Commerce + Accessible Ordering Intelligence",
   "skills": [
     "adaptive-digital-experience",
@@ -11,7 +11,7 @@
   ],
   "releasePolicy": {
     "standaloneBaselineIncluded": true,
-    "requiredBaseline": "3.4.0 current stabilization line",
+    "requiredBaseline": "3.4.1 current performance stabilization line",
     "backupBeforeMutation": true,
     "manualATRequiredForClaim": true,
     "publishedCWVRequiredForClaim": true,
@@ -26,7 +26,8 @@
     "accessibility-fortress:gate",
     "signature-commerce:gate",
     "release:3.4.0",
-    "forensic:gate"
+    "forensic:gate",
+    "release:3.4.1"
   ],
   "status": {
     "structuralPackage": "LOCAL_PASS",
@@ -36,8 +37,8 @@
     "nvda": "MANUAL_PASS",
     "talkback": "MANUAL_PASS",
     "otherScreenReaders": "NOT_TESTED_NO_ACCESS",
-    "coreWebVitals": "REQUIRES_PUBLISHED_MEASUREMENT",
-    "releaseApproval": "PENDING_PUBLISHED_CWV_EVIDENCE",
+    "coreWebVitals": "PUBLISHED_LIGHTHOUSE_BASELINE_CAPTURED_OPTIMIZATION_IN_PROGRESS",
+    "releaseApproval": "PENDING_3_4_1_CI_AND_PUBLISHED_LIGHTHOUSE_RETEST",
     "lastWindowsBrowserRun": {
       "date": "2026-09-08",
       "passed": 403,
@@ -52,6 +53,25 @@
         "chromium-tablet",
         "chromium-landscape"
       ]
+    },
+    "publishedLighthouseBaseline": {
+      "date": "2026-09-12",
+      "url": "https://jplima-dev-ai.github.io/forno-dona-rosa/",
+      "mobile": {
+        "performance": 70,
+        "fcpMs": 3160.192,
+        "lcpMs": 3310.192,
+        "tbtMs": 144,
+        "cls": 0.2819025027590169
+      },
+      "desktop": {
+        "performance": 96,
+        "fcpMs": 858.1815,
+        "lcpMs": 878.1815,
+        "tbtMs": 0,
+        "cls": 0.09069422274795164
+      },
+      "note": "Lab baseline on published 3.4.0; 3.4.1 retest required after deployment."
     }
   }
 }

@@ -1,8 +1,8 @@
 {
   "name": "forno-dona-rosa-template-factory",
-  "version": "3.4.0",
+  "version": "3.4.1",
   "private": true,
-  "description": "Static-first accessible pizzeria storefront — 3.4.0 stabilization line with configurable pizza commerce, assistive ordering, intelligent Bag editing, Rosa concierge and hardened release quality gates.",
+  "description": "Static-first accessible pizzeria storefront — 3.4.1 performance stabilization with accessible ordering, mobile layout stability and published Lighthouse evidence.",
   "scripts": {
     "check:js": "node --check js/variant-commerce-v4-1.js && node --check js/pizza-configurator-v4-1-1.js && node --check js/smart-portion-v4-1-2.js && node --check js/mesa-dona-rosa-v4-1-3.js && node --check js/smart-pairing-v4-1-4.js && node --check js/intelligent-bag-v4-1-5.js && node --check js/rosa-order-concierge-v4-1-6.js && node --check js/main.js && node --check js/rosa.js && node --check js/checkout.js && node --check js/checkout-state.js && node --check js/commerce-events.js && node --check js/repositories.js && node --check js/postal-code-service.js && node --check js/analytics-adapter.js && node --check js/site-pages.js && node --check js/global-search.js && node --check data/commerce-config.js && node --check js/business-status.js && node --check js/storefront.js && node --check js/admin-core.js && node --check js/admin-history.js && node --check js/admin-persistence.js && node --check js/admin.js && node --check js/admin-media-content.js && node --check js/newsletter.js && node --check js/admin-editorial.js && node --check js/visual-media-v4.js && node --check js/smart-menu-v4.js && node --check js/rosa-context-v4.js && node --check js/adaptive-commerce-v4.js && node --check js/conversion-intelligence-v4.js && node --check js/admin-health-v4.js && node --check js/resilience-v4.js && node --check js/premium-release-v4.js",
     "audit": "python tools/audit.py",
@@ -66,7 +66,8 @@
     "release-v4.1.8:gate": "python tools/release-v4-1-8-check.py",
     "signature-commerce:gate": "python tools/signature-commerce-v4-1-9-check.py && node tools/signature-commerce-v4-1-9-behavior-check.js",
     "test:signature-commerce": "playwright test tests/e2e/signature-commerce-v4-1-9.spec.js",
-    "release:3.4.0": "python tools/release-3-4-0-check.py"
+    "release:3.4.0": "python tools/release-3-4-0-check.py",
+    "release:3.4.1": "python tools/release-3-4-1-check.py"
   },
   "engines": {
     "node": ">=20",
