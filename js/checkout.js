@@ -355,5 +355,7 @@
     field("checkout-confirm").disabled=!navigator.onLine;updateSavedAddressControl();
   }
 
-  window.FORNO_CHECKOUT=Object.freeze({open,close,lookupPostalCode,readForm,messageForWhatsApp,validateSchedule});document.addEventListener("DOMContentLoaded",init);
+  window.FORNO_CHECKOUT=Object.freeze({open,close,lookupPostalCode,readForm,messageForWhatsApp,validateSchedule});
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true });
+  else if (document.readyState === "interactive" || document.readyState === "complete") init();
 })();

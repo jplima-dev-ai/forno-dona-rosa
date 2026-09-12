@@ -1,4 +1,4 @@
-> **Versão corrente: 3.4.0 — Stabilization Release.** Esta é a versão publicada e suportada até nova ordem explícita.
+> **Versão corrente em validação: 3.4.1 — Performance Stabilization.** A `v3.4.0` permanece a última release formal publicada até a conclusão dos gates e da medição da 3.4.1 no GitHub Pages.
 
 # Forno Dona Rosa
 
@@ -7,29 +7,43 @@
 
 **Plataforma web premium, acessível, mobile-first, static-first e white-label para pizzarias de pequeno e médio porte.**
 
-[Release 3.4.0](https://github.com/jplima-dev-ai/forno-dona-rosa/releases/tag/v3.4.0) · [Documentação](docs/README.md) · [Changelog](CHANGELOG.md) · [Segurança](SECURITY.md) · [Admin Studio](docs/admin/ADMIN-STUDIO.md)
+[Release 3.4.0](https://github.com/jplima-dev-ai/forno-dona-rosa/releases/tag/v3.4.0) · [Evidência 3.4.1](docs/releases/evidence/v3.4.1/summary.md) · [Documentação](docs/README.md) · [Changelog](CHANGELOG.md) · [Segurança](SECURITY.md) · [Admin Studio](docs/admin/ADMIN-STUDIO.md)
 
 O Forno Dona Rosa combina catálogo orientado a dados, páginas de produto, variantes Média/Grande/Família, configurador acessível, Sacola persistente, checkout, entrega ou retirada, agendamento, Pix ou dinheiro, busca global, PWA, Rosa Order Concierge, arquitetura white-label, Admin Studio e quality gates automatizados.
 
 A interface pública e a documentação são escritas em **português brasileiro**. Nomes técnicos de arquivos, módulos, scripts e checkers permanecem em inglês quando isso melhora manutenção e rastreabilidade.
 
-## Estado oficial da 3.4.0
+## Estado da 3.4.1
 
-A release 3.4.0 é a linha atual e oficial do produto.
+A 3.4.1 é uma atualização de estabilização de performance mobile. Ela não amplia a superfície funcional do produto; preserva os fluxos já validados e trabalha sobre gargalos medidos na versão publicada.
 
-Evidência consolidada:
+Baseline publicada da 3.4.0 em 12 de setembro de 2026:
 
-- Windows Playwright: **403 passed, 0 failed, 17 skipped (8.4m)**;
+- Lighthouse mobile: **Performance 70, LCP 3,31 s, CLS 0,282**;
+- Lighthouse desktop: **Performance 96, LCP 0,88 s, CLS 0,091**;
+- causa comprovada do CLS mobile: troca tardia das webfonts Manrope, Fraunces e Space Mono;
+- LCP mobile observado: bloco `experience-router__grid`, com atraso de renderização relevante.
+
+Mudanças da 3.4.1 em validação:
+
+- remoção de Google Fonts do caminho crítico e uso de stacks tipográficas locais estáveis;
+- correção da geometria intrínseca da imagem principal;
+- bundle CSS único da home preservando a ordem da cascata;
+- hidratação do runtime após o primeiro paint, preservando a ordem dos scripts;
+- cache, manifesto e metadados alinhados com 3.4.1;
+- gates de Quality, Browser Certification e Lighthouse executados antes da publicação.
+
+A evidência final da 3.4.1 só será declarada PASS após os checks obrigatórios e o reteste da URL efetivamente publicada no GitHub Pages.
+
+## Evidência de acessibilidade preservada
+
+- Windows Playwright aceito como baseline: **403 passed, 0 failed, 17 skipped (8.4m)**;
 - matriz: desktop, 320 px, 390 px, 430 px, tablet e landscape;
 - Axe serious/critical: PASS na matriz automatizada executada;
 - reflow, rotas, checkout, Sacola, Rosa, Admin e fluxos críticos de comércio: PASS;
-- GitHub Actions `Quality`: PASS;
-- GitHub Actions `Browser Certification`: PASS;
-- GitHub Pages build/deployment: PASS;
 - **NVDA no Windows: teste manual PASS**;
 - **TalkBack no Android: teste manual PASS**;
-- **JAWS, Narrator e VoiceOver: não testados**, pois o responsável pelo projeto não possui acesso aos ambientes/dispositivos necessários para validá-los com evidência real;
-- Core Web Vitals em ambiente publicado: medição pendente.
+- **JAWS, Narrator e VoiceOver: não testados**, pois o responsável pelo projeto não possui acesso aos ambientes/dispositivos necessários para validá-los com evidência real.
 
 Automação não substitui validação humana com tecnologia assistiva. O projeto registra como aprovados apenas os leitores de tela realmente testados: **NVDA no Windows** e **TalkBack no Android**. Outros leitores permanecem explicitamente sem claim de aprovação.
 
@@ -159,7 +173,7 @@ npm.cmd run docs
 npm.cmd run doctor
 npm.cmd run security
 npm.cmd run browser:gate
-npm.cmd run release:3.4.0
+npm.cmd run release:3.4.1
 npm.cmd run quality
 ```
 
@@ -200,16 +214,17 @@ A implementação de referência é Dona Rosa, mas os contratos de marca, catál
 
 Alguns arquivos, módulos e checkers mantêm nomes históricos como `variant-commerce-v4-1.js`, `rosa-order-concierge-v4-1-6.js` e `release-v4-1-9-check.py`. Esses identificadores representam a **linhagem técnica de desenvolvimento** e foram preservados para compatibilidade, auditoria e rastreabilidade.
 
-Eles **não representam a versão pública atual**. A versão corrente do produto, do `package.json`, dos metadados, da release e da documentação oficial é **3.4.0**.
+Eles **não representam a versão pública atual**. A versão corrente da linha em validação, do `package.json`, dos metadados e da documentação de desenvolvimento é **3.4.1**. A tag formal `v3.4.0` permanece imutável como release anterior até que a 3.4.1 conclua seu processo de publicação.
 
 ## Qualidade e evidências
 
-A release 3.4.0 possui evidência automatizada de browser e CI, além de validação manual com NVDA e TalkBack, registrada em:
+A 3.4.1 preserva a evidência automatizada e manual aceita da 3.4.0 e adiciona evidência específica de performance em:
 
-- `docs/RELEASE-3.4.0.md`;
-- `docs/releases/evidence/v3.4.0/summary.md`;
+- `docs/releases/evidence/v3.4.1/summary.md`;
+- `docs/RELEASE-3.4.0.md` como registro da release anterior;
+- `docs/releases/evidence/v3.4.0/summary.md` como baseline histórica;
 - GitHub Actions;
-- GitHub Release `v3.4.0`.
+- GitHub Release `v3.4.0` até a publicação formal da nova release.
 
 Os gates distinguem claramente:
 

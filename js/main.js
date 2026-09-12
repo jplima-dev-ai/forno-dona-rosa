@@ -1557,11 +1557,13 @@
   function initPWA() {
     if (features.pwa === false) return;
     if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
-      window.addEventListener("load", () => {
+      const registerServiceWorker = () => {
         navigator.serviceWorker.register(window.FORNO_META?.resolve?.("service-worker.js") || "./service-worker.js", { scope: new URL("./", window.FORNO_META?.siteRoot || location.href).pathname }).catch(() => {
           showTransientStatus("Modo offline indisponível neste navegador.");
         });
-      });
+      };
+      if (document.readyState === "complete") registerServiceWorker();
+      else window.addEventListener("load", registerServiceWorker, { once: true });
     }
 
     window.addEventListener("beforeinstallprompt", (event) => {
@@ -1779,7 +1781,7 @@
     },
   });
 
-  document.addEventListener("DOMContentLoaded", () => {
+  function initApp() {
     persistNormalizedState();
     initWhatsApp();
     initRoute();
@@ -1800,5 +1802,11 @@
     initCommerceStatus();
     initStorageSync();
     announceBagReconciliation();
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initApp, { once: true });
+  } else if (document.readyState === "interactive" || document.readyState === "complete") {
+    initApp();
+  }
 })();

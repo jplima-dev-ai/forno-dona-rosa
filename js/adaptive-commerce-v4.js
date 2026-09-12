@@ -195,7 +195,8 @@
   });
   window.addEventListener("forno:business-status", () => render({ announce: false }));
   window.addEventListener("storage", () => render({ announce: false }));
-  document.addEventListener("DOMContentLoaded", init);
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true });
+  else if (document.readyState === "interactive" || document.readyState === "complete") init();
 
   window.FORNO_ADAPTIVE_COMMERCE = Object.freeze({ snapshot, chooseState, modelFor, render });
 })();

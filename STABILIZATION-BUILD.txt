@@ -1,11 +1,11 @@
 Forno Dona Rosa
-Product version: 3.4.0
+Product version: 3.4.1
 Stabilization build: 3
-Cache revision: 3.4.0-stabilization-r3
+Cache revision: 3.4.1-performance-r1
 
 This build consolidates the final automated-browser review and governance cleanup:
 - Windows Playwright evidence recorded as 403 passed, 0 failed, 17 skipped;
 - release manifest and current release docs no longer request a browser retest that already passed;
 - package release-v4.1.7 gate alias points to the correct 4.1.7 checker;
-- a dedicated release:3.4.0 evidence gate validates the accepted Windows counts while preserving NVDA as MANUAL_REQUIRED;
+- a dedicated release:3.4.1 evidence gate validates the accepted Windows counts while preserving NVDA as MANUAL_REQUIRED;
 - historical signature gates accept truthful PASS evidence instead of only pre-test pending states.

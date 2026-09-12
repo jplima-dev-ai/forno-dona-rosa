@@ -1,10 +1,12 @@
 from pathlib import Path
 checks=[]
-def c(name,ok): checks.append((name,ok)); print(('PASS' if ok else 'FAIL'), name)
+def c(name,ok):
+    checks.append((name,ok)); print(('PASS' if ok else 'FAIL'), name)
 main=Path('js/main.js').read_text(encoding='utf-8')
 helper=Path('js/intelligent-bag-v4-1-5.js').read_text(encoding='utf-8')
 css=Path('css/intelligent-bag-v4-1-5.css').read_text(encoding='utf-8')
 idx=Path('index.html').read_text(encoding='utf-8')
+bundle=Path('css/home-bundle.css').read_text(encoding='utf-8') if Path('css/home-bundle.css').exists() else ''
 sw=Path('service-worker.js').read_text(encoding='utf-8')
 build=Path('tools/build-site.py').read_text(encoding='utf-8')
 c('helper module exists', 'FORNO_INTELLIGENT_BAG' in helper)
@@ -17,9 +19,11 @@ c('price recalculation uses normalization', 'const candidate = normalizeCartItem
 c('focus lifecycle', 'aria-expanded' in main and 'Edição cancelada' in main)
 c('responsive CSS', '@media(max-width:38rem)' in css)
 c('forced colors CSS', 'forced-colors:active' in css)
-c('home runtime loaded', 'intelligent-bag-v4-1-5.js' in idx and 'intelligent-bag-v4-1-5.css' in idx)
+c('home runtime loaded', 'intelligent-bag-v4-1-5.js' in idx)
+c('home stylesheet wired', 'intelligent-bag-v4-1-5.css' in idx or 'source: css/intelligent-bag-v4-1-5.css' in bundle)
 c('generated pages runtime', 'intelligent-bag-v4-1-5.js' in build and 'intelligent-bag-v4-1-5.css' in build)
 c('offline shell', 'intelligent-bag-v4-1-5.js' in sw and 'intelligent-bag-v4-1-5.css' in sw)
 c('Bag schema not bumped unnecessarily', 'bagSchemaVersion: 4' in Path('js/app-meta.js').read_text(encoding='utf-8'))
-if not all(ok for _,ok in checks): raise SystemExit(1)
+if not all(ok for _,ok in checks):
+    raise SystemExit(1)
 print(f'{len(checks)}/{len(checks)} intelligent-bag checks passed')

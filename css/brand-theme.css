@@ -18,3 +18,14 @@ html[data-feature-reorder="off"] #returning-order{display:none!important}
 html[data-feature-product-search="off"] .menu-search{display:none!important}
 html[data-feature-half-and-half="off"] [data-capability="halfAndHalf"]{display:none!important}
 html[data-feature-pwa="off"] #install-app{display:none!important}
+
+
+/* 3.4.1 — metric-stable local typography: prevents webfont layout shifts */
+:root{
+  --font-ui:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --font-display:Georgia,"Times New Roman",serif;
+  --font-mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+}
+body,button,input,select,textarea{font-family:var(--font-ui)}
+h1,h2,h3,.brand,.hero__seal strong{font-family:var(--font-display)}
+.kicker,.process-strip strong,.menu-card__visual,.menu-card__category,.journey li>span{font-family:var(--font-mono)}

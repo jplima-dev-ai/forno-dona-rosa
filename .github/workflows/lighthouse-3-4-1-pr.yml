@@ -1,0 +1,67 @@
+name: Lighthouse 3.4.1 PR
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse-3-4-1:
+    if: github.head_ref == 'release/3.4.1-performance'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install build dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Build 3.4.1
+        run: npm run build
+      - name: Start local production server
+        shell: bash
+        run: |
+          python -m http.server 4173 --bind 127.0.0.1 > /tmp/forno-http.log 2>&1 &
+          for i in {1..20}; do curl -fsS http://127.0.0.1:4173/ >/dev/null && break; sleep 1; done
+      - name: Measure mobile Lighthouse
+        shell: bash
+        run: |
+          npx --yes lighthouse@latest http://127.0.0.1:4173/ --only-categories=performance --output=json --output-path=./lh-mobile.json --chrome-flags="--headless --no-sandbox"
+          node - <<'NODE'
+          const fs=require('fs'); const r=JSON.parse(fs.readFileSync('lh-mobile.json','utf8')); const a=r.audits;
+          const out={performance:Math.round(r.categories.performance.score*100),fcpMs:a['first-contentful-paint'].numericValue,lcpMs:a['largest-contentful-paint'].numericValue,tbtMs:a['total-blocking-time'].numericValue,cls:a['cumulative-layout-shift'].numericValue,speedIndexMs:a['speed-index'].numericValue};
+          const compact=v=>JSON.stringify(v??null).slice(0,16000);
+          console.log('LIGHTHOUSE_3_4_1_MOBILE='+JSON.stringify(out));
+          console.log('LIGHTHOUSE_3_4_1_LCP_BREAKDOWN='+compact(a['lcp-breakdown-insight']?.details));
+          console.log('LIGHTHOUSE_3_4_1_RENDER_BLOCKING='+compact(a['render-blocking-insight']?.details));
+          console.log('LIGHTHOUSE_3_4_1_CLS_CULPRITS='+compact(a['cls-culprits-insight']?.details));
+          NODE
+      - name: Measure desktop Lighthouse
+        shell: bash
+        run: |
+          npx --yes lighthouse@latest http://127.0.0.1:4173/ --preset=desktop --only-categories=performance --output=json --output-path=./lh-desktop.json --chrome-flags="--headless --no-sandbox"
+          node - <<'NODE'
+          const fs=require('fs'); const r=JSON.parse(fs.readFileSync('lh-desktop.json','utf8')); const a=r.audits;
+          const out={performance:Math.round(r.categories.performance.score*100),fcpMs:a['first-contentful-paint'].numericValue,lcpMs:a['largest-contentful-paint'].numericValue,tbtMs:a['total-blocking-time'].numericValue,cls:a['cumulative-layout-shift'].numericValue,speedIndexMs:a['speed-index'].numericValue};
+          console.log('LIGHTHOUSE_3_4_1_DESKTOP='+JSON.stringify(out));
+          NODE
+      - name: Enforce 3.4.1 performance targets
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const m=JSON.parse(fs.readFileSync('lh-mobile.json','utf8')); const d=JSON.parse(fs.readFileSync('lh-desktop.json','utf8'));
+          const ma=m.audits, da=d.audits;
+          const mobile={lcp:ma['largest-contentful-paint'].numericValue,cls:ma['cumulative-layout-shift'].numericValue};
+          const desktop={cls:da['cumulative-layout-shift'].numericValue};
+          if(mobile.cls>0.10) throw new Error(`Mobile CLS ${mobile.cls} exceeds 0.10 target`);
+          if(mobile.lcp>2500) throw new Error(`Mobile LCP ${mobile.lcp}ms exceeds 2500ms target`);
+          if(desktop.cls>0.10) throw new Error(`Desktop CLS ${desktop.cls} exceeds 0.10 target`);
+          NODE

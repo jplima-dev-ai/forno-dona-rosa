@@ -17,6 +17,12 @@ pass("configured Bag mutation API remains present",()=>assert(/updateBagItem/.te
 pass("Rosa edits still require confirmation intent",()=>assert(/concierge-confirm-edit/.test(concierge)&&/pendingAction/.test(concierge)));
 pass("Mesa still uses atomic configured bundle path",()=>assert(/addConfiguredBundle/.test(mesa)));
 pass("checkout still discloses manual WhatsApp handoff",()=>assert(/automatic|automaticamente|manual/i.test(checkout)));
-pass("release manifest refuses fake final approval",()=>assert(["PENDING_FINAL_EVIDENCE","PENDING_3.4.0_FINAL_EVIDENCE","PENDING_NVDA_AND_PUBLISHED_CWV_EVIDENCE","PENDING_PUBLISHED_CWV_EVIDENCE"].includes(manifest.status.releaseApproval)));
+pass("release manifest refuses fake final approval",()=>assert([
+  "PENDING_FINAL_EVIDENCE",
+  "PENDING_3.4.0_FINAL_EVIDENCE",
+  "PENDING_NVDA_AND_PUBLISHED_CWV_EVIDENCE",
+  "PENDING_PUBLISHED_CWV_EVIDENCE",
+  "PENDING_3_4_1_CI_AND_PUBLISHED_LIGHTHOUSE_RETEST"
+].includes(manifest.status.releaseApproval)));
 pass("runtime menu still exposes 32 canonical products",()=>{const ids=(menu.match(/\bid:\s*["'][^"']+["']/g)||[]); assert(ids.length>=32);});
 console.log(`\n${n}/${n} Signature Commerce adversarial checks passed`);
