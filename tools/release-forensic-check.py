@@ -24,6 +24,10 @@ if 'detail: { intent: routeId, routeId }' not in router: err('Experience Router 
 adaptive=text('js/adaptive-commerce-v4.js')
 if 'snap.business.open === false' not in adaptive: err('Adaptive Commerce não reconhece business.open')
 
+loader=text('js/home-runtime-loader.js')
+if 'requestAnimationFrame(() => requestAnimationFrame(hydrate))' not in loader: err('Home runtime loader não garante um paint antes da hidratação')
+if 'forno:runtime-state' not in loader or 'fornoRuntime' not in loader: err('Home runtime loader não expõe estado verificável da hidratação')
+
 resilience=text('js/resilience-v4.js')
 if f'window.FORNO_META?.version || "{version}"' not in resilience: err('Resilience não acompanha versão da release')
 if 'STORAGE_PREFIXES' in resilience: err('Resilience ainda usa prefixo amplo para classificar JSON no storage')
@@ -31,6 +35,15 @@ if 'getBagProductIds' not in resilience: err('Reconciliação resiliente não us
 
 main=text('js/main.js')
 if 'function getBagProductIds()' not in main or 'getBagProductIds,' not in main: err('FORNO_APP não expõe IDs não sensíveis para reconciliação')
+if 'if (document.readyState === "loading")' not in main or 'document.readyState === "interactive" || document.readyState === "complete"' not in main: err('Main runtime não tolera hidratação após DOMContentLoaded')
+if 'document.readyState === "complete"' not in main or 'registerServiceWorker();' not in main: err('PWA registration pode perder window.load após hidratação tardia')
+
+checkout=text('js/checkout.js')
+if 'document.readyState === "loading"' not in checkout or 'document.readyState === "interactive" || document.readyState === "complete"' not in checkout: err('Checkout não tolera hidratação após DOMContentLoaded')
+adaptive_runtime=text('js/adaptive-commerce-v4.js')
+if 'document.readyState === "loading"' not in adaptive_runtime or 'document.readyState === "interactive" || document.readyState === "complete"' not in adaptive_runtime: err('Adaptive Commerce não tolera hidratação após DOMContentLoaded')
+conversion_runtime=text('js/conversion-intelligence-v4.js')
+if 'document.readyState === "loading"' not in conversion_runtime or 'document.readyState === "interactive" || document.readyState === "complete"' not in conversion_runtime: err('Conversion Intelligence não tolera hidratação após DOMContentLoaded')
 
 rosa=text('js/rosa.js')
 if 'forno:rosa-recommendation' not in rosa: err('Rosa não emite evento de recomendação para telemetria')

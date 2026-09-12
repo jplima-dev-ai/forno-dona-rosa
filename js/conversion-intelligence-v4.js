@@ -197,7 +197,8 @@
     track("rosa_recommendation", { productId, context: event?.detail?.context || "rosa" });
   });
 
-  document.addEventListener("DOMContentLoaded", init, { once: true });
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true });
+  else if (document.readyState === "interactive" || document.readyState === "complete") init();
 
   window.FORNO_CONVERSION = Object.freeze({ track, snapshot, reset, sanitize });
 })();
