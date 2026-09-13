@@ -52,6 +52,9 @@ jobs:
           cat /tmp/forno-http.log
           exit 1
 
+      - name: Prepare Lighthouse output directory
+        run: mkdir -p artifacts/lighthouse
+
       - name: Run mobile Lighthouse baseline
         run: >-
           npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/
