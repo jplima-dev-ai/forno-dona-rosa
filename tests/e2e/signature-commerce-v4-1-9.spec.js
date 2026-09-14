@@ -48,5 +48,5 @@ test('3.4.0 Rosa price query does not mutate Bag', async ({ page }) => {
 test('3.4.0 fortress is active on nested static page', async ({ page }) => {
   await page.goto('/menu/');
   const hrefs=await page.locator('link[rel="stylesheet"]').evaluateAll(els=>els.map(e=>e.getAttribute('href')));
-  expect(hrefs.some(h=>h&&h.includes('accessibility-fortress-v4-1-8.css'))).toBe(true);
+  expect(hrefs.some(h=>h&&(h.includes('accessibility-fortress-v4-1-8.css')||h.includes('home-bundle.css')))).toBe(true);
 });

@@ -18,7 +18,7 @@ check('drink cold contract',all(p.get('media',{}).get('temperature')=='cold' for
 check('pizza hot contract',all(p.get('media',{}).get('temperature')=='hot' for p in products if p.get('type')=='pizza'))
 check('responsive picture sources','image/avif' in vm and 'image/webp' in vm and 'srcset' in vm and 'sizes' in vm)
 check('storefront visual renderer','FORNO_VISUAL_MEDIA' in store)
-check('visual css wired','css/visual-desire-v4.css' in html)
+check('visual css wired','css/home-bundle.css' in html and 'visual-desire-v4.css' in (ROOT/'css/home-bundle.css').read_text(encoding='utf-8'))
 check('visual js wired','js/visual-media-v4.js' in html)
 check('reduced motion','prefers-reduced-motion' in css)
 check('forced colors','forced-colors' in css)
