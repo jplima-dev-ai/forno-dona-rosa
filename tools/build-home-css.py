@@ -31,5 +31,5 @@ def render():
         chunks.append(f"\n/* === {name} === */\n{text}")
     return "\n".join(chunks) + "\n"
 
-OUT.write_text(render(), encoding="utf-8")
+OUT.write_text(render(), encoding="utf-8", newline="\n")
 print(f"home css bundle: {OUT.relative_to(ROOT)} ({OUT.stat().st_size} bytes, {len(SOURCES)} sources)")
