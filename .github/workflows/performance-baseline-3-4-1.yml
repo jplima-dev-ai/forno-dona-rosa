@@ -1,0 +1,207 @@
+name: Performance Baseline 3.4.1
+
+on:
+  push:
+    branches:
+      - release/3.4.1-clean
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  lighthouse-baseline:
+    name: lighthouse baseline
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install Python dependencies
+        run: python -m pip install -r requirements-dev.txt
+
+      - name: Install Node dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Build site
+        run: npm run build
+
+      - name: Start local site
+        shell: bash
+        run: |
+          python -m http.server 4173 > /tmp/forno-http.log 2>&1 &
+          echo $! > /tmp/forno-http.pid
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/forno-http.log
+          exit 1
+
+      - name: Prepare Lighthouse output directory
+        run: mkdir -p artifacts/lighthouse
+
+      - name: Run mobile Lighthouse baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3; do
+            npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/ \
+              --quiet \
+              --chrome-flags="--headless --no-sandbox" \
+              --output=json \
+              --output=html \
+              --output-path="artifacts/lighthouse/mobile-${attempt}"
+          done
+
+      - name: Run desktop Lighthouse baseline
+        run: >-
+          npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/
+          --quiet
+          --preset=desktop
+          --chrome-flags="--headless --no-sandbox"
+          --output=json
+          --output=html
+          --output-path=artifacts/lighthouse/desktop
+
+      - name: Summarize baseline metrics
+        shell: python
+        run: |
+          import json
+          import os
+          import statistics
+          from pathlib import Path
+
+          def read(label, path):
+              report = json.loads(Path(path).read_text(encoding='utf-8'))
+              audits = report['audits']
+              categories = report['categories']
+              metrics = audits['metrics']['details']['items'][0]
+
+              def observed(key, default=None):
+                  value = metrics.get(key, default)
+                  return None if value is None else round(value, 1)
+
+              return {
+                  'profile': label,
+                  'performance': round(categories['performance']['score'] * 100),
+                  'fcp_ms': round(audits['first-contentful-paint']['numericValue'], 1),
+                  'lcp_ms': round(audits['largest-contentful-paint']['numericValue'], 1),
+                  'tbt_ms': round(audits['total-blocking-time']['numericValue'], 1),
+                  'cls': round(audits['cumulative-layout-shift']['numericValue'], 4),
+                  'speed_index_ms': round(audits['speed-index']['numericValue'], 1),
+                  'observed_fcp_ms': observed('observedFirstContentfulPaint'),
+                  'observed_lcp_ms': observed('observedLargestContentfulPaint'),
+                  'observed_cls': round(metrics.get('observedCumulativeLayoutShift', 0), 4),
+                  'observed_speed_index_ms': observed('observedSpeedIndex'),
+                  'observed_load_ms': observed('observedLoad'),
+              }
+
+          def median_row(label, rows):
+              keys = [
+                  'performance',
+                  'fcp_ms',
+                  'lcp_ms',
+                  'tbt_ms',
+                  'cls',
+                  'speed_index_ms',
+                  'observed_fcp_ms',
+                  'observed_lcp_ms',
+                  'observed_cls',
+                  'observed_speed_index_ms',
+                  'observed_load_ms',
+              ]
+              result = {'profile': label}
+              for key in keys:
+                  values = [row[key] for row in rows if row[key] is not None]
+                  result[key] = round(statistics.median(values), 4 if 'cls' in key else 1)
+              result['performance'] = round(result['performance'])
+              return result
+
+          mobile_attempts = [
+              read(f'mobile-{attempt}', f'artifacts/lighthouse/mobile-{attempt}.report.json')
+              for attempt in (1, 2, 3)
+          ]
+          mobile_median = median_row('mobile median', mobile_attempts)
+          desktop = read('desktop', 'artifacts/lighthouse/desktop.report.json')
+
+          payload = {
+              'mobile_attempts': mobile_attempts,
+              'mobile_median': mobile_median,
+              'desktop': desktop,
+          }
+          print('PERFORMANCE_BASELINE_3_4_1=' + json.dumps(payload, separators=(',', ':')))
+
+          summary = Path('performance-baseline.md')
+          lines = [
+              '# Performance Baseline 3.4.1',
+              '',
+              '> Mobile uses three Lighthouse runs and reports the median. Synthetic metrics are Lighthouse/Lantern modeled values; observed metrics come directly from the captured trace.',
+              '',
+              '## Decision metrics',
+              '',
+              '| Profile | Perf | Synthetic FCP ms | Synthetic LCP ms | TBT ms | Synthetic CLS | Speed Index ms | Observed FCP ms | Observed LCP ms | Observed CLS | Observed SI ms | Observed load ms |',
+              '| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |',
+          ]
+
+          for row in [mobile_median, desktop]:
+              lines.append(
+                  f"| {row['profile']} | {row['performance']} | {row['fcp_ms']} | {row['lcp_ms']} | "
+                  f"{row['tbt_ms']} | {row['cls']} | {row['speed_index_ms']} | "
+                  f"{row['observed_fcp_ms']} | {row['observed_lcp_ms']} | {row['observed_cls']} | "
+                  f"{row['observed_speed_index_ms']} | {row['observed_load_ms']} |"
+              )
+
+          lines.extend([
+              '',
+              '## Mobile run variance',
+              '',
+              '| Attempt | Perf | FCP ms | LCP ms | TBT ms | CLS | SI ms | Observed LCP ms | Observed CLS |',
+              '| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |',
+          ])
+          for row in mobile_attempts:
+              lines.append(
+                  f"| {row['profile']} | {row['performance']} | {row['fcp_ms']} | {row['lcp_ms']} | "
+                  f"{row['tbt_ms']} | {row['cls']} | {row['speed_index_ms']} | "
+                  f"{row['observed_lcp_ms']} | {row['observed_cls']} |"
+              )
+
+          lines.extend([
+              '',
+              '## Interpretation',
+              '',
+              '- Synthetic values remain useful for trend comparison under Lighthouse mobile modeling.',
+              '- Observed values describe what happened in the actual CI browser trace.',
+              '- A single noisy run must not drive a performance regression decision; use the mobile median and inspect run variance.',
+              '- The local baseline server is intentionally unchanged so historical synthetic comparisons remain comparable.',
+              '',
+          ])
+
+          summary.write_text('\n'.join(lines), encoding='utf-8')
+          with open(Path(os.environ['GITHUB_STEP_SUMMARY']), 'a', encoding='utf-8') as handle:
+              handle.write(summary.read_text(encoding='utf-8'))
+
+      - name: Upload Lighthouse evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-baseline-3.4.1-${{ github.sha }}
+          path: |
+            artifacts/lighthouse/
+            performance-baseline.md
+          if-no-files-found: warn
+          retention-days: 14

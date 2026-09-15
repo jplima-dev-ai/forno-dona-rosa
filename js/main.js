@@ -1132,8 +1132,7 @@
     else if(rec.checkout){ actions.append(el("button",{className:"small-action small-action--primary",text:"Escolher molhos no checkout",attrs:{type:"button","data-smart-checkout":""}})); }
   }
 
-  function renderCart() {
-    const box = $("#cart-items");
+  function renderCartSummary() {
     const count = $("#cart-count");
     const total = $("#cart-total");
     const countNumber = bag.reduce((sum, item) => sum + item.qty, 0);
@@ -1150,6 +1149,11 @@
     if (mobileCount) mobileCount.textContent = `${countNumber} ${countNumber === 1 ? "item" : "itens"}`;
     if (mobileTotal) mobileTotal.textContent = money(totalValue);
     document.body.classList.toggle("has-mobile-bag", countNumber > 0);
+  }
+
+  function renderCart() {
+    const box = $("#cart-items");
+    renderCartSummary();
     if (!box) return;
 
     empty(box);
@@ -1372,7 +1376,7 @@
       }
     });
 
-    renderCart();
+    renderCartSummary();
   }
 
   function renderFinderResult(product) {

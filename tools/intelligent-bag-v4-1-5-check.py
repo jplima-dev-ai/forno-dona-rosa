@@ -17,7 +17,7 @@ c('price recalculation uses normalization', 'const candidate = normalizeCartItem
 c('focus lifecycle', 'aria-expanded' in main and 'Edição cancelada' in main)
 c('responsive CSS', '@media(max-width:38rem)' in css)
 c('forced colors CSS', 'forced-colors:active' in css)
-c('home runtime loaded', 'intelligent-bag-v4-1-5.js' in idx and 'intelligent-bag-v4-1-5.css' in idx)
+c('home runtime loaded', 'intelligent-bag-v4-1-5.js' in idx and 'css/home-bundle.css' in idx and 'intelligent-bag-v4-1-5.css' in Path('css/home-bundle.css').read_text(encoding='utf-8'))
 c('generated pages runtime', 'intelligent-bag-v4-1-5.js' in build and 'intelligent-bag-v4-1-5.css' in build)
 c('offline shell', 'intelligent-bag-v4-1-5.js' in sw and 'intelligent-bag-v4-1-5.css' in sw)
 c('Bag schema not bumped unnecessarily', 'bagSchemaVersion: 4' in Path('js/app-meta.js').read_text(encoding='utf-8'))
