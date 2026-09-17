@@ -855,9 +855,7 @@
       $("#rosa-input")?.focus();
       announce("Conversa e preferências temporárias limpas.");
     });
-    renderHistory();
-    renderQuickActions();
-    updateInputCount();
+
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true });

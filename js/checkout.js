@@ -20,6 +20,7 @@
   let lookupToken = 0;
   let addressMode = "pending";
   let verifiedAddress = null;
+  let initialized = false;
 
   const field = (id) => $(`#${id}`);
   const status = (text) => {
@@ -315,11 +316,13 @@
     lines.push("","PEDIDO",...snapshot.messageLines,"",`Subtotal demonstrativo: ${snapshot.totalLabel}`,"","Pode confirmar disponibilidade, valor final e os detalhes do atendimento?"); return lines.join("\n");
   }
 
-  function open(trigger) { checkoutState="fulfillment"; const dialog=field("checkout-dialog"),summary=app()?.getBagSummary?.(); if(!dialog?.showModal||!summary?.count)return false;previousFocus=trigger instanceof HTMLElement&&trigger.offsetParent!==null?trigger:document.querySelector("#open-cart")||document.activeElement;restoreSavedData();updateConditionalFields();showStep("delivery");dialog.showModal();field("checkout-name")?.focus();return true; }
+  function open(trigger) { if(!init())return false; checkoutState="fulfillment"; const dialog=field("checkout-dialog"),summary=app()?.getBagSummary?.(); if(!dialog?.showModal||!summary?.count)return false;previousFocus=trigger instanceof HTMLElement&&trigger.offsetParent!==null?trigger:document.querySelector("#open-cart")||document.activeElement;restoreSavedData();updateConditionalFields();showStep("delivery");dialog.showModal();field("checkout-name")?.focus();return true; }
   function close(){const dialog=field("checkout-dialog");if(dialog?.open)dialog.close();}
 
   function init() {
-    const dialog=field("checkout-dialog");if(!dialog)return;
+    if(initialized)return true;
+    const dialog=field("checkout-dialog");if(!dialog)return false;
+    initialized=true;
     const pickupAddress=field("checkout-pickup-address");if(pickupAddress)pickupAddress.textContent=commerce.pickup?.addressLabel||brandCfg.address||"Endereço confirmado no WhatsApp";
     const pickupRadio=field("checkout-fulfillment-pickup");if(pickupRadio)pickupRadio.closest("label").hidden=commerce.fulfillment?.pickup!==true;
     const deliveryRadio=field("checkout-fulfillment-delivery");if(deliveryRadio)deliveryRadio.closest("label").hidden=commerce.fulfillment?.delivery===false;
@@ -353,7 +356,8 @@
     field("checkout-back-bag")?.addEventListener("click",()=>{close();requestAnimationFrame(()=>app()?.openBag?.());});
     field("checkout-forget-address")?.addEventListener("click",()=>{safeRemoveLocal(savedKey);if(field("checkout-remember"))field("checkout-remember").checked=false;status("Endereço salvo removido deste dispositivo.");updateSavedAddressControl();});
     field("checkout-confirm").disabled=!navigator.onLine;updateSavedAddressControl();
+    return true;
   }
 
-  window.FORNO_CHECKOUT=Object.freeze({open,close,lookupPostalCode,readForm,messageForWhatsApp,validateSchedule});document.addEventListener("DOMContentLoaded",init);
+  window.FORNO_CHECKOUT=Object.freeze({open,close,lookupPostalCode,readForm,messageForWhatsApp,validateSchedule});
 })();

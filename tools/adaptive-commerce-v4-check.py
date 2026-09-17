@@ -12,7 +12,7 @@ def need(rel, token=None):
 pkg=json.loads(need('package.json') or '{}')
 if tuple(map(int,pkg.get('version','0.0.0').split('.'))) < (4,0,4) and pkg.get('version') != '3.4.0': errors.append('package.json: versão deve ser 4.0.4 ou superior')
 html=need('index.html','js/adaptive-commerce-v4.js')
-if 'css/adaptive-commerce-v4.css' not in html: errors.append('index.html: CSS adaptive ausente')
+if 'css/home-bundle.css' not in html: errors.append('index.html: bundle CSS da home ausente')
 js=need('js/adaptive-commerce-v4.js','FORNO_ADAPTIVE_COMMERCE')
 for token in ['active-order','closed','returning','guided-choice','discover-house','new-visitor','MutationObserver','FORNO_APP?.getBagSummary','window.ROSA?.open']:
     if token not in js: errors.append(f'adaptive-commerce-v4.js: {token} ausente')
