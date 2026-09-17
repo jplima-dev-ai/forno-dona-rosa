@@ -35,7 +35,7 @@ fc946e72901c022fd97a78a33f490629f55961e5178d2dbb1dc8d6f001fec313  ./assets/image
 7ae49b93d897fc1a5f32947d36a05f9a162e29de218c8501160f84ad68758ea8  ./assets/images/products/banana-cinnamon-caramel-pizza-1200.webp
 3480156f7808667f29cb8b0fb967af28ed23dd0c3384df6ea13a69e8e52abfa5  ./assets/images/products/banana-cinnamon-caramel-pizza-384.avif
 d92466f9c901d09cc24c57a31047d6255e80af88b4a48f1eb4b06a1fd09bc6ce  ./assets/images/products/banana-cinnamon-caramel-pizza-384.webp
-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  ./assets/images/products/banana-cinnamon-caramel-pizza-480.avif
+98b0461e6b612c34acfbb731eb0771066d59bbeef52f948d2db9cf65f28aa367  ./assets/images/products/banana-cinnamon-caramel-pizza-480.avif
 08f48e560862d5fe0f93cfe0e9a9d6d5ec60b36a86f8cdf2ce58bf5bbdd2375a  ./assets/images/products/banana-cinnamon-caramel-pizza-480.webp
 976f32c793749ec3a3d2bb731b45aaabd88d5cb2994396ca1d517158cb8d9738  ./assets/images/products/banana-cinnamon-caramel-pizza-800.avif
 aab278dc0f0dc37cd5a617694c0a91d856779379ffa1b8ad050160dc37675f23  ./assets/images/products/banana-cinnamon-caramel-pizza-800.webp
