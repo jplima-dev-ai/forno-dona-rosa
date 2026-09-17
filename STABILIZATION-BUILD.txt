@@ -11,10 +11,10 @@ This build promotes the validated post-3.4.0 maintenance line to the public 3.4.
 - hidden Bag rendering deferred;
 - reproducible/hardened performance baseline evidence;
 - 3.4.1-specific release gate and documentation;
-- NVDA on Windows and TalkBack on Android: MANUAL_PASS for 3.4.1, with 3.4.0 evidence preserved historically.
+- historical 3.4.0 manual NVDA/TalkBack evidence preserved as baseline, not re-claimed as a 3.4.1 retest.
 
-Local validation for this release line:
+Local validation for this package:
 - build: PASS;
 - structural/behavior/release gates: PASS;
-- renewed automated browser matrix remains a separate CI evidence item;
-- published Core Web Vitals remain pending field evidence.
+- full quality command: environment timeout after extensive PASS output, with remaining gates executed separately and passing;
+- Playwright browser execution in the packaging sandbox: ENVIRONMENT_BLOCKED because the Chromium Playwright binary is not installed; this is not recorded as a product failure.

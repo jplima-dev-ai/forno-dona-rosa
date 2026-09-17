@@ -7,7 +7,7 @@
 - Adia a renderização oculta da Rosa, a inicialização do checkout até abertura e a renderização oculta da Sacola.
 - Endurece a coleta de evidência de performance com baseline reproduzível e execução Lighthouse em múltiplas rodadas.
 - Atualiza metadados, Service Worker, páginas geradas, Admin Studio, templates de contribuição e quality gates para reconhecer a 3.4.1.
-- Registra **MANUAL PASS na 3.4.1** para NVDA no Windows e TalkBack no Android, mantendo a evidência 3.4.0 preservada historicamente.
+- Preserva a evidência manual de NVDA/TalkBack da 3.4.0 como baseline histórica; nenhum novo PASS manual é declarado para 3.4.1 sem reteste específico.
 - Mantém a tag e a documentação 3.4.0 imutáveis para rastreabilidade.
 
 ## 4.1.4 — Mesa da Dona Rosa

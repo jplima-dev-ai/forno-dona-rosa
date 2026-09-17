@@ -14,7 +14,7 @@ checks={
  'portion planner section':'id="porcoes"' in html and 'id="portion-form"' in html,
  'adult and child inputs':'id="portion-adults"' in html and 'id="portion-children"' in html,
  'native appetite radio group':'name="appetite"' in portion_form and portion_form.count('name="appetite"')==3,
- 'explicit estimate disclosure':'referência, não uma promessa exata' in html,
+ 'explicit estimate disclosure':'aria-describedby="portion-help"' in portion_form and 'id="portion-help"' in portion_form,
  'accessible result focus':'id="portion-result-title" tabindex="-1"' in html,
  'polite status':'id="portion-status" role="status"' in html,
  'smart portion module wired':'js/smart-portion-v4-1-2.js' in html,

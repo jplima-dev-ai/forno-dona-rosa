@@ -10,7 +10,7 @@
   document.querySelectorAll("[data-site-credit]").forEach((node) => {
     const enabled = credits.enabled !== false;
     node.hidden = !enabled;
-    if (enabled) node.textContent = `${credits.label || "Desenvolvido por"} ${credits.name || "KJ Productions"}`;
+    if (enabled) node.textContent = `${credits.label || "Desenvolvido por"} ${credits.name || "Kael J Productions"}`;
   });
 
   const setText = (selector, value) => { if (!value) return; document.querySelectorAll(selector).forEach((node) => { node.textContent = value; }); };

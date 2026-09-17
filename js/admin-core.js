@@ -17,7 +17,7 @@
     if (!input || typeof input !== "object") throw new Error("O arquivo não contém um bundle válido.");
     const source = input.payload && typeof input.payload === "object" ? input.payload : input;
     const brand = clone(source.brand || {});
-    brand.credits = { enabled: true, label: "Desenvolvido por", name: "KJ Productions", url: null, ...(brand.credits || {}) };
+    brand.credits = { enabled: true, label: "Desenvolvido por", name: "Kael J Productions", url: null, ...(brand.credits || {}) };
     const content = clone(source.content || {});
     const catalog = clone(source.catalog || {});
     const reviews = clone(source.reviews || { schemaVersion: 1, reviews: [] });

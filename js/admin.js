@@ -42,7 +42,7 @@
     $("brand-name").value = b.name || ""; $("brand-legal-name").value = b.legalDisplayName || ""; $("brand-short-name").value = b.shortName || ""; $("brand-namespace").value = b.storageNamespace || "";
     $("contact-whatsapp").value = c.whatsappNumber || ""; $("contact-whatsapp-display").value = c.whatsappDisplay || ""; $("contact-email").value = c.email || ""; $("contact-instagram").value = c.instagram || "";
     $("location-address").value = l.streetAddress || ""; $("location-city").value = l.city || ""; $("location-state").value = l.state || ""; $("location-postal").value = l.postalCode || "";
-    $("credit-enabled").checked = credits.enabled !== false; $("credit-label").value = credits.label || "Desenvolvido por"; $("credit-name").value = credits.name || "KJ Productions";
+    $("credit-enabled").checked = credits.enabled !== false; $("credit-label").value = credits.label || "Desenvolvido por"; $("credit-name").value = credits.name || "Kael J Productions";
     $("op-delivery").checked = commerce.fulfillment?.delivery !== false; $("op-pickup").checked = commerce.fulfillment?.pickup === true; $("op-pix").checked = commerce.payment?.methods?.includes("pix"); $("op-cash").checked = commerce.payment?.methods?.includes("cash"); $("op-scheduling").checked = commerce.scheduling?.enabled === true;
     $("hero-title").value = hero.title || ""; $("hero-emphasis").value = hero.emphasis || ""; $("hero-lead").value = hero.lead || ""; $("hero-primary").value = hero.primaryCta || ""; $("hero-assistant").value = hero.assistantCta || "";
   }
@@ -193,7 +193,7 @@
     $("preview-products").textContent = `${info.products} produtos`;
     $("preview-fulfillment").textContent = [info.delivery ? "Entrega" : "", info.pickup ? "Retirada" : ""].filter(Boolean).join(" + ") || "Recebimento não configurado";
     $("preview-payments").textContent = (state.brand.commerce?.payment?.methods || []).map((item)=>item === "pix" ? "Pix" : item === "cash" ? "Dinheiro" : item).join(" + ");
-    $("preview-credit").hidden = credits.enabled === false; $("preview-credit").textContent = `${credits.label || "Desenvolvido por"} ${credits.name || "KJ Productions"}`;
+    $("preview-credit").hidden = credits.enabled === false; $("preview-credit").textContent = `${credits.label || "Desenvolvido por"} ${credits.name || "Kael J Productions"}`;
   }
 
   const searchActions = [
