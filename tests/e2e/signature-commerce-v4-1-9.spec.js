@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-test('3.4.0 critical configured commerce path survives reload', async ({ page }) => {
+test('3.4.1 critical configured commerce path survives reload', async ({ page }) => {
   await page.goto('/');
   await page.locator('#pizza-select').selectOption('calabresa');
   await page.locator('#size-select').selectOption('familia');
@@ -11,7 +11,7 @@ test('3.4.0 critical configured commerce path survives reload', async ({ page })
   await expect(page.locator('#cart-items')).toContainText('Calabresa');
 });
 
-test('3.4.0 Bag edit remains reversible before checkout', async ({ page }) => {
+test('3.4.1 Bag edit remains reversible before checkout', async ({ page }) => {
   await page.goto('/');
   await page.locator('#pizza-select').selectOption('margherita');
   await page.getByRole('button', { name: 'Adicionar esta pizza à sacola' }).click();
@@ -23,7 +23,7 @@ test('3.4.0 Bag edit remains reversible before checkout', async ({ page }) => {
   await expect(page.locator('[data-bag-item-summary]').first()).toContainText('Média · 30 cm');
 });
 
-test('3.4.0 checkout keeps pickup isolated from address fields', async ({ page }) => {
+test('3.4.1 checkout keeps pickup isolated from address fields', async ({ page }) => {
   await page.goto('/');
   await page.locator('#pizza-select').selectOption('dona-rosa');
   await page.getByRole('button', { name: 'Adicionar esta pizza à sacola' }).click();
@@ -33,7 +33,7 @@ test('3.4.0 checkout keeps pickup isolated from address fields', async ({ page }
   await expect(page.locator('[data-delivery-fields]:visible')).toHaveCount(0);
 });
 
-test('3.4.0 Rosa price query does not mutate Bag', async ({ page }) => {
+test('3.4.1 Rosa price query does not mutate Bag', async ({ page }) => {
   await page.goto('/');
   await page.locator('#pizza-select').selectOption('calabresa');
   await page.getByRole('button', { name: 'Adicionar esta pizza à sacola' }).click();
@@ -45,7 +45,7 @@ test('3.4.0 Rosa price query does not mutate Bag', async ({ page }) => {
   expect(after).toEqual(before);
 });
 
-test('3.4.0 fortress is active on nested static page', async ({ page }) => {
+test('3.4.1 fortress is active on nested static page', async ({ page }) => {
   await page.goto('/menu/');
   const hrefs=await page.locator('link[rel="stylesheet"]').evaluateAll(els=>els.map(e=>e.getAttribute('href')));
   expect(hrefs.some(h=>h&&(h.includes('accessibility-fortress-v4-1-8.css')||h.includes('home-bundle.css')))).toBe(true);

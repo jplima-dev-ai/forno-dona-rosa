@@ -1,11 +1,20 @@
 Forno Dona Rosa
-Product version: 3.4.0
-Stabilization build: 3
-Cache revision: 3.4.0-stabilization-r3
+Product version: 3.4.1
+Maintenance build: 1
+Cache revision: 3.4.1-maintenance-r1
 
-This build consolidates the final automated-browser review and governance cleanup:
-- Windows Playwright evidence recorded as 403 passed, 0 failed, 17 skipped;
-- release manifest and current release docs no longer request a browser retest that already passed;
-- package release-v4.1.7 gate alias points to the correct 4.1.7 checker;
-- a dedicated release:3.4.0 evidence gate validates the accepted Windows counts while preserving NVDA as MANUAL_REQUIRED;
-- historical signature gates accept truthful PASS evidence instead of only pre-test pending states.
+This build promotes the validated post-3.4.0 maintenance line to the public 3.4.1 release:
+- local fonts and deterministic home CSS bundle;
+- reduced preload pressure and deferred non-critical home startup;
+- hidden Rosa rendering deferred until needed;
+- checkout initialized on demand;
+- hidden Bag rendering deferred;
+- reproducible/hardened performance baseline evidence;
+- 3.4.1-specific release gate and documentation;
+- NVDA on Windows and TalkBack on Android: MANUAL_PASS for 3.4.1, with 3.4.0 evidence preserved historically.
+
+Local validation for this release line:
+- build: PASS;
+- structural/behavior/release gates: PASS;
+- renewed automated browser matrix remains a separate CI evidence item;
+- published Core Web Vitals remain pending field evidence.

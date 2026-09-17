@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        A versão pública corrente é 3.4.0. Sugestões são bem-vindas, mas não devem presumir mudança de versão.
+        A versão pública corrente é 3.4.1. Sugestões são bem-vindas, mas não devem presumir mudança de versão.
   - type: textarea
     id: problem
     attributes:
@@ -40,5 +40,5 @@ body:
     attributes:
       label: Confirmação
       options:
-        - label: A proposta preserva a linha 3.4.0 e não pressupõe mudança de versão.
+        - label: A proposta preserva a linha 3.4.1 e não pressupõe mudança de versão.
           required: true

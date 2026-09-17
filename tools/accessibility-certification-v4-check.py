@@ -24,4 +24,4 @@ if errors:
     [print('-',e) for e in errors]
     raise SystemExit(1)
 print('ACCESSIBILITY CERTIFICATION V4: PASS (structural contract)')
-print('Nota: a matriz v4 preserva o plano histórico de cobertura. Na release 3.4.0, NVDA no Windows e TalkBack no Android possuem evidência manual PASS registrada no release manifest; leitores não executados permanecem sem claim de aprovação.')
+print('Nota: a matriz v4 preserva a baseline 3.4.0 e registra separadamente MANUAL_PASS na 3.4.1 para NVDA no Windows e TalkBack no Android. Leitores não executados permanecem sem claim de aprovação.')

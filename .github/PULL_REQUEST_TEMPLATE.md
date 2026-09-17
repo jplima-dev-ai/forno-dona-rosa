@@ -32,4 +32,4 @@ Liste riscos conhecidos, validações não executadas e qualquer evidência aind
 
 ## Versão
 
-A versão pública corrente é **3.4.0**. Não altere a versão sem decisão explícita do responsável pelo projeto.
+A versão pública corrente é **3.4.1**. Não altere a versão sem decisão explícita do responsável pelo projeto.

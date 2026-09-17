@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 pkg=json.loads(Path('package.json').read_text(encoding='utf-8'))
 checks=[
- ('version >= 4.1.5',(tuple(map(int,pkg.get('version','0.0.0').split('.'))) >= (4,1,5) or pkg.get('version') == '3.4.0')),
+ ('version >= 4.1.5',(tuple(map(int,pkg.get('version','0.0.0').split('.'))) >= (4,1,5) or pkg.get('version') in {'3.4.0','3.4.1'})),
  ('app meta current','version: "'+pkg.get('version','')+'"' in Path('js/app-meta.js').read_text(encoding='utf-8')),
  ('service worker current','VERSION = "'+pkg.get('version','')+'"' in Path('service-worker.js').read_text(encoding='utf-8')),
  ('release docs',Path('docs/RELEASE-4.1.5.md').exists()),

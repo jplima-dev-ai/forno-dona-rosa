@@ -10,7 +10,7 @@ pkg=json.loads((ROOT/'package.json').read_text(encoding='utf-8'))
 cat=json.loads((ROOT/'data/catalog.json').read_text(encoding='utf-8'))
 main=(ROOT/'js/main.js').read_text(encoding='utf-8')
 index=(ROOT/'index.html').read_text(encoding='utf-8')
-parts=tuple(int(x) for x in str(pkg.get('version','0.0.0')).split('.')[:3]); check('version >= 4.1.0',(parts >= (4,1,0) or pkg.get('version') == '3.4.0'))
+parts=tuple(int(x) for x in str(pkg.get('version','0.0.0')).split('.')[:3]); check('version >= 4.1.0',(parts >= (4,1,0) or pkg.get('version') in {'3.4.0','3.4.1'}))
 check('catalog schema v4',cat.get('schemaVersion')==4)
 pizzas=[p for p in cat.get('products',[]) if p.get('type')=='pizza']
 check('pizza catalog present',len(pizzas)>0)
