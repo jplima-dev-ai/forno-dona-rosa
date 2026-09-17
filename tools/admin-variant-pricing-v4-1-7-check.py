@@ -11,7 +11,7 @@ js=(r/"js/admin.js").read_text(encoding="utf-8")
 core=(r/"js/admin-core.js").read_text(encoding="utf-8")
 import json
 pkg=json.loads((r/'package.json').read_text(encoding='utf-8'))
-c("version >= 4.1.7", (tuple(map(int,pkg['version'].split('.'))) >= (4,1,7) or pkg.get('version') == '3.4.0'))
+c("version >= 4.1.7", (tuple(map(int,pkg['version'].split('.'))) >= (4,1,7) or pkg.get('version') in {'3.4.0','3.4.1'}))
 c("variant studio html", 'variant-editor-list' in admin and 'Tamanhos e preços' in admin)
 c("native fieldset", '<fieldset id="variant-studio"' in admin and '<legend>Tamanhos e preços</legend>' in admin)
 c("admin renders variants", 'renderVariantStudio' in js)

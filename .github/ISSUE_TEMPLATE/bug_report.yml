@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Obrigado por ajudar a melhorar o Forno Dona Rosa 3.4.0.
+        Obrigado por ajudar a melhorar o Forno Dona Rosa 3.4.1.
         Não use este formulário para vulnerabilidades de segurança; consulte SECURITY.md.
   - type: textarea
     id: summary
@@ -58,7 +58,7 @@ body:
     attributes:
       label: Confirmações
       options:
-        - label: Verifiquei que o problema ainda existe na versão 3.4.0.
+        - label: Verifiquei que o problema ainda existe na versão 3.4.1.
           required: true
         - label: Este relato não contém senhas, tokens ou dados privados.
           required: true

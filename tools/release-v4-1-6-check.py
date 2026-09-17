@@ -3,7 +3,7 @@ import json, sys
 root=Path(__file__).resolve().parents[1]
 pkg=json.loads((root/'package.json').read_text(encoding='utf-8'))
 checks={
- 'package version >= 4.1.6': (tuple(map(int,pkg.get('version','0.0.0').split('.'))) >= (4,1,6) or pkg.get('version') == '3.4.0'),
+ 'package version >= 4.1.6': (tuple(map(int,pkg.get('version','0.0.0').split('.'))) >= (4,1,6) or pkg.get('version') in {'3.4.0','3.4.1'}),
  'app meta current': f'version: "{pkg.get("version")}"' in (root/'js/app-meta.js').read_text(encoding='utf-8'),
  'service worker current': f'const VERSION = "{pkg.get("version")}"' in (root/'service-worker.js').read_text(encoding='utf-8'),
  'root html current version': f'content="{pkg.get("version")}"' in (root/'index.html').read_text(encoding='utf-8'),

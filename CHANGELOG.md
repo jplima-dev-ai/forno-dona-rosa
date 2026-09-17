@@ -1,3 +1,15 @@
+## 3.4.1 — Maintenance Release
+
+- Promove a linha de manutenção pós-3.4.0 para versão pública 3.4.1 sem adicionar nova superfície funcional.
+- Hospeda fontes localmente e elimina dependência de Google Fonts no storefront gerado.
+- Torna o bundle de estilos da home determinístico e reduz pressão de preload acima da dobra.
+- Alinha estilos do Experience Router ao markup da home e adia scripts não críticos.
+- Adia a renderização oculta da Rosa, a inicialização do checkout até abertura e a renderização oculta da Sacola.
+- Endurece a coleta de evidência de performance com baseline reproduzível e execução Lighthouse em múltiplas rodadas.
+- Atualiza metadados, Service Worker, páginas geradas, Admin Studio, templates de contribuição e quality gates para reconhecer a 3.4.1.
+- Registra **MANUAL PASS na 3.4.1** para NVDA no Windows e TalkBack no Android, mantendo a evidência 3.4.0 preservada historicamente.
+- Mantém a tag e a documentação 3.4.0 imutáveis para rastreabilidade.
+
 ## 4.1.4 — Mesa da Dona Rosa
 
 ## 3.4.0 — Stabilization Release

@@ -2,7 +2,7 @@
 
 Obrigado pelo interesse em contribuir.
 
-A versão pública corrente é **3.4.0**. Nomes técnicos históricos contendo `v4.x` podem permanecer por compatibilidade e rastreabilidade, mas não devem ser interpretados como versão pública atual.
+A versão pública corrente é **3.4.1**. Nomes técnicos históricos contendo `v4.x` podem permanecer por compatibilidade e rastreabilidade, mas não devem ser interpretados como versão pública atual.
 
 ## Princípios obrigatórios
 
@@ -58,7 +58,7 @@ Prefira mensagens curtas e descritivas, por exemplo:
 ```text
 fix(checkout): restore focus after closing dialog
 feat(admin): validate variant availability
-docs(repo): clarify 3.4.0 release status
+docs(repo): clarify 3.4.1 release status
 ```
 
 ## Pull Requests
@@ -72,7 +72,7 @@ Explique:
 5. os testes executados;
 6. qualquer validação manual ainda pendente.
 
-Mudanças que alterem a versão pública exigem decisão explícita do responsável pelo projeto. Não incremente a versão além de **3.4.0** por conta própria.
+Mudanças que alterem a versão pública exigem decisão explícita do responsável pelo projeto. Não incremente a versão além de **3.4.1** por conta própria.
 
 ## Segurança
 

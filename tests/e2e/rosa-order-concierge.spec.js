@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-test.describe('3.4.0 Rosa Order Concierge stabilization', () => {
+test.describe('3.4.1 Rosa Order Concierge stabilization', () => {
   test('adds an explicitly sized pizza through natural language', async ({ page }) => {
     await page.goto('/');
     await page.locator('button[data-rosa-open]').first().click();

@@ -50,7 +50,7 @@ check('offline boundary E2E', 'service-worker.js' in offline and 'offline.html' 
 check('variant commerce E2E', '#size-select' in variants and 'familia' in variants and '#cart-items' in variants)
 check('Rosa concierge E2E', 'troque a primeira pizza para família' in concierge and 'quanto fica a calabresa família' in concierge and 'getBagItems' in concierge)
 check('4.1.8 accessibility fortress E2E', 'ordering reflow' in fortress and 'reduced motion' in fortress and '#checkout-dialog' in fortress)
-check('3.4.0 Stabilization Commerce E2E', 'critical configured commerce path survives reload' in signature and 'pickup isolated from address fields' in signature and 'fortress is active on nested static page' in signature)
+check('3.4.1 Signature Commerce E2E', 'critical configured commerce path survives reload' in signature and 'pickup isolated from address fields' in signature and 'fortress is active on nested static page' in signature)
 check('stable fulfillment test hooks', 'data-test="fulfillment-pickup"' in fragments and 'data-test="fulfillment-delivery"' in fragments)
 check('mobile fixed navigation reserves content space', 'body:not(.has-mobile-bag){padding-bottom:' in css and 'body.has-mobile-bag{padding-bottom:' in css)
 check('minimum core tap token', '--tap-target' in css and 'min-height:var(--tap-target)' in css)

@@ -12,7 +12,7 @@ index=(root/'index.html').read_text(encoding='utf-8')
 admin=(root/'admin/index.html').read_text(encoding='utf-8')
 sw=(root/'service-worker.js').read_text(encoding='utf-8')
 
-check('version compatible with fortress baseline', tuple(map(int,pkg['version'].split('.'))) >= (4,1,8) or pkg.get('version') == '3.4.0')
+check('version compatible with fortress baseline', tuple(map(int,pkg['version'].split('.'))) >= (4,1,8) or pkg.get('version') in {'3.4.0','3.4.1'})
 check('contract version', contract.get('version')=='4.1.8')
 check('eight critical ordering flows', len(contract.get('criticalFlows',[]))==8)
 check('reader statuses are honest', all(x.get('reader')=='MANUAL_REQUIRED' for x in contract['criticalFlows']))
