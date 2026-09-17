@@ -17,17 +17,18 @@ A interface pública e a documentação são escritas em **português brasileiro
 
 A release 3.4.1 é a linha atual do produto e consolida a manutenção de performance e inicialização integrada após a 3.4.0.
 
-Evidência consolidada:
+Evidência disponível para esta linha:
 
 - build 3.4.1: PASS, com 55 páginas + sitemap gerados;
-- gates estruturais, comportamentais e de release: PASS;
+- Quality, Browser Certification e Performance Baseline da manutenção integrada no PR #8: PASS;
 - matriz Windows Playwright da baseline 3.4.0: **403 passed, 0 failed, 17 skipped (8.4m)**;
 - Axe serious/critical da baseline 3.4.0: PASS;
 - NVDA no Windows e TalkBack no Android: **MANUAL PASS na 3.4.1**, com a baseline 3.4.0 preservada historicamente;
 - JAWS, Narrator e VoiceOver: não testados por falta de acesso aos ambientes necessários;
-- Core Web Vitals em ambiente publicado: medição pendente.
+- Core Web Vitals publicados: medição de campo pendente.
 
 A documentação preserva separadamente a evidência histórica da 3.4.0 e os testes manuais realizados na 3.4.1. Automação também não substitui validação humana com tecnologia assistiva.
+
 ## Funcionalidades principais
 
 - catálogo configurável e páginas de produto;
@@ -205,15 +206,9 @@ A 3.4.1 possui ledger próprio e preserva a 3.4.0 como baseline histórica:
 - `docs/releases/evidence/v3.4.1/summary.md`;
 - `docs/RELEASE-3.4.0.md` (histórico);
 - `docs/releases/evidence/v3.4.0/summary.md` (histórico);
-- GitHub Actions;
-- GitHub Release `v3.4.1`.
+- GitHub Actions e baseline de performance da linha de manutenção.
 
-Os gates distinguem claramente:
-
-- executado e aprovado;
-- configurado, mas não executado;
-- bloqueado pelo ambiente;
-- não testado por falta de acesso.
+Os gates distinguem claramente evidência atual, baseline histórica, reteste pendente, bloqueio de ambiente e ausência de teste.
 
 ## Segurança
 

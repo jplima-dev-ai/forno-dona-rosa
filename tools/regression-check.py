@@ -116,7 +116,7 @@ check("Offline blocks WhatsApp send", 'send.disabled = true' in main and 'WhatsA
 check("small product variants match catalog", len(list((ROOT / 'assets/images/products').glob('*-384.webp'))) == len(json.loads((ROOT/'data/catalog.json').read_text(encoding='utf-8'))['products']))
 check("Mobile hero source", (ROOT / 'assets/images/dona-rosa-hero-pizza-640.webp').exists() and 'media="(max-width: 48rem)" srcset="assets/images/dona-rosa-hero-pizza-640.webp"' in html)
 check("Favorite control available in product detail", 'id="product-dialog-favorite"' in html and 'product-dialog-favorite' in main)
-check("Nothing sent automatically disclosure", 'Nada é enviado automaticamente.' in html)
+check("Order confirmation disclosure", 'Você confere os detalhes antes de confirmar pelo WhatsApp.' in html)
 
 
 # v2.3 Rosa finalization regressions.
@@ -131,7 +131,7 @@ check("Rosa clear Bag requires confirmation", 'state.pendingAction = { type: "cl
 check("Rosa safe clear Bag bridge", "clearBag()" in main and "saveCart();" in main)
 check("Rosa actionable details", "data-rosa-details" in rosa and "openProduct" in rosa)
 check("Rosa contextual quick actions", "quickActionModel" in rosa and "renderQuickActions" in rosa)
-check("Rosa local privacy disclosure", "rosa-privacy-note" in html and "funciona localmente" in html.lower())
+check("Rosa customer guidance disclosure", "rosa-privacy-note" in html and "condições finais são confirmadas no WhatsApp" in html)
 check("Rosa input counter", 'id="rosa-input-count"' in html and "updateInputCount" in rosa)
 check("Rosa mobile full-screen", '.rosa-dialog{width:100%;height:min(100dvh,100%)' in css)
 check("Rosa docs", (ROOT / "docs/ROSA.md").exists())
@@ -146,7 +146,7 @@ for patch in range(10):
     check(f"Changelog 2.4.{patch}", f"## 2.4.{patch} " in changelog)
 check("Checkout replaces direct Bag WhatsApp", 'id="send-cart"' in html and 'Escolher entrega ou retirada' in html and 'FORNO_CHECKOUT?.open' in main)
 check("Checkout dialog semantics", '<dialog' in html and 'id="checkout-dialog"' in html and 'aria-labelledby="checkout-dialog-title"' in html)
-check("Explicit Serra delivery copy", 'Entrega disponível somente em Serra — ES' in html)
+check("Explicit Serra delivery copy", 'Entrega disponível em Serra — ES' in html)
 check("ViaCEP primary lookup", 'https://viacep.com.br/ws/${cep}/json/' in postal)
 check("BrasilAPI fallback lookup", 'https://brasilapi.com.br/api/cep/v1/${cep}' in postal)
 check("Brand-derived delivery config", 'const delivery = brand.delivery' in delivery and 'serviceAreaLabel' in delivery)
@@ -158,7 +158,7 @@ check("Saved address can be forgotten", 'id="checkout-forget-address"' in html a
 check("No-number option", 'id="checkout-no-number"' in html and 'S/N' in checkout)
 check("Review before WhatsApp", 'id="checkout-review-step"' in html and 'Abrir WhatsApp com meu pedido' in html)
 check("WhatsApp address payload", 'CLIENTE' in checkout and 'ENTREGA' in checkout and 'PEDIDO' in checkout)
-check("No automatic send disclosure", 'Você ainda revisa e toca em enviar; nada é enviado automaticamente.' in html)
+check("Final WhatsApp review disclosure", 'resumo do pedido pronto para sua conferência final' in html)
 check("Checkout external CSP allowlist", 'https://viacep.com.br https://brasilapi.com.br' in html)
 check("Checkout mobile fullscreen", '.checkout-dialog{width:100%;height:100dvh' in css)
 check("Checkout touch target sizing", '.checkout-actions .btn,.checkout-review__actions .btn' in css and 'min-height:3.35rem' in css)

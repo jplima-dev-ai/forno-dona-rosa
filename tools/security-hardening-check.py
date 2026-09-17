@@ -31,7 +31,7 @@ check('bundle cli credit URL HTTPS validation','credits.url must use HTTPS' in a
 check('unique backup stamp uses microseconds','%f' in apply)
 check('admin CSP blocks objects','object-src \'none\'' in html)
 check('admin form action self','form-action \'self\'' in html)
-check('creator credit updated',brand.get('credits',{}).get('label')=='Desenvolvido por' and brand.get('credits',{}).get('name')=='KJ Productions')
+check('creator credit updated',brand.get('credits',{}).get('label')=='Desenvolvido por' and brand.get('credits',{}).get('name')=='Kael J Productions')
 check('build escapes credit text','escape(CREDIT_LABEL)' in build and 'escape(CREDIT_NAME)' in build)
 failed=[n for n,ok in checks if not ok]
 print(f'{len(checks)-len(failed)}/{len(checks)} security-hardening checks passed')

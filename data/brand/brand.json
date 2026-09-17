@@ -57,8 +57,8 @@
   },
   "seo": {
     "siteUrl": "https://jplima-dev-ai.github.io/forno-dona-rosa/",
-    "title": "Pizzaria Forno Dona Rosa | Cardápio completo, bebidas, Rosa e pedido pelo WhatsApp",
-    "description": "Pizzas artesanais, bebidas, sacola persistente e Rosa, a anfitriã digital local que ajuda a montar e revisar seu pedido.",
+    "title": "Forno Dona Rosa | Pizza artesanal, forno a lenha e pedido pelo WhatsApp",
+    "description": "Pizzas artesanais de longa fermentação, assadas em forno a lenha, com cardápio completo e pedido prático pelo WhatsApp.",
     "ogTitle": "Pizzaria Forno Dona Rosa — pizzas artesanais que despertam o apetite",
     "ogDescription": "Explore o cardápio, favorite sabores, veja imagens deliciosas e monte seu pedido pelo WhatsApp.",
     "ogImage": "assets/images/dona-rosa-hero-pizza.jpg",
@@ -211,7 +211,7 @@
   "credits": {
     "enabled": true,
     "label": "Desenvolvido por",
-    "name": "KJ Productions",
+    "name": "Kael J Productions",
     "url": null
   }
 }

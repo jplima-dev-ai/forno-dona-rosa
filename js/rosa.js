@@ -416,7 +416,7 @@
     const parts = [];
     if (summary.pizzas) parts.push(`${summary.pizzas} ${summary.pizzas === 1 ? "pizza" : "pizzas"}`);
     if (summary.drinks) parts.push(`${summary.drinks} ${summary.drinks === 1 ? "bebida" : "bebidas"}`);
-    return `Sua sacola tem ${summary.count} ${summary.count === 1 ? "item" : "itens"}${parts.length ? `: ${parts.join(" e ")}` : ""}. Subtotal demonstrativo: ${summary.totalLabel}. Nada é enviado automaticamente.`;
+    return `Sua sacola tem ${summary.count} ${summary.count === 1 ? "item" : "itens"}${parts.length ? `: ${parts.join(" e ")}` : ""}. Subtotal: ${summary.totalLabel}.`;
   }
 
   function hourResponse() {
@@ -581,7 +581,7 @@
         reply = `${vary([`Olá! Eu sou a ${assistantName}, anfitriã digital da ${brandName}.`, `Oi! ${assistantName} por aqui — sua anfitriã digital da casa.`])} ${contextualIntro()}`;
         break;
       case "privacy":
-        reply = "Eu funciono localmente nesta página. O histórico curto e suas preferências temporárias ficam somente nesta sessão do navegador e não são enviados para uma API externa.";
+        reply = "Posso lembrar o contexto desta conversa enquanto você estiver nesta sessão para facilitar suas escolhas.";
         break;
       case "articles": {
         const article = findArticle(normalized) || editorialArticles[0];
@@ -692,7 +692,7 @@
         break;
       }
       case "menu": reply = `O cardápio demonstrativo tem ${menu.filter((i) => i.type !== "bebida").length} pizzas e ${menu.filter((i) => i.type === "bebida").length} bebidas. Você pode me dizer o perfil de sabor que procura.`; break;
-      case "order": reply = "Você escolhe o produto, personaliza quando necessário, revisa a sacola, escolhe entrega ou retirada, Pix ou dinheiro, define se quer o mais rápido possível ou agendar e confere tudo antes de abrir o WhatsApp. Nada é enviado automaticamente."; break;
+      case "order": reply = "Você escolhe o produto, personaliza quando necessário, revisa a sacola, escolhe entrega ou retirada, Pix ou dinheiro, define se quer o mais rápido possível ou agendar e confere tudo antes de abrir o WhatsApp."; break;
       case "thanks": reply = vary(["Foi um prazer te ajudar. Quando quiser, eu continuo daqui.", "Sempre um prazer. Se quiser revisar a sacola antes de sair, eu faço isso com você."]); break;
       default: reply = `Não tenho certeza do que você quis dizer. ${contextualIntro()}`;
     }

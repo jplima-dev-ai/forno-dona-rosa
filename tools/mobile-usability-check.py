@@ -23,7 +23,7 @@ check('checkout explicitly offers delivery', 'value="delivery"' in frag and '<st
 check('checkout explicitly offers pickup', 'value="pickup"' in frag and 'Retirada na pizzaria' in frag)
 check('pickup promises no CEP', 'sem preencher CEP' in frag)
 check('payment choices are explicit', '<strong>Pix</strong>' in frag and 'Dinheiro em espécie' in frag)
-check('order is never described as auto-sent', 'nada é enviado automaticamente' in (html+frag).lower())
+check('order requires explicit WhatsApp handoff', 'Revisar pedido' in frag and 'Escolher entrega ou retirada' in frag and 'window.open' in main)
 check('mobile Bag has one dominant review action', 'mobile-bag-bar' in frag and 'Revisar pedido' in frag)
 check('mobile nav yields when Bag is active', '.has-mobile-bag .mobile-nav{display:none}' in css)
 check('fixed mobile controls reserve bottom space', 'body:not(.has-mobile-bag){padding-bottom:' in css and 'body.has-mobile-bag{padding-bottom:' in css)

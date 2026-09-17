@@ -1,7 +1,7 @@
 {
   "name": "Pizzaria Forno Dona Rosa",
   "short_name": "Dona Rosa",
-  "description": "Pizzas artesanais, bebidas, sacola persistente e Rosa, a anfitriã digital local que ajuda a montar e revisar seu pedido.",
+  "description": "Pizzas artesanais de longa fermentação, assadas em forno a lenha, com cardápio completo e pedido prático pelo WhatsApp.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#17100c",

@@ -51,7 +51,8 @@
         "chromium-phone-430",
         "chromium-tablet",
         "chromium-landscape"
-      ]
+      ],
+      "release": "3.4.0"
     }
   }
 }
