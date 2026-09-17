@@ -1,5 +1,3 @@
-> **Versão corrente: 3.4.0 — Stabilization Release.** Esta é a versão publicada e suportada até nova ordem explícita.
-
 # Forno Dona Rosa
 
 [![Quality](https://github.com/jplima-dev-ai/forno-dona-rosa/actions/workflows/quality.yml/badge.svg)](https://github.com/jplima-dev-ai/forno-dona-rosa/actions/workflows/quality.yml)
@@ -7,51 +5,146 @@
 
 **Plataforma web premium, acessível, mobile-first, static-first e white-label para pizzarias de pequeno e médio porte.**
 
-[Release 3.4.0](https://github.com/jplima-dev-ai/forno-dona-rosa/releases/tag/v3.4.0) · [Documentação](docs/README.md) · [Changelog](CHANGELOG.md) · [Segurança](SECURITY.md) · [Admin Studio](docs/admin/ADMIN-STUDIO.md)
+O Forno Dona Rosa não foi tratado como um site institucional simples. O projeto foi desenvolvido como um **produto comercial demonstrável**, com catálogo orientado a dados, páginas de produto, Sacola persistente, checkout, PWA, busca, concierge contextual, administração local-first, arquitetura white-label e uma disciplina explícita de acessibilidade, testes e evidência.
 
-O Forno Dona Rosa combina catálogo orientado a dados, páginas de produto, variantes Média/Grande/Família, configurador acessível, Sacola persistente, checkout, entrega ou retirada, agendamento, Pix ou dinheiro, busca global, PWA, Rosa Order Concierge, arquitetura white-label, Admin Studio e quality gates automatizados.
+**Demo:** https://jplima-dev-ai.github.io/forno-dona-rosa/
 
-A interface pública e a documentação são escritas em **português brasileiro**. Nomes técnicos de arquivos, módulos, scripts e checkers permanecem em inglês quando isso melhora manutenção e rastreabilidade.
+[Release 3.4.0](https://github.com/jplima-dev-ai/forno-dona-rosa/releases/tag/v3.4.0) · [Arquitetura](docs/ARCHITECTURE.md) · [Documentação](docs/README.md) · [Changelog](CHANGELOG.md) · [Admin Studio](docs/admin/ADMIN-STUDIO.md)
 
-## Estado oficial da 3.4.0
+> **Versão corrente: 3.4.0 — Stabilization Release.** Esta é a versão publicada e suportada até nova ordem explícita.
 
-A release 3.4.0 é a linha atual e oficial do produto.
+## O problema de engenharia
 
-Evidência consolidada:
+Uma pizzaria local parece um domínio simples até o momento em que a experiência precisa funcionar de verdade.
 
-- Windows Playwright: **403 passed, 0 failed, 17 skipped (8.4m)**;
-- matriz: desktop, 320 px, 390 px, 430 px, tablet e landscape;
-- Axe serious/critical: PASS na matriz automatizada executada;
-- reflow, rotas, checkout, Sacola, Rosa, Admin e fluxos críticos de comércio: PASS;
-- GitHub Actions `Quality`: PASS;
-- GitHub Actions `Browser Certification`: PASS;
-- GitHub Pages build/deployment: PASS;
-- **NVDA no Windows: teste manual PASS**;
-- **TalkBack no Android: teste manual PASS**;
-- **JAWS, Narrator e VoiceOver: não testados**, pois o responsável pelo projeto não possui acesso aos ambientes/dispositivos necessários para validá-los com evidência real;
-- Core Web Vitals em ambiente publicado: medição pendente.
+O storefront precisa lidar com catálogo, tamanhos, preços, disponibilidade, montagem do pedido, entrega ou retirada, agendamento, pagamento, persistência, navegação em telas pequenas, acessibilidade, conteúdo editorial e manutenção operacional — sem transformar cada mudança em uma edição manual de dezenas de páginas.
 
-Automação não substitui validação humana com tecnologia assistiva. O projeto registra como aprovados apenas os leitores de tela realmente testados: **NVDA no Windows** e **TalkBack no Android**. Outros leitores permanecem explicitamente sem claim de aprovação.
+O projeto nasceu para responder a quatro perguntas:
 
-## Funcionalidades principais
+1. Como criar uma experiência comercial rica sem depender obrigatoriamente de backend para a demo e o portfólio?
+2. Como manter marca, catálogo, conteúdo e comércio separados da estrutura da interface?
+3. Como permitir evolução para múltiplos clientes sem duplicar o projeto inteiro?
+4. Como tratar acessibilidade e qualidade como requisitos de arquitetura, não como correções de fim de projeto?
 
-- catálogo configurável e páginas de produto;
-- variantes explícitas de pizza: Média, Grande e Família;
+## A solução
+
+A implementação combina **dados canônicos + build estático + runtime compartilhado**.
+
+```text
+Dados canônicos
+  ├─ marca e conteúdo
+  ├─ catálogo
+  ├─ reviews
+  └─ editorial
+        ↓
+Build estático
+        ↓
+Home + institucionais + menu + pedido + produtos + artigos + categorias
+        ↓
+Runtime compartilhado
+  ├─ Sacola
+  ├─ checkout
+  ├─ Rosa Order Concierge
+  ├─ status comercial
+  ├─ busca
+  └─ PWA
+```
+
+O resultado é um storefront navegável e funcional em hospedagem estática, mas com fronteiras preparadas para substituir persistência local por APIs autenticadas no futuro sem reescrever o DOM inteiro.
+
+## O que este projeto demonstra
+
+### Engenharia de produto
+
+- catálogo configurável e páginas individuais de produto;
+- variantes Média, Grande e Família;
 - configurador progressivo com revisão antes da Sacola;
 - Smart Portion para estimativa de porções;
 - Mesa da Dona Rosa para pedidos em grupo;
 - Smart Pairing para sugestões contextuais;
-- Intelligent Bag para edição de tamanho, borda, quantidade, observações e remoção;
+- Intelligent Bag para edição de tamanho, borda, quantidade e observações;
 - Rosa Order Concierge conectada ao estado real do pedido;
 - checkout com entrega ou retirada, agendamento, Pix ou dinheiro;
 - busca global;
 - PWA e service worker;
-- Admin Studio local-first;
-- arquitetura white-label;
-- pipeline de mídia e geração estática;
-- quality gates estruturais, comportamentais, de segurança, responsividade e acessibilidade.
+- conteúdo editorial gerado a partir de dados estruturados.
 
-## Jornada principal
+### Arquitetura e manutenção
+
+- fontes de verdade explícitas em `data/`;
+- geração multipágina por `tools/build-site.py`;
+- pipeline de mídia responsiva;
+- runtime público separado por responsabilidade;
+- state machine explícita para checkout;
+- contratos de repository/persistence substituíveis;
+- Admin Studio local-first;
+- arquitetura white-label para reutilização em novos clientes;
+- ADRs e documentação de decisões técnicas.
+
+### Qualidade e acessibilidade
+
+- HTML semântico, landmarks e headings coerentes;
+- navegação por teclado e foco visível;
+- dialogs nativos e retorno de foco;
+- labels, `fieldset`/`legend` e mensagens de erro associadas;
+- `aria-live` usado apenas para mudanças relevantes;
+- zoom, reflow e conteúdo longo;
+- `prefers-reduced-motion`;
+- forced colors;
+- touch targets adequados;
+- uma única árvore DOM para desktop e mobile;
+- Playwright E2E;
+- Axe serious/critical;
+- quality gates estruturais, comportamentais, responsivos e de segurança;
+- GitHub Actions para Quality, Browser Certification e baseline de performance.
+
+## Evidência verificável
+
+A release 3.4.0 foi estabilizada com uma matriz ampla de validação:
+
+- **403 testes Playwright aprovados**;
+- **0 falhas**;
+- **17 testes ignorados** por condições previstas;
+- desktop, 320 px, 390 px, 430 px, tablet e landscape;
+- Axe serious/critical: PASS na matriz automatizada executada;
+- reflow, rotas, deep links, checkout, Sacola, Rosa, Admin e fluxos críticos de comércio: PASS;
+- GitHub Actions `Quality`: PASS;
+- GitHub Actions `Browser Certification`: PASS;
+- GitHub Pages build/deployment: PASS;
+- **NVDA no Windows: validação manual PASS**;
+- **TalkBack no Android: validação manual PASS**;
+- **JAWS, Narrator e VoiceOver: não testados** por falta de acesso aos ambientes necessários.
+
+Automação não substitui validação humana com tecnologia assistiva. O projeto evita declarar compatibilidade certificada com leitores de tela que não foram realmente executados.
+
+## Performance: medir antes de otimizar
+
+A otimização foi conduzida com baseline reproduzível em CI, três execuções mobile e decisão pela mediana para reduzir reação a ruído de uma única rodada.
+
+Baseline do PR final de consolidação:
+
+- Lighthouse mobile mediano: **77**;
+- Lighthouse desktop: **98**;
+- TBT mobile mediano: **25,5 ms**;
+- TBT desktop: **0 ms**;
+- CLS mobile: **0**;
+- CLS desktop: **0,0029**;
+- LCP observado no trace mobile mediano: **180 ms**;
+- load observado mobile mediano: **255 ms**.
+
+Os valores sintéticos do Lighthouse/Lantern e os valores observados no trace são registrados separadamente. O projeto não trata um único run ruidoso como regressão por padrão.
+
+Entre as otimizações consolidadas estão:
+
+- fontes self-hosted;
+- preload apenas de fontes acima da dobra;
+- bundle CSS determinístico da Home;
+- scripts deferidos;
+- renderização oculta da Rosa adiada;
+- inicialização do checkout somente no primeiro uso;
+- renderização completa da Sacola adiada, mantendo o resumo visível atualizado no boot.
+
+## Jornada comercial principal
 
 ```text
 Home
@@ -61,28 +154,42 @@ Home
 → Entrega ou Retirada
 → Agora ou Agendamento
 → Pix ou Dinheiro
-→ Molhos opcionais
+→ Extras opcionais
 → Revisão
 → WhatsApp controlado pelo cliente
 ```
 
 Nada é enviado automaticamente.
 
-## Arquitetura
+## Decisões técnicas importantes
 
-O storefront é gerado estaticamente a partir de dados canônicos. Sacola, checkout, Rosa, disponibilidade, status comercial e Admin Studio compartilham contratos de domínio no navegador.
+### Static-first, não static-only
+
+GitHub Pages é suficiente para demonstrar o produto porque navegação, catálogo e montagem do pedido não dependem de execução server-side. A arquitetura, porém, mantém fronteiras de repository/persistence para futura integração autenticada.
 
 ```text
-data/catalog.json
+Local Repository hoje
         ↓
-tools/build-site.py
+mesmo contrato
         ↓
-Home + páginas institucionais + menu + order + products/<id>/ + articles/<slug>/ + categories/<id>/
+Authenticated API Repository no futuro
 ```
 
-Principais fontes de verdade:
+### Dados antes de páginas
 
-- `data/brand/brand.json` — identidade, contatos, operação e recursos da marca;
+O Admin Studio edita **dados**, não estrutura HTML. Marca, conteúdo, catálogo, reviews e artigos vivem em fontes canônicas e alimentam o build.
+
+### Estado persistido não é confiável
+
+Itens desconhecidos da Sacola são descartados, quantidades são limitadas e preços são recalculados pelo catálogo atual. Dados pessoais do checkout são session-first; persistência de endereço exige consentimento explícito.
+
+### Acessibilidade como contrato
+
+Os testes automatizados verificam contratos possíveis de automatizar. Claims sobre leitores de tela só são registrados quando houve execução humana real.
+
+## Principais fontes de verdade
+
+- `data/brand/brand.json` — identidade, contatos, horários e configuração operacional;
 - `data/brand/content.json` — copy configurável;
 - `data/catalog.json` — produtos, preços, imagens e capacidades;
 - `data/reviews.json` — avaliações reais quando disponíveis;
@@ -90,40 +197,36 @@ Principais fontes de verdade:
 - `data/newsletter.json` — contrato de newsletter, desativado por padrão;
 - `data/commerce-config.js` — contrato comercial derivado para o runtime.
 
-Veja [Arquitetura](docs/ARCHITECTURE.md) para os limites completos.
-
 ## Admin Studio
 
 A rota técnica `/admin/` permite editar dados operacionais sem alterar código. O painel possui modo Simples/Avançado, busca por ação, histórico com desfazer, preview, onboarding, import/export de bundle e validações de segurança.
 
 A publicação remota automática não é simulada: GitHub Pages não é backend autenticado. O fluxo atual permanece local-first.
 
-## Acessibilidade
+## White-label
 
-A arquitetura considera desde a origem:
+Dona Rosa é a implementação de referência. Contratos de marca, catálogo, conteúdo e comércio foram separados para reaproveitamento.
 
-- HTML semântico, landmarks e headings coerentes;
-- navegação por teclado e foco visível;
-- dialogs nativos e retorno de foco;
-- labels, `fieldset`/`legend` e mensagens de erro associadas;
-- `aria-live` somente para mudanças relevantes;
-- zoom/reflow e conteúdo longo;
-- `prefers-reduced-motion`;
-- forced colors;
-- touch targets adequados;
-- uma única árvore DOM sem duplicação mobile/desktop.
+- [White-label](docs/WHITE-LABEL.md)
+- [Configuração](docs/customization/CONFIGURATION.md)
+- [Criar um cliente](docs/customization/CREATE-A-CLIENT.md)
 
-### Evidência manual com leitores de tela
+## Stack e ferramentas
 
-- **NVDA no Windows:** testado manualmente e aprovado pelo responsável pelo projeto.
-- **TalkBack no Android:** testado manualmente e aprovado pelo responsável pelo projeto.
-- **JAWS:** não testado por falta de acesso ao leitor/ambiente necessário.
-- **Narrator:** não testado nesta evidência.
-- **VoiceOver:** não testado por falta de acesso ao ecossistema/dispositivo necessário.
+```text
+HTML5
+CSS moderno
+JavaScript
+Python
+Node.js
+Playwright
+Axe
+Lighthouse
+GitHub Actions
+GitHub Pages
+```
 
-A ausência de teste em outros leitores de tela não é tratada como falha nem como aprovação. O projeto evita declarar compatibilidade certificada sem execução real.
-
-## Requisitos
+Requisitos de desenvolvimento:
 
 ```text
 Node.js >= 20
@@ -131,8 +234,6 @@ Python >= 3.11
 ```
 
 ## Executar localmente no Windows
-
-Na raiz do projeto:
 
 ```powershell
 npm.cmd install
@@ -147,20 +248,6 @@ Para navegador real:
 npx playwright install chromium
 npm.cmd run test:browser
 npm.cmd run test:a11y
-```
-
-## Comandos úteis
-
-```powershell
-npm.cmd run build
-npm.cmd run check:js
-npm.cmd run audit
-npm.cmd run docs
-npm.cmd run doctor
-npm.cmd run security
-npm.cmd run browser:gate
-npm.cmd run release:3.4.0
-npm.cmd run quality
 ```
 
 ## Estrutura principal
@@ -188,47 +275,16 @@ manifest.webmanifest
 
 `dev/ui-preview.html` é uma superfície interna de QA, fora do sitemap e da navegação comercial.
 
-## White-label
+## Documentação e rastreabilidade
 
-A implementação de referência é Dona Rosa, mas os contratos de marca, catálogo, comércio e conteúdo foram separados para reutilização.
+- [Arquitetura](docs/ARCHITECTURE.md)
+- [Release 3.4.0](docs/RELEASE-3.4.0.md)
+- [Evidência consolidada](docs/releases/evidence/v3.4.0/summary.md)
+- [Segurança](SECURITY.md)
+- [Contribuição](CONTRIBUTING.md)
+- [Changelog](CHANGELOG.md)
 
-- [White-label](docs/WHITE-LABEL.md)
-- [Configuração](docs/customization/CONFIGURATION.md)
-- [Criar um cliente](docs/customization/CREATE-A-CLIENT.md)
-
-## Proveniência dos nomes `v4.x`
-
-Alguns arquivos, módulos e checkers mantêm nomes históricos como `variant-commerce-v4-1.js`, `rosa-order-concierge-v4-1-6.js` e `release-v4-1-9-check.py`. Esses identificadores representam a **linhagem técnica de desenvolvimento** e foram preservados para compatibilidade, auditoria e rastreabilidade.
-
-Eles **não representam a versão pública atual**. A versão corrente do produto, do `package.json`, dos metadados, da release e da documentação oficial é **3.4.0**.
-
-## Qualidade e evidências
-
-A release 3.4.0 possui evidência automatizada de browser e CI, além de validação manual com NVDA e TalkBack, registrada em:
-
-- `docs/RELEASE-3.4.0.md`;
-- `docs/releases/evidence/v3.4.0/summary.md`;
-- GitHub Actions;
-- GitHub Release `v3.4.0`.
-
-Os gates distinguem claramente:
-
-- executado e aprovado;
-- configurado, mas não executado;
-- bloqueado pelo ambiente;
-- não testado por falta de acesso.
-
-## Segurança
-
-Consulte [SECURITY.md](SECURITY.md) para política de reporte e limites de segurança.
-
-## Contribuição
-
-Contribuições devem preservar acessibilidade, estabilidade, rastreabilidade de versão e o comportamento local-first do projeto. Consulte [CONTRIBUTING.md](CONTRIBUTING.md) e o [Código de Conduta](CODE_OF_CONDUCT.md).
-
-## Licença
-
-MIT. Consulte [LICENSE](LICENSE).
+Alguns módulos mantêm nomes históricos `v4.x`. Esses identificadores representam linhagem técnica e foram preservados para compatibilidade e auditoria; **não representam a versão pública atual**. A versão oficial do produto continua sendo **3.4.0**.
 
 ## Crédito
 
@@ -237,3 +293,7 @@ O storefront exibe por padrão:
 > **Desenvolvido por KJ Productions**
 
 O crédito vive na configuração canônica da marca e pode ser desativado em projetos white-label quando necessário.
+
+## Licença
+
+MIT. Consulte [LICENSE](LICENSE).
